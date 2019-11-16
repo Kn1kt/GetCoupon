@@ -16,6 +16,10 @@
 		F35B3D37235BAC2D000F7ED0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D35235BAC2D000F7ED0 /* LaunchScreen.storyboard */; };
 		F35B3D42235BAC2D000F7ED0 /* GetCouponTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D41235BAC2D000F7ED0 /* GetCouponTests.swift */; };
 		F35B3D4D235BAC2D000F7ED0 /* GetCouponUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D4C235BAC2D000F7ED0 /* GetCouponUITests.swift */; };
+		F35B3D60235BB2D4000F7ED0 /* Favourites.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D5F235BB2D4000F7ED0 /* Favourites.storyboard */; };
+		F35B3D62235BB2F5000F7ED0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D61235BB2F5000F7ED0 /* Home.storyboard */; };
+		F35B3D64235BB37B000F7ED0 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D63235BB37B000F7ED0 /* Search.storyboard */; };
+		F35B3D66235BB38A000F7ED0 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D65235BB38A000F7ED0 /* Settings.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +55,10 @@
 		F35B3D48235BAC2D000F7ED0 /* GetCouponUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GetCouponUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3D4C235BAC2D000F7ED0 /* GetCouponUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetCouponUITests.swift; sourceTree = "<group>"; };
 		F35B3D4E235BAC2D000F7ED0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F35B3D5F235BB2D4000F7ED0 /* Favourites.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Favourites.storyboard; sourceTree = "<group>"; };
+		F35B3D61235BB2F5000F7ED0 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		F35B3D63235BB37B000F7ED0 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
+		F35B3D65235BB38A000F7ED0 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +89,11 @@
 		F35B3D1B235BAC25000F7ED0 = {
 			isa = PBXGroup;
 			children = (
+				F379312D235FA0FB00FD48B9 /* Appearance */,
 				F35B3D26235BAC25000F7ED0 /* GetCoupon */,
+				F35B3D5C235BACB8000F7ED0 /* Data */,
+				F35B3D5A235BAC82000F7ED0 /* HomeControllers */,
+				F35B3D5B235BACA5000F7ED0 /* StoryBoard */,
 				F35B3D40235BAC2D000F7ED0 /* GetCouponTests */,
 				F35B3D4B235BAC2D000F7ED0 /* GetCouponUITests */,
 				F35B3D25235BAC25000F7ED0 /* Products */,
@@ -101,14 +113,10 @@
 		F35B3D26235BAC25000F7ED0 /* GetCoupon */ = {
 			isa = PBXGroup;
 			children = (
+				F35B3D38235BAC2D000F7ED0 /* Info.plist */,
 				F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */,
 				F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */,
 				F35B3D2B235BAC25000F7ED0 /* ViewController.swift */,
-				F35B3D2D235BAC25000F7ED0 /* Main.storyboard */,
-				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
-				F35B3D35235BAC2D000F7ED0 /* LaunchScreen.storyboard */,
-				F35B3D38235BAC2D000F7ED0 /* Info.plist */,
-				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
 			);
 			path = GetCoupon;
 			sourceTree = "<group>";
@@ -129,6 +137,42 @@
 				F35B3D4E235BAC2D000F7ED0 /* Info.plist */,
 			);
 			path = GetCouponUITests;
+			sourceTree = "<group>";
+		};
+		F35B3D5A235BAC82000F7ED0 /* HomeControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = HomeControllers;
+			sourceTree = "<group>";
+		};
+		F35B3D5B235BACA5000F7ED0 /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				F35B3D35235BAC2D000F7ED0 /* LaunchScreen.storyboard */,
+				F35B3D2D235BAC25000F7ED0 /* Main.storyboard */,
+				F35B3D61235BB2F5000F7ED0 /* Home.storyboard */,
+				F35B3D5F235BB2D4000F7ED0 /* Favourites.storyboard */,
+				F35B3D63235BB37B000F7ED0 /* Search.storyboard */,
+				F35B3D65235BB38A000F7ED0 /* Settings.storyboard */,
+			);
+			path = StoryBoard;
+			sourceTree = "<group>";
+		};
+		F35B3D5C235BACB8000F7ED0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
+				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		F379312D235FA0FB00FD48B9 /* Appearance */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Appearance;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,9 +279,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F35B3D60235BB2D4000F7ED0 /* Favourites.storyboard in Resources */,
+				F35B3D62235BB2F5000F7ED0 /* Home.storyboard in Resources */,
 				F35B3D37235BAC2D000F7ED0 /* LaunchScreen.storyboard in Resources */,
 				F35B3D34235BAC2D000F7ED0 /* Assets.xcassets in Resources */,
+				F35B3D64235BB37B000F7ED0 /* Search.storyboard in Resources */,
 				F35B3D2F235BAC25000F7ED0 /* Main.storyboard in Resources */,
+				F35B3D66235BB38A000F7ED0 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
