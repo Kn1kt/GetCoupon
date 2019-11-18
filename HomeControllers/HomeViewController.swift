@@ -68,7 +68,7 @@ extension HomeViewController {
             let section = NSCollectionLayoutSection(group: group)
             section.orthogonalScrollingBehavior = .continuous
             section.interGroupSpacing = 10
-            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 20)
             
             let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                    heightDimension: .estimated(44))
@@ -121,6 +121,11 @@ extension HomeViewController {
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCollectionViewCell.reuseIdentifier,
                                                                     for: indexPath) as? HomeCollectionViewCell else {
                     fatalError("Can't create new cell")
+                }
+                if let image = cellData.image {
+                    cell.imageView.image = image
+                    //cell.imageView.contentMode = .scaleAspectFill
+                    
                 }
                 cell.titleLabel.text = cellData.title
                 cell.subtitleLabel.text = cellData.subtitle

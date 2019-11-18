@@ -48,13 +48,17 @@ extension HomeCollectionViewCell {
         contentView.clipsToBounds = true
         contentView.backgroundColor = .secondarySystemGroupedBackground
         
-        imageView.backgroundColor = #colorLiteral(red: 0.03921568627, green: 0.5176470588, blue: 1, alpha: 1)
+        imageView.backgroundColor = .systemGray3
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         
         let spacing = CGFloat(10)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            imageView.heightAnchor.constraint(equalToConstant: 100.0),
+            
             
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
