@@ -1,16 +1,16 @@
 //
-//  CollectionViewCell.swift
+//  HomeCaptionImageCollectionViewCell.swift
 //  GetCoupon
 //
-//  Created by Nikita Konashenko on 16.11.2019.
+//  Created by Nikita Konashenko on 20.11.2019.
 //  Copyright © 2019 Nikita Konashenko. All rights reserved.
 //
 
 import UIKit
 
-class HomeCollectionViewCell: UICollectionViewCell {
+class HomeCaptionImageCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "home-cell-reuse-identifier"
+    static let reuseIdentifier = "home-caption-image-cell-reuse-identifier"
     
     let imageView = UIImageView()
     let titleLabel = UILabel()
@@ -26,7 +26,7 @@ class HomeCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension HomeCollectionViewCell {
+extension HomeCaptionImageCollectionViewCell {
     
     func setupLayout() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -44,10 +44,11 @@ extension HomeCollectionViewCell {
         subtitleLabel.textColor = .placeholderText
         
         
-        contentView.layer.cornerRadius = 6
+        //contentView.layer.cornerRadius = 6
         contentView.clipsToBounds = true
-        contentView.backgroundColor = .secondarySystemGroupedBackground
+        //contentView.backgroundColor = .secondarySystemGroupedBackground
         
+        imageView.layer.cornerRadius = 6
         imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
