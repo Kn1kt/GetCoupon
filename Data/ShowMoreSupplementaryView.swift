@@ -31,6 +31,10 @@ extension ShowMoreSupplementaryView {
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
         showMoreButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
+        layer.shadowOffset = CGSize(width: 0, height: 10)
+        layer.shadowOpacity = 0.1
+        layer.shadowRadius = 5
+        
         layer.cornerRadius = 6
         backgroundColor = .secondarySystemGroupedBackground
         

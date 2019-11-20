@@ -57,44 +57,6 @@ extension HomeViewController {
             default:
                 return self.createPlainSection()
             }
-            
-            
-//            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                  heightDimension: .fractionalHeight(0.5))
-//            let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//
-//            item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-//
-//            let verticalGroup = NSCollectionLayoutGroup.vertical(layoutSize: NSCollectionLayoutSize(widthDimension:
-//                                                                                                    .fractionalWidth(1.0),
-//                                                                                                    heightDimension:                            .fractionalHeight(1.0)),
-//                                                                 subitem: item,
-//                                                                 count: 2)
-//
-//            //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.425 : 0.85)
-//
-//            let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(170),
-//                                                   heightDimension: .estimated(320))
-//            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [verticalGroup])
-//
-//            let section = NSCollectionLayoutSection(group: group)
-//            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-//            section.interGroupSpacing = 10
-//            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-//
-//            let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                   heightDimension: .estimated(44))
-//            let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                                    heightDimension: .estimated(35))
-//            let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
-//                                                                                elementKind: HomeViewController.titleElementKind,
-//                                                                                alignment: .top)
-//            let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
-//                                                                                  elementKind: HomeViewController.showMoreElementKind,
-//                                                                                  alignment: .bottom)
-//            section.boundarySupplementaryItems = [titleSupplementary, footerSupplementary]
-//
-//            return section
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -168,10 +130,10 @@ extension HomeViewController {
                                                heightDimension: .estimated(44))
         let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                 heightDimension: .estimated(35))
-    
+        
         let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
-                                                                            elementKind: HomeViewController.titleElementKind,
-                                                                            alignment: .top)
+                                                                             elementKind: HomeViewController.titleElementKind,
+                                                                             alignment: .top)
         let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
                                                                               elementKind: HomeViewController.showMoreElementKind,
                                                                               alignment: .bottom)
