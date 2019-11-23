@@ -43,7 +43,6 @@ extension HomeCaptionImageCollectionViewCell {
         titleLabel.adjustsFontForContentSizeCategory = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        subtitleLabel.numberOfLines = 2
         //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .placeholderText
@@ -60,18 +59,6 @@ extension HomeCaptionImageCollectionViewCell {
         
         let spacing = CGFloat(10)
         
-        if contentView.frame.height * 0.375 < 50 {
-            subtitleLabel.isHidden = true
-            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing).isActive = true
-        } else {
-            NSLayoutConstraint.activate([
-                subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-                subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
-                subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-                subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
-            ])
-        }
-        
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -79,15 +66,17 @@ extension HomeCaptionImageCollectionViewCell {
             imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
             
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
+            titleLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
+            titleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            //titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
+            //subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
+            contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
+            
         ])
         
     }

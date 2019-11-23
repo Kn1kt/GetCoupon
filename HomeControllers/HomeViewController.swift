@@ -101,7 +101,7 @@ extension HomeViewController {
             groupFractionHeigh = CGFloat(0.8)
             
         case (.regular, .regular):
-            groupFractionalWidth = CGFloat(0.45)
+            groupFractionalWidth = CGFloat(0.35)
             groupFractionHeigh = CGFloat(0.4)
             
         default:
@@ -162,7 +162,7 @@ extension HomeViewController {
             groupFractionHeigh = CGFloat(0.35)
             
         case (.regular, .regular):
-            groupFractionalWidth = CGFloat(0.36)
+            groupFractionalWidth = CGFloat(0.25)
             groupFractionHeigh = CGFloat(0.2)
             
         default:

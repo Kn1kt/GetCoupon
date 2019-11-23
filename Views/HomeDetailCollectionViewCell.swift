@@ -37,6 +37,7 @@ extension HomeDetailCollectionViewCell {
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
+        contentView.clipsToBounds = true
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
         titleLabel.adjustsFontForContentSizeCategory = true
