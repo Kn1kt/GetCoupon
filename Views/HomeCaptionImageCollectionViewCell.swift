@@ -18,17 +18,19 @@ class HomeCaptionImageCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupLayout()
+        setupLayouts()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("not implemented")
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
+// MARK: - Layouts
+
 extension HomeCaptionImageCollectionViewCell {
     
-    func setupLayout() {
+    func setupLayouts() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -36,10 +38,13 @@ extension HomeCaptionImageCollectionViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        //titleLabel.allowsDefaultTighteningForTruncation = true
         titleLabel.adjustsFontForContentSizeCategory = true
         
-        subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+        subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        subtitleLabel.numberOfLines = 2
+        //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .placeholderText
         
@@ -54,21 +59,35 @@ extension HomeCaptionImageCollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         
         let spacing = CGFloat(10)
+        
+        if contentView.frame.height * 0.375 < 50 {
+            subtitleLabel.isHidden = true
+            titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing).isActive = true
+        } else {
+            NSLayoutConstraint.activate([
+                subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+                subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+                subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+                subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
+            ])
+        }
+        
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 100.0),
+            imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
             
             
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            //titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
+            subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
         ])
         
     }

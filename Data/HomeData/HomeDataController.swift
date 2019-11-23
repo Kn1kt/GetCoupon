@@ -69,7 +69,20 @@ extension HomeDataController {
                                                  subtitle: "New menu"),
                                     HomeCellData(image: UIImage(named: "Yakitoria"),
                                                  title: "Yakitoria",
-                                                 subtitle: "Save your 10%")])
+                                                 subtitle: "Save your 10%")]),
+            HomeSectionData(sectionTitle: "Other",
+                            cells: [HomeCellData(image: UIImage(named: "Amazon"),
+                                         title: "Amazon",
+                                         subtitle: "Save your 30%"),
+                            HomeCellData(image: UIImage(named: "Apple"),
+                                         title: "Apple",
+                                         subtitle: "Special inventational"),
+                            HomeCellData(image: UIImage(named: "AliExpress"),
+                                         title: "AliExpress",
+                                         subtitle: "Save your 60%"),
+                            HomeCellData(image: UIImage(named: "ASOS"),
+                                         title: "ASOS",
+                                         subtitle: "Your have personal coupon")])
         ]
     }
 }

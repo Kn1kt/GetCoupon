@@ -42,6 +42,8 @@ class HomeViewController: UIViewController {
 
 }
 
+// MARK: - Layouts
+
 extension HomeViewController {
     
     func createLayout() -> UICollectionViewLayout {
@@ -53,9 +55,9 @@ extension HomeViewController {
             
             switch sectionIndex {
             case 0:
-                return self.createCardSection()
+                return self.createCardSection(layoutEnvironment)
             default:
-                return self.createPlainSection()
+                return self.createPlainSection(layoutEnvironment)
             }
         }
         
@@ -68,7 +70,7 @@ extension HomeViewController {
         return layout
     }
     
-    func createCardSection() -> NSCollectionLayoutSection {
+    func createCardSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                   heightDimension: .fractionalHeight(0.5))
@@ -82,10 +84,40 @@ extension HomeViewController {
                                                              subitem: item,
                                                              count: 2)
         
-        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.425 : 0.85)
+        var groupFractionalWidth: CGFloat! = nil
+        var groupFractionHeigh: CGFloat! = nil
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(170),
-                                               heightDimension: .estimated(320))
+        switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
+        case (.compact, .regular):
+            groupFractionalWidth = CGFloat(0.45)
+            groupFractionHeigh = CGFloat(0.4)
+            
+        case (.compact, .compact):
+            groupFractionalWidth = CGFloat(0.3)
+            groupFractionHeigh = CGFloat(0.8)
+            
+        case (.regular, .compact):
+            groupFractionalWidth = CGFloat(0.3)
+            groupFractionHeigh = CGFloat(0.8)
+            
+        case (.regular, .regular):
+            groupFractionalWidth = CGFloat(0.45)
+            groupFractionHeigh = CGFloat(0.4)
+            
+        default:
+            groupFractionalWidth = CGFloat(0.45)
+            groupFractionHeigh = CGFloat(0.4)
+        }
+        
+        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.3 : 0.45)
+        //let groupFractionHeigh = CGFloat(layoutEnvironment.container.effectiveContentSize.height < 500 ? 0.8 : 0.5)
+        
+        //let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(170),
+        //                                       heightDimension: .estimated(320))
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
+                                               heightDimension: .fractionalHeight(groupFractionHeigh))
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [verticalGroup])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -105,20 +137,49 @@ extension HomeViewController {
         return section
     }
     
-    func createPlainSection() -> NSCollectionLayoutSection {
+    func createPlainSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
         
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
+        //item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
         
+        var groupFractionalWidth: CGFloat! = nil
+        var groupFractionHeigh: CGFloat! = nil
         
+        switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
+        case (.compact, .regular):
+            groupFractionalWidth = CGFloat(0.36)
+            groupFractionHeigh = CGFloat(0.2)
+            
+        case (.compact, .compact):
+            groupFractionalWidth = CGFloat(0.2)
+            groupFractionHeigh = CGFloat(0.35)
+            
+        case (.regular, .compact):
+            groupFractionalWidth = CGFloat(0.2)
+            groupFractionHeigh = CGFloat(0.35)
+            
+        case (.regular, .regular):
+            groupFractionalWidth = CGFloat(0.36)
+            groupFractionHeigh = CGFloat(0.2)
+            
+        default:
+            groupFractionalWidth = CGFloat(0.36)
+            groupFractionHeigh = CGFloat(0.2)
+        }
+            
+            
+        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.2 : 0.36)
+        //let groupFractionHeigh = CGFloat(layoutEnvironment.container.effectiveContentSize.height < 500 ? 0.4 : 0.25)
         
-        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.425 : 0.85)
+        //let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(135),
+        //                                       heightDimension: .estimated(160))
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(135),
-                                               heightDimension: .estimated(160))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
+                                               heightDimension: .fractionalHeight(groupFractionHeigh))
+        
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
@@ -144,6 +205,8 @@ extension HomeViewController {
     }
 }
 
+// MARK: - Setup Collection View
+
 extension HomeViewController {
     
     func configureCollectionView() {
@@ -152,6 +215,8 @@ extension HomeViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemGroupedBackground
         view.addSubview(collectionView)
+        // No need delegete for this step
+        //collectionView.delegate = self
         
         NSLayoutConstraint.activate([
             
@@ -234,9 +299,13 @@ extension HomeViewController {
                     fatalError("Can't create new supplementary")
                 }
             case HomeViewController.showMoreElementKind:
-                if let footerSupplementary = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                if let footerSupplementary = collectionView.dequeueReusableSupplementaryView( ofKind: kind,
                                                                                              withReuseIdentifier: ShowMoreSupplementaryView.reuseIdentifier,
                                                                                              for: indexPath) as? ShowMoreSupplementaryView {
+                    
+                    footerSupplementary.showMoreButton.sectionIndex = indexPath.section
+                    footerSupplementary.showMoreButton.addTarget(self, action: #selector(HomeViewController.showDetailList(_:)), for: .touchUpInside)
+                    
                     return footerSupplementary
                 } else {
                     fatalError("Can't create new supplementary")
@@ -254,5 +323,22 @@ extension HomeViewController {
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
+    }
+}
+
+// MARK: - Interaction
+
+extension HomeViewController {
+    
+    // Show more button
+    @objc func showDetailList(_ sender: ShowMoreUIButton) {
+        
+        guard let sectionIndex = sender.sectionIndex else { return }
+        
+        let section = homeDataController.collections[sectionIndex]
+        let viewController = HomeDetailViewController(section: section)
+        //print("tapped in \(section.sectionTitle)")
+        
+        show(viewController, sender: self)
     }
 }

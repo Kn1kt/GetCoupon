@@ -19,7 +19,7 @@ class HomeCardCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupLayout()
+        setupLayouts()
     }
     
     required init?(coder: NSCoder) {
@@ -29,7 +29,7 @@ class HomeCardCollectionViewCell: UICollectionViewCell {
 
 extension HomeCardCollectionViewCell {
     
-    func setupLayout() {
+    func setupLayouts() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -43,17 +43,22 @@ extension HomeCardCollectionViewCell {
         backView.addSubview(titleLabel)
         backView.addSubview(subtitleLabel)
         
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
         //titleLabel.textColor = .systemRed
+        //titleLabel.allowsDefaultTighteningForTruncation = true
         titleLabel.adjustsFontForContentSizeCategory = true
+        //titleLabel.adjustsFontSizeToFitWidth = true
         
-        subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+        subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        subtitleLabel.numberOfLines = 2
+        //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
+        //subtitleLabel.adjustsFontSizeToFitWidth = true
         subtitleLabel.textColor = .placeholderText
         
-        
         contentView.layer.cornerRadius = 6
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
+        contentView.layer.shadowColor = UIColor.systemGray.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 5)
         contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowRadius = 5
         contentView.clipsToBounds = false
@@ -64,6 +69,19 @@ extension HomeCardCollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         
         let spacing = CGFloat(10)
+        
+        if contentView.frame.height * 0.375 < 50 {
+            subtitleLabel.isHidden = true
+            titleLabel.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -spacing).isActive = true
+        } else {
+            NSLayoutConstraint.activate([
+                subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+                subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
+                subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
+                subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: backView.bottomAnchor, constant: -spacing)
+            ])
+        }
+        
         NSLayoutConstraint.activate([
             
             backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -74,18 +92,17 @@ extension HomeCardCollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: backView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
             imageView.topAnchor.constraint(equalTo: backView.topAnchor),
-            imageView.heightAnchor.constraint(equalToConstant: 100.0),
-            
+            imageView.heightAnchor.constraint(equalTo: backView.heightAnchor, multiplier: 0.625),
             
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
             titleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
+            //titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20),
             
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
-            subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            subtitleLabel.bottomAnchor.constraint(equalTo: backView.bottomAnchor, constant: -spacing)
+//            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
+//            subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
+//            subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
+//            subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: backView.bottomAnchor, constant: -spacing)
         ])
-        
     }
 }
