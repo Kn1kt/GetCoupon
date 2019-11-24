@@ -20,10 +20,16 @@ class HomeDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.largeTitleDisplayMode = .always
-        navigationItem.title = section.sectionTitle
+        
         configureCollectionView()
         configureDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = section.sectionTitle
     }
     
     init(section: HomeSectionData) {
@@ -80,7 +86,7 @@ extension HomeDetailViewController {
             groupFractionHeigh = CGFloat(0.15)
             
         case (.compact, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.3)
             
         case (.regular, .compact):
             groupFractionHeigh = CGFloat(0.35)
@@ -99,6 +105,7 @@ extension HomeDetailViewController {
         
         
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
         
         return section
     }
@@ -112,7 +119,7 @@ extension HomeDetailViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemGroupedBackground
+        collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         
         // No need delegete for this step
@@ -135,9 +142,13 @@ extension HomeDetailViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <HomeSectionData, HomeCellData> (collectionView: collectionView) { (collectionView: UICollectionView,
+            <HomeSectionData, HomeCellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
                                                                                 cellData: HomeCellData) -> UICollectionViewCell? in
+                
+                guard let self = self else {
+                    return nil
+                }
                 
                 switch indexPath.section {
                 case 0:
@@ -151,6 +162,10 @@ extension HomeDetailViewController {
                     }
                     cell.titleLabel.text = cellData.title
                     cell.subtitleLabel.text = cellData.subtitle
+                    
+                    if indexPath.row == self.section.cells.count - 1 {
+                        cell.separatorView.isHidden = true
+                    }
                     
                     return cell
                     

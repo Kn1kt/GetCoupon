@@ -22,11 +22,17 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        navigationItem.title = "Home"
+        
         configureCollectionView()
         configureDataSource()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationItem.title = "Home"
     }
     
 
@@ -195,6 +201,7 @@ extension HomeViewController {
         let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                              elementKind: HomeViewController.titleElementKind,
                                                                              alignment: .top)
+        
         let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
                                                                               elementKind: HomeViewController.showMoreElementKind,
                                                                               alignment: .bottom)

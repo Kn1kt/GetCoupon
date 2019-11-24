@@ -59,6 +59,7 @@ extension HomeCaptionImageCollectionViewCell {
         
         let spacing = CGFloat(10)
         
+        // iPad constrains need update
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

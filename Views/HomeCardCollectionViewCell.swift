@@ -68,6 +68,8 @@ extension HomeCardCollectionViewCell {
         
         let spacing = CGFloat(10)
         
+        
+        // iPad constrains need update
         NSLayoutConstraint.activate([
             
             backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),

@@ -15,6 +15,8 @@ class HomeDetailCollectionViewCell: UICollectionViewCell {
     let imageView = UIImageView()
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
+    let separatorView = UIView()
+    let likeButton = LikeImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,10 +36,20 @@ extension HomeDetailCollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
+        likeButton.translatesAutoresizingMaskIntoConstraints = false
+        
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
+        contentView.addSubview(separatorView)
+        contentView.addSubview(likeButton)
         contentView.clipsToBounds = true
+        
+//        selectedBackgroundView = UIView()
+//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        
+        separatorView.backgroundColor = .systemGray4
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
         titleLabel.adjustsFontForContentSizeCategory = true
@@ -52,6 +64,10 @@ extension HomeDetailCollectionViewCell {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         
+        likeButton.image = UIImage(systemName: "heart")
+        likeButton.highlightedImage = UIImage(systemName: "heart.fill")
+        likeButton.tintColor = .systemGray4
+        
         let spacing = CGFloat(10)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
@@ -59,14 +75,24 @@ extension HomeDetailCollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+            //likeButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
+            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
+            likeButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            likeButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor),
+            likeButton.widthAnchor.constraint(equalTo: likeButton.heightAnchor, multiplier: 1.1),
             
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
+            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
+            titleLabel.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -spacing),
+            titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            
+            subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
             subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            //subtitleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -spacing)
+            
+            separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
+            separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
     }
 }

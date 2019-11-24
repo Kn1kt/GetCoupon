@@ -30,11 +30,6 @@ extension ShowMoreSupplementaryView {
     func setupLayouts() {
         addSubview(showMoreButton)
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
-        //showMoreButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        
-        //layer.shadowOffset = CGSize(width: 0, height: 10)
-        //layer.shadowOpacity = 0.1
-        //layer.shadowRadius = 5
         
         layer.cornerRadius = 6
         backgroundColor = .secondarySystemGroupedBackground
@@ -45,11 +40,5 @@ extension ShowMoreSupplementaryView {
             showMoreButton.topAnchor.constraint(equalTo: topAnchor),
             showMoreButton.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-        
-//        showMoreButton.titleLabel?.font = UIFont.preferredFont(forTextStyle: .subheadline)
-//        showMoreButton.setTitle("Show all coupons in category", for: .normal)
-//        showMoreButton.setTitleColor(.systemBlue, for: .normal)
-//        showMoreButton.setTitleColor(.systemGray, for: .highlighted)
-//        showMoreButton.titleLabel?.textAlignment = .center
     }
 }
