@@ -10,15 +10,15 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    let homeDataController = HomeDataController()
+    let homeDataController = ModelController.homeDataController
     static let titleElementKind = "title-element-kind"
     static let showMoreElementKind = "show-more-element-kind"
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <HomeSectionData, HomeCellData>! = nil
+        <SectionData, CellData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <HomeSectionData, HomeCellData>! = nil
+        <SectionData, CellData>! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -250,9 +250,9 @@ extension HomeViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <HomeSectionData, HomeCellData> (collectionView: collectionView) { (collectionView: UICollectionView,
+            <SectionData, CellData> (collectionView: collectionView) { (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: HomeCellData) -> UICollectionViewCell? in
+                                                                                cellData: CellData) -> UICollectionViewCell? in
                 
                 switch indexPath.section {
                 case 0:
@@ -323,7 +323,7 @@ extension HomeViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <HomeSectionData, HomeCellData>()
+            <SectionData, CellData>()
         homeDataController.collections.forEach { collection in
             currentSnapshot.appendSections([collection])
             currentSnapshot.appendItems(collection.cells)

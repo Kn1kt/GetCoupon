@@ -10,13 +10,13 @@ import UIKit
 
 class HomeDetailViewController: UIViewController {
     
-    let section: HomeSectionData
+    let section: SectionData
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <HomeSectionData, HomeCellData>! = nil
+        <SectionData, CellData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <HomeSectionData, HomeCellData>! = nil
+        <SectionData, CellData>! = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,9 +32,10 @@ class HomeDetailViewController: UIViewController {
         navigationItem.title = section.sectionTitle
     }
     
-    init(section: HomeSectionData) {
+    init(section: SectionData) {
         self.section = section
         super.init(nibName: nil, bundle: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -142,9 +143,9 @@ extension HomeDetailViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <HomeSectionData, HomeCellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+            <SectionData, CellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: HomeCellData) -> UICollectionViewCell? in
+                                                                                cellData: CellData) -> UICollectionViewCell? in
                 
                 guard let self = self else {
                     return nil
@@ -162,6 +163,10 @@ extension HomeDetailViewController {
                     }
                     cell.titleLabel.text = cellData.title
                     cell.subtitleLabel.text = cellData.subtitle
+                    cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
+                    
+                    cell.addToFavoritesButton.cellIndex = indexPath.row
+                    cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
                     
                     if indexPath.row == self.section.cells.count - 1 {
                         cell.separatorView.isHidden = true
@@ -176,10 +181,24 @@ extension HomeDetailViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <HomeSectionData, HomeCellData>()
+            <SectionData, CellData>()
         currentSnapshot.appendSections([section])
         currentSnapshot.appendItems(section.cells)
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
+    }
+}
+
+// MARK: - Interaction
+extension HomeDetailViewController {
+    
+    // Add to Favorites
+    @objc func addToFavorites(_ sender: AddToFavoritesButton) {
+        
+        guard let cellIndex = sender.cellIndex else { return }
+        let cell = section.cells[cellIndex]
+        cell.isFavorite = !cell.isFavorite
+        
+        sender.checkbox.isHighlighted = cell.isFavorite
     }
 }

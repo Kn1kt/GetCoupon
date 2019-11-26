@@ -1,30 +1,64 @@
 //
-//  HomeDataController.swift
+//  Model.swift
 //  GetCoupon
 //
-//  Created by Nikita Konashenko on 16.11.2019.
+//  Created by Nikita Konashenko on 25.11.2019.
 //  Copyright © 2019 Nikita Konashenko. All rights reserved.
 //
 
 import UIKit
 
-class HomeDataController {
+class ModelController {
     
-    fileprivate var _collections: [SectionData] = []
+    static fileprivate var _collections: [SectionData] = []
     
-    var collections: [SectionData] {
-        return _collections
+    static fileprivate var _homeDataController: HomeDataController?
+    
+    static var homeDataController: HomeDataController {
+        
+        if _homeDataController == nil {
+            _homeDataController = createHomeDataController()
+        }
+        
+        return _homeDataController!
     }
     
-    init(collections: [SectionData]) {
-        self._collections = collections
+    static fileprivate var _favoritesDataController: FavoritesDataController?
+    
+    static var favoritesDataController: HomeDataController {
+        
+        if _favoritesDataController == nil {
+            _favoritesDataController = createFavoritesDataController()
+        }
+        
+        return _homeDataController!
+    }
+    
+    static fileprivate var _favoritesCollections: [SectionData]?
+    
+    static var favoritesCollections: [SectionData] {
+        
+        if _favoritesCollections == nil {
+            _favoritesCollections = createFavoritesCollections()
+        }
+        
+        return _favoritesCollections!
     }
 }
 
-// Just for test while receive parse
-extension HomeDataController {
+// MARK: - Data Management
+extension ModelController {
     
-    func generateCollections() {
+    static func updateCollections() {
+        
+        // There gonna be some database query methods
+        
+        generateCollections()
+    }
+    
+    
+    /// FOR TESTS
+    static func generateCollections() {
         _collections = [
             SectionData(sectionTitle: "HOT 🔥",
                             cells: [CellData(image: UIImage(named: "Delivery"),
@@ -84,5 +118,45 @@ extension HomeDataController {
                                          title: "ASOS",
                                          subtitle: "Your have personal coupon")])
         ]
+    }
+}
+
+// MARK: - Home Section Data Controller
+extension ModelController {
+    
+    static private func createHomeDataController() -> HomeDataController {
+        
+        let controller = HomeDataController(collections: _collections)
+        
+        return controller
+    }
+}
+
+// MARK: - Favorites Section Data Controller
+
+extension ModelController {
+    
+    static private func createFavoritesCollections() -> [SectionData] {
+        
+        return _collections.reduce(into: [SectionData]()) { result, section in
+            
+            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
+                guard cell.isFavorite else {
+                    return
+                }
+                result.append(cell)
+            }
+            
+            if !cells.isEmpty {
+                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+            }
+        }
+    }
+    
+    static private func createFavoritesDataController() -> FavoritesDataController {
+        
+        let controller = FavoritesDataController(collections: favoritesCollections)
+        
+        return controller
     }
 }

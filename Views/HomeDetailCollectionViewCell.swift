@@ -16,7 +16,7 @@ class HomeDetailCollectionViewCell: UICollectionViewCell {
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     let separatorView = UIView()
-    let likeButton = LikeImageView()
+    let addToFavoritesButton = AddToFavoritesButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,13 +37,13 @@ extension HomeDetailCollectionViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         separatorView.translatesAutoresizingMaskIntoConstraints = false
-        likeButton.translatesAutoresizingMaskIntoConstraints = false
+        addToFavoritesButton.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(imageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(separatorView)
-        contentView.addSubview(likeButton)
+        contentView.addSubview(addToFavoritesButton)
         contentView.clipsToBounds = true
         
 //        selectedBackgroundView = UIView()
@@ -64,10 +64,6 @@ extension HomeDetailCollectionViewCell {
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         
-        likeButton.image = UIImage(systemName: "heart")
-        likeButton.highlightedImage = UIImage(systemName: "heart.fill")
-        likeButton.tintColor = .systemGray4
-        
         let spacing = CGFloat(10)
         NSLayoutConstraint.activate([
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
@@ -75,14 +71,14 @@ extension HomeDetailCollectionViewCell {
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             
-            //likeButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
-            likeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
-            likeButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
-            likeButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor),
-            likeButton.widthAnchor.constraint(equalTo: likeButton.heightAnchor, multiplier: 1.1),
+            //addToFavoritesButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
+            addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
+            addToFavoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor),
+            addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
             
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-            titleLabel.trailingAnchor.constraint(equalTo: likeButton.leadingAnchor, constant: -spacing),
+            titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing),
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
             
             subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
