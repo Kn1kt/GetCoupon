@@ -12,6 +12,8 @@ class HomeDetailViewController: UIViewController {
     
     let section: SectionData
     
+    var favoritesUpdater: FavoritesUpdaterProtocol?
+    
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
         <SectionData, CellData>! = nil
@@ -30,6 +32,12 @@ class HomeDetailViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = section.sectionTitle
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        favoritesUpdater?.updateFavotites(in: section)
     }
     
     init(section: SectionData) {
@@ -200,5 +208,11 @@ extension HomeDetailViewController {
         cell.isFavorite = !cell.isFavorite
         
         sender.checkbox.isHighlighted = cell.isFavorite
+        
+        if cell.isFavorite {
+            cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
+        } else {
+            cell.favoriteAddingDate = nil
+        }
     }
 }

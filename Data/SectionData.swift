@@ -35,3 +35,12 @@ extension SectionData: Hashable {
         return lhs.identifier == rhs.identifier
     }
 }
+
+// MARK: - Description
+extension SectionData: CustomStringConvertible {
+    
+    var description: String {
+        
+        return sectionTitle + ": " + String.init(describing: cells)
+    }
+}

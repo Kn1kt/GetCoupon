@@ -34,15 +34,15 @@ class ModelController {
         return _homeDataController!
     }
     
-    static fileprivate var _favoritesCollections: [SectionData]?
+    static fileprivate var _favoritesCollections: [SectionData] = []
     
     static var favoritesCollections: [SectionData] {
         
-        if _favoritesCollections == nil {
-            _favoritesCollections = createFavoritesCollections()
-        }
+//        if _favoritesCollections.isEmpty {
+//            _favoritesCollections = createFavoritesCollections()
+//        }
         
-        return _favoritesCollections!
+        return _favoritesCollections
     }
 }
 
@@ -62,61 +62,61 @@ extension ModelController {
         _collections = [
             SectionData(sectionTitle: "HOT 🔥",
                             cells: [CellData(image: UIImage(named: "Delivery"),
-                                                 title: "Delivery Club",
-                                                 subtitle: "Save your 35%"),
+                                             title: "Delivery Club",
+                                             subtitle: "Save your 35%"),
                                     CellData(image: UIImage(named: "Yandex"),
-                                                 title: "Yandex Food",
-                                                 subtitle: "Save your 15%"),
+                                             title: "Yandex Food",
+                                             subtitle: "Save your 15%"),
                                     CellData(image: UIImage(named: "WaterPark"),
-                                                 title: "Water Park Caribbean",
-                                                 subtitle: "Your have personal coupon"),
+                                             title: "Water Park Caribbean",
+                                             subtitle: "Your have personal coupon"),
                                     CellData(image: UIImage(named: "Ozon"),
-                                                 title: "Ozon",
-                                                 subtitle: "Save your 25%"),
+                                             title: "Ozon",
+                                             subtitle: "Save your 25%"),
                                     CellData(image: UIImage(named: "AliExpress"),
-                                                 title: "AliExpress",
-                                                 subtitle: "Save your 60%"),
+                                             title: "AliExpress",
+                                             subtitle: "Save your 60%"),
                                     CellData(image: UIImage(named: "ASOS"),
-                                                 title: "ASOS",
-                                                 subtitle: "Your have personal coupon"),
+                                             title: "ASOS",
+                                             subtitle: "Your have personal coupon"),
                                     CellData(image: UIImage(named: "Amazon"),
-                                                 title: "Amazon",
-                                                 subtitle: "Save your 30%"),
+                                             title: "Amazon",
+                                             subtitle: "Save your 30%"),
                                     CellData(image: UIImage(named: "Apple"),
-                                                 title: "Apple",
-                                                 subtitle: "Special inventational")]),
+                                             title: "Apple",
+                                             subtitle: "Special inventational")]),
             SectionData(sectionTitle: "Food",
                             cells: [CellData(image: UIImage(named: "KFC"),
-                                                 title: "KFC",
-                                                 subtitle: "Two for one price"),
+                                             title: "KFC",
+                                             subtitle: "Two for one price"),
                                     CellData(image: UIImage(named: "McDonald's"),
-                                                 title: "McDonald's",
-                                                 subtitle: "New menu"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
                                     CellData(image: UIImage(named: "Yakitoria"),
-                                                 title: "Yakitoria",
-                                                 subtitle: "Save your 10%"),
+                                             title: "Yakitoria",
+                                             subtitle: "Save your 10%"),
                                     CellData(image: UIImage(named: "KFC"),
-                                                 title: "KFC",
-                                                 subtitle: "Two for one price"),
+                                             title: "KFC",
+                                             subtitle: "Two for one price"),
                                     CellData(image: UIImage(named: "McDonald's"),
-                                                 title: "McDonald's",
-                                                 subtitle: "New menu"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
                                     CellData(image: UIImage(named: "Yakitoria"),
-                                                 title: "Yakitoria",
-                                                 subtitle: "Save your 10%")]),
+                                             title: "Yakitoria",
+                                             subtitle: "Save your 10%")]),
             SectionData(sectionTitle: "Other",
                             cells: [CellData(image: UIImage(named: "Amazon"),
-                                         title: "Amazon",
-                                         subtitle: "Save your 30%"),
+                                             title: "Amazon",
+                                             subtitle: "Save your 30%"),
                             CellData(image: UIImage(named: "Apple"),
-                                         title: "Apple",
-                                         subtitle: "Special inventational"),
+                                     title: "Apple",
+                                     subtitle: "Special inventational"),
                             CellData(image: UIImage(named: "AliExpress"),
-                                         title: "AliExpress",
-                                         subtitle: "Save your 60%"),
+                                     title: "AliExpress",
+                                     subtitle: "Save your 60%"),
                             CellData(image: UIImage(named: "ASOS"),
-                                         title: "ASOS",
-                                         subtitle: "Your have personal coupon")])
+                                     title: "ASOS",
+                                     subtitle: "Your have personal coupon")])
         ]
     }
 }
@@ -151,6 +151,41 @@ extension ModelController {
                 result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
             }
         }
+    }
+    
+    static func updateFavoritesCollections(with collections: [SectionData]) {
+        
+        _favoritesCollections = collections
+    }
+    
+    static func updateFavoritesCollections(in section: SectionData) {
+        
+        print("\n-----before-----")
+        print(favoritesCollections)
+        let _updateIndex = _favoritesCollections.firstIndex { $0.sectionTitle == section.sectionTitle }
+        let cells = section.cells.reduce(into: [CellData]()) { result, cell in
+            if cell.isFavorite {
+                result.append(cell)
+            }
+        }
+        
+        if let updateIndex = _updateIndex {
+            
+            if cells.isEmpty {
+                _favoritesCollections.remove(at: updateIndex)
+            } else {
+                _favoritesCollections[updateIndex].cells = cells
+            }
+        } else if !cells.isEmpty {
+                _favoritesCollections.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+        }
+//        if let updateIndex = updateIndex {
+//            _favoritesCollections[updateIndex].cells = cells
+//        } else {
+//            _favoritesCollections.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+//        }
+        print("-----after-----")
+        print(favoritesCollections)
     }
     
     static private func createFavoritesDataController() -> FavoritesDataController {

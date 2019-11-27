@@ -7,45 +7,106 @@
 //
 
 
-/*extension ListCell {
-    func configure() {
-        seperatorView.translatesAutoresizingMaskIntoConstraints = false
-        seperatorView.backgroundColor = .lightGray
-        contentView.addSubview(seperatorView)
+import UIKit
 
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.adjustsFontForContentSizeCategory = true
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        contentView.addSubview(label)
+//struct PromoCode {
+//
+//    let coupon: String = "Some Coupon"
+//    let estimatedDate: Date?
+//    let description: String = "Short decription"
+//}
+//
+//class Shop {
+//
+//    let name: String = "Shop Name"
+//    let description: String = "Full description"
+//    let shortDescription: String = "Short description"
+//
+//    let tags: [String] = []
+//
+//    let websiteLink: String = "www.ShopName.com"
+//
+//    let imageLink: String = ".../fullImage"
+//    let previewImageLink: String = ".../previewImage"
+//
+//    let promoCodes: [PromoCode] = []
+//}
+//
+//class ShopCategory {
+//
+//    let name: String = "Category Name"
+//
+//    let tags: [String] = []
+//
+//    let shops: [Shop] = []
+//}
+//
+//class Model {
+//
+//    let categories: [ShopCategory] = []
+//}
+//
 
-        accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(accessoryImageView)
 
-        selectedBackgroundView = UIView()
-        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-
-        let rtl = effectiveUserInterfaceLayoutDirection == .rightToLeft
-        let chevronImageName = rtl ? "chevron.left" : "chevron.right"
-        let chevronImage = UIImage(systemName: chevronImageName)
-        accessoryImageView.image = chevronImage
-        accessoryImageView.tintColor = UIColor.lightGray.withAlphaComponent(0.7)
-
-        let inset = CGFloat(10)
-        NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: inset),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -inset),
-            label.trailingAnchor.constraint(equalTo: accessoryImageView.leadingAnchor, constant: -inset),
-
-            accessoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            accessoryImageView.widthAnchor.constraint(equalToConstant: 13),
-            accessoryImageView.heightAnchor.constraint(equalToConstant: 20),
-            accessoryImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-
-            seperatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: inset),
-            seperatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            seperatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -inset),
-            seperatorView.heightAnchor.constraint(equalToConstant: 0.5)
-            ])
-    }
-}*/
+//// FOR TESTS
+//func generateCollections() {
+//        let _collections = [
+//            SectionData(sectionTitle: "HOT 🔥",
+//                            cells: [CellData(image: UIImage(named: "Delivery"),
+//                                             title: "Delivery Club",
+//                                             subtitle: "Save your 35%"),
+//                                    CellData(image: UIImage(named: "Yandex"),
+//                                             title: "Yandex Food",
+//                                             subtitle: "Save your 15%"),
+//                                    CellData(image: UIImage(named: "WaterPark"),
+//                                             title: "Water Park Caribbean",
+//                                             subtitle: "Your have personal coupon"),
+//                                    CellData(image: UIImage(named: "Ozon"),
+//                                             title: "Ozon",
+//                                             subtitle: "Save your 25%"),
+//                                    CellData(image: UIImage(named: "AliExpress"),
+//                                             title: "AliExpress",
+//                                             subtitle: "Save your 60%"),
+//                                    CellData(image: UIImage(named: "ASOS"),
+//                                             title: "ASOS",
+//                                             subtitle: "Your have personal coupon"),
+//                                    CellData(image: UIImage(named: "Amazon"),
+//                                             title: "Amazon",
+//                                             subtitle: "Save your 30%"),
+//                                    CellData(image: UIImage(named: "Apple"),
+//                                             title: "Apple",
+//                                             subtitle: "Special inventational")]),
+//            SectionData(sectionTitle: "Food",
+//                            cells: [CellData(image: UIImage(named: "KFC"),
+//                                             title: "KFC",
+//                                             subtitle: "Two for one price"),
+//                                    CellData(image: UIImage(named: "McDonald's"),
+//                                             title: "McDonald's",
+//                                             subtitle: "New menu"),
+//                                    CellData(image: UIImage(named: "Yakitoria"),
+//                                             title: "Yakitoria",
+//                                             subtitle: "Save your 10%"),
+//                                    CellData(image: UIImage(named: "KFC"),
+//                                             title: "KFC",
+//                                             subtitle: "Two for one price"),
+//                                    CellData(image: UIImage(named: "McDonald's"),
+//                                             title: "McDonald's",
+//                                             subtitle: "New menu"),
+//                                    CellData(image: UIImage(named: "Yakitoria"),
+//                                             title: "Yakitoria",
+//                                             subtitle: "Save your 10%")]),
+//            SectionData(sectionTitle: "Other",
+//                            cells: [CellData(image: UIImage(named: "Amazon"),
+//                                             title: "Amazon",
+//                                             subtitle: "Save your 30%"),
+//                                    CellData(image: UIImage(named: "Apple"),
+//                                             title: "Apple",
+//                                             subtitle: "Special inventational"),
+//                                    CellData(image: UIImage(named: "AliExpress"),
+//                                             title: "AliExpress",
+//                                             subtitle: "Save your 60%"),
+//                                    CellData(image: UIImage(named: "ASOS"),
+//                                             title: "ASOS",
+//                                             subtitle: "Your have personal coupon")])
+//        ]
+//}

@@ -344,6 +344,7 @@ extension HomeViewController {
         
         let section = homeDataController.collections[sectionIndex]
         let viewController = HomeDetailViewController(section: section)
+        viewController.favoritesUpdater = homeDataController
         //print("tapped in \(section.sectionTitle)")
         
         show(viewController, sender: self)

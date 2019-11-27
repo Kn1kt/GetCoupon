@@ -8,38 +8,44 @@
 
 import UIKit
 
-class CellData: NSObject {
+class CellData {
     
     var image: UIImage?
     let title: String
     let subtitle: String
-    //let identifier = UUID()
+    let identifier = UUID()
     
     init(image: UIImage?, title: String, subtitle: String) {
         self.image = image
         self.title = title
         self.subtitle = subtitle
-        
-        super.init()
     }
     
     convenience init(title: String, subtitle: String) {
         self.init(image: nil, title: title, subtitle: subtitle)
     }
     
-    @objc dynamic var isFavorite: Bool = false
+    var isFavorite: Bool = false
     
     var favoriteAddingDate: Date?
 }
 
-//// MARK: - Hashable
-//extension CellData: Hashable {
-//
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(identifier)
-//    }
-//
-//    static func == (lhs: CellData, rhs: CellData) -> Bool {
-//        return lhs.identifier == rhs.identifier
-//    }
-//}
+// MARK: - Hashable
+extension CellData: Hashable {
+
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(identifier)
+    }
+
+    static func == (lhs: CellData, rhs: CellData) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}
+
+// MARK: - Description
+extension CellData: CustomStringConvertible {
+    var description: String {
+        
+        return title
+    }
+}

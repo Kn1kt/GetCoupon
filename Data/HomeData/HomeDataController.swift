@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol FavoritesUpdaterProtocol {
+    
+    func updateFavotites(in section: SectionData)
+}
+
 class HomeDataController {
     
     fileprivate var _collections: [SectionData] = []
@@ -18,6 +23,15 @@ class HomeDataController {
     
     init(collections: [SectionData]) {
         self._collections = collections
+    }
+}
+
+// MARK: - FavoritesUpdaterProtocol
+
+extension HomeDataController: FavoritesUpdaterProtocol {
+    
+    func updateFavotites(in section: SectionData) {
+        ModelController.updateFavoritesCollections(in: section)
     }
 }
 
