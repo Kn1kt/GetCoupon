@@ -12,7 +12,7 @@ class ModelController {
     
     static fileprivate var _collections: [SectionData] = []
     
-    static fileprivate var _homeDataController: HomeDataController?
+    static private var _homeDataController: HomeDataController?
     
     static var homeDataController: HomeDataController {
         
@@ -23,7 +23,7 @@ class ModelController {
         return _homeDataController!
     }
     
-    static fileprivate var _favoritesDataController: FavoritesDataController?
+    static private var _favoritesDataController: FavoritesDataController?
     
     static var favoritesDataController: HomeDataController {
         
@@ -34,15 +34,25 @@ class ModelController {
         return _homeDataController!
     }
     
-    static fileprivate var _favoritesCollections: [SectionData] = []
-    
+    static private var _favoritesCollections: [SectionData] = []
+    static private let favoritesQueue = DispatchQueue(label: "favoritesQueue", attributes: .concurrent)
     static var favoritesCollections: [SectionData] {
         
-//        if _favoritesCollections.isEmpty {
-//            _favoritesCollections = createFavoritesCollections()
-//        }
+        get {
+            favoritesQueue.sync {
+                return _favoritesCollections
+            }
+        }
         
-        return _favoritesCollections
+        set {
+            favoritesQueue.async(flags: .barrier) {
+                
+                self._favoritesCollections = newValue
+                
+                print("-----after-----")
+                print(newValue)
+            }
+        }
     }
 }
 
@@ -155,37 +165,69 @@ extension ModelController {
     
     static func updateFavoritesCollections(with collections: [SectionData]) {
         
-        _favoritesCollections = collections
+        favoritesCollections = collections
     }
     
     static func updateFavoritesCollections(in section: SectionData) {
         
         print("\n-----before-----")
         print(favoritesCollections)
-        let _updateIndex = _favoritesCollections.firstIndex { $0.sectionTitle == section.sectionTitle }
-        let cells = section.cells.reduce(into: [CellData]()) { result, cell in
-            if cell.isFavorite {
-                result.append(cell)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+        
+            var favorites = favoritesCollections
+            
+            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
+                if cell.isFavorite {
+                    result.append(cell)
+                }
             }
+            
+            if let updateIndex = favorites.firstIndex(where: { $0.sectionTitle == section.sectionTitle }) {
+                
+                if cells.isEmpty {
+                    favorites.remove(at: updateIndex)
+                } else {
+                    favorites[updateIndex].cells = cells
+                }
+            } else if !cells.isEmpty {
+                    favorites.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+            }
+            
+            favoritesCollections = favorites
+        }
+    }
+    
+    static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>) {
+        
+        print("\n-----before-----")
+        print(favoritesCollections)
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            
+            var favorites = favoritesCollections
+            
+            if let sectionIndex = favorites.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
+                let section = favorites[sectionIndex]
+                
+                var reduced = section.cells.reduce(into: [CellData]()) { result, cell in
+                    
+                    if cell.isFavorite {
+                        result.append(cell)
+                    }
+                }
+                
+                reduced.append(contentsOf: addedCells)
+                section.cells = reduced
+                favorites[sectionIndex] = section
+                
+            } else {
+                favorites.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
+            }
+            
+            favoritesCollections = favorites
         }
         
-        if let updateIndex = _updateIndex {
-            
-            if cells.isEmpty {
-                _favoritesCollections.remove(at: updateIndex)
-            } else {
-                _favoritesCollections[updateIndex].cells = cells
-            }
-        } else if !cells.isEmpty {
-                _favoritesCollections.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
-        }
-//        if let updateIndex = updateIndex {
-//            _favoritesCollections[updateIndex].cells = cells
-//        } else {
-//            _favoritesCollections.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
-//        }
-        print("-----after-----")
-        print(favoritesCollections)
     }
     
     static private func createFavoritesDataController() -> FavoritesDataController {

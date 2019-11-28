@@ -12,6 +12,10 @@ class HomeDetailViewController: UIViewController {
     
     let section: SectionData
     
+    var editedCells: Set<CellData> = []
+    
+    var needUpdateFavorites: Bool = false
+    
     var favoritesUpdater: FavoritesUpdaterProtocol?
     
     var collectionView: UICollectionView! = nil
@@ -37,7 +41,9 @@ class HomeDetailViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        favoritesUpdater?.updateFavotites(in: section)
+        if !editedCells.isEmpty || needUpdateFavorites {
+            favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
+        }
     }
     
     init(section: SectionData) {
@@ -213,6 +219,14 @@ extension HomeDetailViewController {
             cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
         } else {
             cell.favoriteAddingDate = nil
+        }
+        
+        if cell.isFavorite {
+            editedCells.insert(cell)
+        } else {
+            if editedCells.remove(cell) == nil {
+                needUpdateFavorites = true
+            }
         }
     }
 }
