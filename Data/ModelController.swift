@@ -25,19 +25,20 @@ class ModelController {
     
     static private var _favoritesDataController: FavoritesDataController?
     
-    static var favoritesDataController: HomeDataController {
+    static var favoritesDataController: FavoritesDataController {
         
         if _favoritesDataController == nil {
             _favoritesDataController = createFavoritesDataController()
         }
         
-        return _homeDataController!
+        return _favoritesDataController!
     }
     
     static private var _favoritesCollections: [SectionData] = []
     static private let favoritesQueue = DispatchQueue(label: "favoritesQueue", attributes: .concurrent)
+    static var needUpdateFavoritesController: Bool = false
     static var favoritesCollections: [SectionData] {
-        
+    
         get {
             favoritesQueue.sync {
                 return _favoritesCollections
@@ -46,11 +47,12 @@ class ModelController {
         
         set {
             favoritesQueue.async(flags: .barrier) {
-                
                 self._favoritesCollections = newValue
-                
-                print("-----after-----")
-                print(newValue)
+                if needUpdateFavoritesController {
+                    needUpdateFavoritesController = false
+                    favoritesDataController.collectionsBySections = newValue
+                }
+                //NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: <#T##Any?#>, userInfo: <#T##[AnyHashable : Any]?#>)
             }
         }
     }
@@ -170,9 +172,6 @@ extension ModelController {
     
     static func updateFavoritesCollections(in section: SectionData) {
         
-        print("\n-----before-----")
-        print(favoritesCollections)
-        
         DispatchQueue.global(qos: .userInitiated).async {
         
             var favorites = favoritesCollections
@@ -198,10 +197,7 @@ extension ModelController {
         }
     }
     
-    static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>) {
-        
-        print("\n-----before-----")
-        print(favoritesCollections)
+    static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData> = []) {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
@@ -210,21 +206,21 @@ extension ModelController {
             if let sectionIndex = favorites.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
                 let section = favorites[sectionIndex]
                 
-                var reduced = section.cells.reduce(into: [CellData]()) { result, cell in
-                    
-                    if cell.isFavorite {
-                        result.append(cell)
-                    }
-                }
+                var reduced = section.cells.filter { $0.isFavorite }
                 
                 reduced.append(contentsOf: addedCells)
-                section.cells = reduced
-                favorites[sectionIndex] = section
+                
+                if reduced.isEmpty {
+                    favorites.remove(at: sectionIndex)
+                } else {
+                    section.cells = reduced
+                    favorites[sectionIndex] = section
+                }
                 
             } else {
                 favorites.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
             }
-            
+            needUpdateFavoritesController = true
             favoritesCollections = favorites
         }
         

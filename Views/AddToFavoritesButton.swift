@@ -10,7 +10,7 @@ import UIKit
 
 class AddToFavoritesButton: UIButton {
 
-    var cellIndex: Int?
+    var cellIndex: IndexPath?
     let checkbox = LikeImageView()
     
     override init(frame: CGRect) {
@@ -32,14 +32,19 @@ extension AddToFavoritesButton {
         checkbox.isUserInteractionEnabled = false
         checkbox.contentMode = .scaleAspectFit
         
+//        checkbox.layer.shadowColor = UIColor.black.cgColor
+//        checkbox.layer.shadowOffset = CGSize(width: 0, height: 5)
+//        checkbox.layer.shadowOpacity = 0.1
+//        checkbox.layer.shadowRadius = 5
+        
         checkbox.translatesAutoresizingMaskIntoConstraints = false
         addSubview(checkbox)
         
         NSLayoutConstraint.activate([
-            checkbox.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            checkbox.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            checkbox.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            checkbox.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            checkbox.leadingAnchor.constraint(equalTo: leadingAnchor),
+            checkbox.trailingAnchor.constraint(equalTo: trailingAnchor),
+            checkbox.topAnchor.constraint(equalTo: topAnchor),
+            checkbox.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

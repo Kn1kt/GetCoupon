@@ -43,6 +43,9 @@ class HomeDetailViewController: UIViewController {
         
         if !editedCells.isEmpty || needUpdateFavorites {
             favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
+            //favoritesUpdater?.updateFavoritesCollections(in: section)
+            editedCells.removeAll()
+            needUpdateFavorites = false
         }
     }
     
@@ -179,7 +182,7 @@ extension HomeDetailViewController {
                     cell.subtitleLabel.text = cellData.subtitle
                     cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
                     
-                    cell.addToFavoritesButton.cellIndex = indexPath.row
+                    cell.addToFavoritesButton.cellIndex = indexPath
                     cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
                     
                     if indexPath.row == self.section.cells.count - 1 {
@@ -209,7 +212,7 @@ extension HomeDetailViewController {
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
         
-        guard let cellIndex = sender.cellIndex else { return }
+        guard let cellIndex = sender.cellIndex?.row else { return }
         let cell = section.cells[cellIndex]
         cell.isFavorite = !cell.isFavorite
         

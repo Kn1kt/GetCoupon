@@ -11,6 +11,7 @@ import UIKit
 protocol FavoritesUpdaterProtocol {
     
     func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>)
+    //func updateFavoritesCollections(in section: SectionData)
 }
 
 class HomeDataController {
@@ -32,6 +33,10 @@ extension HomeDataController: FavoritesUpdaterProtocol {
     
     func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>) {
         ModelController.updateFavoritesCollections(in: sectionTitle, with: addedCells)
+    }
+    
+    func updateFavoritesCollections(in section: SectionData) {
+        ModelController.updateFavoritesCollections(in: section)
     }
 }
 

@@ -73,13 +73,14 @@ extension HomeDetailCollectionViewCell {
             
             //addToFavoritesButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
             addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
-            addToFavoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
-            addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor),
+            addToFavoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2.0),
+            addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 0.65),
             addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
             
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing),
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
             
             subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
             subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
