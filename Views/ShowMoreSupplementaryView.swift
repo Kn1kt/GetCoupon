@@ -32,6 +32,14 @@ extension ShowMoreSupplementaryView {
         showMoreButton.translatesAutoresizingMaskIntoConstraints = false
         
         layer.cornerRadius = 6
+        layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 15
+        //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.shouldRasterize = true
+        layer.rasterizationScale = UIScreen.main.scale
+        //clipsToBounds = false
         backgroundColor = .secondarySystemGroupedBackground
         
         NSLayoutConstraint.activate([

@@ -15,6 +15,7 @@ class FavoritesViewController: UIViewController {
     static let titleElementKind = "title-element-kind"
     
     var needUpdateDataSource: Bool = false
+    var needUpdateSnapshot: Bool = false
     
     let segmentedCell: CellData = CellData(title: "", subtitle: "")
     let segmentedSection: SectionData = SectionData(sectionTitle: "")
@@ -23,32 +24,11 @@ class FavoritesViewController: UIViewController {
     var dataSource: UICollectionViewDiffableDataSource
         <SectionData, CellData>! = nil
     
-    private var _currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData>! = nil
-    
-    private let snapshotQueue = DispatchQueue(label: "snapshotQueue", attributes: .concurrent)
-    
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData> {
-        get {
-            snapshotQueue.sync {
-                return _currentSnapshot
-            }
-        }
-        
-        set {
-            snapshotQueue.async(flags: .barrier) { [unowned self] in
-                self._currentSnapshot = newValue
-            }
-        }
-    }
+        <SectionData, CellData>! = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        print("favorits did load")
-//        print(favoritesDataController.collectionsBySections)
-//        print(favoritesDataController.collectionsByDates)
         
         navigationItem.title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -61,12 +41,13 @@ class FavoritesViewController: UIViewController {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-//        print("favorits will appear")
-//        print(favoritesDataController.collectionsBySections)
-//        print(favoritesDataController.collectionsByDates)
+        if needUpdateSnapshot {
+            needUpdateSnapshot = false
+            updateSnapshot()
+        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -129,7 +110,6 @@ extension FavoritesViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        //section.interGroupSpacing = 10
         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 10, bottom: 0, trailing: 10)
         
         return section
@@ -141,38 +121,24 @@ extension FavoritesViewController {
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        //item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
         var groupFractionHeigh: CGFloat! = nil
         
         switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
         case (.compact, .regular):
-            //groupFractionalWidth = CGFloat(0.36)
             groupFractionHeigh = CGFloat(0.2)
             
         case (.compact, .compact):
-            //groupFractionalWidth = CGFloat(0.2)
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.45)
             
         case (.regular, .compact):
-            //groupFractionalWidth = CGFloat(0.2)
             groupFractionHeigh = CGFloat(0.35)
             
         case (.regular, .regular):
-            //groupFractionalWidth = CGFloat(0.25)
             groupFractionHeigh = CGFloat(0.2)
             
         default:
-            //groupFractionalWidth = CGFloat(0.36)
             groupFractionHeigh = CGFloat(0.2)
         }
-            
-            
-        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.2 : 0.36)
-        //let groupFractionHeigh = CGFloat(layoutEnvironment.container.effectiveContentSize.height < 500 ? 0.4 : 0.25)
-        
-        //let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(135),
-        //                                       heightDimension: .estimated(160))
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalHeight(groupFractionHeigh))
@@ -207,7 +173,7 @@ extension FavoritesViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemGroupedBackground
+        collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         
         // No need delegete for this step
@@ -262,15 +228,11 @@ extension FavoritesViewController {
                         cell.imageView.image = image
                     }
                     
-                    cell.favoritesButton.checkbox.layer.shadowColor = UIColor.black.cgColor
-                    cell.favoritesButton.checkbox.layer.shadowOffset = CGSize(width: 0, height: 5)
-                    cell.favoritesButton.checkbox.layer.shadowOpacity = 0.1
-                    cell.favoritesButton.checkbox.layer.shadowRadius = 5
-                    
                     cell.titleLabel.text = cellData.title
                     cell.subtitleLabel.text = cellData.subtitle
                     cell.favoritesButton.checkbox.isHighlighted = cellData.isFavorite
-                    cell.favoritesButton.cellIndex = indexPath
+                    //cell.favoritesButton.cellIndex = indexPath
+                    cell.favoritesButton.cell = cellData
                     cell.favoritesButton.addTarget(self, action: #selector(FavoritesViewController.addToFavorites(_:)), for: .touchUpInside)
                     
                     return cell
@@ -280,11 +242,10 @@ extension FavoritesViewController {
         
         dataSource.supplementaryViewProvider = { [weak self] (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
             
-            guard let self = self else {
+            guard let self = self,
+                let snapshot = self.currentSnapshot else {
                     return nil
             }
-            
-            let snapshot = self.currentSnapshot
             
             if let titleSupplementary = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                                         withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
@@ -299,18 +260,16 @@ extension FavoritesViewController {
             
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot
+        currentSnapshot = NSDiffableDataSourceSnapshot
             <SectionData, CellData>()
         
-        snapshot.appendSections([segmentedSection])
-        snapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
         
         favoritesDataController.collectionsBySections.forEach { collection in
-            snapshot.appendSections([collection])
-            snapshot.appendItems(collection.cells)
+            currentSnapshot.appendSections([collection])
+            currentSnapshot.appendItems(collection.cells)
         }
-        
-        currentSnapshot = snapshot
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
@@ -320,32 +279,25 @@ extension FavoritesViewController {
 extension FavoritesViewController: SnapshotUpdaterProtocol {
     
     func updateSnapshot() {
-        
-        var snapshot = NSDiffableDataSourceSnapshot
+        currentSnapshot = NSDiffableDataSourceSnapshot
         <SectionData, CellData>()
-        
-        snapshot.appendSections([segmentedSection])
-        snapshot.appendItems(segmentedSection.cells)
-        
+
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
+
         switch sortType {
         case 0:
-            let collection = favoritesDataController.collectionsBySections
-            collection.forEach { collection in
-                snapshot.appendSections([collection])
-                snapshot.appendItems(collection.cells)
+            favoritesDataController.collectionsBySections.forEach { collection in
+                currentSnapshot.appendSections([collection])
+                currentSnapshot.appendItems(collection.cells)
             }
         default:
             let section = SectionData(sectionTitle: "", cells: favoritesDataController.collectionsByDates)
-            snapshot.appendSections([section])
-            snapshot.appendItems(section.cells)
+            currentSnapshot.appendSections([section])
+            currentSnapshot.appendItems(section.cells)
         }
         
-        currentSnapshot = snapshot
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
-        }
+        dataSource.apply(currentSnapshot, animatingDifferences: true)
         
     }
 }
@@ -355,15 +307,13 @@ extension FavoritesViewController {
     
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
         sortType = segmentedControl.selectedSegmentIndex
+        
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
-        } else {
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self = self else { return }
-                self.updateSnapshot()
-            }
         }
+        
+        updateSnapshot()
     }
 }
 
@@ -372,18 +322,10 @@ extension FavoritesViewController {
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
         
-        guard let cellIndex = sender.cellIndex else { return }
-        var cell: CellData
-        
-        switch sortType {
-        case 1:
-            cell = favoritesDataController.collectionsByDates[cellIndex.row]
-        default:
-            cell = favoritesDataController.collectionsBySections[cellIndex.section - 1].cells[cellIndex.row]
-        }
+        //guard let cellIndex = sender.cellIndex else { return }
+        guard let cell = sender.cell else { return }
         
         cell.isFavorite = !cell.isFavorite
-
         sender.checkbox.isHighlighted = cell.isFavorite
         
         if !cell.isFavorite {

@@ -29,6 +29,8 @@ class HomeDetailViewController: UIViewController {
         
         configureCollectionView()
         configureDataSource()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,10 +38,14 @@ class HomeDetailViewController: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = section.sectionTitle
+        
+        //NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+//        NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
         
         if !editedCells.isEmpty || needUpdateFavorites {
             favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
@@ -57,6 +63,10 @@ class HomeDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
     }
 
 }
@@ -182,7 +192,8 @@ extension HomeDetailViewController {
                     cell.subtitleLabel.text = cellData.subtitle
                     cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
                     
-                    cell.addToFavoritesButton.cellIndex = indexPath
+                    //cell.addToFavoritesButton.cellIndex = indexPath
+                    cell.addToFavoritesButton.cell = cellData
                     cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
                     
                     if indexPath.row == self.section.cells.count - 1 {
@@ -212,8 +223,8 @@ extension HomeDetailViewController {
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
         
-        guard let cellIndex = sender.cellIndex?.row else { return }
-        let cell = section.cells[cellIndex]
+        guard let cell = sender.cell else { return }
+        //let cell = section.cells[cellIndex]
         cell.isFavorite = !cell.isFavorite
         
         sender.checkbox.isHighlighted = cell.isFavorite
@@ -231,5 +242,16 @@ extension HomeDetailViewController {
                 needUpdateFavorites = true
             }
         }
+    }
+    
+    @objc func updateSnapshot() {
+        
+        let indexPaths = collectionView.indexPathsForVisibleItems
+        let items = indexPaths.reduce(into: [CellData]()) { result, index in
+            result.append(currentSnapshot.itemIdentifiers[index.row])
+        }
+        
+        currentSnapshot.reloadItems(items)
+        dataSource.apply(currentSnapshot, animatingDifferences: true)
     }
 }

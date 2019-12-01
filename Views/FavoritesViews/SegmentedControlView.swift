@@ -12,7 +12,7 @@ class SegmentedControlCollectionViewCell: UICollectionViewCell {
     
     static let reuseIdentifier = "segmented-control-cell-reuse-identifier"
     
-    let segmentedControl = UISegmentedControl(items: ["Sections","Dates"])
+    let segmentedControl = UISegmentedControl(items: ["By sections","By dates"])
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,8 +30,10 @@ class SegmentedControlCollectionViewCell: UICollectionViewCell {
 extension SegmentedControlCollectionViewCell {
     
     func setupLayouts() {
+        
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         segmentedControl.selectedSegmentIndex = 0
+        
         contentView.addSubview(segmentedControl)
         
         contentView.clipsToBounds = true

@@ -35,9 +35,9 @@ extension HomeDataController: FavoritesUpdaterProtocol {
         ModelController.updateFavoritesCollections(in: sectionTitle, with: addedCells)
     }
     
-    func updateFavoritesCollections(in section: SectionData) {
-        ModelController.updateFavoritesCollections(in: section)
-    }
+//    func updateFavoritesCollections(in section: SectionData) {
+//        ModelController.updateFavoritesCollections(in: section)
+//    }
 }
 
 // Just for test while receive parse

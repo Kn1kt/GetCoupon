@@ -38,10 +38,12 @@ extension HomeCardCollectionViewCell {
         contentView.addSubview(backView)
         backView.clipsToBounds = true
         backView.layer.cornerRadius = 6
+        backView.frame = contentView.frame
         
         backView.addSubview(imageView)
         backView.addSubview(titleLabel)
         backView.addSubview(subtitleLabel)
+        backView.backgroundColor = .secondarySystemGroupedBackground
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
         //titleLabel.textColor = .systemRed
@@ -54,13 +56,13 @@ extension HomeCardCollectionViewCell {
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .placeholderText
         
-        contentView.layer.cornerRadius = 6
-        contentView.layer.shadowColor = UIColor.systemGray.cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 5)
-        contentView.layer.shadowOpacity = 0.1
+        //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
+        contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        contentView.layer.shadowOpacity = 1
         contentView.layer.shadowRadius = 5
-        contentView.clipsToBounds = false
-        contentView.backgroundColor = .secondarySystemGroupedBackground
+        contentView.layer.shouldRasterize = true
+        contentView.layer.rasterizationScale = UIScreen.main.scale
         
         imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true

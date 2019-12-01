@@ -9,73 +9,50 @@
 import UIKit
 
 protocol SnapshotUpdaterProtocol {
-    func updateSnapshot()
+    var needUpdateSnapshot: Bool { get set }
 }
 
 class FavoritesDataController {
     
     var snapshotUpdater: SnapshotUpdaterProtocol?
     
-    private var _collectionsBySections: [SectionData] = []
+    var needUpdateDates: Bool = true
     
-    private let collectionBySectionQueue = DispatchQueue(label: "collectionBySectionQueue", attributes: .concurrent)
-    var collectionsBySections: [SectionData] {
-        get {
-            collectionBySectionQueue.sync {
-                return _collectionsBySections
-            }
-        }
-        
-        set {
-            collectionBySectionQueue.async(flags: .barrier) { [unowned self] in
-                self._collectionsBySections = newValue
-                DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-                    guard let self = self else { return }
-                    self.setupCollectionsByDates()
-                }
-            }
+    var collectionsBySections: [SectionData] = [] {
+        didSet {
+            needUpdateDates = true
+            snapshotUpdater?.needUpdateSnapshot = true
         }
     }
     
     private var _collectionsByDates: [CellData] = []
     
-    private let collectionByDateQueue = DispatchQueue(label: "collectionByDateQueue", attributes: .concurrent)
     var collectionsByDates: [CellData] {
         get {
-            collectionByDateQueue.sync {
-                return _collectionsByDates
+            if needUpdateDates {
+                needUpdateDates = false
+                setupCollectionsByDates()
             }
+            
+            return _collectionsByDates
         }
-        
-        set {
-            collectionByDateQueue.async(flags: .barrier) {
-                [unowned self] in
-                self._collectionsByDates = newValue
-            }
-        }
-        
     }
     
     init(collections: [SectionData]) {
-        _collectionsBySections = collections
-        setupCollectionsByDates()
+        collectionsBySections = collections
+        snapshotUpdater?.needUpdateSnapshot = true
     }
     
     private func setupCollectionsByDates() {
         
-        var newCollection: [CellData] = []
-        let bySections = collectionsBySections
-        bySections.forEach { section in
-            newCollection.append(contentsOf: section.cells)
+        _collectionsByDates = []
+        collectionsBySections.forEach { section in
+            _collectionsByDates.append(contentsOf: section.cells)
         }
         
-        _collectionsByDates = newCollection.sorted { lhs, rhs in
+        _collectionsByDates.sort { lhs, rhs in
             return lhs.favoriteAddingDate! < rhs.favoriteAddingDate!
         }
-        
-
-        snapshotUpdater?.updateSnapshot()
-
     }
 }
 
@@ -84,116 +61,31 @@ class FavoritesDataController {
 extension FavoritesDataController {
     
     func checkCollection() {
+        var needUpdate = false
         
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            
-            var needUpdate = false
-            
-            let collection = self.collectionsBySections
-            let filtered = collection.filter { section in
-                let cells = section.cells.filter { cell in
-                    if !cell.isFavorite {
-                        cell.favoriteAddingDate = nil
-                        needUpdate = true
-                        return false
-                    }
-                    
-                    return true
-                }
-                
-                if cells.isEmpty {
+        let filtered = collectionsBySections.filter { section in
+            let cells = section.cells.filter { cell in
+                if !cell.isFavorite {
+                    cell.favoriteAddingDate = nil
+                    needUpdate = true
                     return false
-                } else if cells.count != section.cells.count {
-                    section.cells = cells
                 }
                 
                 return true
             }
             
-            if needUpdate {
-                self.collectionsBySections = filtered
-                ModelController.favoritesCollections = filtered
+            if cells.isEmpty {
+                return false
+            } else if cells.count != section.cells.count {
+                section.cells = cells
             }
+            
+            return true
         }
         
-    }
-    
-    func updateModel() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            guard let self = self else { return }
-            ModelController.favoritesCollections = self.collectionsBySections
+        if needUpdate {
+            collectionsBySections = filtered
+            ModelController.updateFavoritesCollections(with: filtered)
         }
     }
-    
-    func remove(at index: (section: Int?, row: Int?)) {
-        
-        switch index {
-        case let (section?, row?):
-            let cell = collectionsBySections[section].cells.remove(at: row)
-            cell.isFavorite = false
-            cell.favoriteAddingDate = nil
-            
-            if collectionsBySections[section].cells.isEmpty {
-                collectionsBySections.remove(at: section)
-            }
-            
-            collectionsByDates = collectionsByDates.filter { $0.isFavorite }
-            
-        case let (_, row?):
-            let cell = collectionsByDates.remove(at: row)
-            cell.isFavorite = false
-            cell.favoriteAddingDate = nil
-            
-            if collectionsByDates.isEmpty {
-                collectionsBySections = []
-                return
-            }
-            collectionsBySections = collectionsBySections.filter { section in
-                let cells = section.cells.filter { cell in
-                    return cell.isFavorite
-                }
-                
-                if cells.isEmpty {
-                    return false
-                } else if cells.count != section.cells.count {
-                    section.cells = cells
-                }
-                
-                return true
-            }
-            
-        default:
-            fatalError("Can't remove element if FavoritesDataController")
-        }
-    }
-
-//    func add(item: CellData, in section: String) {
-//        _collectionsByDates.append(item)
-//
-//        for sectionIndex in _collectionsBySections.indices {
-//
-//            if _collectionsBySections[sectionIndex].sectionTitle == section {
-//                _collectionsBySections[sectionIndex].cells.append(item)
-//                break
-//            }
-//        }
-//    }
-//
-//    func remove(item: CellData, from section: String) {
-//        if let removeIndex = _collectionsByDates.firstIndex(of: item) {
-//            _collectionsByDates.remove(at: removeIndex)
-//        }
-//
-//        for sectionIndex in _collectionsBySections.indices {
-//
-//            if _collectionsBySections[sectionIndex].sectionTitle == section {
-//
-//                if let removeIndex = _collectionsBySections[sectionIndex].cells.firstIndex(of: item) {
-//                    _collectionsBySections[sectionIndex].cells.remove(at: removeIndex)
-//                }
-//                break
-//            }
-//        }
-//    }
 }

@@ -220,7 +220,7 @@ extension HomeViewController {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemGroupedBackground
+        collectionView.backgroundColor = .systemBackground
         view.addSubview(collectionView)
         // No need delegete for this step
         //collectionView.delegate = self

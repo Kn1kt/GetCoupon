@@ -34,28 +34,20 @@ class ModelController {
         return _favoritesDataController!
     }
     
-    static private var _favoritesCollections: [SectionData] = []
-    static private let favoritesQueue = DispatchQueue(label: "favoritesQueue", attributes: .concurrent)
-    static var needUpdateFavoritesController: Bool = false
-    static var favoritesCollections: [SectionData] {
+    static private var favoritesCollections: [SectionData] = []
     
-        get {
-            favoritesQueue.sync {
-                return _favoritesCollections
-            }
-        }
-        
-        set {
-            favoritesQueue.async(flags: .barrier) {
-                self._favoritesCollections = newValue
-                if needUpdateFavoritesController {
-                    needUpdateFavoritesController = false
-                    favoritesDataController.collectionsBySections = newValue
-                }
-                //NotificationCenter.default.post(name: <#T##NSNotification.Name#>, object: <#T##Any?#>, userInfo: <#T##[AnyHashable : Any]?#>)
-            }
-        }
-    }
+    
+    //{
+//        willSet {
+//            if needUpdateFavoritesController {
+//                needUpdateFavoritesController = false
+//                favoritesDataController.collectionsBySections = newValue
+//            }
+//        }
+//    }
+    //static var needUpdateFavoritesController: Bool = false
+    
+    
 }
 
 // MARK: - Data Management
@@ -148,81 +140,65 @@ extension ModelController {
 
 extension ModelController {
     
-    static private func createFavoritesCollections() -> [SectionData] {
-        
-        return _collections.reduce(into: [SectionData]()) { result, section in
-            
-            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
-                guard cell.isFavorite else {
-                    return
-                }
-                result.append(cell)
-            }
-            
-            if !cells.isEmpty {
-                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
-            }
-        }
-    }
-    
     static func updateFavoritesCollections(with collections: [SectionData]) {
         
         favoritesCollections = collections
+        NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
     }
     
-    static func updateFavoritesCollections(in section: SectionData) {
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-        
-            var favorites = favoritesCollections
-            
-            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
-                if cell.isFavorite {
-                    result.append(cell)
-                }
-            }
-            
-            if let updateIndex = favorites.firstIndex(where: { $0.sectionTitle == section.sectionTitle }) {
-                
-                if cells.isEmpty {
-                    favorites.remove(at: updateIndex)
-                } else {
-                    favorites[updateIndex].cells = cells
-                }
-            } else if !cells.isEmpty {
-                    favorites.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
-            }
-            
-            favoritesCollections = favorites
-        }
-    }
+//    static func updateFavoritesCollections(in section: SectionData) {
+//        
+//        DispatchQueue.global(qos: .userInitiated).async {
+//        
+//            var favorites = favoritesCollections
+//            
+//            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
+//                if cell.isFavorite {
+//                    result.append(cell)
+//                }
+//            }
+//            
+//            if let updateIndex = favorites.firstIndex(where: { $0.sectionTitle == section.sectionTitle }) {
+//                
+//                if cells.isEmpty {
+//                    favorites.remove(at: updateIndex)
+//                } else {
+//                    favorites[updateIndex].cells = cells
+//                }
+//            } else if !cells.isEmpty {
+//                    favorites.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+//            }
+//            
+//            favoritesCollections = favorites
+//        }
+//    }
     
     static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData> = []) {
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        //DispatchQueue.global(qos: .userInitiated).async {
             
-            var favorites = favoritesCollections
+            //var favorites = favoritesCollections
             
-            if let sectionIndex = favorites.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
-                let section = favorites[sectionIndex]
+            if let sectionIndex = favoritesCollections.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
+                let section = favoritesCollections[sectionIndex]
                 
                 var reduced = section.cells.filter { $0.isFavorite }
                 
                 reduced.append(contentsOf: addedCells)
                 
                 if reduced.isEmpty {
-                    favorites.remove(at: sectionIndex)
+                    favoritesCollections.remove(at: sectionIndex)
                 } else {
                     section.cells = reduced
-                    favorites[sectionIndex] = section
                 }
                 
             } else {
-                favorites.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
+                favoritesCollections.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
             }
-            needUpdateFavoritesController = true
-            favoritesCollections = favorites
-        }
+            //needUpdateFavoritesController = true
+            //favoritesCollections = favorites
+            favoritesDataController.collectionsBySections = favoritesCollections
+        //}
         
     }
     
