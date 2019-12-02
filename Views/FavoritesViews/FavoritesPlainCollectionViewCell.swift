@@ -94,10 +94,11 @@ extension FavoritesPlainCollectionViewCell {
             //titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
             titleLabel.heightAnchor.constraint(lessThanOrEqualTo: backView.heightAnchor, multiplier: 0.15),
             
-            favoritesButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            favoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
+            favoritesButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
+            //favoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
             //favoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.0),
-            favoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 1.0),
+            favoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            favoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 2.0),
             favoritesButton.widthAnchor.constraint(equalTo: favoritesButton.heightAnchor, multiplier: 1.0),
             
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),

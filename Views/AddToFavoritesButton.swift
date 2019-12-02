@@ -42,10 +42,10 @@ extension AddToFavoritesButton {
         addSubview(checkbox)
         
         NSLayoutConstraint.activate([
-            checkbox.leadingAnchor.constraint(equalTo: leadingAnchor),
-            checkbox.trailingAnchor.constraint(equalTo: trailingAnchor),
-            checkbox.topAnchor.constraint(equalTo: topAnchor),
-            checkbox.bottomAnchor.constraint(equalTo: bottomAnchor)
+            checkbox.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            checkbox.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            checkbox.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            checkbox.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
         ])
     }
 }

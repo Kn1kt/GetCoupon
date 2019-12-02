@@ -51,7 +51,7 @@ class FavoritesDataController {
         }
         
         _collectionsByDates.sort { lhs, rhs in
-            return lhs.favoriteAddingDate! < rhs.favoriteAddingDate!
+            return lhs.favoriteAddingDate! > rhs.favoriteAddingDate!
         }
     }
 }
@@ -106,7 +106,7 @@ extension FavoritesDataController {
             }
             
             if !cells.isEmpty {
-                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells.sorted { $0.title < $1.title }))
             }
             
         }

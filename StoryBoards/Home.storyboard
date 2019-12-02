@@ -27,8 +27,8 @@
         <scene sceneID="2Aw-lM-vJa">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zlU-A4-14j" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="house" catalog="system" badgeValue="1" id="UPB-9T-FQe">
-                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="-5"/>
+                    <tabBarItem key="tabBarItem" title="" image="house.fill" catalog="system" badgeValue="1" id="UPB-9T-FQe">
+                        <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
@@ -47,6 +47,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="house" catalog="system" width="64" height="54"/>
+        <image name="house.fill" catalog="system" width="64" height="52"/>
     </resources>
 </document>

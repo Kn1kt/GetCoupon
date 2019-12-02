@@ -59,7 +59,7 @@ extension HomeDetailCollectionViewCell {
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .placeholderText
         
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = 6
         imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
@@ -69,12 +69,13 @@ extension HomeDetailCollectionViewCell {
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
             imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.5),
             
             //addToFavoritesButton.leadingAnchor.constraint(equalTo: titleLabel.trailingAnchor, constant: spacing),
-            addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
-            addToFavoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 2.0),
-            addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 0.65),
+            addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            //addToFavoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
+            addToFavoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 2.0),
             addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
             
             titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
@@ -82,13 +83,13 @@ extension HomeDetailCollectionViewCell {
             titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.5),
             titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
             
-            subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
+            subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToFavoritesButton.bottomAnchor, multiplier: 1.0),
             subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
             
-            separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
+            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
     }

@@ -51,8 +51,8 @@ class FavoritesViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.addGestureRecognizer), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.deleteGestureRecognizer), name: UIResponder.keyboardWillHideNotification, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.addGestureRecognizer), name: UIResponder.keyboardWillShowNotification, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.deleteGestureRecognizer), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -77,8 +77,8 @@ class FavoritesViewController: UIViewController {
             favoritesDataController.checkCollection()
         }
         
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     /*
@@ -105,10 +105,10 @@ extension FavoritesViewController {
             guard let self = self else { return nil }
             switch sectionIndex {
             case 0:
-                return self.createSegmentedControlSection(layoutEnvironment)
+                return self.createSearchSection(layoutEnvironment)
                 
             case 1:
-                return self.createSearchSection(layoutEnvironment)
+                return self.createSegmentedControlSection(layoutEnvironment)
                 
             default:
                 return self.createPlainSection(layoutEnvironment)
@@ -136,7 +136,7 @@ extension FavoritesViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 30, trailing: 0)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
         
         return section
     }
@@ -153,7 +153,7 @@ extension FavoritesViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         
-        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 10, bottom: 0, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 30, trailing: 10)
         
         return section
     }
@@ -219,6 +219,8 @@ extension FavoritesViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
+        collectionView.keyboardDismissMode = .onDrag
+        collectionView.alwaysBounceVertical = true
         view.addSubview(collectionView)
         
         // No need delegete for this step
@@ -257,6 +259,16 @@ extension FavoritesViewController {
                 
                 switch indexPath.section {
                 case 0:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentidier,
+                                                                        for: indexPath) as? SearchCollectionViewCell else {
+                        fatalError("Can't create new cell")
+                    }
+                    cell.searchBar.delegate = self
+                    cell.searchBar.searchTextField.delegate = self
+                    
+                    return cell
+                    
+                case 1:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedControlCollectionViewCell.reuseIdentifier,
                                                                         for: indexPath) as? SegmentedControlCollectionViewCell else {
                         fatalError("Can't create new cell")
@@ -264,16 +276,6 @@ extension FavoritesViewController {
                     
                     cell.segmentedControl.selectedSegmentIndex = self.sortType
                     cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
-                    
-                    return cell
-                    
-                case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentidier,
-                                                                        for: indexPath) as? SearchCollectionViewCell else {
-                        fatalError("Can't create new cell")
-                    }
-                    cell.searchBar.delegate = self
-                    cell.searchBar.searchTextField.delegate = self
                     
                     return cell
                     
@@ -322,11 +324,11 @@ extension FavoritesViewController {
         currentSnapshot = NSDiffableDataSourceSnapshot
             <SectionData, CellData>()
         
-        currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
-        
         currentSnapshot.appendSections([searchSection])
         currentSnapshot.appendItems(searchSection.cells)
+        
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
         
         favoritesDataController.collectionsBySections.forEach { collection in
             currentSnapshot.appendSections([collection])
@@ -343,12 +345,12 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
     func updateSnapshot() {
         currentSnapshot = NSDiffableDataSourceSnapshot
         <SectionData, CellData>()
-
-        currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
         
         currentSnapshot.appendSections([searchSection])
         currentSnapshot.appendItems(searchSection.cells)
+
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
 
         switch sortType {
         case 0:
@@ -410,12 +412,12 @@ extension FavoritesViewController {
     func performQuery(with filter: String) {
         currentSnapshot = NSDiffableDataSourceSnapshot
         <SectionData, CellData>()
-
-        currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
         
         currentSnapshot.appendSections([searchSection])
         currentSnapshot.appendItems(searchSection.cells)
+
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
         
         switch sortType {
         case 0:
@@ -440,6 +442,7 @@ extension FavoritesViewController {
 
 extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
         textFilter = searchText
         performQuery(with: searchText)
     }
@@ -453,7 +456,8 @@ extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
 extension FavoritesViewController {
     
     @objc func addGestureRecognizer() {
-        closeKeyboardGesture = UITapGestureRecognizer(target: collectionView, action: #selector(UIView.endEditing(_:)))
+        closeKeyboardGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
+        //closeKeyboardGesture?.direction = .up
         closeKeyboardGesture?.cancelsTouchesInView = false
         
         view.addGestureRecognizer(closeKeyboardGesture!)

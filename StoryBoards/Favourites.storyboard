@@ -27,7 +27,7 @@
         <scene sceneID="GTw-Es-YT8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nvu-ye-roG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" id="plP-o1-v6Y"/>
+                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" selectedImage="heart.fill" id="plP-o1-v6Y"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vpE-Fx-zlt">
@@ -46,5 +46,6 @@
     </scenes>
     <resources>
         <image name="heart" catalog="system" width="64" height="54"/>
+        <image name="heart.fill" catalog="system" width="64" height="54"/>
     </resources>
 </document>

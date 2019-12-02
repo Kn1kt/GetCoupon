@@ -221,6 +221,8 @@ extension HomeViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         view.addSubview(collectionView)
         // No need delegete for this step
         //collectionView.delegate = self

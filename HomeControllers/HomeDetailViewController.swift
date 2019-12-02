@@ -91,7 +91,7 @@ extension HomeDetailViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
+        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                         configuration: config)
@@ -148,6 +148,7 @@ extension HomeDetailViewController {
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
+        collectionView.alwaysBounceVertical = true
         view.addSubview(collectionView)
         
         // No need delegete for this step
