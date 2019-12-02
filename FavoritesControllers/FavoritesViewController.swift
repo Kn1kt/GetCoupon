@@ -16,9 +16,15 @@ class FavoritesViewController: UIViewController {
     
     var needUpdateDataSource: Bool = false
     var needUpdateSnapshot: Bool = false
+    var textFilter: String?
     
-    let segmentedCell: CellData = CellData(title: "", subtitle: "")
-    let segmentedSection: SectionData = SectionData(sectionTitle: "")
+    var closeKeyboardGesture: UITapGestureRecognizer?
+    
+    let segmentedCell: CellData = CellData(title: "segmented", subtitle: "segmented")
+    let segmentedSection: SectionData = SectionData(sectionTitle: "segmented")
+    
+    let searchCell: CellData = CellData(title: "search", subtitle: "search")
+    let searchSection: SectionData = SectionData(sectionTitle: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
@@ -34,6 +40,7 @@ class FavoritesViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         
         segmentedSection.cells.append(segmentedCell)
+        searchSection.cells.append(searchCell)
         
         favoritesDataController.snapshotUpdater = self
         configureCollectionView()
@@ -41,12 +48,24 @@ class FavoritesViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.addGestureRecognizer), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.deleteGestureRecognizer), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         if needUpdateSnapshot {
             needUpdateSnapshot = false
-            updateSnapshot()
+            
+            if let filter = textFilter {
+                performQuery(with: filter)
+            } else {
+                updateSnapshot()
+            }
         }
     }
 
@@ -57,6 +76,9 @@ class FavoritesViewController: UIViewController {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     /*
@@ -84,18 +106,39 @@ extension FavoritesViewController {
             switch sectionIndex {
             case 0:
                 return self.createSegmentedControlSection(layoutEnvironment)
+                
+            case 1:
+                return self.createSearchSection(layoutEnvironment)
+                
             default:
                 return self.createPlainSection(layoutEnvironment)
             }
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
+        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                          configuration: config)
         
         return layout
+    }
+    
+    func createSearchSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 30, trailing: 0)
+        
+        return section
     }
     
     func createSegmentedControlSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
@@ -128,7 +171,7 @@ extension FavoritesViewController {
             groupFractionHeigh = CGFloat(0.2)
             
         case (.compact, .compact):
-            groupFractionHeigh = CGFloat(0.45)
+            groupFractionHeigh = CGFloat(0.35)
             
         case (.regular, .compact):
             groupFractionHeigh = CGFloat(0.35)
@@ -143,13 +186,15 @@ extension FavoritesViewController {
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .fractionalHeight(groupFractionHeigh))
         
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: 2)
+        let columns = layoutEnvironment.container.effectiveContentSize.width > 700 ? 4 : 2
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitem: item, count: columns)
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
         
         section.interGroupSpacing = 10
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 30, trailing: 10)
         
         let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                heightDimension: .estimated(44))
@@ -188,6 +233,9 @@ extension FavoritesViewController {
             
         ])
         
+        collectionView.register(SearchCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentidier)
+        
         collectionView.register(SegmentedControlCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SegmentedControlCollectionViewCell.reuseIdentifier)
         
@@ -218,6 +266,17 @@ extension FavoritesViewController {
                     cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
                     
                     return cell
+                    
+                case 1:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentidier,
+                                                                        for: indexPath) as? SearchCollectionViewCell else {
+                        fatalError("Can't create new cell")
+                    }
+                    cell.searchBar.delegate = self
+                    cell.searchBar.searchTextField.delegate = self
+                    
+                    return cell
+                    
                 default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoritesPlainCollectionViewCell.reuseIdentifier,
                                                                         for: indexPath) as? FavoritesPlainCollectionViewCell else {
@@ -266,6 +325,9 @@ extension FavoritesViewController {
         currentSnapshot.appendSections([segmentedSection])
         currentSnapshot.appendItems(segmentedSection.cells)
         
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
+        
         favoritesDataController.collectionsBySections.forEach { collection in
             currentSnapshot.appendSections([collection])
             currentSnapshot.appendItems(collection.cells)
@@ -284,6 +346,9 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
 
         currentSnapshot.appendSections([segmentedSection])
         currentSnapshot.appendItems(segmentedSection.cells)
+        
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
 
         switch sortType {
         case 0:
@@ -313,7 +378,11 @@ extension FavoritesViewController {
             favoritesDataController.checkCollection()
         }
         
-        updateSnapshot()
+        if let filter = textFilter {
+            performQuery(with: filter)
+        } else {
+            updateSnapshot()
+        }
     }
 }
 
@@ -331,5 +400,68 @@ extension FavoritesViewController {
         if !cell.isFavorite {
             needUpdateDataSource = true
         }
+    }
+}
+
+    // MARK: - Serach
+
+extension FavoritesViewController {
+    
+    func performQuery(with filter: String) {
+        currentSnapshot = NSDiffableDataSourceSnapshot
+        <SectionData, CellData>()
+
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
+        
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
+        
+        switch sortType {
+        case 0:
+            let filtered = favoritesDataController.filteredCollectionBySections(with: filter)
+            filtered.forEach { collection in
+                currentSnapshot.appendSections([collection])
+                currentSnapshot.appendItems(collection.cells)
+            }
+        default:
+            let filtered = favoritesDataController.filteredCollectionByDates(with: filter)
+            let section = SectionData(sectionTitle: "", cells: filtered)
+            currentSnapshot.appendSections([section])
+            currentSnapshot.appendItems(section.cells)
+        }
+        
+        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        
+    }
+}
+
+    // MARK: - SerachBarDelegate
+
+extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        textFilter = searchText
+        performQuery(with: searchText)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
+    }
+}
+
+extension FavoritesViewController {
+    
+    @objc func addGestureRecognizer() {
+        closeKeyboardGesture = UITapGestureRecognizer(target: collectionView, action: #selector(UIView.endEditing(_:)))
+        closeKeyboardGesture?.cancelsTouchesInView = false
+        
+        view.addGestureRecognizer(closeKeyboardGesture!)
+    }
+    
+    @objc func deleteGestureRecognizer() {
+        textFilter = nil
+        guard let recognizer = closeKeyboardGesture else { return }
+        view.removeGestureRecognizer(recognizer)
     }
 }

@@ -25,7 +25,7 @@ class SegmentedControlCollectionViewCell: UICollectionViewCell {
     
 }
 
-// MARK: - Layouts
+    // MARK: - Layouts
 
 extension SegmentedControlCollectionViewCell {
     
@@ -42,7 +42,7 @@ extension SegmentedControlCollectionViewCell {
             segmentedControl.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             segmentedControl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             segmentedControl.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            segmentedControl.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.9)
+            segmentedControl.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8)
         ])
     }
 }

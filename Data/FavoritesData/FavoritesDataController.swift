@@ -56,7 +56,7 @@ class FavoritesDataController {
     }
 }
 
-// MARK: - Collections Management
+    // MARK: - Collections Management
 
 extension FavoritesDataController {
     
@@ -87,5 +87,44 @@ extension FavoritesDataController {
             collectionsBySections = filtered
             ModelController.updateFavoritesCollections(with: filtered)
         }
+    }
+}
+
+    // MARK: - Search
+extension FavoritesDataController {
+    
+    func filteredCollectionBySections(with filter: String) -> [SectionData] {
+        
+        if filter.isEmpty {
+            return collectionsBySections
+        }
+        let lowercasedFilter = filter.lowercased()
+        
+        let filtered = collectionsBySections.reduce(into: [SectionData]()) { result, section in
+            let cells = section.cells.filter { cell in
+                return cell.title.lowercased().contains(lowercasedFilter)
+            }
+            
+            if !cells.isEmpty {
+                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+            }
+            
+        }
+        
+        return filtered
+    }
+    
+    func filteredCollectionByDates(with filter: String) -> [CellData] {
+        
+        if filter.isEmpty {
+            return collectionsByDates
+        }
+        let lowercasedFilter = filter.lowercased()
+        
+        let filtered = collectionsByDates.filter { cell in
+                return cell.title.lowercased().contains(lowercasedFilter)
+        }
+        
+        return filtered
     }
 }
