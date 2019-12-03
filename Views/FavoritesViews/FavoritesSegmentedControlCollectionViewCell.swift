@@ -8,11 +8,11 @@
 
 import UIKit
 
-class SegmentedControlCollectionViewCell: UICollectionViewCell {
+class FavoritesSegmentedControlCollectionViewCell: UICollectionViewCell {
     
-    static let reuseIdentifier = "segmented-control-cell-reuse-identifier"
+    static let reuseIdentifier = "favorites-segmented-control-cell-reuse-identifier"
     
-    let segmentedControl = UISegmentedControl(items: ["By sections","By dates"])
+    let segmentedControl = UISegmentedControl(items: ["By sections", "By dates"])
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +27,7 @@ class SegmentedControlCollectionViewCell: UICollectionViewCell {
 
     // MARK: - Layouts
 
-extension SegmentedControlCollectionViewCell {
+extension FavoritesSegmentedControlCollectionViewCell {
     
     func setupLayouts() {
         

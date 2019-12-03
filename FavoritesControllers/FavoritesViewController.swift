@@ -238,8 +238,8 @@ extension FavoritesViewController {
         collectionView.register(SearchCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentidier)
         
-        collectionView.register(SegmentedControlCollectionViewCell.self,
-                                forCellWithReuseIdentifier: SegmentedControlCollectionViewCell.reuseIdentifier)
+        collectionView.register(FavoritesSegmentedControlCollectionViewCell.self,
+                                forCellWithReuseIdentifier: FavoritesSegmentedControlCollectionViewCell.reuseIdentifier)
         
         collectionView.register(FavoritesPlainCollectionViewCell.self,
                                 forCellWithReuseIdentifier: FavoritesPlainCollectionViewCell.reuseIdentifier)
@@ -269,8 +269,8 @@ extension FavoritesViewController {
                     return cell
                     
                 case 1:
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SegmentedControlCollectionViewCell.reuseIdentifier,
-                                                                        for: indexPath) as? SegmentedControlCollectionViewCell else {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FavoritesSegmentedControlCollectionViewCell.reuseIdentifier,
+                                                                        for: indexPath) as? FavoritesSegmentedControlCollectionViewCell else {
                         fatalError("Can't create new cell")
                     }
                     
@@ -450,22 +450,5 @@ extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
-    }
-}
-
-extension FavoritesViewController {
-    
-    @objc func addGestureRecognizer() {
-        closeKeyboardGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
-        //closeKeyboardGesture?.direction = .up
-        closeKeyboardGesture?.cancelsTouchesInView = false
-        
-        view.addGestureRecognizer(closeKeyboardGesture!)
-    }
-    
-    @objc func deleteGestureRecognizer() {
-        textFilter = nil
-        guard let recognizer = closeKeyboardGesture else { return }
-        view.removeGestureRecognizer(recognizer)
     }
 }

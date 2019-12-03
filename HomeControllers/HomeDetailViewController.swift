@@ -11,12 +11,22 @@ import UIKit
 class HomeDetailViewController: UIViewController {
     
     let section: SectionData
+    lazy var sectionByDates: SectionData = SectionData(sectionTitle: section.sectionTitle, cells: section.cells.shuffled())
     
     var editedCells: Set<CellData> = []
     
     var needUpdateFavorites: Bool = false
+    var needUpdateVisibleItems: Bool = false
+    var sortType: Int = 0
+    var textFilter: String?
     
     var favoritesUpdater: FavoritesUpdaterProtocol?
+    
+    let segmentedCell: CellData = CellData(title: "segmented", subtitle: "segmented")
+    let segmentedSection: SectionData = SectionData(sectionTitle: "segmented")
+    
+    let searchCell: CellData = CellData(title: "search", subtitle: "search")
+    let searchSection: SectionData = SectionData(sectionTitle: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
@@ -27,10 +37,13 @@ class HomeDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        segmentedSection.cells.append(segmentedCell)
+        searchSection.cells.append(searchCell)
+        
         configureCollectionView()
         configureDataSource()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(favoritesDidChange), name: .didUpdateFavorites, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +53,15 @@ class HomeDetailViewController: UIViewController {
         navigationItem.title = section.sectionTitle
         
         //NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if needUpdateVisibleItems {
+            needUpdateVisibleItems = false
+            updateVisibleItems()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -83,9 +105,11 @@ extension HomeDetailViewController {
             
             switch sectionIndex {
             case 0:
-                return self.createPlainSection(layoutEnvironment)
+                return self.createSearchSection(layoutEnvironment)
+            case 1:
+                return self.createSegmentedControlSection(layoutEnvironment)
             default:
-                return nil
+                return self.createPlainSection(layoutEnvironment)
             }
             
         }
@@ -97,6 +121,40 @@ extension HomeDetailViewController {
                                                         configuration: config)
         
         return layout
+    }
+    
+    func createSearchSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
+    
+    func createSegmentedControlSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+        
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                              heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
+        
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        
+        section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 30, trailing: 10)
+        
+        return section
     }
     
     func createPlainSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
@@ -139,7 +197,7 @@ extension HomeDetailViewController {
     }
 }
 
-// MARK: - Setup Table View
+// MARK: - Setup Collection View
 
 extension HomeDetailViewController {
     
@@ -149,6 +207,7 @@ extension HomeDetailViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.alwaysBounceVertical = true
+        collectionView.keyboardDismissMode = .onDrag
         view.addSubview(collectionView)
         
         // No need delegete for this step
@@ -167,6 +226,11 @@ extension HomeDetailViewController {
         collectionView.register(HomeDetailCollectionViewCell.self,
                                 forCellWithReuseIdentifier: HomeDetailCollectionViewCell.reuseIdentifier)
         
+        collectionView.register(HomeDetailSegmentedControlCollectionViewCell.self,
+                                forCellWithReuseIdentifier: HomeDetailSegmentedControlCollectionViewCell.reuseIdentifier)
+        
+        collectionView.register(SearchCollectionViewCell.self,
+                                forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentidier)
     }
     
     func configureDataSource() {
@@ -181,6 +245,28 @@ extension HomeDetailViewController {
                 
                 switch indexPath.section {
                 case 0:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.reuseIdentidier,
+                                                                        for: indexPath) as? SearchCollectionViewCell else {
+                        fatalError("Can't create new cell")
+                    }
+                    cell.searchBar.delegate = self
+                    cell.searchBar.searchTextField.delegate = self
+                    
+                    return cell
+                    
+                case 1:
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier:        HomeDetailSegmentedControlCollectionViewCell.reuseIdentifier,
+                                                                        for: indexPath) as? HomeDetailSegmentedControlCollectionViewCell else {
+                        fatalError("Can't create new cell")
+                    }
+                    
+                    cell.counLabel.text = "\(self.section.cells.count) shops"
+                    cell.segmentedControl.selectedSegmentIndex = self.sortType
+                    cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
+                    
+                    return cell
+                    
+                default:
                     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCollectionViewCell.reuseIdentifier,
                                                                         for: indexPath) as? HomeDetailCollectionViewCell else {
                         fatalError("Can't create new cell")
@@ -202,15 +288,19 @@ extension HomeDetailViewController {
                     }
                     
                     return cell
-                    
-                default:
-                    return nil
                 }
                 
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
             <SectionData, CellData>()
+        
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
+        
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
+        
         currentSnapshot.appendSections([section])
         currentSnapshot.appendItems(section.cells)
         
@@ -245,7 +335,45 @@ extension HomeDetailViewController {
         }
     }
     
-    @objc func updateSnapshot() {
+    @objc func favoritesDidChange() {
+        needUpdateVisibleItems = true
+    }
+    
+    @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
+        sortType = segmentedControl.selectedSegmentIndex
+        
+        if let filter = textFilter {
+            performQuery(with: filter)
+        } else {
+            updateSnapshot()
+        }
+    }
+    
+    func updateSnapshot() {
+        
+        currentSnapshot = NSDiffableDataSourceSnapshot
+            <SectionData, CellData>()
+        
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
+        
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
+        
+        switch sortType {
+        case 0:
+            currentSnapshot.appendSections([section])
+            currentSnapshot.appendItems(section.cells)
+        default:
+            currentSnapshot.appendSections([sectionByDates])
+            currentSnapshot.appendItems(sectionByDates.cells)
+        }
+        
+        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        
+    }
+    
+    func updateVisibleItems() {
         
         let indexPaths = collectionView.indexPathsForVisibleItems
         let items = indexPaths.reduce(into: [CellData]()) { result, index in
@@ -254,5 +382,67 @@ extension HomeDetailViewController {
         
         currentSnapshot.reloadItems(items)
         dataSource.apply(currentSnapshot, animatingDifferences: true)
+    }
+}
+
+    // MARK: - Serach
+
+extension HomeDetailViewController {
+    
+    func performQuery(with filter: String) {
+        currentSnapshot = NSDiffableDataSourceSnapshot
+        <SectionData, CellData>()
+        
+        currentSnapshot.appendSections([searchSection])
+        currentSnapshot.appendItems(searchSection.cells)
+
+        currentSnapshot.appendSections([segmentedSection])
+        currentSnapshot.appendItems(segmentedSection.cells)
+        
+
+        let filtered = filteredCollection(with: filter)
+        let section = SectionData(sectionTitle: self.section.sectionTitle, cells: filtered)
+        currentSnapshot.appendSections([section])
+        currentSnapshot.appendItems(section.cells)
+        
+        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        
+    }
+    
+    func filteredCollection(with filter: String) -> [CellData] {
+        
+        var cells: [CellData]
+        switch sortType {
+        case 0:
+            cells = section.cells
+        default:
+            cells = sectionByDates.cells
+        }
+        
+        if filter.isEmpty {
+            return cells
+        }
+        let lowercasedFilter = filter.lowercased()
+        
+        let filtered = cells.filter { cell in
+                return cell.title.lowercased().contains(lowercasedFilter)
+        }
+        
+        return filtered.sorted { $0.title < $1.title }
+    }
+}
+
+    // MARK: - SerachBarDelegate
+
+extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        textFilter = searchText
+        performQuery(with: searchText)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return false
     }
 }

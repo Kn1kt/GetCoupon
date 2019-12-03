@@ -9,39 +9,39 @@
 
 import UIKit
 
-struct Promoсode {
+struct Promoсode: Decodable {
 
-    let name: String = "Some Coupon"
-    let estimatedDate: Date?
-    let description: String = "Short decription"
-    let websiteLink: String = "Link"
-    let isHot: Bool = false
+    let name: String //= "Some Coupon"
+    let estimatedDate: String?
+    let description: String? //= "Short decription"
+    let websiteLink: String //= "Link"
+    let isHot: Bool //= false
 }
 
-class Shop {
+struct Shop: Decodable {
 
-    let name: String = "Shop Name"
-    let description: String = "Full description"
-    let shortDescription: String = "Short description"
+    let name: String //= "Shop Name"
+    let description: String? //= "Full description"
+    let shortDescription: String //= "Short description"
 
-    let websiteLink: String = "www.ShopName.com"
+    let websiteLink: String //= "www.ShopName.com"
 
-    let imageLink: String = ".../fullImage"
-    let previewImageLink: String = ".../previewImage"
+    let imageLink: String? //= ".../fullImage"
+    let previewImageLink: String? //= ".../previewImage"
 
-    let promocodes: [Promoсode] = []
+    let promocodes: [Promoсode] //= []
 }
 
-class ShopCategory {
+struct ShopCategory: Decodable {
 
-    let name: String = "Category Name"
+    let name: String //= "Category Name"
 
-    let tags: [String] = []
+    let tags: [String] //= []
 
-    let shops: [Shop] = []
+    let shops: [Shop] //= []
 }
 
-class Model {
+struct Model {
 
     let categories: [ShopCategory] = []
 }
