@@ -142,7 +142,7 @@ extension ModelController {
     
     static func updateFavoritesCollections(with collections: [SectionData]) {
         
-        favoritesCollections = collections
+        favoritesCollections = collections.sorted { $0.sectionTitle < $1.sectionTitle }
         NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
     }
     
@@ -197,6 +197,7 @@ extension ModelController {
             }
             //needUpdateFavoritesController = true
             //favoritesCollections = favorites
+            favoritesCollections.sort { $0.sectionTitle < $1.sectionTitle }
             favoritesDataController.collectionsBySections = favoritesCollections
         //}
         
