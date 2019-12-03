@@ -9,43 +9,43 @@
 
 import UIKit
 
-//struct PromoCode {
-//
-//    let coupon: String = "Some Coupon"
-//    let estimatedDate: Date?
-//    let description: String = "Short decription"
-//}
-//
-//class Shop {
-//
-//    let name: String = "Shop Name"
-//    let description: String = "Full description"
-//    let shortDescription: String = "Short description"
-//
-//    let tags: [String] = []
-//
-//    let websiteLink: String = "www.ShopName.com"
-//
-//    let imageLink: String = ".../fullImage"
-//    let previewImageLink: String = ".../previewImage"
-//
-//    let promoCodes: [PromoCode] = []
-//}
-//
-//class ShopCategory {
-//
-//    let name: String = "Category Name"
-//
-//    let tags: [String] = []
-//
-//    let shops: [Shop] = []
-//}
-//
-//class Model {
-//
-//    let categories: [ShopCategory] = []
-//}
-//
+struct Promoсode {
+
+    let name: String = "Some Coupon"
+    let estimatedDate: Date?
+    let description: String = "Short decription"
+    let websiteLink: String = "Link"
+    let isHot: Bool = false
+}
+
+class Shop {
+
+    let name: String = "Shop Name"
+    let description: String = "Full description"
+    let shortDescription: String = "Short description"
+
+    let websiteLink: String = "www.ShopName.com"
+
+    let imageLink: String = ".../fullImage"
+    let previewImageLink: String = ".../previewImage"
+
+    let promocodes: [Promoсode] = []
+}
+
+class ShopCategory {
+
+    let name: String = "Category Name"
+
+    let tags: [String] = []
+
+    let shops: [Shop] = []
+}
+
+class Model {
+
+    let categories: [ShopCategory] = []
+}
+
 
 
 //// FOR TESTS
