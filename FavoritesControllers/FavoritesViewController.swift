@@ -16,7 +16,7 @@ class FavoritesViewController: UIViewController {
     
     var needUpdateDataSource: Bool = false
     var needUpdateSnapshot: Bool = false
-    var textFilter: String?
+    var textFilter: String = ""
     
     var closeKeyboardGesture: UITapGestureRecognizer?
     
@@ -61,8 +61,8 @@ class FavoritesViewController: UIViewController {
         if needUpdateSnapshot {
             needUpdateSnapshot = false
             
-            if let filter = textFilter {
-                performQuery(with: filter)
+            if !textFilter.isEmpty {
+                performQuery(with: textFilter)
             } else {
                 updateSnapshot()
             }
@@ -71,16 +71,25 @@ class FavoritesViewController: UIViewController {
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
-        
+
         //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        
+
     }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        
+//        if needUpdateDataSource {
+//            needUpdateDataSource = false
+//            favoritesDataController.checkCollection()
+//        }
+//    }
     /*
     // MARK: - Navigation
 
@@ -380,8 +389,8 @@ extension FavoritesViewController {
             favoritesDataController.checkCollection()
         }
         
-        if let filter = textFilter {
-            performQuery(with: filter)
+        if !textFilter.isEmpty {
+            performQuery(with: textFilter)
         } else {
             updateSnapshot()
         }
@@ -405,7 +414,7 @@ extension FavoritesViewController {
     }
 }
 
-    // MARK: - Serach
+    // MARK: - Search
 
 extension FavoritesViewController {
     
@@ -444,7 +453,11 @@ extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         textFilter = searchText
-        performQuery(with: searchText)
+        if searchText.isEmpty {
+            updateSnapshot()
+        } else {
+            performQuery(with: searchText)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

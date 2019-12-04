@@ -10,7 +10,7 @@ import UIKit
 
 class AddToFavoritesButton: UIButton {
 
-    //var cellIndex: IndexPath?
+//    var cellIndex: IndexPath?
     var cell: CellData?
     let checkbox = LikeImageView()
     
@@ -24,6 +24,7 @@ class AddToFavoritesButton: UIButton {
     }
 }
 
+    // MARK: - Layouts
 extension AddToFavoritesButton {
     
     func setupLayouts() {
@@ -32,11 +33,6 @@ extension AddToFavoritesButton {
         checkbox.tintColor = .systemGray4
         checkbox.isUserInteractionEnabled = false
         checkbox.contentMode = .scaleAspectFit
-        
-//        checkbox.layer.shadowColor = UIColor.black.cgColor
-//        checkbox.layer.shadowOffset = CGSize(width: 0, height: 5)
-//        checkbox.layer.shadowOpacity = 0.1
-//        checkbox.layer.shadowRadius = 5
         
         checkbox.translatesAutoresizingMaskIntoConstraints = false
         addSubview(checkbox)

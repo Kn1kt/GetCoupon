@@ -18,7 +18,7 @@ class HomeDetailViewController: UIViewController {
     var needUpdateFavorites: Bool = false
     var needUpdateVisibleItems: Bool = false
     var sortType: Int = 0
-    var textFilter: String?
+    var textFilter: String = ""
     
     var favoritesUpdater: FavoritesUpdaterProtocol?
     
@@ -76,6 +76,17 @@ class HomeDetailViewController: UIViewController {
             needUpdateFavorites = false
         }
     }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        
+//        if !editedCells.isEmpty || needUpdateFavorites {
+//            favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
+//            //favoritesUpdater?.updateFavoritesCollections(in: section)
+//            editedCells.removeAll()
+//            needUpdateFavorites = false
+//        }
+//    }
     
     init(section: SectionData) {
         self.section = section
@@ -308,31 +319,35 @@ extension HomeDetailViewController {
     }
 }
 
-// MARK: - Interaction
+    // MARK: - Interaction
 extension HomeDetailViewController {
     
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
         
         guard let cell = sender.cell else { return }
-        //let cell = section.cells[cellIndex]
+        
         cell.isFavorite = !cell.isFavorite
         
         sender.checkbox.isHighlighted = cell.isFavorite
         
         if cell.isFavorite {
             cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-        } else {
-            cell.favoriteAddingDate = nil
-        }
-        
-        if cell.isFavorite {
             editedCells.insert(cell)
         } else {
+            cell.favoriteAddingDate = nil
             if editedCells.remove(cell) == nil {
                 needUpdateFavorites = true
             }
         }
+        
+//        if cell.isFavorite {
+//            editedCells.insert(cell)
+//        } else {
+//            if editedCells.remove(cell) == nil {
+//                needUpdateFavorites = true
+//            }
+//        }
     }
     
     @objc func favoritesDidChange() {
@@ -342,8 +357,8 @@ extension HomeDetailViewController {
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
         sortType = segmentedControl.selectedSegmentIndex
         
-        if let filter = textFilter {
-            performQuery(with: filter)
+        if !textFilter.isEmpty {
+            performQuery(with: textFilter)
         } else {
             updateSnapshot()
         }
@@ -377,7 +392,9 @@ extension HomeDetailViewController {
         
         let indexPaths = collectionView.indexPathsForVisibleItems
         let items = indexPaths.reduce(into: [CellData]()) { result, index in
-            result.append(currentSnapshot.itemIdentifiers[index.row])
+            //result.append(currentSnapshot.itemIdentifiers[index.row])
+            guard let cell = dataSource.itemIdentifier(for: index) else { return }
+            result.append(cell)
         }
         
         currentSnapshot.reloadItems(items)
@@ -385,7 +402,7 @@ extension HomeDetailViewController {
     }
 }
 
-    // MARK: - Serach
+    // MARK: - Search
 
 extension HomeDetailViewController {
     
@@ -438,7 +455,11 @@ extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         textFilter = searchText
-        performQuery(with: searchText)
+        if searchText.isEmpty {
+            updateSnapshot()
+        } else {
+            performQuery(with: searchText)
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

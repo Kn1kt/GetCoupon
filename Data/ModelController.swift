@@ -50,7 +50,7 @@ class ModelController {
     
 }
 
-// MARK: - Data Management
+    // MARK: - Data Management
 extension ModelController {
     
     static func updateCollections() {
@@ -125,7 +125,7 @@ extension ModelController {
     }
 }
 
-// MARK: - Home Section Data Controller
+    // MARK: - Home Section Data Controller
 extension ModelController {
     
     static private func createHomeDataController() -> HomeDataController {
@@ -136,7 +136,7 @@ extension ModelController {
     }
 }
 
-// MARK: - Favorites Section Data Controller
+    // MARK: - Favorites Section Data Controller
 
 extension ModelController {
     
