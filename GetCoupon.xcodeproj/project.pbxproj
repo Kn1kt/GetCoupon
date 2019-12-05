@@ -47,7 +47,9 @@
 		F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */; };
 		F3ED2D6C23984C9500726045 /* SearchMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D6B23984C9500726045 /* SearchMainViewController.swift */; };
 		F3ED2D6E23984CB700726045 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */; };
-		F3ED2D7023984E2900726045 /* search.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D6F23984E2900726045 /* search.swift */; };
+		F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D732399AEBC00726045 /* ShopViewController.swift */; };
+		F3ED2D762399B31000726045 /* ShopData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D752399B31000726045 /* ShopData.swift */; };
+		F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D772399B33400726045 /* PromocodeData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +116,9 @@
 		F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlainCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3ED2D6B23984C9500726045 /* SearchMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchMainViewController.swift; sourceTree = "<group>"; };
 		F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
-		F3ED2D6F23984E2900726045 /* search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = search.swift; sourceTree = "<group>"; };
+		F3ED2D732399AEBC00726045 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
+		F3ED2D752399B31000726045 /* ShopData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopData.swift; sourceTree = "<group>"; };
+		F3ED2D772399B33400726045 /* PromocodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +177,6 @@
 		F35B3D1B235BAC25000F7ED0 = {
 			isa = PBXGroup;
 			children = (
-				F3ED2D6F23984E2900726045 /* search.swift */,
 				F3E0AEB62389EE3A0063E2C8 /* ModelStructure.swift */,
 				F35C0815239345610047A85D /* NotificationName.swift */,
 				F3E0AEB3238881CE0063E2C8 /* Views */,
@@ -181,6 +184,7 @@
 				F379312D235FA0FB00FD48B9 /* Appearance */,
 				F35B3D26235BAC25000F7ED0 /* GetCoupon */,
 				F35B3D5C235BACB8000F7ED0 /* Data */,
+				F3ED2D722399AE6600726045 /* ShopController */,
 				F35B3D5A235BAC82000F7ED0 /* HomeControllers */,
 				F33A9F452390097100A78A74 /* FavoritesControllers */,
 				F3ED2D652398417200726045 /* Search */,
@@ -259,6 +263,8 @@
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F3B80408238064F600481152 /* CellData.swift */,
 				F3B8040A2380652200481152 /* SectionData.swift */,
+				F3ED2D772399B33400726045 /* PromocodeData.swift */,
+				F3ED2D752399B31000726045 /* ShopData.swift */,
 				F3B8040C2380654600481152 /* HomeData */,
 				F3E0AEBC238C69EB0063E2C8 /* FavoritesData */,
 				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
@@ -285,6 +291,7 @@
 		F3E0AEB3238881CE0063E2C8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F3ED2D712399AD8100726045 /* ShopViews */,
 				F33A9F49239068B800A78A74 /* FavoritesViews */,
 				F33A9F482390688F00A78A74 /* HomeViews */,
 				F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */,
@@ -329,6 +336,21 @@
 				F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */,
 			);
 			path = SearchViews;
+			sourceTree = "<group>";
+		};
+		F3ED2D712399AD8100726045 /* ShopViews */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ShopViews;
+			sourceTree = "<group>";
+		};
+		F3ED2D722399AE6600726045 /* ShopController */ = {
+			isa = PBXGroup;
+			children = (
+				F3ED2D732399AEBC00726045 /* ShopViewController.swift */,
+			);
+			path = ShopController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -478,6 +500,8 @@
 				F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */,
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
+				F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */,
+				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
 				F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */,
 				F3B8040B2380652200481152 /* SectionData.swift in Sources */,
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
@@ -495,7 +519,7 @@
 				F35C0816239345610047A85D /* NotificationName.swift in Sources */,
 				F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */,
 				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
-				F3ED2D7023984E2900726045 /* search.swift in Sources */,
+				F3ED2D762399B31000726045 /* ShopData.swift in Sources */,
 				F3E0AEB72389EE3B0063E2C8 /* ModelStructure.swift in Sources */,
 				F3ED2D6E23984CB700726045 /* SearchResultsViewController.swift in Sources */,
 			);

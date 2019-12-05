@@ -67,8 +67,12 @@ extension SearchMainViewController: UICollectionViewDelegate {
         }
         
         // There gonna be some presentation features
-        
         debugPrint(selectedCell)
+        
+        //let viewController = ShopViewController(shop: ShopData(name: "KFC", shortDescription: "kfc", websiteLink: "//link//"))
+        //show(viewController, sender: self)
+        
+        
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
