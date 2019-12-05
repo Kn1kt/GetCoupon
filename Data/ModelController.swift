@@ -226,6 +226,11 @@ extension ModelController {
         } else {
             favoritesCollections.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
         }
+        
+        favoritesCollections.sort { $0.sectionTitle < $1.sectionTitle }
+        favoritesDataController.collectionsBySections = favoritesCollections
+
+        
     }
     
     static func removeAllFavorites() {
