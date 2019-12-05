@@ -203,33 +203,29 @@ extension ModelController {
 //    }
     
     static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData> = []) {
-        
-        //DispatchQueue.global(qos: .userInitiated).async {
             
-            //var favorites = favoritesCollections
+        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
+            let section = favoritesCollections[sectionIndex]
             
-            if let sectionIndex = favoritesCollections.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
-                let section = favoritesCollections[sectionIndex]
-                
-                var reduced = section.cells.filter { $0.isFavorite }
-                
-                reduced.append(contentsOf: addedCells)
-                
-                if reduced.isEmpty {
-                    favoritesCollections.remove(at: sectionIndex)
-                } else {
-                    section.cells = reduced
+            var reduced = section.cells.filter { cell in
+                if addedCells.contains(cell) {
+                    return false
                 }
                 
-            } else {
-                favoritesCollections.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
+                return cell.isFavorite
             }
-            //needUpdateFavoritesController = true
-            //favoritesCollections = favorites
-            favoritesCollections.sort { $0.sectionTitle < $1.sectionTitle }
-            favoritesDataController.collectionsBySections = favoritesCollections
-        //}
-        
+            
+            reduced.append(contentsOf: addedCells)
+            
+            if reduced.isEmpty {
+                favoritesCollections.remove(at: sectionIndex)
+            } else {
+                section.cells = reduced
+            }
+            
+        } else {
+            favoritesCollections.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
+        }
     }
     
     static func removeAllFavorites() {
