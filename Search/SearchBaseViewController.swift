@@ -166,6 +166,12 @@ extension SearchBaseViewController {
     
     func updateSnapshot() {
         
+        if let cellData = currentSnapshot.itemIdentifiers.last,
+            let indexPath = dataSource.indexPath(for: cellData),
+            let cell = collectionView.cellForItem(at: indexPath) as? SearchPlainCollectionViewCell {
+            cell.separatorView.isHidden = false
+        }
+        
         currentSnapshot = NSDiffableDataSourceSnapshot
             <SectionData, CellData>()
         
@@ -174,5 +180,10 @@ extension SearchBaseViewController {
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
         
+        if let cellData = currentSnapshot.itemIdentifiers.last,
+            let indexPath = dataSource.indexPath(for: cellData),
+            let cell = collectionView.cellForItem(at: indexPath) as? SearchPlainCollectionViewCell {
+            cell.separatorView.isHidden = true
+        }
     }
 }
