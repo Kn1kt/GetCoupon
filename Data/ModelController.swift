@@ -11,8 +11,17 @@ import UIKit
 class ModelController {
     
     /// Main Collection
-    static fileprivate var _collections: [SectionData] = []
+    static fileprivate var _collections: [SectionData]?
     
+    static var collections: [SectionData] {
+        get {
+            if _collections == nil {
+                updateCollections()
+            }
+            return _collections!
+        }
+    }
+    /// Home Collections
     static private var _homeDataController: HomeDataController?
     
     static var homeDataController: HomeDataController {
@@ -22,6 +31,18 @@ class ModelController {
         }
         
         return _homeDataController!
+    }
+    
+    static private var _homeCollections: [SectionData]?
+    
+    static var homeCollections: [SectionData] {
+        get {
+            if _homeCollections == nil {
+                updateHomeCollections()
+            }
+            
+            return _homeCollections!
+        }
     }
     
     /// Favorites Collection
@@ -63,6 +84,12 @@ extension ModelController {
         // There gonna be some database query methods
         
         generateCollections()
+    }
+    
+    static func section(for index: Int) -> SectionData? {
+        guard index >= 0, collections.count > index else { return nil }
+        
+        return collections[index]
     }
     
     
@@ -159,10 +186,24 @@ extension ModelController {
     
     static private func createHomeDataController() -> HomeDataController {
         
-        let controller = HomeDataController(collections: _collections)
+        let controller = HomeDataController(collections: homeCollections)
         
         return controller
     }
+    
+    static private func updateHomeCollections() {
+        
+        _homeCollections = collections.reduce(into: [SectionData]()){ result, section in
+            
+            let cells = Array(section.cells.prefix(5))
+            
+            let reducedSection = SectionData(sectionTitle: section.sectionTitle,
+                                             cells: cells)
+            
+            result.append(reducedSection)
+        }
+    }
+    
 }
 
     // MARK: - Favorites Section Data Controller
@@ -263,7 +304,7 @@ extension ModelController {
     
     static private func setupSearchData() -> SectionData {
         
-        let cells = _collections.reduce(into: [CellData]()) { result, section in
+        let cells = collections.reduce(into: [CellData]()) { result, section in
             result.append(contentsOf: section.cells)
         }
         

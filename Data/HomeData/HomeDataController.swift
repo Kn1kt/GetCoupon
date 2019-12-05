@@ -25,7 +25,11 @@ class HomeDataController {
     init(collections: [SectionData]) {
         self._collections = collections
     }
-}
+    
+    func section(for index: Int) -> SectionData? {
+        return ModelController.section(for: index)
+    }
+ }
 
 // MARK: - FavoritesUpdaterProtocol
 
@@ -40,7 +44,7 @@ extension HomeDataController: FavoritesUpdaterProtocol {
 //    }
 }
 
-// Just for test while receive parse
+// Just for test while receive parser
 extension HomeDataController {
     
     func generateCollections() {

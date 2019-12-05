@@ -341,10 +341,11 @@ extension HomeViewController {
     
     // Show more button
     @objc func showDetailList(_ sender: ShowMoreUIButton) {
+        guard let sectionIndex = sender.sectionIndex,
+            let section = homeDataController.section(for: sectionIndex) else {
+                return
+        }
         
-        guard let sectionIndex = sender.sectionIndex else { return }
-        
-        let section = homeDataController.collections[sectionIndex]
         let viewController = HomeDetailViewController(section: section)
         viewController.favoritesUpdater = homeDataController
         //print("tapped in \(section.sectionTitle)")
