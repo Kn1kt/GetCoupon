@@ -10,6 +10,7 @@ import UIKit
 
 class ModelController {
     
+    /// Main Collection
     static fileprivate var _collections: [SectionData] = []
     
     static private var _homeDataController: HomeDataController?
@@ -23,6 +24,7 @@ class ModelController {
         return _homeDataController!
     }
     
+    /// Favorites Collection
     static private var _favoritesDataController: FavoritesDataController?
     
     static var favoritesDataController: FavoritesDataController {
@@ -36,21 +38,24 @@ class ModelController {
     
     static private var favoritesCollections: [SectionData] = []
     
+    /// Search Collection
+    static private var _searchCollection: SectionData?
     
-    //{
-//        willSet {
-//            if needUpdateFavoritesController {
-//                needUpdateFavoritesController = false
-//                favoritesDataController.collectionsBySections = newValue
-//            }
-//        }
-//    }
-    //static var needUpdateFavoritesController: Bool = false
+    static var searchCollection: SectionData {
+        get {
+            if _searchCollection == nil {
+                _searchCollection = setupSearchData()
+            }
+            
+            return _searchCollection!
+        }
+    }
     
     
 }
 
     // MARK: - Data Management
+
 extension ModelController {
     
     static func updateCollections() {
@@ -93,6 +98,30 @@ extension ModelController {
                             cells: [CellData(image: UIImage(named: "KFC"),
                                              title: "KFC",
                                              subtitle: "Two for one price"),
+                                    CellData(image: UIImage(named: "McDonald's"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
+                                    CellData(image: UIImage(named: "Yakitoria"),
+                                             title: "Yakitoria",
+                                             subtitle: "Save your 10%"),
+                                    CellData(image: UIImage(named: "KFC"),
+                                             title: "KFC",
+                                             subtitle: "Two for one price"),
+                                    CellData(image: UIImage(named: "McDonald's"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
+                                    CellData(image: UIImage(named: "McDonald's"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
+                                    CellData(image: UIImage(named: "Yakitoria"),
+                                             title: "Yakitoria",
+                                             subtitle: "Save your 10%"),
+                                    CellData(image: UIImage(named: "KFC"),
+                                             title: "KFC",
+                                             subtitle: "Two for one price"),
+                                    CellData(image: UIImage(named: "McDonald's"),
+                                             title: "McDonald's",
+                                             subtitle: "New menu"),
                                     CellData(image: UIImage(named: "McDonald's"),
                                              title: "McDonald's",
                                              subtitle: "New menu"),
@@ -203,10 +232,40 @@ extension ModelController {
         
     }
     
+    static func removeAllFavorites() {
+        
+        guard !favoritesCollections.isEmpty else {
+            return
+        }
+        
+        favoritesCollections.forEach { section in
+            section.cells.forEach { cell in
+                cell.isFavorite = false
+            }
+        }
+        favoritesCollections = []
+        favoritesDataController.collectionsBySections = []
+        NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
+    }
+    
     static private func createFavoritesDataController() -> FavoritesDataController {
         
         let controller = FavoritesDataController(collections: favoritesCollections)
         
         return controller
+    }
+}
+
+    // MARK: - Search Data
+
+extension ModelController {
+    
+    static private func setupSearchData() -> SectionData {
+        
+        let cells = _collections.reduce(into: [CellData]()) { result, section in
+            result.append(contentsOf: section.cells)
+        }
+        
+        return SectionData(sectionTitle: "Search", cells: cells)
     }
 }

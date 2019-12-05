@@ -17,7 +17,7 @@ class ShowMoreUIButton: UIButton {
         
         titleLabel?.adjustsFontForContentSizeCategory = true
         titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        setTitle("Show all coupons in category", for: .normal)
+        setTitle("Show all shops in category", for: .normal)
         setTitleColor(.systemBlue, for: .normal)
         setTitleColor(.systemGray, for: .highlighted)
         titleLabel?.textAlignment = .center

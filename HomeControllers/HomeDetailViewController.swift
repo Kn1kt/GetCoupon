@@ -104,7 +104,7 @@ class HomeDetailViewController: UIViewController {
 
 }
 
-// MARK: - Layouts
+    // MARK: - Layouts
 
 extension HomeDetailViewController {
     
@@ -208,7 +208,7 @@ extension HomeDetailViewController {
     }
 }
 
-// MARK: - Setup Collection View
+    // MARK: - Setup Collection View
 
 extension HomeDetailViewController {
     
@@ -423,12 +423,11 @@ extension HomeDetailViewController {
         currentSnapshot.appendItems(section.cells)
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
-        
     }
     
     func filteredCollection(with filter: String) -> [CellData] {
         
-        var cells: [CellData]
+        let cells: [CellData]
         switch sortType {
         case 0:
             cells = section.cells
