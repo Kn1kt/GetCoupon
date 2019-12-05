@@ -195,7 +195,7 @@ extension ModelController {
         
         _homeCollections = collections.reduce(into: [SectionData]()){ result, section in
             
-            let cells = Array(section.cells.prefix(5))
+            let cells = Array(section.cells.prefix(15))
             
             let reducedSection = SectionData(sectionTitle: section.sectionTitle,
                                              cells: cells)
