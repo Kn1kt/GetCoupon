@@ -391,14 +391,22 @@ extension HomeDetailViewController {
     func updateVisibleItems() {
         
         let indexPaths = collectionView.indexPathsForVisibleItems
-        let items = indexPaths.reduce(into: [CellData]()) { result, index in
-            //result.append(currentSnapshot.itemIdentifiers[index.row])
-            guard let cell = dataSource.itemIdentifier(for: index) else { return }
-            result.append(cell)
-        }
+//        let items = indexPaths.reduce(into: [CellData]()) { result, index in
+//            guard let cell = dataSource.itemIdentifier(for: index) else { return }
+//            result.append(cell)
+//        }
         
-        currentSnapshot.reloadItems(items)
-        dataSource.apply(currentSnapshot, animatingDifferences: true)
+//        currentSnapshot.reloadItems(items)
+//        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        
+        indexPaths.forEach { indexPath in
+            guard let cell = collectionView.cellForItem(at: indexPath) as? HomeDetailCollectionViewCell,
+                let cellData = dataSource.itemIdentifier(for: indexPath) else {
+                return
+            }
+            
+            cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
+        }
     }
 }
 
