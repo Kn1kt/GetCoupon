@@ -391,6 +391,8 @@ extension HomeDetailViewController {
     func updateVisibleItems() {
         
         let indexPaths = collectionView.indexPathsForVisibleItems
+        
+        /// This code is crashing
 //        let items = indexPaths.reduce(into: [CellData]()) { result, index in
 //            guard let cell = dataSource.itemIdentifier(for: index) else { return }
 //            result.append(cell)
