@@ -406,7 +406,11 @@ extension FavoritesViewController {
         guard let cell = sender.cell else { return }
         
         cell.isFavorite = !cell.isFavorite
-        sender.checkbox.isHighlighted = cell.isFavorite
+        
+//        sender.checkbox.isHighlighted = cell.isFavorite
+        UIView.animate(withDuration: 0.15) {
+            sender.checkbox.isHighlighted = cell.isFavorite
+        }
         
         if !cell.isFavorite {
             needUpdateDataSource = true

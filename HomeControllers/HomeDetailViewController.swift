@@ -329,7 +329,10 @@ extension HomeDetailViewController {
         
         cell.isFavorite = !cell.isFavorite
         
-        sender.checkbox.isHighlighted = cell.isFavorite
+        //sender.checkbox.isHighlighted = cell.isFavorite
+        UIView.animate(withDuration: 0.15) {
+            sender.checkbox.isHighlighted = cell.isFavorite
+        }
         
         if cell.isFavorite {
             cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
@@ -407,7 +410,9 @@ extension HomeDetailViewController {
                 return
             }
             
-            cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
+            UIView.animate(withDuration: 0.3) {
+                cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
+            }
         }
     }
 }
