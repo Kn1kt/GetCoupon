@@ -50,6 +50,8 @@
 		F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D732399AEBC00726045 /* ShopViewController.swift */; };
 		F3ED2D762399B31000726045 /* ShopData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D752399B31000726045 /* ShopData.swift */; };
 		F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D772399B33400726045 /* PromocodeData.swift */; };
+		F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */; };
+		F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D7B239B269E00726045 /* PromocodeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +121,8 @@
 		F3ED2D732399AEBC00726045 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
 		F3ED2D752399B31000726045 /* ShopData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopData.swift; sourceTree = "<group>"; };
 		F3ED2D772399B33400726045 /* PromocodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeData.swift; sourceTree = "<group>"; };
+		F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopPlainCollectionViewCell.swift; sourceTree = "<group>"; };
+		F3ED2D7B239B269E00726045 /* PromocodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -341,6 +345,8 @@
 		F3ED2D712399AD8100726045 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
+				F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */,
+				F3ED2D7B239B269E00726045 /* PromocodeView.swift */,
 			);
 			path = ShopViews;
 			sourceTree = "<group>";
@@ -490,6 +496,7 @@
 			files = (
 				F3E0AEB5238882490063E2C8 /* HomeDetailCollectionViewCell.swift in Sources */,
 				F3A4B1A6239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift in Sources */,
+				F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */,
 				F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */,
 				F3E0AEB9238A0B060063E2C8 /* LikeImageView.swift in Sources */,
 				F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */,
@@ -520,6 +527,7 @@
 				F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */,
 				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
 				F3ED2D762399B31000726045 /* ShopData.swift in Sources */,
+				F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */,
 				F3E0AEB72389EE3B0063E2C8 /* ModelStructure.swift in Sources */,
 				F3ED2D6E23984CB700726045 /* SearchResultsViewController.swift in Sources */,
 			);

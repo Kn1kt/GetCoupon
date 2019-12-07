@@ -38,6 +38,7 @@ class FavoritesViewController: UIViewController {
         
         navigationItem.title = "Favorites"
         navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
         
         segmentedSection.cells.append(segmentedCell)
         searchSection.cells.append(searchCell)

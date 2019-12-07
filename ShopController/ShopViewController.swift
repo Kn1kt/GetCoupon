@@ -11,6 +11,7 @@ import UIKit
 class ShopViewController: UIViewController {
 
     let shop: ShopData
+    let dateFormatter = DateFormatter()
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
@@ -33,7 +34,8 @@ class ShopViewController: UIViewController {
         
         navigationItem.title = shop.name
         navigationController?.navigationBar.prefersLargeTitles = true
-        
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .none
         
         configureCollectionView()
         configureDataSource()
@@ -81,16 +83,16 @@ extension ShopViewController {
                                              heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
         
         var groupFractionHeigh: CGFloat! = nil
         
         switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
         case (.compact, .regular):
-            groupFractionHeigh = CGFloat(0.15)
+            groupFractionHeigh = CGFloat(0.2)
             
         case (.compact, .compact):
-            groupFractionHeigh = CGFloat(0.3)
+            groupFractionHeigh = CGFloat(0.4)
             
         case (.regular, .compact):
             groupFractionHeigh = CGFloat(0.35)
@@ -99,7 +101,7 @@ extension ShopViewController {
             groupFractionHeigh = CGFloat(0.25)
             
         default:
-            groupFractionHeigh = CGFloat(0.15)
+            groupFractionHeigh = CGFloat(0.2)
         }
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -125,7 +127,6 @@ extension ShopViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
         collectionView.alwaysBounceVertical = true
-        collectionView.keyboardDismissMode = .onDrag
         view.addSubview(collectionView)
         
         // No need delegete for this step
@@ -141,14 +142,8 @@ extension ShopViewController {
         ])
         
         
-        collectionView.register(HomeDetailCollectionViewCell.self,
-                                forCellWithReuseIdentifier: HomeDetailCollectionViewCell.reuseIdentifier)
-        
-        collectionView.register(HomeDetailSegmentedControlCollectionViewCell.self,
-                                forCellWithReuseIdentifier: HomeDetailSegmentedControlCollectionViewCell.reuseIdentifier)
-        
-        collectionView.register(SearchCollectionViewCell.self,
-                                forCellWithReuseIdentifier: SearchCollectionViewCell.reuseIdentidier)
+        collectionView.register(ShopPlainCollectionViewCell.self,
+                                forCellWithReuseIdentifier: ShopPlainCollectionViewCell.reuseIdentifier)
     }
     
     func configureDataSource() {
@@ -161,12 +156,26 @@ extension ShopViewController {
                     return nil
                 }
                 
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCollectionViewCell.reuseIdentifier,
-                                                                        for: indexPath) as? HomeDetailCollectionViewCell else {
-                        fatalError("Can't create new cell")
-                    }
-                    
-                    return cell
+                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ShopPlainCollectionViewCell.reuseIdentifier,
+                                                                    for: indexPath) as? ShopPlainCollectionViewCell else {
+                    fatalError("Can't create new cell")
+                }
+                
+                cell.imageView.setNeedsLayout()
+                cell.imageView.image = self.shop.previewImage
+                cell.titleLabel.text = self.shop.name
+                cell.subtitleLabel.text = cellData.description
+                //cell.couponLabel.text = cellData.name
+                cell.promocodeView.promocodeLabel.text = cellData.name
+                
+                if let addingDate = cellData.addingDate {
+                    cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: addingDate)
+                }
+                if let estimatedDate = cellData.estimatedDate {
+                    cell.estimatedDateLabel.text = "Expiration date: " + self.dateFormatter.string(from: estimatedDate)
+                }
+                
+                return cell
                 
         }
         

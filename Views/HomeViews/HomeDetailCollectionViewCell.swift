@@ -61,7 +61,7 @@ extension HomeDetailCollectionViewCell {
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         subtitleLabel.numberOfLines = 2
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.textColor = .placeholderText
+        subtitleLabel.textColor = .secondaryLabel
         
         imageView.layer.cornerRadius = 6
         imageView.backgroundColor = .systemGray3

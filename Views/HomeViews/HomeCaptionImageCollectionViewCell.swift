@@ -45,7 +45,7 @@ extension HomeCaptionImageCollectionViewCell {
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.textColor = .placeholderText
+        subtitleLabel.textColor = .secondaryLabel
         
         
         //contentView.layer.cornerRadius = 6

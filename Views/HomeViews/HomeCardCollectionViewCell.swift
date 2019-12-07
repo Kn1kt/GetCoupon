@@ -38,7 +38,7 @@ extension HomeCardCollectionViewCell {
         contentView.addSubview(backView)
         backView.clipsToBounds = true
         backView.layer.cornerRadius = 6
-        backView.frame = contentView.frame
+        //backView.frame = contentView.frame
         
         backView.addSubview(imageView)
         backView.addSubview(titleLabel)
@@ -54,7 +54,7 @@ extension HomeCardCollectionViewCell {
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         //subtitleLabel.allowsDefaultTighteninrgForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.textColor = .placeholderText
+        subtitleLabel.textColor = .secondaryLabel
         
         //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor

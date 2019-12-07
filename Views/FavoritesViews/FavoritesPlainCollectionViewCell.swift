@@ -57,7 +57,8 @@ extension FavoritesPlainCollectionViewCell {
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.textColor = .placeholderText
+        subtitleLabel.textColor = .secondaryLabel
+        
         
         //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor

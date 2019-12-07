@@ -19,6 +19,8 @@ class ShopData {
     let image: UIImage?
     let previewImage: UIImage?
     
+    let isFavorite: Bool
+    
     let promocodes: [PromocodeData]
     
     let identifier = UUID()
@@ -29,6 +31,7 @@ class ShopData {
          websiteLink: String,
          image: UIImage? = nil,
          previewImage: UIImage? = nil,
+         isFavorite: Bool = false,
          promocodes: [PromocodeData] = []) {
         self.name = name
         self.description = description
@@ -37,7 +40,7 @@ class ShopData {
         self.image = image
         self.previewImage = previewImage
         self.promocodes = promocodes
-        
+        self.isFavorite = isFavorite
     }
 }
 

@@ -68,9 +68,32 @@ extension SearchMainViewController: UICollectionViewDelegate {
         
         // There gonna be some presentation features
         debugPrint(selectedCell)
-        
-        //let viewController = ShopViewController(shop: ShopData(name: "KFC", shortDescription: "kfc", websiteLink: "//link//"))
-        //show(viewController, sender: self)
+        let shop = ShopData(name: "KFC",
+                            description: "Menu: chicken dishes, french fries, salads, snacks, etc.",
+                            shortDescription: "Kentucky Fried Chicken",
+                            websiteLink: "//kindaLink",
+                            image: UIImage(named: "KFC"),
+                            previewImage: UIImage(named: "KFC"),
+                            isFavorite: true,
+                            promocodes: [
+                                PromocodeData(name: "COUPON30",
+                                              addingDate: Date(timeIntervalSinceNow: -1000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                                              description: "save ur 30%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON20",
+                                              addingDate: Date(timeIntervalSinceNow: -2000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                                              description: "save ur 20%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON10",
+                                              addingDate: Date(timeIntervalSinceNow: -3000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                                              description: "save your 10% when spent more than 1000",
+                                              isHot: false),
+        ])
+        let viewController = ShopViewController(shop: shop)
+        show(viewController, sender: self)
         
         
         collectionView.deselectItem(at: indexPath, animated: true)
