@@ -67,6 +67,13 @@ class FavoritesViewController: UIViewController {
             } else {
                 updateSnapshot()
             }
+            
+            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+                    return
+                }
+                cell.favoritesButton.checkbox.isHighlighted = true
+            }
         }
     }
 
