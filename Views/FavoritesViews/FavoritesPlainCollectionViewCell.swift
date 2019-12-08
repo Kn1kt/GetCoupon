@@ -62,9 +62,9 @@ extension FavoritesPlainCollectionViewCell {
         
         //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
         contentView.layer.shadowOpacity = 1
-        contentView.layer.shadowRadius = 5
+        contentView.layer.shadowRadius = 15
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
         

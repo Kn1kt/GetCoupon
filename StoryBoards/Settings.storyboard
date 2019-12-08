@@ -87,7 +87,7 @@
         <scene sceneID="9yL-m2-x8q">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jo3-dT-1Ez" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="person.crop.circle" catalog="system" id="Xm3-M9-qZE">
+                    <tabBarItem key="tabBarItem" title="" image="list.bullet" catalog="system" id="Xm3-M9-qZE">
                         <inset key="imageInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -107,9 +107,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="person.crop.circle" catalog="system" width="64" height="60"/>
+        <image name="list.bullet" catalog="system" width="64" height="44"/>
         <namedColor name="BlueTintColor">
-            <color red="0.322729826" green="0.53211361170000004" blue="0.85493963959999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.32300001382827759" green="0.53200000524520874" blue="0.85500001907348633" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

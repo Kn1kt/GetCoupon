@@ -13,7 +13,7 @@ class ShopPlainCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "shop-plain-cell-reuse-identifier"
     
     let imageView = UIImageView()
-    let titleLabel = UILabel()
+    //let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     //let couponLabel = UILabel()
     let promocodeView = PromocodeView()
@@ -35,7 +35,7 @@ extension ShopPlainCollectionViewCell {
     
     func setupLayouts() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        //titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
         //couponLabel.translatesAutoresizingMaskIntoConstraints = false
         promocodeView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +50,7 @@ extension ShopPlainCollectionViewCell {
         //backView.frame = contentView.frame
         
         backView.addSubview(imageView)
-        backView.addSubview(titleLabel)
+        //backView.addSubview(titleLabel)
         backView.addSubview(subtitleLabel)
         //backView.addSubview(couponLabel)
         backView.addSubview(promocodeView)
@@ -58,13 +58,13 @@ extension ShopPlainCollectionViewCell {
         backView.addSubview(estimatedDateLabel)
         backView.backgroundColor = .secondarySystemGroupedBackground
         
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        titleLabel.adjustsFontForContentSizeCategory = true
+        //titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        //titleLabel.adjustsFontForContentSizeCategory = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         subtitleLabel.adjustsFontForContentSizeCategory = true
-        subtitleLabel.textColor = .secondaryLabel
-        subtitleLabel.numberOfLines = 2
+        //subtitleLabel.textColor = .secondaryLabel
+        subtitleLabel.numberOfLines = 3
         
         addingDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         addingDateLabel.adjustsFontForContentSizeCategory = true
@@ -86,9 +86,9 @@ extension ShopPlainCollectionViewCell {
         
         
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-        contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
+        contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
         contentView.layer.shadowOpacity = 1
-        contentView.layer.shadowRadius = 5
+        contentView.layer.shadowRadius = 15
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
         
@@ -110,20 +110,15 @@ extension ShopPlainCollectionViewCell {
             imageView.heightAnchor.constraint(equalTo: backView.heightAnchor, multiplier: 0.75),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
-            titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            titleLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: spacing),
+            //titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
+            //titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
+            //titleLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: spacing),
             
             subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
             subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 1.5),
-            //subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: couponLabel.topAnchor, constant: -spacing),
-            subtitleLabel.lastBaselineAnchor.constraint(lessThanOrEqualTo: promocodeView.topAnchor, constant: -spacing),
-            
-//            couponLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-//            couponLabel.trailingAnchor.constraint(lessThanOrEqualTo: backView.trailingAnchor, constant: -spacing),
-//            couponLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-//            couponLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 22),
+            //subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 1.5),
+            subtitleLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: spacing),
+            subtitleLabel.bottomAnchor.constraint(equalTo: promocodeView.topAnchor, constant: -spacing),
             
             promocodeView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
             promocodeView.trailingAnchor.constraint(lessThanOrEqualTo: backView.trailingAnchor, constant: -spacing),

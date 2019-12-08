@@ -343,14 +343,6 @@ extension HomeDetailViewController {
                 needUpdateFavorites = true
             }
         }
-        
-//        if cell.isFavorite {
-//            editedCells.insert(cell)
-//        } else {
-//            if editedCells.remove(cell) == nil {
-//                needUpdateFavorites = true
-//            }
-//        }
     }
     
     @objc func favoritesDidChange() {

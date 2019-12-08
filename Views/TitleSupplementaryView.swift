@@ -30,6 +30,7 @@ extension TitleSupplementaryView {
         addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         
         let inset = CGFloat(10)
         NSLayoutConstraint.activate([
@@ -38,6 +39,5 @@ extension TitleSupplementaryView {
             label.topAnchor.constraint(equalTo: topAnchor, constant: inset),
             label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset)
         ])
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     }
 }

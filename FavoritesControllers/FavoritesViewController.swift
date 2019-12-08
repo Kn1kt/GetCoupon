@@ -238,6 +238,7 @@ extension FavoritesViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.keyboardDismissMode = .onDrag
         collectionView.alwaysBounceVertical = true
+        collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         
         // No need delegete for this step

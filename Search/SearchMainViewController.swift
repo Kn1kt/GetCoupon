@@ -51,6 +51,7 @@ class SearchMainViewController: SearchBaseViewController {
         super.viewWillAppear(animated)
         // There gonna be some restoring features
     }
+    
 }
 
     // MARK: - UICollectionViewDelegate
@@ -91,9 +92,41 @@ extension SearchMainViewController: UICollectionViewDelegate {
                                               estimatedDate: Date(timeIntervalSinceNow: 3000),
                                               description: "save your 10% when spent more than 1000",
                                               isHot: false),
+                                PromocodeData(name: "COUPON30",
+                                              addingDate: Date(timeIntervalSinceNow: -1000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                                              description: "save ur 30%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON20",
+                                              addingDate: Date(timeIntervalSinceNow: -2000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                                              description: "save ur 20%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON10",
+                                              addingDate: Date(timeIntervalSinceNow: -3000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                                              description: "save your 10% when spent more than 1000",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON30",
+                                              addingDate: Date(timeIntervalSinceNow: -1000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                                              description: "save ur 30%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON20",
+                                              addingDate: Date(timeIntervalSinceNow: -2000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                                              description: "save ur 20%",
+                                              isHot: false),
+                                PromocodeData(name: "COUPON10",
+                                              addingDate: Date(timeIntervalSinceNow: -3000),
+                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                                              description: "save your 10% when spent more than 1000",
+                                              isHot: false)
         ])
         let viewController = ShopViewController(shop: shop)
-        show(viewController, sender: self)
+        let navController = UINavigationController(rootViewController: viewController)
+        //navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
         
         
         collectionView.deselectItem(at: indexPath, animated: true)

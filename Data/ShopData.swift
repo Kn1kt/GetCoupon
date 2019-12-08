@@ -19,7 +19,8 @@ class ShopData {
     let image: UIImage?
     let previewImage: UIImage?
     
-    let isFavorite: Bool
+    var isFavorite: Bool
+    var favoriteAddingDate: Date?
     
     let promocodes: [PromocodeData]
     
