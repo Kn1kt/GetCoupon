@@ -47,8 +47,8 @@ extension SearchPlainCollectionViewCell {
         contentView.addSubview(separatorView)
         contentView.clipsToBounds = true
         
-//        selectedBackgroundView = UIView()
-//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         
         separatorView.backgroundColor = .systemGray4
         

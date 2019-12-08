@@ -68,6 +68,9 @@ extension FavoritesPlainCollectionViewCell {
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
         
+        //selectedBackgroundView = UIView()
+        //selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        
         imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill

@@ -8,39 +8,39 @@
 
 import UIKit
 
-class SectionData {
-    
-    let sectionTitle: String
-    var cells: [CellData]
-    let identifier = UUID()
-    
-    init(sectionTitle: String, cells: [CellData]) {
-        self.sectionTitle = sectionTitle
-        self.cells = cells
-    }
-    
-    convenience init(sectionTitle: String) {
-        self.init(sectionTitle: sectionTitle, cells: [])
-    }
-}
-
-// MARK: - Hashable
-extension SectionData: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(identifier)
-    }
-    
-    static func == (lhs: SectionData, rhs: SectionData) -> Bool {
-        return lhs.identifier == rhs.identifier
-    }
-}
-
-// MARK: - Description
-extension SectionData: CustomStringConvertible {
-    
-    var description: String {
-        
-        return sectionTitle + ": " + String.init(describing: cells)
-    }
-}
+//class ShopCategoryData {
+//    
+//    let name: String
+//    var shops: [ShopData]
+//    let identifier = UUID()
+//    
+//    init(sectionTitle: String, cells: [ShopData]) {
+//        self.name = sectionTitle
+//        self.shops = cells
+//    }
+//    
+//    convenience init(sectionTitle: String) {
+//        self.init(sectionTitle: sectionTitle, cells: [])
+//    }
+//}
+//
+//// MARK: - Hashable
+//extension ShopCategoryData: Hashable {
+//    
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(identifier)
+//    }
+//    
+//    static func == (lhs: ShopCategoryData, rhs: ShopCategoryData) -> Bool {
+//        return lhs.identifier == rhs.identifier
+//    }
+//}
+//
+//// MARK: - Description
+//extension ShopCategoryData: CustomStringConvertible {
+//    
+//    var description: String {
+//        
+//        return name + ": " + String.init(describing: shops)
+//    }
+//}

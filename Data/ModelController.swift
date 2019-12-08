@@ -11,9 +11,9 @@ import UIKit
 class ModelController {
     
     /// Main Collection
-    static fileprivate var _collections: [SectionData]?
+    static fileprivate var _collections: [ShopCategoryData]?
     
-    static var collections: [SectionData] {
+    static var collections: [ShopCategoryData] {
         get {
             if _collections == nil {
                 updateCollections()
@@ -33,9 +33,9 @@ class ModelController {
         return _homeDataController!
     }
     
-    static private var _homeCollections: [SectionData]?
+    static private var _homeCollections: [ShopCategoryData]?
     
-    static var homeCollections: [SectionData] {
+    static var homeCollections: [ShopCategoryData] {
         get {
             if _homeCollections == nil {
                 updateHomeCollections()
@@ -57,12 +57,12 @@ class ModelController {
         return _favoritesDataController!
     }
     
-    static private var favoritesCollections: [SectionData] = []
+    static private var favoritesCollections: [ShopCategoryData] = []
     
     /// Search Collection
-    static private var _searchCollection: SectionData?
+    static private var _searchCollection: ShopCategoryData?
     
-    static var searchCollection: SectionData {
+    static var searchCollection: ShopCategoryData {
         get {
             if _searchCollection == nil {
                 _searchCollection = setupSearchData()
@@ -86,7 +86,7 @@ extension ModelController {
         generateCollections()
     }
     
-    static func section(for index: Int) -> SectionData? {
+    static func section(for index: Int) -> ShopCategoryData? {
         guard index >= 0, collections.count > index else { return nil }
         
         return collections[index]
@@ -95,89 +95,141 @@ extension ModelController {
     
     /// FOR TESTS
     static func generateCollections() {
-        _collections = [
-            SectionData(sectionTitle: "HOT 🔥",
-                            cells: [CellData(image: UIImage(named: "Delivery"),
-                                             title: "Delivery Club",
-                                             subtitle: "Save your 35%"),
-                                    CellData(image: UIImage(named: "Yandex"),
-                                             title: "Yandex Food",
-                                             subtitle: "Save your 15%"),
-                                    CellData(image: UIImage(named: "WaterPark"),
-                                             title: "Water Park Caribbean",
-                                             subtitle: "Your have personal coupon"),
-                                    CellData(image: UIImage(named: "Ozon"),
-                                             title: "Ozon",
-                                             subtitle: "Save your 25%"),
-                                    CellData(image: UIImage(named: "AliExpress"),
-                                             title: "AliExpress",
-                                             subtitle: "Save your 60%"),
-                                    CellData(image: UIImage(named: "ASOS"),
-                                             title: "ASOS",
-                                             subtitle: "Your have personal coupon"),
-                                    CellData(image: UIImage(named: "Amazon"),
-                                             title: "Amazon",
-                                             subtitle: "Save your 30%"),
-                                    CellData(image: UIImage(named: "Apple"),
-                                             title: "Apple",
-                                             subtitle: "Special inventational")]),
-            SectionData(sectionTitle: "Food",
-                            cells: [CellData(image: UIImage(named: "KFC"),
-                                             title: "KFC",
-                                             subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                             title: "Yakitoria",
-                                             subtitle: "Save your 10%"),
-                                    CellData(image: UIImage(named: "KFC"),
-                                             title: "KFC",
-                                             subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                             title: "Yakitoria",
-                                             subtitle: "Save your 10%"),
-                                    CellData(image: UIImage(named: "KFC"),
-                                             title: "KFC",
-                                             subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                             title: "Yakitoria",
-                                             subtitle: "Save your 10%"),
-                                    CellData(image: UIImage(named: "KFC"),
-                                             title: "KFC",
-                                             subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                             title: "McDonald's",
-                                             subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                             title: "Yakitoria",
-                                             subtitle: "Save your 10%")]),
-            SectionData(sectionTitle: "Other",
-                            cells: [CellData(image: UIImage(named: "Amazon"),
-                                             title: "Amazon",
-                                             subtitle: "Save your 30%"),
-                            CellData(image: UIImage(named: "Apple"),
-                                     title: "Apple",
-                                     subtitle: "Special inventational"),
-                            CellData(image: UIImage(named: "AliExpress"),
-                                     title: "AliExpress",
-                                     subtitle: "Save your 60%"),
-                            CellData(image: UIImage(named: "ASOS"),
-                                     title: "ASOS",
-                                     subtitle: "Your have personal coupon")])
+        let promocodes = [
+                PromocodeData(name: "COUPON30",
+                              addingDate: Date(timeIntervalSinceNow: -1000),
+                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                              description: "save ur 30%",
+                              isHot: false),
+                PromocodeData(name: "COUPON20",
+                              addingDate: Date(timeIntervalSinceNow: -2000),
+                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                              description: "save ur 20%",
+                              isHot: false),
+                PromocodeData(name: "COUPON10",
+                              addingDate: Date(timeIntervalSinceNow: -3000),
+                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                              description: "save your 10% when spent more than 1000",
+                              isHot: false),
+                PromocodeData(name: "COUPON30",
+                              addingDate: Date(timeIntervalSinceNow: -1000),
+                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                              description: "save ur 30%",
+                              isHot: false),
+                PromocodeData(name: "COUPON20",
+                              addingDate: Date(timeIntervalSinceNow: -2000),
+                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                              description: "save ur 20%",
+                              isHot: false),
+                PromocodeData(name: "COUPON10",
+                              addingDate: Date(timeIntervalSinceNow: -3000),
+                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                              description: "save your 10% when spent more than 1000",
+                              isHot: false),
+                PromocodeData(name: "COUPON30",
+                              addingDate: Date(timeIntervalSinceNow: -1000),
+                              estimatedDate: Date(timeIntervalSinceNow: 1000),
+                              description: "save ur 30%",
+                              isHot: false),
+                PromocodeData(name: "COUPON20",
+                              addingDate: Date(timeIntervalSinceNow: -2000),
+                              estimatedDate: Date(timeIntervalSinceNow: 2000),
+                              description: "save ur 20%",
+                              isHot: false),
+                PromocodeData(name: "COUPON10",
+                              addingDate: Date(timeIntervalSinceNow: -3000),
+                              estimatedDate: Date(timeIntervalSinceNow: 3000),
+                              description: "save your 10% when spent more than 1000",
+                              isHot: false)
         ]
+        _collections = [
+            ShopCategoryData(name: "HOT 🔥",
+                            shops: [ShopData(image: UIImage(named: "Delivery"),
+                                             name: "Delivery Club",
+                                             shortDescription: "Save your 35%"),
+                                    ShopData(image: UIImage(named: "Yandex"),
+                                             name: "Yandex Food",
+                                             shortDescription: "Save your 15%"),
+                                    ShopData(image: UIImage(named: "WaterPark"),
+                                             name: "Water Park Caribbean",
+                                             shortDescription: "Your have personal coupon"),
+                                    ShopData(image: UIImage(named: "Ozon"),
+                                             name: "Ozon",
+                                             shortDescription: "Save your 25%"),
+                                    ShopData(image: UIImage(named: "AliExpress"),
+                                             name: "AliExpress",
+                                             shortDescription: "Save your 60%"),
+                                    ShopData(image: UIImage(named: "ASOS"),
+                                             name: "ASOS",
+                                             shortDescription: "Your have personal coupon"),
+                                    ShopData(image: UIImage(named: "Amazon"),
+                                             name: "Amazon",
+                                             shortDescription: "Save your 30%"),
+                                    ShopData(image: UIImage(named: "Apple"),
+                                             name: "Apple",
+                                             shortDescription: "Special inventational")]),
+            ShopCategoryData(name: "Food",
+                            shops: [ShopData(image: UIImage(named: "KFC"),
+                                             name: "KFC",
+                                             shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                             name: "Yakitoria",
+                                             shortDescription: "Save your 10%"),
+                                    ShopData(image: UIImage(named: "KFC"),
+                                             name: "KFC",
+                                             shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                             name: "Yakitoria",
+                                             shortDescription: "Save your 10%"),
+                                    ShopData(image: UIImage(named: "KFC"),
+                                             name: "KFC",
+                                             shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                             name: "Yakitoria",
+                                             shortDescription: "Save your 10%"),
+                                    ShopData(image: UIImage(named: "KFC"),
+                                             name: "KFC",
+                                             shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                             name: "McDonald's",
+                                             shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                             name: "Yakitoria",
+                                             shortDescription: "Save your 10%")]),
+            ShopCategoryData(name: "Other",
+                            shops: [ShopData(image: UIImage(named: "Amazon"),
+                                             name: "Amazon",
+                                             shortDescription: "Save your 30%"),
+                            ShopData(image: UIImage(named: "Apple"),
+                                     name: "Apple",
+                                     shortDescription: "Special inventational"),
+                            ShopData(image: UIImage(named: "AliExpress"),
+                                     name: "AliExpress",
+                                     shortDescription: "Save your 60%"),
+                            ShopData(image: UIImage(named: "ASOS"),
+                                     name: "ASOS",
+                                     shortDescription: "Your have personal coupon")])
+        ]
+        _collections?.forEach { category in
+            category.shops.forEach { shop in
+                shop.promocodes.append(contentsOf: promocodes)
+            }
+        }
     }
 }
 
@@ -193,12 +245,12 @@ extension ModelController {
     
     static private func updateHomeCollections() {
         
-        _homeCollections = collections.reduce(into: [SectionData]()){ result, section in
+        _homeCollections = collections.reduce(into: [ShopCategoryData]()){ result, section in
             
-            let cells = Array(section.cells.prefix(15))
+            let shops = Array(section.shops.prefix(15))
             
-            let reducedSection = SectionData(sectionTitle: section.sectionTitle,
-                                             cells: cells)
+            let reducedSection = ShopCategoryData(name: section.name,
+                                             shops: shops)
             
             result.append(reducedSection)
         }
@@ -210,9 +262,9 @@ extension ModelController {
 
 extension ModelController {
     
-    static func updateFavoritesCollections(with collections: [SectionData]) {
+    static func updateFavoritesCollections(with collections: [ShopCategoryData]) {
         
-        favoritesCollections = collections.sorted { $0.sectionTitle < $1.sectionTitle }
+        favoritesCollections = collections.sorted { $0.name < $1.name }
         NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
     }
     
@@ -222,33 +274,75 @@ extension ModelController {
 //        
 //            var favorites = favoritesCollections
 //            
-//            let cells = section.cells.reduce(into: [CellData]()) { result, cell in
+//            let shops = section.shops.reduce(into: [CellData]()) { result, cell in
 //                if cell.isFavorite {
 //                    result.append(cell)
 //                }
 //            }
 //            
-//            if let updateIndex = favorites.firstIndex(where: { $0.sectionTitle == section.sectionTitle }) {
+//            if let updateIndex = favorites.firstIndex(where: { $0.name == section.name }) {
 //                
-//                if cells.isEmpty {
+//                if shops.isEmpty {
 //                    favorites.remove(at: updateIndex)
 //                } else {
-//                    favorites[updateIndex].cells = cells
+//                    favorites[updateIndex].shops = shops
 //                }
-//            } else if !cells.isEmpty {
-//                    favorites.append(SectionData(sectionTitle: section.sectionTitle, cells: cells))
+//            } else if !shops.isEmpty {
+//                    favorites.append(SectionData(name: section.name, shops: shops))
 //            }
 //            
 //            favoritesCollections = favorites
 //        }
 //    }
     
-    static func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData> = []) {
+    static func insertInFavorites(shop: ShopData) {
+        
+        let section = collections.first { section in
+            if section.shops.contains(shop) {
+                return true
+            }
+            return false
+        }
+        
+        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.name == section!.name }) {
+            favoritesCollections[sectionIndex].shops.append(shop)
+        } else {
+            favoritesCollections.append(ShopCategoryData(name: section!.name, shops: [shop]))
+            favoritesCollections.sort { $0.name < $1.name }
+        }
+        
+        favoritesDataController.collectionsBySections = favoritesCollections
+    }
+    
+    static func deleteFromFavorites(shop: ShopData) {
+        
+        let section = collections.first { section in
+            if section.shops.contains(shop) {
+                return true
+            }
+            return false
+        }
+        
+        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.name == section!.name }) {
+            if let removeIndex = favoritesCollections[sectionIndex].shops.firstIndex(where: { $0.identifier == shop.identifier }) {
+                favoritesCollections[sectionIndex].shops.remove(at: removeIndex)
+            }
             
-        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.sectionTitle == sectionTitle }) {
+            if favoritesCollections[sectionIndex].shops.isEmpty {
+                favoritesCollections.remove(at: sectionIndex)
+                favoritesCollections.sort { $0.name < $1.name }
+            }
+        }
+        
+        favoritesDataController.collectionsBySections = favoritesCollections
+    }
+    
+    static func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData> = []) {
+            
+        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.name == name }) {
             let section = favoritesCollections[sectionIndex]
             
-            var reduced = section.cells.filter { cell in
+            var reduced = section.shops.filter { cell in
                 if addedCells.contains(cell) {
                     return false
                 }
@@ -261,14 +355,14 @@ extension ModelController {
             if reduced.isEmpty {
                 favoritesCollections.remove(at: sectionIndex)
             } else {
-                section.cells = reduced
+                section.shops = reduced
             }
             
         } else {
-            favoritesCollections.append(SectionData(sectionTitle: sectionTitle, cells: Array(addedCells)))
+            favoritesCollections.append(ShopCategoryData(name: name, shops: Array(addedCells)))
         }
         
-        favoritesCollections.sort { $0.sectionTitle < $1.sectionTitle }
+        favoritesCollections.sort { $0.name < $1.name }
         favoritesDataController.collectionsBySections = favoritesCollections
 
         
@@ -281,7 +375,7 @@ extension ModelController {
         }
         
         favoritesCollections.forEach { section in
-            section.cells.forEach { cell in
+            section.shops.forEach { cell in
                 cell.isFavorite = false
             }
         }
@@ -302,12 +396,12 @@ extension ModelController {
 
 extension ModelController {
     
-    static private func setupSearchData() -> SectionData {
+    static private func setupSearchData() -> ShopCategoryData {
         
-        let cells = collections.reduce(into: [CellData]()) { result, section in
-            result.append(contentsOf: section.cells)
+        let shops = collections.reduce(into: [ShopData]()) { result, section in
+            result.append(contentsOf: section.shops)
         }
         
-        return SectionData(sectionTitle: "Search", cells: cells)
+        return ShopCategoryData(name: "Search", shops: shops)
     }
 }

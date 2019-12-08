@@ -22,7 +22,7 @@ class ShopData {
     var isFavorite: Bool
     var favoriteAddingDate: Date?
     
-    let promocodes: [PromocodeData]
+    var promocodes: [PromocodeData]
     
     let identifier = UUID()
     
@@ -42,6 +42,28 @@ class ShopData {
         self.previewImage = previewImage
         self.promocodes = promocodes
         self.isFavorite = isFavorite
+    }
+    
+    convenience init(image: UIImage?, name: String, shortDescription: String) {
+        self.init(name: name,
+        description: nil,
+        shortDescription: shortDescription,
+        websiteLink: "",
+        image: image,
+        previewImage: image,
+        isFavorite: false,
+        promocodes: [])
+    }
+    
+    convenience init(name: String, shortDescription: String) {
+        self.init(name: name,
+        description: nil,
+        shortDescription: shortDescription,
+        websiteLink: "",
+        image: nil,
+        previewImage: nil,
+        isFavorite: false,
+        promocodes: [])
     }
 }
 

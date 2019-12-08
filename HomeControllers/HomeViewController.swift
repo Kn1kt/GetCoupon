@@ -16,9 +16,9 @@ class HomeViewController: UIViewController {
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -226,8 +226,8 @@ extension HomeViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         view.addSubview(collectionView)
-        // No need delegete for this step
-        //collectionView.delegate = self
+
+        collectionView.delegate = self
         
         NSLayoutConstraint.activate([
             
@@ -254,9 +254,9 @@ extension HomeViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <SectionData, CellData> (collectionView: collectionView) { (collectionView: UICollectionView,
+            <ShopCategoryData, ShopData> (collectionView: collectionView) { (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: CellData) -> UICollectionViewCell? in
+                                                                                cellData: ShopData) -> UICollectionViewCell? in
                 
                 switch indexPath.section {
                 case 0:
@@ -268,8 +268,8 @@ extension HomeViewController {
                     if let image = cellData.image {
                         cell.imageView.image = image
                     }
-                    cell.titleLabel.text = cellData.title
-                    cell.subtitleLabel.text = cellData.subtitle
+                    cell.titleLabel.text = cellData.name
+                    cell.subtitleLabel.text = cellData.shortDescription
                     
                     return cell
                     
@@ -282,8 +282,8 @@ extension HomeViewController {
                     if let image = cellData.image {
                         cell.imageView.image = image
                     }
-                    cell.titleLabel.text = cellData.title
-                    cell.subtitleLabel.text = cellData.subtitle
+                    cell.titleLabel.text = cellData.name
+                    cell.subtitleLabel.text = cellData.shortDescription
                     
                     return cell
                 }
@@ -303,7 +303,7 @@ extension HomeViewController {
                                                                                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
                                                                                             for: indexPath) as? TitleSupplementaryView {
                     let section = snapshot.sectionIdentifiers[indexPath.section]
-                    titleSupplementary.label.text = section.sectionTitle
+                    titleSupplementary.label.text = section.name
                     
                     return titleSupplementary
                 } else {
@@ -327,10 +327,10 @@ extension HomeViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         homeDataController.collections.forEach { collection in
             currentSnapshot.appendSections([collection])
-            currentSnapshot.appendItems(collection.cells)
+            currentSnapshot.appendItems(collection.shops)
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
@@ -350,8 +350,30 @@ extension HomeViewController {
         
         let viewController = HomeDetailViewController(section: section)
         viewController.favoritesUpdater = homeDataController
-        //print("tapped in \(section.sectionTitle)")
+        //print("tapped in \(section.name)")
         
         show(viewController, sender: self)
+    }
+}
+
+    // MARK: - UICollectionViewDelegate
+extension HomeViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        
+        return true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
+        
+        let viewController = ShopViewController(shop: selectedShop)
+        let navController = UINavigationController(rootViewController: viewController)
+        //navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

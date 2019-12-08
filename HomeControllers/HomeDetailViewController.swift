@@ -10,10 +10,10 @@ import UIKit
 
 class HomeDetailViewController: UIViewController {
     
-    let section: SectionData
-    lazy var sectionByDates: SectionData = SectionData(sectionTitle: section.sectionTitle, cells: section.cells.shuffled())
+    let section: ShopCategoryData
+    lazy var sectionByDates: ShopCategoryData = ShopCategoryData(name: section.name, shops: section.shops.shuffled())
     
-    var editedCells: Set<CellData> = []
+    var editedCells: Set<ShopData> = []
     
     var needUpdateFavorites: Bool = false
     var needUpdateVisibleItems: Bool = false
@@ -22,23 +22,23 @@ class HomeDetailViewController: UIViewController {
     
     var favoritesUpdater: FavoritesUpdaterProtocol?
     
-    let segmentedCell: CellData = CellData(title: "segmented", subtitle: "segmented")
-    let segmentedSection: SectionData = SectionData(sectionTitle: "segmented")
+    let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented", websiteLink: "")
+    let segmentedSection: ShopCategoryData = ShopCategoryData(name: "segmented")
     
-    let searchCell: CellData = CellData(title: "search", subtitle: "search")
-    let searchSection: SectionData = SectionData(sectionTitle: "search")
+    let searchCell: ShopData = ShopData(name: "search", shortDescription: "search", websiteLink: "")
+    let searchSection: ShopCategoryData = ShopCategoryData(name: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        segmentedSection.cells.append(segmentedCell)
-        searchSection.cells.append(searchCell)
+        segmentedSection.shops.append(segmentedCell)
+        searchSection.shops.append(searchCell)
         
         configureCollectionView()
         configureDataSource()
@@ -50,7 +50,7 @@ class HomeDetailViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = section.sectionTitle
+        navigationItem.title = section.name
         
         //NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
     }
@@ -70,7 +70,7 @@ class HomeDetailViewController: UIViewController {
 //        NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
         
         if !editedCells.isEmpty || needUpdateFavorites {
-            favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
+            favoritesUpdater?.updateFavoritesCollections(in: section.name, with: editedCells)
             //favoritesUpdater?.updateFavoritesCollections(in: section)
             editedCells.removeAll()
             needUpdateFavorites = false
@@ -88,7 +88,7 @@ class HomeDetailViewController: UIViewController {
 //        }
 //    }
     
-    init(section: SectionData) {
+    init(section: ShopCategoryData) {
         self.section = section
         super.init(nibName: nil, bundle: nil)
         
@@ -221,8 +221,8 @@ extension HomeDetailViewController {
         collectionView.keyboardDismissMode = .onDrag
         view.addSubview(collectionView)
         
-        // No need delegete for this step
-        //collectionView.delegate = self
+        
+        collectionView.delegate = self
         
         NSLayoutConstraint.activate([
             
@@ -246,9 +246,9 @@ extension HomeDetailViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <SectionData, CellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+            <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: CellData) -> UICollectionViewCell? in
+                                                                                cellData: ShopData) -> UICollectionViewCell? in
                 
                 guard let self = self else {
                     return nil
@@ -271,7 +271,7 @@ extension HomeDetailViewController {
                         fatalError("Can't create new cell")
                     }
                     
-                    cell.counLabel.text = "\(self.section.cells.count) shops"
+                    cell.counLabel.text = "\(self.section.shops.count) shops"
                     cell.segmentedControl.selectedSegmentIndex = self.sortType
                     cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
                     
@@ -286,15 +286,15 @@ extension HomeDetailViewController {
                     if let image = cellData.image {
                         cell.imageView.image = image
                     }
-                    cell.titleLabel.text = cellData.title
-                    cell.subtitleLabel.text = cellData.subtitle
+                    cell.titleLabel.text = cellData.name
+                    cell.subtitleLabel.text = cellData.shortDescription
                     cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
                     
                     //cell.addToFavoritesButton.cellIndex = indexPath
                     cell.addToFavoritesButton.cell = cellData
                     cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
                     
-                    if indexPath.row == self.section.cells.count - 1 {
+                    if indexPath.row == self.section.shops.count - 1 {
                         cell.separatorView.isHidden = true
                     }
                     
@@ -304,16 +304,16 @@ extension HomeDetailViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
         
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
         
         currentSnapshot.appendSections([section])
-        currentSnapshot.appendItems(section.cells)
+        currentSnapshot.appendItems(section.shops)
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
@@ -362,21 +362,21 @@ extension HomeDetailViewController {
     func updateSnapshot() {
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
         
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
         
         switch sortType {
         case 0:
             currentSnapshot.appendSections([section])
-            currentSnapshot.appendItems(section.cells)
+            currentSnapshot.appendItems(section.shops)
         default:
             currentSnapshot.appendSections([sectionByDates])
-            currentSnapshot.appendItems(sectionByDates.cells)
+            currentSnapshot.appendItems(sectionByDates.shops)
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
@@ -388,7 +388,7 @@ extension HomeDetailViewController {
         let indexPaths = collectionView.indexPathsForVisibleItems
         
         /// This code is crashing
-//        let items = indexPaths.reduce(into: [CellData]()) { result, index in
+//        let items = indexPaths.reduce(into: [ShopData]()) { result, index in
 //            guard let cell = dataSource.itemIdentifier(for: index) else { return }
 //            result.append(cell)
 //        }
@@ -415,43 +415,43 @@ extension HomeDetailViewController {
     
     func performQuery(with filter: String) {
         currentSnapshot = NSDiffableDataSourceSnapshot
-        <SectionData, CellData>()
+        <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
 
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
         
 
         let filtered = filteredCollection(with: filter)
-        let section = SectionData(sectionTitle: self.section.sectionTitle, cells: filtered)
+        let section = ShopCategoryData(name: self.section.name, shops: filtered)
         currentSnapshot.appendSections([section])
-        currentSnapshot.appendItems(section.cells)
+        currentSnapshot.appendItems(section.shops)
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
     }
     
-    func filteredCollection(with filter: String) -> [CellData] {
+    func filteredCollection(with filter: String) -> [ShopData] {
         
-        let cells: [CellData]
+        let shops: [ShopData]
         switch sortType {
         case 0:
-            cells = section.cells
+            shops = section.shops
         default:
-            cells = sectionByDates.cells
+            shops = sectionByDates.shops
         }
         
         if filter.isEmpty {
-            return cells
+            return shops
         }
         let lowercasedFilter = filter.lowercased()
         
-        let filtered = cells.filter { cell in
-                return cell.title.lowercased().contains(lowercasedFilter)
+        let filtered = shops.filter { cell in
+                return cell.name.lowercased().contains(lowercasedFilter)
         }
         
-        return filtered.sorted { $0.title < $1.title }
+        return filtered.sorted { $0.name < $1.name }
     }
 }
 
@@ -471,5 +471,33 @@ extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+    // MARK: - UICollectionViewDelegate
+extension HomeDetailViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        switch indexPath.section {
+        case 0:
+            return false
+        case 1:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
+        
+        let viewController = ShopViewController(shop: selectedShop)
+        let navController = UINavigationController(rootViewController: viewController)
+        //navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

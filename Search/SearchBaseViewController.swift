@@ -10,13 +10,13 @@ import UIKit
 
 class SearchBaseViewController: UIViewController {
 
-    var section: SectionData! = SectionData(sectionTitle: "Empty")
+    var section: ShopCategoryData = ShopCategoryData(name: "Empty")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,9 +122,9 @@ extension SearchBaseViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <SectionData, CellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+            <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: CellData) -> UICollectionViewCell? in
+                                                                                cellData: ShopData) -> UICollectionViewCell? in
                 
                 guard let self = self else {
                     return nil
@@ -140,8 +140,8 @@ extension SearchBaseViewController {
                     cell.imageView.image = image
                 }
                 
-                cell.titleLabel.text = cellData.title
-                cell.subtitleLabel.text = cellData.subtitle
+                cell.titleLabel.text = cellData.name
+                cell.subtitleLabel.text = cellData.shortDescription
                 
                 if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
                     cell.separatorView.isHidden = true
@@ -152,10 +152,10 @@ extension SearchBaseViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([section])
-        currentSnapshot.appendItems(section.cells)
+        currentSnapshot.appendItems(section.shops)
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
@@ -174,10 +174,10 @@ extension SearchBaseViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([section])
-        currentSnapshot.appendItems(section.cells)
+        currentSnapshot.appendItems(section.shops)
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
         

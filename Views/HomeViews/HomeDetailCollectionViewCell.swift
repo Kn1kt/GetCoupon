@@ -50,8 +50,8 @@ extension HomeDetailCollectionViewCell {
         contentView.addSubview(addToFavoritesButton)
         contentView.clipsToBounds = true
         
-//        selectedBackgroundView = UIView()
-//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         
         separatorView.backgroundColor = .systemGray4
         

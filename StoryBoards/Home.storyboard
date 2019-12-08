@@ -27,7 +27,7 @@
         <scene sceneID="2Aw-lM-vJa">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="zlU-A4-14j" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="house.fill" catalog="system" badgeValue="1" id="UPB-9T-FQe">
+                    <tabBarItem key="tabBarItem" title="" image="house.fill" catalog="system" id="UPB-9T-FQe">
                         <inset key="imageInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="50"/>
                     </tabBarItem>
                     <toolbarItems/>

@@ -11,6 +11,7 @@ import UIKit
 class ShopViewController: UIViewController {
 
     let shop: ShopData
+    let favoriteStatus: Bool
     let dateFormatter = DateFormatter()
     let headerImageView = UIImageView()
     let logoView = LogoWithFavoritesButton()
@@ -29,6 +30,7 @@ class ShopViewController: UIViewController {
     
     init(shop: ShopData) {
         self.shop = shop
+        favoriteStatus = shop.isFavorite
         titleSection = ShopData(name: "title", shortDescription: "title", websiteLink: "", promocodes: [titleCell])
         detailTitleSection = ShopData(name: "detail", shortDescription: "detail", websiteLink: "", promocodes: [detailTitleCell])
         super.init(nibName: nil, bundle: nil)
@@ -67,7 +69,14 @@ class ShopViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        //updateFavorites function
+        if favoriteStatus != shop.isFavorite {
+            switch shop.isFavorite {
+            case true:
+                ModelController.insertInFavorites(shop: shop)
+            case false:
+                ModelController.deleteFromFavorites(shop: shop)
+            }
+        }
     }
     
 //    override func viewWillLayoutSubviews() {
@@ -421,14 +430,10 @@ extension ShopViewController {
             sender.checkbox.isHighlighted = self.shop.isFavorite
         }
         
-//        if cell.isFavorite {
-//            cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-//            editedCells.insert(cell)
-//        } else {
-//            cell.favoriteAddingDate = nil
-//            if editedCells.remove(cell) == nil {
-//                needUpdateFavorites = true
-//            }
-//        }
+        if shop.isFavorite {
+            shop.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
+        } else {
+            shop.favoriteAddingDate = nil
+        }
     }
 }

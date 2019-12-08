@@ -18,16 +18,16 @@ class FavoritesDataController {
     
     var needUpdateDates: Bool = true
     
-    var collectionsBySections: [SectionData] = [] {
+    var collectionsBySections: [ShopCategoryData] = [] {
         didSet {
             needUpdateDates = true
             snapshotUpdater?.needUpdateSnapshot = true
         }
     }
     
-    private var _collectionsByDates: [CellData] = []
+    private var _collectionsByDates: [ShopData] = []
     
-    var collectionsByDates: [CellData] {
+    var collectionsByDates: [ShopData] {
         get {
             if needUpdateDates {
                 needUpdateDates = false
@@ -38,7 +38,7 @@ class FavoritesDataController {
         }
     }
     
-    init(collections: [SectionData]) {
+    init(collections: [ShopCategoryData]) {
         collectionsBySections = collections
         snapshotUpdater?.needUpdateSnapshot = true
     }
@@ -47,7 +47,7 @@ class FavoritesDataController {
         
         _collectionsByDates = []
         collectionsBySections.forEach { section in
-            _collectionsByDates.append(contentsOf: section.cells)
+            _collectionsByDates.append(contentsOf: section.shops)
         }
         
         _collectionsByDates.sort { lhs, rhs in
@@ -64,7 +64,7 @@ extension FavoritesDataController {
         var needUpdate = false
         
         let filtered = collectionsBySections.filter { section in
-            let cells = section.cells.filter { cell in
+            let shops = section.shops.filter { cell in
                 if !cell.isFavorite {
                     cell.favoriteAddingDate = nil
                     needUpdate = true
@@ -74,10 +74,10 @@ extension FavoritesDataController {
                 return true
             }
             
-            if cells.isEmpty {
+            if shops.isEmpty {
                 return false
-            } else if cells.count != section.cells.count {
-                section.cells = cells
+            } else if shops.count != section.shops.count {
+                section.shops = shops
             }
             
             return true
@@ -93,20 +93,20 @@ extension FavoritesDataController {
     // MARK: - Search
 extension FavoritesDataController {
     
-    func filteredCollectionBySections(with filter: String) -> [SectionData] {
+    func filteredCollectionBySections(with filter: String) -> [ShopCategoryData] {
         
         if filter.isEmpty {
             return collectionsBySections
         }
         let lowercasedFilter = filter.lowercased()
         
-        let filtered = collectionsBySections.reduce(into: [SectionData]()) { result, section in
-            let cells = section.cells.filter { cell in
-                return cell.title.lowercased().contains(lowercasedFilter)
+        let filtered = collectionsBySections.reduce(into: [ShopCategoryData]()) { result, section in
+            let shops = section.shops.filter { cell in
+                return cell.name.lowercased().contains(lowercasedFilter)
             }
             
-            if !cells.isEmpty {
-                result.append(SectionData(sectionTitle: section.sectionTitle, cells: cells.sorted { $0.title < $1.title }))
+            if !shops.isEmpty {
+                result.append(ShopCategoryData(name: section.name, shops: shops.sorted { $0.name < $1.name }))
             }
             
         }
@@ -114,7 +114,7 @@ extension FavoritesDataController {
         return filtered
     }
     
-    func filteredCollectionByDates(with filter: String) -> [CellData] {
+    func filteredCollectionByDates(with filter: String) -> [ShopData] {
         
         if filter.isEmpty {
             return collectionsByDates
@@ -122,7 +122,7 @@ extension FavoritesDataController {
         let lowercasedFilter = filter.lowercased()
         
         let filtered = collectionsByDates.filter { cell in
-                return cell.title.lowercased().contains(lowercasedFilter)
+                return cell.name.lowercased().contains(lowercasedFilter)
         }
         
         return filtered

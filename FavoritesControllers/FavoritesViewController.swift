@@ -20,18 +20,18 @@ class FavoritesViewController: UIViewController {
     
     var closeKeyboardGesture: UITapGestureRecognizer?
     
-    let segmentedCell: CellData = CellData(title: "segmented", subtitle: "segmented")
-    let segmentedSection: SectionData = SectionData(sectionTitle: "segmented")
+    let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
+    let segmentedSection: ShopCategoryData = ShopCategoryData(name: "segmented")
     
-    let searchCell: CellData = CellData(title: "search", subtitle: "search")
-    let searchSection: SectionData = SectionData(sectionTitle: "search")
+    let searchCell: ShopData = ShopData(name: "search", shortDescription: "search")
+    let searchSection: ShopCategoryData = ShopCategoryData(name: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
     
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <SectionData, CellData>! = nil
+        <ShopCategoryData, ShopData>! = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +40,8 @@ class FavoritesViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
         
-        segmentedSection.cells.append(segmentedCell)
-        searchSection.cells.append(searchCell)
+        segmentedSection.shops.append(segmentedCell)
+        searchSection.shops.append(searchCell)
         
         favoritesDataController.snapshotUpdater = self
         configureCollectionView()
@@ -242,7 +242,7 @@ extension FavoritesViewController {
         view.addSubview(collectionView)
         
         // No need delegete for this step
-        //collectionView.delegate = self
+        collectionView.delegate = self
         
         NSLayoutConstraint.activate([
             
@@ -269,9 +269,9 @@ extension FavoritesViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <SectionData, CellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+            <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: CellData) -> UICollectionViewCell? in
+                                                                                cellData: ShopData) -> UICollectionViewCell? in
                 
                 guard let self = self else { return nil }
                 
@@ -307,8 +307,8 @@ extension FavoritesViewController {
                         cell.imageView.image = image
                     }
                     
-                    cell.titleLabel.text = cellData.title
-                    cell.subtitleLabel.text = cellData.subtitle
+                    cell.titleLabel.text = cellData.name
+                    cell.subtitleLabel.text = cellData.shortDescription
                     cell.favoritesButton.checkbox.isHighlighted = cellData.isFavorite
                     //cell.favoritesButton.cellIndex = indexPath
                     cell.favoritesButton.cell = cellData
@@ -330,7 +330,7 @@ extension FavoritesViewController {
                                                                                         withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
                                                                                         for: indexPath) as? TitleSupplementaryView {
                 let section = snapshot.sectionIdentifiers[indexPath.section]
-                titleSupplementary.label.text = section.sectionTitle
+                titleSupplementary.label.text = section.name
                 
                 return titleSupplementary
             } else {
@@ -340,17 +340,17 @@ extension FavoritesViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <SectionData, CellData>()
+            <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
         
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
         
         favoritesDataController.collectionsBySections.forEach { collection in
             currentSnapshot.appendSections([collection])
-            currentSnapshot.appendItems(collection.cells)
+            currentSnapshot.appendItems(collection.shops)
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
@@ -362,24 +362,24 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
     
     func updateSnapshot() {
         currentSnapshot = NSDiffableDataSourceSnapshot
-        <SectionData, CellData>()
+        <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
 
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
 
         switch sortType {
         case 0:
             favoritesDataController.collectionsBySections.forEach { collection in
                 currentSnapshot.appendSections([collection])
-                currentSnapshot.appendItems(collection.cells)
+                currentSnapshot.appendItems(collection.shops)
             }
         default:
-            let section = SectionData(sectionTitle: "", cells: favoritesDataController.collectionsByDates)
+            let section = ShopCategoryData(name: "", shops: favoritesDataController.collectionsByDates)
             currentSnapshot.appendSections([section])
-            currentSnapshot.appendItems(section.cells)
+            currentSnapshot.appendItems(section.shops)
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
@@ -433,26 +433,26 @@ extension FavoritesViewController {
     
     func performQuery(with filter: String) {
         currentSnapshot = NSDiffableDataSourceSnapshot
-        <SectionData, CellData>()
+        <ShopCategoryData, ShopData>()
         
         currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.cells)
+        currentSnapshot.appendItems(searchSection.shops)
 
         currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.cells)
+        currentSnapshot.appendItems(segmentedSection.shops)
         
         switch sortType {
         case 0:
             let filtered = favoritesDataController.filteredCollectionBySections(with: filter)
             filtered.forEach { collection in
                 currentSnapshot.appendSections([collection])
-                currentSnapshot.appendItems(collection.cells)
+                currentSnapshot.appendItems(collection.shops)
             }
         default:
             let filtered = favoritesDataController.filteredCollectionByDates(with: filter)
-            let section = SectionData(sectionTitle: "", cells: filtered)
+            let section = ShopCategoryData(name: "", shops: filtered)
             currentSnapshot.appendSections([section])
-            currentSnapshot.appendItems(section.cells)
+            currentSnapshot.appendItems(section.shops)
         }
         
         dataSource.apply(currentSnapshot, animatingDifferences: true)
@@ -476,5 +476,33 @@ extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+    // MARK: - UICollectionViewDelegate
+extension FavoritesViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        switch indexPath.section {
+        case 0:
+            return false
+        case 1:
+            return false
+        default:
+            return true
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
+        
+        let viewController = ShopViewController(shop: selectedShop)
+        let navController = UINavigationController(rootViewController: viewController)
+        //navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
+        
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }

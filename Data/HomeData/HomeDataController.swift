@@ -10,23 +10,23 @@ import UIKit
 
 protocol FavoritesUpdaterProtocol {
     
-    func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>)
+    func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>)
     //func updateFavoritesCollections(in section: SectionData)
 }
 
 class HomeDataController {
     
-    fileprivate var _collections: [SectionData] = []
+    fileprivate var _collections: [ShopCategoryData] = []
     
-    var collections: [SectionData] {
+    var collections: [ShopCategoryData] {
         return _collections
     }
     
-    init(collections: [SectionData]) {
+    init(collections: [ShopCategoryData]) {
         self._collections = collections
     }
     
-    func section(for index: Int) -> SectionData? {
+    func section(for index: Int) -> ShopCategoryData? {
         return ModelController.section(for: index)
     }
  }
@@ -35,8 +35,8 @@ class HomeDataController {
 
 extension HomeDataController: FavoritesUpdaterProtocol {
     
-    func updateFavoritesCollections(in sectionTitle: String, with addedCells: Set<CellData>) {
-        ModelController.updateFavoritesCollections(in: sectionTitle, with: addedCells)
+    func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>) {
+        ModelController.updateFavoritesCollections(in: name, with: addedCells)
     }
     
 //    func updateFavoritesCollections(in section: SectionData) {
@@ -49,63 +49,63 @@ extension HomeDataController {
     
     func generateCollections() {
         _collections = [
-            SectionData(sectionTitle: "HOT 🔥",
-                            cells: [CellData(image: UIImage(named: "Delivery"),
-                                                 title: "Delivery Club",
-                                                 subtitle: "Save your 35%"),
-                                    CellData(image: UIImage(named: "Yandex"),
-                                                 title: "Yandex Food",
-                                                 subtitle: "Save your 15%"),
-                                    CellData(image: UIImage(named: "WaterPark"),
-                                                 title: "Water Park Caribbean",
-                                                 subtitle: "Your have personal coupon"),
-                                    CellData(image: UIImage(named: "Ozon"),
-                                                 title: "Ozon",
-                                                 subtitle: "Save your 25%"),
-                                    CellData(image: UIImage(named: "AliExpress"),
-                                                 title: "AliExpress",
-                                                 subtitle: "Save your 60%"),
-                                    CellData(image: UIImage(named: "ASOS"),
-                                                 title: "ASOS",
-                                                 subtitle: "Your have personal coupon"),
-                                    CellData(image: UIImage(named: "Amazon"),
-                                                 title: "Amazon",
-                                                 subtitle: "Save your 30%"),
-                                    CellData(image: UIImage(named: "Apple"),
-                                                 title: "Apple",
-                                                 subtitle: "Special inventational")]),
-            SectionData(sectionTitle: "Food",
-                            cells: [CellData(image: UIImage(named: "KFC"),
-                                                 title: "KFC",
-                                                 subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                                 title: "McDonald's",
-                                                 subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                                 title: "Yakitoria",
-                                                 subtitle: "Save your 10%"),
-                                    CellData(image: UIImage(named: "KFC"),
-                                                 title: "KFC",
-                                                 subtitle: "Two for one price"),
-                                    CellData(image: UIImage(named: "McDonald's"),
-                                                 title: "McDonald's",
-                                                 subtitle: "New menu"),
-                                    CellData(image: UIImage(named: "Yakitoria"),
-                                                 title: "Yakitoria",
-                                                 subtitle: "Save your 10%")]),
-            SectionData(sectionTitle: "Other",
-                            cells: [CellData(image: UIImage(named: "Amazon"),
-                                         title: "Amazon",
-                                         subtitle: "Save your 30%"),
-                            CellData(image: UIImage(named: "Apple"),
-                                         title: "Apple",
-                                         subtitle: "Special inventational"),
-                            CellData(image: UIImage(named: "AliExpress"),
-                                         title: "AliExpress",
-                                         subtitle: "Save your 60%"),
-                            CellData(image: UIImage(named: "ASOS"),
-                                         title: "ASOS",
-                                         subtitle: "Your have personal coupon")])
+            ShopCategoryData(name: "HOT 🔥",
+                             shops: [ShopData(image: UIImage(named: "Delivery"),
+                                                 name: "Delivery Club",
+                                                 shortDescription: "Save your 35%"),
+                                    ShopData(image: UIImage(named: "Yandex"),
+                                                 name: "Yandex Food",
+                                                 shortDescription: "Save your 15%"),
+                                    ShopData(image: UIImage(named: "WaterPark"),
+                                                 name: "Water Park Caribbean",
+                                                 shortDescription: "Your have personal coupon"),
+                                    ShopData(image: UIImage(named: "Ozon"),
+                                                 name: "Ozon",
+                                                 shortDescription: "Save your 25%"),
+                                    ShopData(image: UIImage(named: "AliExpress"),
+                                                 name: "AliExpress",
+                                                 shortDescription: "Save your 60%"),
+                                    ShopData(image: UIImage(named: "ASOS"),
+                                                 name: "ASOS",
+                                                 shortDescription: "Your have personal coupon"),
+                                    ShopData(image: UIImage(named: "Amazon"),
+                                                 name: "Amazon",
+                                                 shortDescription: "Save your 30%"),
+                                    ShopData(image: UIImage(named: "Apple"),
+                                                 name: "Apple",
+                                                 shortDescription: "Special inventational")]),
+            ShopCategoryData(name: "Food",
+                            shops: [ShopData(image: UIImage(named: "KFC"),
+                                                 name: "KFC",
+                                                 shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                                 name: "McDonald's",
+                                                 shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                                 name: "Yakitoria",
+                                                 shortDescription: "Save your 10%"),
+                                    ShopData(image: UIImage(named: "KFC"),
+                                                 name: "KFC",
+                                                 shortDescription: "Two for one price"),
+                                    ShopData(image: UIImage(named: "McDonald's"),
+                                                 name: "McDonald's",
+                                                 shortDescription: "New menu"),
+                                    ShopData(image: UIImage(named: "Yakitoria"),
+                                                 name: "Yakitoria",
+                                                 shortDescription: "Save your 10%")]),
+            ShopCategoryData(name: "Other",
+                            shops: [ShopData(image: UIImage(named: "Amazon"),
+                                         name: "Amazon",
+                                         shortDescription: "Save your 30%"),
+                            ShopData(image: UIImage(named: "Apple"),
+                                         name: "Apple",
+                                         shortDescription: "Special inventational"),
+                            ShopData(image: UIImage(named: "AliExpress"),
+                                         name: "AliExpress",
+                                         shortDescription: "Save your 60%"),
+                            ShopData(image: UIImage(named: "ASOS"),
+                                         name: "ASOS",
+                                         shortDescription: "Your have personal coupon")])
         ]
     }
 }

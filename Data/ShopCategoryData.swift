@@ -18,10 +18,10 @@ class ShopCategoryData {
     
     let identifier = UUID()
     
-    init(name: String, tags: [String] = [], shops: [ShopData] = []) {
+    init(name: String, shops: [ShopData] = [], tags: [String] = []) {
         self.name = name
-        self.tags = tags
         self.shops = shops
+        self.tags = tags
     }
 }
 

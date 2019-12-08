@@ -11,7 +11,7 @@ import UIKit
 class AddToFavoritesButton: UIButton {
 
 //    var cellIndex: IndexPath?
-    var cell: CellData?
+    var cell: ShopData?
     let checkbox = LikeImageView()
     
     override init(frame: CGRect) {

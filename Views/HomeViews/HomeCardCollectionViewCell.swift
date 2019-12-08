@@ -45,6 +45,9 @@ extension HomeCardCollectionViewCell {
         backView.addSubview(subtitleLabel)
         backView.backgroundColor = .secondarySystemGroupedBackground
         
+//        selectedBackgroundView = UIView()
+//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+        
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
         //titleLabel.textColor = .systemRed
         //titleLabel.allowsDefaultTighteningForTruncation = true

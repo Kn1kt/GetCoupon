@@ -47,6 +47,8 @@ extension HomeCaptionImageCollectionViewCell {
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .secondaryLabel
         
+//        selectedBackgroundView = UIView()
+//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         
         //contentView.layer.cornerRadius = 6
         contentView.clipsToBounds = true
