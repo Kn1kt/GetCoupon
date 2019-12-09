@@ -311,6 +311,7 @@ extension ModelController {
             favoritesCollections.sort { $0.name < $1.name }
         }
         
+        NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
         favoritesDataController.collectionsBySections = favoritesCollections
     }
     
@@ -334,6 +335,7 @@ extension ModelController {
             }
         }
         
+        NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
         favoritesDataController.collectionsBySections = favoritesCollections
     }
     

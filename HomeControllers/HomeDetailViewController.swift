@@ -49,6 +49,7 @@ class HomeDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        //navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = section.name
         

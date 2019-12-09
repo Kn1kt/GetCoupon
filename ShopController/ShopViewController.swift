@@ -47,15 +47,15 @@ class ShopViewController: UIViewController {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none
         
-        navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+        //navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.alpha = 0.1
         
-        //navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.left.circle.fill"), style: .plain, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
+        //navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.down.circle.fill"), style: .plain, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
         logoView.favoritesButton.addTarget(self, action: #selector(ShopViewController.addToFavorites(_:)), for: .touchUpInside)
         logoView.favoritesButton.checkbox.isHighlighted = shop.isFavorite
         
