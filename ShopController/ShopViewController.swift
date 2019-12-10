@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol ScreenUpdaterProtocol {
+    func updateScreen()
+}
+
 class ShopViewController: UIViewController {
 
+    var previousViewUpdater: ScreenUpdaterProtocol?
+    
     let shop: ShopData
     let favoriteStatus: Bool
     let dateFormatter = DateFormatter()
@@ -67,6 +73,19 @@ class ShopViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        if favoriteStatus != shop.isFavorite {
+//            switch shop.isFavorite {
+//            case true:
+//                ModelController.insertInFavorites(shop: shop)
+//            case false:
+//                ModelController.deleteFromFavorites(shop: shop)
+//            }
+//            previousViewUpdater?.updateScreen()
+//        }
+//    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if favoriteStatus != shop.isFavorite {
@@ -76,6 +95,7 @@ class ShopViewController: UIViewController {
             case false:
                 ModelController.deleteFromFavorites(shop: shop)
             }
+            previousViewUpdater?.updateScreen()
         }
     }
     

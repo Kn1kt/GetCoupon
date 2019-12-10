@@ -494,11 +494,22 @@ extension HomeDetailViewController: UICollectionViewDelegate {
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
         let viewController = ShopViewController(shop: selectedShop)
+        viewController.previousViewUpdater = self
         let navController = UINavigationController(rootViewController: viewController)
         //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
         
         
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+extension HomeDetailViewController: ScreenUpdaterProtocol {
+    
+    func updateScreen() {
+        if needUpdateVisibleItems {
+            needUpdateVisibleItems = false
+            updateVisibleItems()
+        }
     }
 }

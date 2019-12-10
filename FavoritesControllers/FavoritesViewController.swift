@@ -498,11 +498,56 @@ extension FavoritesViewController: UICollectionViewDelegate {
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
         let viewController = ShopViewController(shop: selectedShop)
+        viewController.previousViewUpdater = self
         let navController = UINavigationController(rootViewController: viewController)
         //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
-        
-        
         collectionView.deselectItem(at: indexPath, animated: true)
+        
+        if needUpdateDataSource {
+            needUpdateDataSource = false
+            favoritesDataController.checkCollection()
+        }
+        
+        if needUpdateSnapshot {
+            needUpdateSnapshot = false
+
+            if !textFilter.isEmpty {
+                performQuery(with: textFilter)
+            } else {
+                updateSnapshot()
+            }
+
+        
+        
+            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+                    return
+                }
+                cell.favoritesButton.checkbox.isHighlighted = true
+            }
+        }
+    }
+}
+
+extension FavoritesViewController: ScreenUpdaterProtocol {
+    
+    func updateScreen() {
+        if needUpdateSnapshot {
+            needUpdateSnapshot = false
+            
+            if !textFilter.isEmpty {
+                performQuery(with: textFilter)
+            } else {
+                updateSnapshot()
+            }
+            
+            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+                    return
+                }
+                cell.favoritesButton.checkbox.isHighlighted = true
+            }
+        }
     }
 }

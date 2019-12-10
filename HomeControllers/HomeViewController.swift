@@ -223,7 +223,7 @@ extension HomeViewController {
         collectionView.backgroundColor = .systemBackground
         collectionView.alwaysBounceVertical = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 30, left: 0, bottom: 20, right: 0)
+        collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         view.addSubview(collectionView)
 
         collectionView.delegate = self
