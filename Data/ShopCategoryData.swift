@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ShopCategoryData {
+class ShopCategoryData: Codable {
     
-    let name: String
+    let categoryName: String
     
     let tags: [String]
     
@@ -18,8 +18,8 @@ class ShopCategoryData {
     
     let identifier = UUID()
     
-    init(name: String, shops: [ShopData] = [], tags: [String] = []) {
-        self.name = name
+    init(categoryName: String, shops: [ShopData] = [], tags: [String] = []) {
+        self.categoryName = categoryName
         self.shops = shops
         self.tags = tags
     }

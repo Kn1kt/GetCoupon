@@ -36,8 +36,6 @@
 		F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */; };
 		F3B80405238063A100481152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B80404238063A100481152 /* HomeViewController.swift */; };
 		F3B804072380647000481152 /* HomeDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804062380647000481152 /* HomeDataController.swift */; };
-		F3B80409238064F600481152 /* CellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B80408238064F600481152 /* CellData.swift */; };
-		F3B8040B2380652200481152 /* SectionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8040A2380652200481152 /* SectionData.swift */; };
 		F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */; };
 		F3E0AEAF2385DBC70063E2C8 /* ShowMoreUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */; };
 		F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEB0238804A10063E2C8 /* HomeDetailViewController.swift */; };
@@ -112,8 +110,6 @@
 		F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3B80404238063A100481152 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F3B804062380647000481152 /* HomeDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataController.swift; sourceTree = "<group>"; };
-		F3B80408238064F600481152 /* CellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellData.swift; sourceTree = "<group>"; };
-		F3B8040A2380652200481152 /* SectionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionData.swift; sourceTree = "<group>"; };
 		F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
 		F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreUIButton.swift; sourceTree = "<group>"; };
 		F3E0AEB0238804A10063E2C8 /* HomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailViewController.swift; sourceTree = "<group>"; };
@@ -275,8 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
-				F3B80408238064F600481152 /* CellData.swift */,
-				F3B8040A2380652200481152 /* SectionData.swift */,
 				F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */,
 				F3ED2D752399B31000726045 /* ShopData.swift */,
 				F3ED2D772399B33400726045 /* PromocodeData.swift */,
@@ -515,7 +509,6 @@
 				F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */,
 				F3E0AEB9238A0B060063E2C8 /* LikeImageView.swift in Sources */,
 				F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */,
-				F3B80409238064F600481152 /* CellData.swift in Sources */,
 				F3E0AEC0238C868C0063E2C8 /* AddToFavoritesButton.swift in Sources */,
 				F3E0AEAF2385DBC70063E2C8 /* ShowMoreUIButton.swift in Sources */,
 				F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */,
@@ -526,7 +519,6 @@
 				F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
 				F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */,
-				F3B8040B2380652200481152 /* SectionData.swift in Sources */,
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
 				F35B3D32235BAC25000F7ED0 /* GetCoupon.xcdatamodeld in Sources */,

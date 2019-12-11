@@ -22,8 +22,12 @@ class HomeDataController {
         return _collections
     }
     
-    init(collections: [ShopCategoryData]) {
-        self._collections = collections
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
     }
     
     func section(for index: Int) -> ShopCategoryData? {
@@ -31,7 +35,7 @@ class HomeDataController {
     }
  }
 
-// MARK: - FavoritesUpdaterProtocol
+    // MARK: - FavoritesUpdaterProtocol
 
 extension HomeDataController: FavoritesUpdaterProtocol {
     
@@ -44,68 +48,24 @@ extension HomeDataController: FavoritesUpdaterProtocol {
 //    }
 }
 
-// Just for test while receive parser
+    // MARK: - Updating
 extension HomeDataController {
     
-    func generateCollections() {
-        _collections = [
-            ShopCategoryData(name: "HOT 🔥",
-                             shops: [ShopData(image: UIImage(named: "Delivery"),
-                                                 name: "Delivery Club",
-                                                 shortDescription: "Save your 35%"),
-                                    ShopData(image: UIImage(named: "Yandex"),
-                                                 name: "Yandex Food",
-                                                 shortDescription: "Save your 15%"),
-                                    ShopData(image: UIImage(named: "WaterPark"),
-                                                 name: "Water Park Caribbean",
-                                                 shortDescription: "Your have personal coupon"),
-                                    ShopData(image: UIImage(named: "Ozon"),
-                                                 name: "Ozon",
-                                                 shortDescription: "Save your 25%"),
-                                    ShopData(image: UIImage(named: "AliExpress"),
-                                                 name: "AliExpress",
-                                                 shortDescription: "Save your 60%"),
-                                    ShopData(image: UIImage(named: "ASOS"),
-                                                 name: "ASOS",
-                                                 shortDescription: "Your have personal coupon"),
-                                    ShopData(image: UIImage(named: "Amazon"),
-                                                 name: "Amazon",
-                                                 shortDescription: "Save your 30%"),
-                                    ShopData(image: UIImage(named: "Apple"),
-                                                 name: "Apple",
-                                                 shortDescription: "Special inventational")]),
-            ShopCategoryData(name: "Food",
-                            shops: [ShopData(image: UIImage(named: "KFC"),
-                                                 name: "KFC",
-                                                 shortDescription: "Two for one price"),
-                                    ShopData(image: UIImage(named: "McDonald's"),
-                                                 name: "McDonald's",
-                                                 shortDescription: "New menu"),
-                                    ShopData(image: UIImage(named: "Yakitoria"),
-                                                 name: "Yakitoria",
-                                                 shortDescription: "Save your 10%"),
-                                    ShopData(image: UIImage(named: "KFC"),
-                                                 name: "KFC",
-                                                 shortDescription: "Two for one price"),
-                                    ShopData(image: UIImage(named: "McDonald's"),
-                                                 name: "McDonald's",
-                                                 shortDescription: "New menu"),
-                                    ShopData(image: UIImage(named: "Yakitoria"),
-                                                 name: "Yakitoria",
-                                                 shortDescription: "Save your 10%")]),
-            ShopCategoryData(name: "Other",
-                            shops: [ShopData(image: UIImage(named: "Amazon"),
-                                         name: "Amazon",
-                                         shortDescription: "Save your 30%"),
-                            ShopData(image: UIImage(named: "Apple"),
-                                         name: "Apple",
-                                         shortDescription: "Special inventational"),
-                            ShopData(image: UIImage(named: "AliExpress"),
-                                         name: "AliExpress",
-                                         shortDescription: "Save your 60%"),
-                            ShopData(image: UIImage(named: "ASOS"),
-                                         name: "ASOS",
-                                         shortDescription: "Your have personal coupon")])
-        ]
+    @objc func updateCollections() {
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let collections = ModelController.collections.reduce(into: [ShopCategoryData]()){ result, section in
+            
+                let shops = Array(section.shops.prefix(15))
+    
+                let reducedSection = ShopCategoryData(categoryName: section.categoryName,
+                                                 shops: shops)
+    
+                result.append(reducedSection)
+            }
+            self?._collections = collections
+            NotificationCenter.default.post(name: .didUpdateHome, object: nil)
+        }
+        
     }
 }

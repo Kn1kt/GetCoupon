@@ -26,7 +26,7 @@ class SearchMainViewController: SearchBaseViewController {
         resultsViewController = SearchResultsViewController()
         
         section = ModelController.searchCollection
-        resultsViewController.section = ShopCategoryData(name: "Results")
+        resultsViewController.section = ShopCategoryData(categoryName: "Results")
         
         collectionView.delegate = self
         

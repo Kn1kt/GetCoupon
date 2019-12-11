@@ -21,10 +21,10 @@ class FavoritesViewController: UIViewController {
     var closeKeyboardGesture: UITapGestureRecognizer?
     
     let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
-    let segmentedSection: ShopCategoryData = ShopCategoryData(name: "segmented")
+    let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
     
     let searchCell: ShopData = ShopData(name: "search", shortDescription: "search")
-    let searchSection: ShopCategoryData = ShopCategoryData(name: "search")
+    let searchSection: ShopCategoryData = ShopCategoryData(categoryName: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
@@ -47,6 +47,10 @@ class FavoritesViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
+        collectionView?.refreshControl = refresh
+//        collectionView.refreshControl?.beginRefreshing()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -330,7 +334,7 @@ extension FavoritesViewController {
                                                                                         withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
                                                                                         for: indexPath) as? TitleSupplementaryView {
                 let section = snapshot.sectionIdentifiers[indexPath.section]
-                titleSupplementary.label.text = section.name
+                titleSupplementary.label.text = section.categoryName
                 
                 return titleSupplementary
             } else {
@@ -377,12 +381,16 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
                 currentSnapshot.appendItems(collection.shops)
             }
         default:
-            let section = ShopCategoryData(name: "", shops: favoritesDataController.collectionsByDates)
+            let section = ShopCategoryData(categoryName: "", shops: favoritesDataController.collectionsByDates)
             currentSnapshot.appendSections([section])
             currentSnapshot.appendItems(section.shops)
         }
         
-        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+        }
+        
         
     }
 }
@@ -390,8 +398,24 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
     // MARK: - Actions
 extension FavoritesViewController {
     
+    @objc func refresh() {
+        
+        needUpdateSnapshot = false
+        
+        if needUpdateDataSource {
+            needUpdateDataSource = false
+            favoritesDataController.checkCollection()
+        }
+        updateSnapshot()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.refreshControl?.endRefreshing()
+        }
+    }
+    
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
         sortType = segmentedControl.selectedSegmentIndex
+        
+        needUpdateSnapshot = false
         
         if needUpdateDataSource {
             needUpdateDataSource = false
@@ -450,7 +474,7 @@ extension FavoritesViewController {
             }
         default:
             let filtered = favoritesDataController.filteredCollectionByDates(with: filter)
-            let section = ShopCategoryData(name: "", shops: filtered)
+            let section = ShopCategoryData(categoryName: "", shops: filtered)
             currentSnapshot.appendSections([section])
             currentSnapshot.appendItems(section.shops)
         }

@@ -22,10 +22,10 @@ class ShopViewController: UIViewController {
     let headerImageView = UIImageView()
     let logoView = LogoWithFavoritesButton()
     
-    let titleCell: PromocodeData = PromocodeData(name: "title")
+    let titleCell: PromocodeData = PromocodeData(coupon: "title")
     let titleSection: ShopData
     
-    let detailTitleCell: PromocodeData = PromocodeData(name: "detailTitle")
+    let detailTitleCell: PromocodeData = PromocodeData(coupon: "detailTitle")
     let detailTitleSection: ShopData
     
     var collectionView: UICollectionView! = nil
@@ -360,7 +360,7 @@ extension ShopViewController {
                     //cell.titleLabel.text = self.shop.name
                     cell.subtitleLabel.text = cellData.description
                     //cell.couponLabel.text = cellData.name
-                    cell.promocodeView.promocodeLabel.text = cellData.name
+                    cell.promocodeView.promocodeLabel.text = cellData.coupon
                     
                     if let addingDate = cellData.addingDate {
                         cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: addingDate)

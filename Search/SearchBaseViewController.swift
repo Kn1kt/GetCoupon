@@ -10,7 +10,7 @@ import UIKit
 
 class SearchBaseViewController: UIViewController {
 
-    var section: ShopCategoryData = ShopCategoryData(name: "Empty")
+    var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource

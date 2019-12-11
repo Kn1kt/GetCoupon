@@ -11,7 +11,7 @@ import UIKit
 class HomeDetailViewController: UIViewController {
     
     let section: ShopCategoryData
-    lazy var sectionByDates: ShopCategoryData = ShopCategoryData(name: section.name, shops: section.shops.shuffled())
+    lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
     
     var editedCells: Set<ShopData> = []
     
@@ -23,10 +23,10 @@ class HomeDetailViewController: UIViewController {
     var favoritesUpdater: FavoritesUpdaterProtocol?
     
     let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented", websiteLink: "")
-    let segmentedSection: ShopCategoryData = ShopCategoryData(name: "segmented")
+    let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
     
     let searchCell: ShopData = ShopData(name: "search", shortDescription: "search", websiteLink: "")
-    let searchSection: ShopCategoryData = ShopCategoryData(name: "search")
+    let searchSection: ShopCategoryData = ShopCategoryData(categoryName: "search")
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
@@ -43,7 +43,7 @@ class HomeDetailViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(favoritesDidChange), name: .didUpdateFavorites, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeDetailViewController.favoritesDidChange), name: .didUpdateFavorites, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -51,7 +51,7 @@ class HomeDetailViewController: UIViewController {
         
         //navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = section.name
+        navigationItem.title = section.categoryName
         
         //NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
     }
@@ -71,7 +71,7 @@ class HomeDetailViewController: UIViewController {
 //        NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
         
         if !editedCells.isEmpty || needUpdateFavorites {
-            favoritesUpdater?.updateFavoritesCollections(in: section.name, with: editedCells)
+            favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
             //favoritesUpdater?.updateFavoritesCollections(in: section)
             editedCells.removeAll()
             needUpdateFavorites = false
@@ -426,7 +426,7 @@ extension HomeDetailViewController {
         
 
         let filtered = filteredCollection(with: filter)
-        let section = ShopCategoryData(name: self.section.name, shops: filtered)
+        let section = ShopCategoryData(categoryName: self.section.categoryName, shops: filtered)
         currentSnapshot.appendSections([section])
         currentSnapshot.appendItems(section.shops)
         

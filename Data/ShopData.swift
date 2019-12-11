@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShopData {
+class ShopData: Codable {
     
     let name: String
     let description: String?
@@ -65,9 +65,48 @@ class ShopData {
         isFavorite: false,
         promocodes: [])
     }
+    
+    /// Codable
+    private enum CodingKeys: String, CodingKey {
+        case name
+        case description
+        case shortDescription
+        case websiteLink
+        case image
+        case previewImage
+        case isFavorite
+        case favoriteAddingDate
+        case promocodes
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        name = try container.decode(String.self, forKey: .name)
+        description = try container.decode(String?.self, forKey: .description)
+        shortDescription = try container.decode(String.self, forKey: .shortDescription)
+        websiteLink = try container.decode(String.self, forKey: .websiteLink)
+        image = try container.decode(UIImage?.self, forKey: .image)
+        previewImage = try container.decode(UIImage?.self, forKey: .previewImage)
+        isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
+        favoriteAddingDate = try container.decode(Date?.self, forKey: .favoriteAddingDate)
+        promocodes = try container.decode([PromocodeData].self, forKey: .promocodes)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(name, forKey: .name)
+        try container.encode(description, forKey: .description)
+        try container.encode(shortDescription, forKey: .shortDescription)
+        try container.encode(websiteLink, forKey: .websiteLink)
+        try container.encode(image, forKey: .image)
+        try container.encode(previewImage, forKey: .previewImage)
+        try container.encode(isFavorite, forKey: .isFavorite)
+        try container.encode(favoriteAddingDate, forKey: .favoriteAddingDate)
+        try container.encode(promocodes, forKey: .promocodes)
+    }
 }
 
-// MARK: - Hashable
+    // MARK: - Hashable
 extension ShopData: Hashable {
 
     func hash(into hasher: inout Hasher) {
@@ -77,4 +116,29 @@ extension ShopData: Hashable {
     static func == (lhs: ShopData, rhs: ShopData) -> Bool {
         return lhs.identifier == rhs.identifier
     }
+}
+
+    // MARK: - Codable
+extension KeyedEncodingContainer {
+
+    mutating func encode(_ value: UIImage?,
+                         forKey key: KeyedEncodingContainer.Key) throws {
+        let imageData = value?.pngData()
+        try encode(imageData, forKey: key)
+    }
+
+}
+
+extension KeyedDecodingContainer {
+
+    public func decode(_ type: UIImage?.Type,
+                       forKey key: KeyedDecodingContainer.Key) throws -> UIImage? {
+        let imageData = try decode(Data.self, forKey: key)
+        if let image = UIImage(data: imageData) {
+            return image
+        } else {
+            return nil
+        }
+    }
+
 }

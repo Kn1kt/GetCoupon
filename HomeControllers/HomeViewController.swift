@@ -27,6 +27,12 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         configureDataSource()
         
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: UIControl.Event.valueChanged)
+        collectionView?.refreshControl = refresh
+        collectionView.refreshControl?.beginRefreshing()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -36,15 +42,9 @@ class HomeViewController: UIViewController {
         navigationItem.title = "Home"
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didUpdateHome, object: nil)
     }
-    */
 
 }
 
@@ -302,7 +302,7 @@ extension HomeViewController {
                                                                                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
                                                                                             for: indexPath) as? TitleSupplementaryView {
                     let section = snapshot.sectionIdentifiers[indexPath.section]
-                    titleSupplementary.label.text = section.name
+                    titleSupplementary.label.text = section.categoryName
                     
                     return titleSupplementary
                 } else {
@@ -352,6 +352,39 @@ extension HomeViewController {
         //print("tapped in \(section.name)")
         
         show(viewController, sender: self)
+    }
+    
+    @objc func updateSnapshot() {
+        
+        currentSnapshot = NSDiffableDataSourceSnapshot
+            <ShopCategoryData, ShopData>()
+        
+        
+        currentSnapshot = NSDiffableDataSourceSnapshot
+            <ShopCategoryData, ShopData>()
+        homeDataController.collections.forEach { collection in
+            currentSnapshot.appendSections([collection])
+            currentSnapshot.appendItems(collection.shops)
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+            
+            if let refresh = self.collectionView.refreshControl,
+                refresh.isRefreshing {
+                    self.collectionView.refreshControl?.endRefreshing()
+            }
+        }
+        
+    }
+    
+    @objc func refresh() {
+        updateSnapshot()
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 

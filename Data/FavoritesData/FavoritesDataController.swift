@@ -18,12 +18,31 @@ class FavoritesDataController {
     
     var needUpdateDates: Bool = true
     
-    var collectionsBySections: [ShopCategoryData] = [] {
-        didSet {
+    private var _collectionsBySections: [ShopCategoryData] = []
+    
+    private let collectionsBySectionsQueue = DispatchQueue(label: "collectionsBySectionsQueue", attributes: .concurrent)
+    var collectionsBySections: [ShopCategoryData] {
+        get {
+            collectionsBySectionsQueue.sync {
+                return _collectionsBySections
+            }
+        }
+        
+        set {
+            collectionsBySectionsQueue.async(flags: .barrier) { [weak self] in
+                self?._collectionsBySections = newValue
+            }
             needUpdateDates = true
             snapshotUpdater?.needUpdateSnapshot = true
         }
     }
+    
+//    var collectionsBySections: [ShopCategoryData] = [] {
+//        didSet {
+//            needUpdateDates = true
+//            snapshotUpdater?.needUpdateSnapshot = true
+//        }
+//    }
     
     private var _collectionsByDates: [ShopData] = []
     
@@ -106,7 +125,7 @@ extension FavoritesDataController {
             }
             
             if !shops.isEmpty {
-                result.append(ShopCategoryData(name: section.name, shops: shops.sorted { $0.name < $1.name }))
+                result.append(ShopCategoryData(categoryName: section.categoryName, shops: shops.sorted { $0.name < $1.name }))
             }
             
         }

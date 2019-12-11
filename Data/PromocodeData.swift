@@ -9,9 +9,9 @@
 
 import UIKit
 
-class PromocodeData {
+class PromocodeData: Codable {
     
-    let name: String
+    let coupon: String
     let addingDate: Date?
     let estimatedDate: Date?
     let description: String?
@@ -19,13 +19,13 @@ class PromocodeData {
     
     let identifier = UUID()
     
-    init(name: String,
+    init(coupon: String,
          addingDate: Date? = nil,
          estimatedDate: Date? = nil,
          description: String? = nil,
          isHot: Bool = false) {
         
-        self.name = name
+        self.coupon = coupon
         self.addingDate = addingDate
         self.estimatedDate = estimatedDate
         self.description = description
