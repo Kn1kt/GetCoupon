@@ -344,7 +344,7 @@ extension ModelController {
     
     static func updateFavoritesCollections(with collections: [ShopCategoryData]) {
         
-        favoritesCollections = collections.sorted { $0.categoryName < $1.categoryName }
+        favoritesCollections = collections
         NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
     }
     

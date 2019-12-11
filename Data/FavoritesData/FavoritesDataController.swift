@@ -80,31 +80,36 @@ class FavoritesDataController {
 extension FavoritesDataController {
     
     func checkCollection() {
-        var needUpdate = false
         
-        let filtered = collectionsBySections.filter { section in
-            let shops = section.shops.filter { cell in
-                if !cell.isFavorite {
-                    cell.favoriteAddingDate = nil
-                    needUpdate = true
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            
+            guard let self = self else { return }
+            var needUpdate = false
+            
+            let filtered = self.collectionsBySections.filter { section in
+                let shops = section.shops.filter { cell in
+                    if !cell.isFavorite {
+                        cell.favoriteAddingDate = nil
+                        needUpdate = true
+                        return false
+                    }
+                    
+                    return true
+                }
+                
+                if shops.isEmpty {
                     return false
+                } else if shops.count != section.shops.count {
+                    section.shops = shops
                 }
                 
                 return true
             }
             
-            if shops.isEmpty {
-                return false
-            } else if shops.count != section.shops.count {
-                section.shops = shops
+            if needUpdate {
+                self.collectionsBySections = filtered
+                ModelController.updateFavoritesCollections(with: filtered)
             }
-            
-            return true
-        }
-        
-        if needUpdate {
-            collectionsBySections = filtered
-            ModelController.updateFavoritesCollections(with: filtered)
         }
     }
 }

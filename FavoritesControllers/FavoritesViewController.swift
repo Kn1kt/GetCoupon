@@ -400,13 +400,18 @@ extension FavoritesViewController {
     
     @objc func refresh() {
         
-        needUpdateSnapshot = false
-        
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
-        updateSnapshot()
+        needUpdateSnapshot = false
+        
+        if !textFilter.isEmpty {
+            performQuery(with: textFilter)
+        } else {
+            updateSnapshot()
+        }
+        
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.refreshControl?.endRefreshing()
         }
@@ -415,12 +420,11 @@ extension FavoritesViewController {
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
         sortType = segmentedControl.selectedSegmentIndex
         
-        needUpdateSnapshot = false
-        
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
+        needUpdateSnapshot = false
         
         if !textFilter.isEmpty {
             performQuery(with: textFilter)
@@ -479,7 +483,10 @@ extension FavoritesViewController {
             currentSnapshot.appendItems(section.shops)
         }
         
-        dataSource.apply(currentSnapshot, animatingDifferences: true)
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+        }
         
     }
 }
