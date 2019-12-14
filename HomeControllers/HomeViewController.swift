@@ -34,14 +34,16 @@ class HomeViewController: UIViewController {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
         collectionView?.refreshControl = refresh
-        collectionView.refreshControl?.beginRefreshing()
+        //collectionView.refreshControl?.beginRefreshing()
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        if ModelController.collections.isEmpty {
+            collectionView.refreshControl?.beginRefreshing()
+        }
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Home"
     }
@@ -286,7 +288,7 @@ extension HomeViewController {
                         fatalError("Can't create new cell")
                     }
                     
-                    if let image = cellData.image {
+                    if let image = cellData.previewImage {
                         cell.imageView.image = image
                     } else {
                         cell.imageView.backgroundColor = cellData.placeholderColor
@@ -395,6 +397,7 @@ extension HomeViewController {
     
     @objc func refresh() {
         updateSnapshot()
+        
 //        DispatchQueue.main.async { [weak self] in
 //            self?.collectionView.refreshControl?.endRefreshing()
 //        }

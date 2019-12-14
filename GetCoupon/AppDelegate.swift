@@ -17,9 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        //ModelController.updateCollections()
+        ModelController.updateCollections()
         //ModelController.loadCollectionsToStorage()
-        ModelController.loadCollectionsFromStorage()
+        //ModelController.loadCollectionsFromStorage()
         return true
     }
 
@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
+        ModelController.loadFavoritesCollectionsToStorage()
         ModelController.loadCollectionsToStorage()
     }
     // MARK: - Core Data stack
