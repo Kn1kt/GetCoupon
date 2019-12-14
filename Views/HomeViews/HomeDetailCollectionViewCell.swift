@@ -26,10 +26,6 @@ class HomeDetailCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func prepareForReuse() {
-        separatorView.isHidden = false
-    }
 }
 
 // MARK: - Layouts
@@ -97,4 +93,15 @@ extension HomeDetailCollectionViewCell {
             separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
     }
+}
+
+
+    //MARK: - CellWithImageProtocol
+extension HomeDetailCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        imageView.backgroundColor = .systemGray3
+        separatorView.isHidden = false
+     }
 }

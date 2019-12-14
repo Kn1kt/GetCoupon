@@ -84,3 +84,12 @@ extension HomeCaptionImageCollectionViewCell {
         
     }
 }
+
+    //MARK: - CellWithImageProtocol
+extension HomeCaptionImageCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        imageView.backgroundColor = .systemGray3
+    }
+}

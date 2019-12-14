@@ -115,3 +115,12 @@ extension FavoritesPlainCollectionViewCell {
         
     }
 }
+
+    //MARK: - CellWithImageProtocol
+extension FavoritesPlainCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        imageView.backgroundColor = .systemGray3
+    }
+}

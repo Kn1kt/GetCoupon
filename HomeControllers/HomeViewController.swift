@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol CellWithImage {
+    var imageView: UIImageView { get }
+}
+
 class HomeViewController: UIViewController {
 
     let homeDataController = ModelController.homeDataController
@@ -28,7 +32,7 @@ class HomeViewController: UIViewController {
         configureDataSource()
         
         let refresh = UIRefreshControl()
-        refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: UIControl.Event.valueChanged)
+        refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
         collectionView?.refreshControl = refresh
         collectionView.refreshControl?.beginRefreshing()
         
@@ -253,7 +257,7 @@ extension HomeViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <ShopCategoryData, ShopData> (collectionView: collectionView) { (collectionView: UICollectionView,
+            <ShopCategoryData, ShopData> (collectionView: collectionView) { [unowned self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
                                                                                 cellData: ShopData) -> UICollectionViewCell? in
                 
@@ -264,9 +268,13 @@ extension HomeViewController {
                         fatalError("Can't create new cell")
                     }
                     
-                    if let image = cellData.image {
+                    if let image = cellData.previewImage {
                         cell.imageView.image = image
+                    } else {
+                        cell.imageView.backgroundColor = cellData.placeholderColor
+                        self.downloadWithUrlSession(at: indexPath, with: cellData)
                     }
+                    
                     cell.titleLabel.text = cellData.name
                     cell.subtitleLabel.text = cellData.shortDescription
                     
@@ -280,7 +288,11 @@ extension HomeViewController {
                     
                     if let image = cellData.image {
                         cell.imageView.image = image
+                    } else {
+                        cell.imageView.backgroundColor = cellData.placeholderColor
+                        self.downloadWithUrlSession(at: indexPath, with: cellData)
                     }
+                    
                     cell.titleLabel.text = cellData.name
                     cell.subtitleLabel.text = cellData.shortDescription
                     
@@ -372,19 +384,20 @@ extension HomeViewController {
             
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
             
-            if let refresh = self.collectionView.refreshControl,
-                refresh.isRefreshing {
-                    self.collectionView.refreshControl?.endRefreshing()
-            }
+//            if let refresh = self.collectionView.refreshControl,
+//                refresh.isRefreshing {
+//                    self.collectionView.refreshControl?.endRefreshing()
+//            }
+            self.collectionView.refreshControl?.endRefreshing()
         }
         
     }
     
     @objc func refresh() {
         updateSnapshot()
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.refreshControl?.endRefreshing()
-        }
+//        DispatchQueue.main.async { [weak self] in
+//            self?.collectionView.refreshControl?.endRefreshing()
+//        }
     }
 }
 
@@ -407,5 +420,29 @@ extension HomeViewController: UICollectionViewDelegate {
         
         
         collectionView.deselectItem(at: indexPath, animated: true)
+    }
+}
+
+    //MARK: - URLSessionDataTask
+extension HomeViewController {
+    
+    private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
+        
+        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
+        guard let url = URL(string: cellData.previewImageLink) else { return }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self,
+                  let data = data,
+                  let image = UIImage(data: data) else {
+              return
+            }
+
+            DispatchQueue.main.async {
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                  cell.imageView.image = image
+                }
+                cellData.previewImage = image
+            }
+        }.resume()
     }
 }

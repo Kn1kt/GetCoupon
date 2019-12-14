@@ -137,3 +137,12 @@ extension ShopPlainCollectionViewCell {
         ])
     }
 }
+
+    //MARK: - CellWithImageProtocol
+extension ShopPlainCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        imageView.backgroundColor = .systemGray3
+    }
+}

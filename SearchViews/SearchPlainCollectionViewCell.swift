@@ -25,10 +25,6 @@ class SearchPlainCollectionViewCell: UICollectionViewCell {
         required init?(coder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
-        override func prepareForReuse() {
-            separatorView.isHidden = false
-        }
     }
 
     // MARK: - Layouts
@@ -86,5 +82,15 @@ extension SearchPlainCollectionViewCell {
             separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
             separatorView.heightAnchor.constraint(equalToConstant: 0.5)
         ])
+    }
+}
+
+    //MARK: - CellWithImageProtocol
+extension SearchPlainCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+        imageView.image = nil
+        imageView.backgroundColor = .systemGray3
+        separatorView.isHidden = false
     }
 }

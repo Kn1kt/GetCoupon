@@ -16,18 +16,18 @@ protocol FavoritesUpdaterProtocol {
 
 class HomeDataController {
     
-    fileprivate var _collections: [ShopCategoryData] = []
+    var collections: [ShopCategoryData] = []
     
-    var collections: [ShopCategoryData] {
-        return _collections
-    }
+//    var collections: [ShopCategoryData] {
+//        return _collections
+//    }
     
     init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
+        //NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
     }
     
     func section(for index: Int) -> ShopCategoryData? {
@@ -63,7 +63,8 @@ extension HomeDataController {
     
                 result.append(reducedSection)
             }
-            self?._collections = collections
+           
+            self?.collections = collections
             NotificationCenter.default.post(name: .didUpdateHome, object: nil)
         }
         

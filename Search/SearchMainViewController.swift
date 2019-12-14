@@ -68,7 +68,7 @@ extension SearchMainViewController: UICollectionViewDelegate {
         }
         
         // There gonna be some presentation features
-        debugPrint(selectedShop)
+        //debugPrint(selectedShop)
 //        let shop = ShopData(name: "KFC",
 //                            description: "Menu: chicken dishes, french fries, salads, snacks, etc.",
 //                            shortDescription: "Kentucky Fried Chicken",

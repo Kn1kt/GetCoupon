@@ -98,6 +98,8 @@ extension SettingsTableViewController {
         if indexPath.section == 0 {
             ModelController.removeAllFavorites()
             
+        } else if indexPath.section == 1 {
+            ModelController.removeCollectionsFromStorage()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }

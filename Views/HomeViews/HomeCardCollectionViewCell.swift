@@ -101,3 +101,12 @@ extension HomeCardCollectionViewCell {
         ])
     }
 }
+
+    //MARK: - CellWithImageProtocol
+extension HomeCardCollectionViewCell: CellWithImage {
+    
+    override func prepareForReuse() {
+         imageView.image = nil
+         imageView.backgroundColor = .systemGray3
+     }
+}

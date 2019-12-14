@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //ModelController.updateCollections()
         //ModelController.loadCollectionsToStorage()
-        ModelController.loadCollectionFromStorage()
+        ModelController.loadCollectionsFromStorage()
         return true
     }
 

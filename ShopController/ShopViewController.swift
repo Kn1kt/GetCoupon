@@ -65,8 +65,11 @@ class ShopViewController: UIViewController {
         logoView.favoritesButton.addTarget(self, action: #selector(ShopViewController.addToFavorites(_:)), for: .touchUpInside)
         logoView.favoritesButton.checkbox.isHighlighted = shop.isFavorite
         
+        updateImages()
+        
         configureCollectionView()
         configureDataSource()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -272,7 +275,7 @@ extension ShopViewController {
         headerImageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 200)
         headerImageView.backgroundColor = .systemGray3
         
-        headerImageView.image = shop.image
+        //headerImageView.image = shop.image
         
         headerImageView.contentMode = .scaleAspectFill
         headerImageView.clipsToBounds = true
@@ -284,7 +287,7 @@ extension ShopViewController {
                                 width: 140,
                                 height: 140)
         
-        logoView.imageView.image = shop.previewImage
+        //logoView.imageView.image = shop.previewImage
         
         view.addSubview(logoView)
         
@@ -355,7 +358,8 @@ extension ShopViewController {
                         fatalError("Can't create new cell")
                     }
                     
-                    cell.imageView.setNeedsLayout()
+                    //cell.imageView.setNeedsLayout()
+                    
                     cell.imageView.image = self.shop.previewImage
                     //cell.titleLabel.text = self.shop.name
                     cell.subtitleLabel.text = cellData.description
@@ -455,5 +459,56 @@ extension ShopViewController {
         } else {
             shop.favoriteAddingDate = nil
         }
+    }
+}
+
+    //MARK: - URLSessionDataTask
+extension ShopViewController {
+    
+    private func updateImages() {
+        if let headerImage = shop.image {
+            headerImageView.image = headerImage
+        } else {
+            downloadHeader()
+        }
+        if let logoImage = shop.previewImage {
+            logoView.imageView.image = logoImage
+        } else {
+            downloadLogo()
+        }
+    }
+    
+    private func downloadLogo() {
+        
+        guard let url = URL(string: shop.previewImageLink) else { return }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self,
+                  let data = data,
+                  let image = UIImage(data: data) else {
+              return
+            }
+
+            DispatchQueue.main.async {
+                self.shop.previewImage = image
+                self.logoView.imageView.image = image
+            }
+        }.resume()
+    }
+    
+    private func downloadHeader() {
+        
+        guard let url = URL(string: shop.imageLink) else { return }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self,
+                  let data = data,
+                  let image = UIImage(data: data) else {
+              return
+            }
+
+            DispatchQueue.main.async {
+                self.shop.image = image
+                self.headerImageView.image = image
+            }
+        }.resume()
     }
 }

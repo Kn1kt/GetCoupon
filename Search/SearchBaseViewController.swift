@@ -136,8 +136,11 @@ extension SearchBaseViewController {
                     fatalError("Can't create new cell")
                 }
                 
-                if let image = cellData.image {
+                if let image = cellData.previewImage {
                     cell.imageView.image = image
+                } else {
+                    cell.imageView.backgroundColor = cellData.placeholderColor
+                    self.downloadWithUrlSession(at: indexPath, with: cellData)
                 }
                 
                 cell.titleLabel.text = cellData.name
@@ -186,5 +189,29 @@ extension SearchBaseViewController {
             let cell = collectionView.cellForItem(at: indexPath) as? SearchPlainCollectionViewCell {
             cell.separatorView.isHidden = true
         }
+    }
+}
+
+    //MARK: - URLSessionDataTask
+extension SearchBaseViewController {
+    
+    private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
+        
+        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
+        guard let url = URL(string: cellData.previewImageLink) else { return }
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            guard let self = self,
+                  let data = data,
+                  let image = UIImage(data: data) else {
+              return
+            }
+
+            DispatchQueue.main.async {
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                    cell.imageView.image = image
+                }
+                cellData.previewImage = image
+            }
+        }.resume()
     }
 }
