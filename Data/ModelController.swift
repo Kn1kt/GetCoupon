@@ -124,6 +124,7 @@ extension ModelController {
                     loadCollectionsFromStorage()
                     return
             }
+            
             URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data else { return }
                 
@@ -176,6 +177,7 @@ extension ModelController {
                 collections = decodedCollections
             } catch {
                 debugPrint(error)
+                homeDataController.updateCollections()
                 //generateCollections()
             }
             
@@ -731,7 +733,7 @@ extension ModelController {
             return
         }
         
-        //DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .userInitiated).async {
             
             let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                 in: .userDomainMask).first
@@ -745,7 +747,7 @@ extension ModelController {
             }
             
             debugPrint("loaded favoritesCollections to storage")
-        //}
+        }
     }
     
     static func loadFavoritesCollectionsFromStorage() {

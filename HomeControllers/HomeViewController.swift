@@ -396,8 +396,9 @@ extension HomeViewController {
     }
     
     @objc func refresh() {
-        updateSnapshot()
-        
+        //updateSnapshot()
+        ModelController.loadFavoritesCollectionsToStorage()
+        ModelController.updateCollections()
 //        DispatchQueue.main.async { [weak self] in
 //            self?.collectionView.refreshControl?.endRefreshing()
 //        }
