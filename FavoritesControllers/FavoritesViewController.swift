@@ -50,14 +50,6 @@ class FavoritesViewController: UIViewController {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
         collectionView?.refreshControl = refresh
-//        collectionView.refreshControl?.beginRefreshing()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.addGestureRecognizer), name: UIResponder.keyboardWillShowNotification, object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(FavoritesViewController.deleteGestureRecognizer), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,34 +80,10 @@ class FavoritesViewController: UIViewController {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
-
-        //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        //NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        
-//        if needUpdateDataSource {
-//            needUpdateDataSource = false
-//            favoritesDataController.checkCollection()
-//        }
-//    }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
     // MARK: - Layouts
-
 extension FavoritesViewController {
     
     func createLayout() -> UICollectionViewLayout {
@@ -137,7 +105,6 @@ extension FavoritesViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                          configuration: config)
@@ -224,7 +191,6 @@ extension FavoritesViewController {
                                                                              elementKind: FavoritesViewController.titleElementKind,
                                                                              alignment: .top)
         
-        
         section.boundarySupplementaryItems = [titleSupplementary]
         
         return section
@@ -232,7 +198,6 @@ extension FavoritesViewController {
 }
 
     // MARK: - Setup Collection View
-
 extension FavoritesViewController {
     
     func configureCollectionView() {
@@ -245,7 +210,6 @@ extension FavoritesViewController {
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         
-        // No need delegete for this step
         collectionView.delegate = self
         
         NSLayoutConstraint.activate([
@@ -317,7 +281,6 @@ extension FavoritesViewController {
                     cell.titleLabel.text = cellData.name
                     cell.subtitleLabel.text = cellData.shortDescription
                     cell.favoritesButton.checkbox.isHighlighted = cellData.isFavorite
-                    //cell.favoritesButton.cellIndex = indexPath
                     cell.favoritesButton.cell = cellData
                     cell.favoritesButton.addTarget(self, action: #selector(FavoritesViewController.addToFavorites(_:)), for: .touchUpInside)
                     
@@ -439,13 +402,10 @@ extension FavoritesViewController {
     
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-        
-        //guard let cellIndex = sender.cellIndex else { return }
         guard let cell = sender.cell else { return }
         
         cell.isFavorite = !cell.isFavorite
         
-//        sender.checkbox.isHighlighted = cell.isFavorite
         UIView.animate(withDuration: 0.15) {
             sender.checkbox.isHighlighted = cell.isFavorite
         }
@@ -457,7 +417,6 @@ extension FavoritesViewController {
 }
 
     // MARK: - Search
-
 extension FavoritesViewController {
     
     func performQuery(with filter: String) {
@@ -493,7 +452,6 @@ extension FavoritesViewController {
 }
 
     // MARK: - SerachBarDelegate
-
 extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -532,7 +490,6 @@ extension FavoritesViewController: UICollectionViewDelegate {
         let viewController = ShopViewController(shop: selectedShop)
         viewController.previousViewUpdater = self
         let navController = UINavigationController(rootViewController: viewController)
-        //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
         collectionView.deselectItem(at: indexPath, animated: true)
         
@@ -589,7 +546,6 @@ extension FavoritesViewController {
     
     private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
         
-        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
         guard let url = URL(string: cellData.previewImageLink) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self,

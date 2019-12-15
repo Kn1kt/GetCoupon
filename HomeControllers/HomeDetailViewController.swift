@@ -49,11 +49,8 @@ class HomeDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        //navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = section.categoryName
-        
-        //NotificationCenter.default.addObserver(self, selector: #selector(updateSnapshot), name: .didUpdateFavorites, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,8 +65,6 @@ class HomeDetailViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-//        NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
-        
         if !editedCells.isEmpty || needUpdateFavorites {
             favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
             //favoritesUpdater?.updateFavoritesCollections(in: section)
@@ -77,17 +72,6 @@ class HomeDetailViewController: UIViewController {
             needUpdateFavorites = false
         }
     }
-    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        
-//        if !editedCells.isEmpty || needUpdateFavorites {
-//            favoritesUpdater?.updateFavoritesCollections(in: section.sectionTitle, with: editedCells)
-//            //favoritesUpdater?.updateFavoritesCollections(in: section)
-//            editedCells.removeAll()
-//            needUpdateFavorites = false
-//        }
-//    }
     
     init(section: ShopCategoryData) {
         self.section = section
@@ -106,7 +90,6 @@ class HomeDetailViewController: UIViewController {
 }
 
     // MARK: - Layouts
-
 extension HomeDetailViewController {
     
     func createLayout() -> UICollectionViewLayout {
@@ -127,7 +110,6 @@ extension HomeDetailViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                         configuration: config)
@@ -210,7 +192,6 @@ extension HomeDetailViewController {
 }
 
     // MARK: - Setup Collection View
-
 extension HomeDetailViewController {
     
     func configureCollectionView() {
@@ -294,7 +275,6 @@ extension HomeDetailViewController {
                     cell.subtitleLabel.text = cellData.shortDescription
                     cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
                     
-                    //cell.addToFavoritesButton.cellIndex = indexPath
                     cell.addToFavoritesButton.cell = cellData
                     cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
                     
@@ -333,7 +313,6 @@ extension HomeDetailViewController {
         
         cell.isFavorite = !cell.isFavorite
         
-        //sender.checkbox.isHighlighted = cell.isFavorite
         UIView.animate(withDuration: 0.15) {
             sender.checkbox.isHighlighted = cell.isFavorite
         }
@@ -414,7 +393,6 @@ extension HomeDetailViewController {
 }
 
     // MARK: - Search
-
 extension HomeDetailViewController {
     
     func performQuery(with filter: String) {
@@ -460,7 +438,6 @@ extension HomeDetailViewController {
 }
 
     // MARK: - SerachBarDelegate
-
 extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -499,9 +476,7 @@ extension HomeDetailViewController: UICollectionViewDelegate {
         let viewController = ShopViewController(shop: selectedShop)
         viewController.previousViewUpdater = self
         let navController = UINavigationController(rootViewController: viewController)
-        //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
-        
         
         collectionView.deselectItem(at: indexPath, animated: true)
     }
@@ -522,7 +497,6 @@ extension HomeDetailViewController {
     
     private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
         
-        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
         guard let url = URL(string: cellData.previewImageLink) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self,

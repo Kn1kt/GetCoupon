@@ -28,7 +28,6 @@ class SearchBaseViewController: UIViewController {
 }
 
     // MARK: - Layouts
-
 extension SearchBaseViewController {
     
     func createLayout() -> UICollectionViewLayout {
@@ -41,7 +40,6 @@ extension SearchBaseViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                         configuration: config)
@@ -90,7 +88,6 @@ extension SearchBaseViewController {
 }
 
     // MARK: - Setup Collection View
-
 extension SearchBaseViewController {
     
     func configureCollectionView() {
@@ -102,9 +99,6 @@ extension SearchBaseViewController {
         collectionView.keyboardDismissMode = .onDrag
         view.addSubview(collectionView)
         
-        // No need delegete for this step
-        //collectionView.delegate = self
-        
         NSLayoutConstraint.activate([
             
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -113,7 +107,6 @@ extension SearchBaseViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             
         ])
-        
         
         collectionView.register(SearchPlainCollectionViewCell.self,
                                 forCellWithReuseIdentifier: SearchPlainCollectionViewCell.reuseIdentifier)
@@ -165,7 +158,6 @@ extension SearchBaseViewController {
 }
 
     // MARK: - Update Snapshot
-
 extension SearchBaseViewController {
     
     func updateSnapshot() {
@@ -197,7 +189,6 @@ extension SearchBaseViewController {
     
     private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
         
-        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
         guard let url = URL(string: cellData.previewImageLink) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self,

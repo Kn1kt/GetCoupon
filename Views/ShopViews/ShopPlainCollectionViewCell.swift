@@ -13,9 +13,7 @@ class ShopPlainCollectionViewCell: UICollectionViewCell {
     static let reuseIdentifier = "shop-plain-cell-reuse-identifier"
     
     let imageView = UIImageView()
-    //let titleLabel = UILabel()
     let subtitleLabel = UILabel()
-    //let couponLabel = UILabel()
     let promocodeView = PromocodeView()
     let addingDateLabel = UILabel()
     let estimatedDateLabel = UILabel()
@@ -35,9 +33,7 @@ extension ShopPlainCollectionViewCell {
     
     func setupLayouts() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        //titleLabel.translatesAutoresizingMaskIntoConstraints = false
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        //couponLabel.translatesAutoresizingMaskIntoConstraints = false
         promocodeView.translatesAutoresizingMaskIntoConstraints = false
         addingDateLabel.translatesAutoresizingMaskIntoConstraints = false
         estimatedDateLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -47,19 +43,13 @@ extension ShopPlainCollectionViewCell {
         
         backView.clipsToBounds = true
         backView.layer.cornerRadius = 6
-        //backView.frame = contentView.frame
         
         backView.addSubview(imageView)
-        //backView.addSubview(titleLabel)
         backView.addSubview(subtitleLabel)
-        //backView.addSubview(couponLabel)
         backView.addSubview(promocodeView)
         backView.addSubview(addingDateLabel)
         backView.addSubview(estimatedDateLabel)
         backView.backgroundColor = .secondarySystemGroupedBackground
-        
-        //titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        //titleLabel.adjustsFontForContentSizeCategory = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
         subtitleLabel.adjustsFontForContentSizeCategory = true
@@ -73,14 +63,6 @@ extension ShopPlainCollectionViewCell {
         estimatedDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         estimatedDateLabel.adjustsFontForContentSizeCategory = true
         estimatedDateLabel.textColor = .tertiaryLabel
-        
-//        couponLabel.font = UIFont.preferredFont(forTextStyle: .body)
-//        couponLabel.adjustsFontForContentSizeCategory = true
-//        couponLabel.textAlignment = .center
-//        couponLabel.layer.cornerRadius = 10
-//        couponLabel.backgroundColor = #colorLiteral(red: 0.2273195386, green: 0.4160661697, blue: 0.5951462388, alpha: 1)
-//        couponLabel.clipsToBounds = true
-//        couponLabel.textColor = .white
         
         promocodeView.layer.cornerRadius = 6
         
@@ -110,13 +92,8 @@ extension ShopPlainCollectionViewCell {
             imageView.heightAnchor.constraint(equalTo: backView.heightAnchor, multiplier: 0.75),
             imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             
-            //titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
-            //titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            //titleLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: spacing),
-            
             subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 1.5),
             subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            //subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 1.5),
             subtitleLabel.topAnchor.constraint(equalTo: backView.topAnchor, constant: spacing),
             subtitleLabel.bottomAnchor.constraint(equalTo: promocodeView.topAnchor, constant: -spacing),
             

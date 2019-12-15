@@ -38,28 +38,19 @@ extension HomeCardCollectionViewCell {
         contentView.addSubview(backView)
         backView.clipsToBounds = true
         backView.layer.cornerRadius = 6
-        //backView.frame = contentView.frame
         
         backView.addSubview(imageView)
         backView.addSubview(titleLabel)
         backView.addSubview(subtitleLabel)
         backView.backgroundColor = .secondarySystemGroupedBackground
         
-//        selectedBackgroundView = UIView()
-//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-        
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        //titleLabel.textColor = .systemRed
-        //titleLabel.allowsDefaultTighteningForTruncation = true
         titleLabel.adjustsFontForContentSizeCategory = true
-        //titleLabel.adjustsFontSizeToFitWidth = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        //subtitleLabel.allowsDefaultTighteninrgForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .secondaryLabel
         
-        //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
         contentView.layer.shadowOpacity = 1
@@ -73,8 +64,6 @@ extension HomeCardCollectionViewCell {
         
         let spacing = CGFloat(10)
         
-        
-        // iPad constrains need update
         NSLayoutConstraint.activate([
             
             backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -96,7 +85,6 @@ extension HomeCardCollectionViewCell {
             subtitleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 0.1),
             subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            //subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: backView.bottomAnchor, constant: -spacing),
             backView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
         ])
     }

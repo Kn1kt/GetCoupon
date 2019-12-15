@@ -20,7 +20,7 @@ class PromocodeView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-//    override func layoutSubviews() {
+    
     override func updateConstraints() {
         promocodeLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -41,36 +41,6 @@ class PromocodeView: UIView {
             promocodeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5)
         ])
         
-//        promocodeLabel.frame = CGRect(x: 15, y: 5, width: bounds.size.width - 30 , height: bounds.size.height - 10)
-//
-//        let _ = layer.sublayers?.filter({$0.name == "DashBorder"}).map({$0.removeFromSuperlayer()})
-//        addDashBorder()
-        
         super.updateConstraints()
     }
 }
-
-//extension UIView {
-//    func addDashBorder() {
-//        let color = UIColor(named: "BlueTintColor")?.cgColor
-//
-//        let shapeLayer:CAShapeLayer = CAShapeLayer()
-//
-//        let frameSize = self.frame.size
-//        let shapeRect = CGRect(x: 0, y: 0, width: frameSize.width, height: frameSize.height)
-//
-//        shapeLayer.bounds = shapeRect
-//        shapeLayer.name = "DashBorder"
-//        shapeLayer.position = CGPoint(x: frameSize.width/2, y: frameSize.height/2)
-//        shapeLayer.fillColor = UIColor.clear.cgColor
-//        shapeLayer.strokeColor = color
-//        shapeLayer.lineWidth = 1.5
-//        shapeLayer.lineJoin = .round
-//        shapeLayer.lineDashPattern = [2,4]
-//        shapeLayer.path = UIBezierPath(roundedRect: shapeRect, cornerRadius: 10).cgPath
-//
-//        self.layer.masksToBounds = false
-//
-//        self.layer.addSublayer(shapeLayer)
-//    }
-//}

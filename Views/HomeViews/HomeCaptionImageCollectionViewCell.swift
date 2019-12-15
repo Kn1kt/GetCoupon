@@ -39,20 +39,13 @@ extension HomeCaptionImageCollectionViewCell {
         contentView.addSubview(subtitleLabel)
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        //titleLabel.allowsDefaultTighteningForTruncation = true
         titleLabel.adjustsFontForContentSizeCategory = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .secondaryLabel
-        
-//        selectedBackgroundView = UIView()
-//        selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-        
-        //contentView.layer.cornerRadius = 6
+
         contentView.clipsToBounds = true
-        //contentView.backgroundColor = .secondarySystemGroupedBackground
         
         imageView.layer.cornerRadius = 6
         imageView.backgroundColor = .systemGray3
@@ -77,7 +70,6 @@ extension HomeCaptionImageCollectionViewCell {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-            //subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
             
         ])

@@ -31,7 +31,6 @@ extension ImageAndDescriptionUIView {
         imageDescription.translatesAutoresizingMaskIntoConstraints = false
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        //addSubview(imageView)
         addSubview(button)
         addSubview(imageDescription)
         button.addSubview(imageView)
@@ -49,10 +48,6 @@ extension ImageAndDescriptionUIView {
         let spacing = CGFloat(10)
         
         NSLayoutConstraint.activate([
-//            imageView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
-//            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-//            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
-//            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             button.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
             button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
@@ -68,7 +63,6 @@ extension ImageAndDescriptionUIView {
             imageDescription.topAnchor.constraint(equalTo: button.bottomAnchor, constant: spacing),
             imageDescription.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageDescription.centerXAnchor.constraint(equalTo: centerXAnchor)
-            
         ])
     }
 }

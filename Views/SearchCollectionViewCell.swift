@@ -25,7 +25,6 @@ class SearchCollectionViewCell: UICollectionViewCell {
 }
 
     // MARK: - Layouts
-
 extension SearchCollectionViewCell {
     
     func setupLayouts() {

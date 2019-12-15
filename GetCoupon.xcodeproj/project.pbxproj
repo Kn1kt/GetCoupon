@@ -188,7 +188,6 @@
 				F35C0815239345610047A85D /* NotificationName.swift */,
 				F3E0AEB3238881CE0063E2C8 /* Views */,
 				F3ED2D6A239846F300726045 /* SearchViews */,
-				F379312D235FA0FB00FD48B9 /* Appearance */,
 				F35B3D26235BAC25000F7ED0 /* GetCoupon */,
 				F35B3D5C235BACB8000F7ED0 /* Data */,
 				F3ED2D722399AE6600726045 /* ShopController */,
@@ -277,13 +276,6 @@
 				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
 			);
 			path = Data;
-			sourceTree = "<group>";
-		};
-		F379312D235FA0FB00FD48B9 /* Appearance */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Appearance;
 			sourceTree = "<group>";
 		};
 		F3B8040C2380654600481152 /* HomeData */ = {

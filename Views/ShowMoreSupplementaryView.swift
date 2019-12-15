@@ -36,10 +36,8 @@ extension ShowMoreSupplementaryView {
         layer.shadowOffset = CGSize(width: 0, height: 4)
         layer.shadowOpacity = 1
         layer.shadowRadius = 15
-        //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
         layer.shouldRasterize = true
         layer.rasterizationScale = UIScreen.main.scale
-        //clipsToBounds = false
         backgroundColor = .secondarySystemGroupedBackground
         
         NSLayoutConstraint.activate([

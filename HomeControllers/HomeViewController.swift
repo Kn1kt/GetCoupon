@@ -34,7 +34,6 @@ class HomeViewController: UIViewController {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
         collectionView?.refreshControl = refresh
-        //collectionView.refreshControl?.beginRefreshing()
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     }
@@ -54,7 +53,7 @@ class HomeViewController: UIViewController {
 
 }
 
-// MARK: - Layouts
+    // MARK: - Layouts
 
 extension HomeViewController {
     
@@ -121,12 +120,6 @@ extension HomeViewController {
             groupFractionHeigh = CGFloat(0.4)
         }
         
-        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.3 : 0.45)
-        //let groupFractionHeigh = CGFloat(layoutEnvironment.container.effectiveContentSize.height < 500 ? 0.8 : 0.5)
-        
-        //let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(170),
-        //                                       heightDimension: .estimated(320))
-        
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
                                                heightDimension: .fractionalHeight(groupFractionHeigh))
         
@@ -155,8 +148,6 @@ extension HomeViewController {
                                               heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        //item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
-        
         var groupFractionalWidth: CGFloat! = nil
         var groupFractionHeigh: CGFloat! = nil
         
@@ -181,13 +172,6 @@ extension HomeViewController {
             groupFractionalWidth = CGFloat(0.36)
             groupFractionHeigh = CGFloat(0.2)
         }
-            
-            
-        //let groupFractionalWidth = CGFloat(layoutEnvironment.container.effectiveContentSize.width > 500 ? 0.2 : 0.36)
-        //let groupFractionHeigh = CGFloat(layoutEnvironment.container.effectiveContentSize.height < 500 ? 0.4 : 0.25)
-        
-        //let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(135),
-        //                                       heightDimension: .estimated(160))
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
                                                heightDimension: .fractionalHeight(groupFractionHeigh))
@@ -218,8 +202,7 @@ extension HomeViewController {
     }
 }
 
-// MARK: - Setup Collection View
-
+    // MARK: - Setup Collection View
 extension HomeViewController {
     
     func configureCollectionView() {
@@ -350,8 +333,7 @@ extension HomeViewController {
     }
 }
 
-// MARK: - Interaction
-
+    // MARK: - Interaction
 extension HomeViewController {
     
     // Show more button
@@ -363,7 +345,6 @@ extension HomeViewController {
         
         let viewController = HomeDetailViewController(section: section)
         viewController.favoritesUpdater = homeDataController
-        //print("tapped in \(section.name)")
         
         show(viewController, sender: self)
     }
@@ -385,23 +366,14 @@ extension HomeViewController {
             guard let self = self else { return }
             
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
-            
-//            if let refresh = self.collectionView.refreshControl,
-//                refresh.isRefreshing {
-//                    self.collectionView.refreshControl?.endRefreshing()
-//            }
             self.collectionView.refreshControl?.endRefreshing()
         }
         
     }
     
     @objc func refresh() {
-        //updateSnapshot()
         ModelController.loadFavoritesCollectionsToStorage()
         ModelController.updateCollections()
-//        DispatchQueue.main.async { [weak self] in
-//            self?.collectionView.refreshControl?.endRefreshing()
-//        }
     }
 }
 
@@ -419,9 +391,7 @@ extension HomeViewController: UICollectionViewDelegate {
         
         let viewController = ShopViewController(shop: selectedShop)
         let navController = UINavigationController(rootViewController: viewController)
-        //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
-        
         
         collectionView.deselectItem(at: indexPath, animated: true)
     }
@@ -432,7 +402,6 @@ extension HomeViewController {
     
     private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
         
-        //let cellData = homeDataController.collections[indexPath.section].shops[indexPath.row]
         guard let url = URL(string: cellData.previewImageLink) else { return }
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             guard let self = self,

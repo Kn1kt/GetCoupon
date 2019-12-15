@@ -51,25 +51,18 @@ extension FavoritesPlainCollectionViewCell {
         backView.addSubview(favoritesButton)
         
         titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
-        //titleLabel.allowsDefaultTighteningForTruncation = true
         titleLabel.adjustsFontForContentSizeCategory = true
         
         subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-        //subtitleLabel.allowsDefaultTighteningForTruncation = true
         subtitleLabel.adjustsFontForContentSizeCategory = true
         subtitleLabel.textColor = .secondaryLabel
         
-        
-        //contentView.layer.shadowPath = UIBezierPath(rect: contentView.bounds).cgPath
         contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
         contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
         contentView.layer.shadowOpacity = 1
         contentView.layer.shadowRadius = 15
         contentView.layer.shouldRasterize = true
         contentView.layer.rasterizationScale = UIScreen.main.scale
-        
-        //selectedBackgroundView = UIView()
-        //selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
         
         imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true
@@ -95,12 +88,9 @@ extension FavoritesPlainCollectionViewCell {
             titleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
             titleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: favoritesButton.leadingAnchor, constant: -spacing),
-            //titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
             titleLabel.heightAnchor.constraint(lessThanOrEqualTo: backView.heightAnchor, multiplier: 0.15),
             
             favoritesButton.trailingAnchor.constraint(equalTo: backView.trailingAnchor),
-            //favoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
-            //favoritesButton.topAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 1.0),
             favoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             favoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 2.0),
             favoritesButton.widthAnchor.constraint(equalTo: favoritesButton.heightAnchor, multiplier: 1.0),
@@ -108,7 +98,6 @@ extension FavoritesPlainCollectionViewCell {
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
             subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
-            //subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing)
             contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
             
         ])

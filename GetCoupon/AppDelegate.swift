@@ -18,8 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         ModelController.updateCollections()
-        //ModelController.loadCollectionsToStorage()
-        //ModelController.loadCollectionsFromStorage()
         return true
     }
 

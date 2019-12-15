@@ -10,7 +10,6 @@ import UIKit
 
 class AddToFavoritesButton: UIButton {
 
-//    var cellIndex: IndexPath?
     var cell: ShopData?
     let checkbox = LikeImageView()
     

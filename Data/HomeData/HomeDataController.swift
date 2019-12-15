@@ -9,26 +9,12 @@
 import UIKit
 
 protocol FavoritesUpdaterProtocol {
-    
     func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>)
-    //func updateFavoritesCollections(in section: SectionData)
 }
 
 class HomeDataController {
     
     var collections: [ShopCategoryData] = []
-    
-//    var collections: [ShopCategoryData] {
-//        return _collections
-//    }
-    
-    init() {
-        //NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
-    }
-    
-    deinit {
-        //NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
-    }
     
     func section(for index: Int) -> ShopCategoryData? {
         return ModelController.section(for: index)
@@ -42,10 +28,6 @@ extension HomeDataController: FavoritesUpdaterProtocol {
     func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>) {
         ModelController.updateFavoritesCollections(in: name, with: addedCells)
     }
-    
-//    func updateFavoritesCollections(in section: SectionData) {
-//        ModelController.updateFavoritesCollections(in: section)
-//    }
 }
 
     // MARK: - Updating

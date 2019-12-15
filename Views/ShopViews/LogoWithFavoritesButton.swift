@@ -32,9 +32,6 @@ extension LogoWithFavoritesButton {
     
     func setupLayouts() {
         
-        //imageView.translatesAutoresizingMaskIntoConstraints = false
-        //favoritesButton.translatesAutoresizingMaskIntoConstraints = false
-        
         addSubview(imageView)
         addSubview(favoritesButton)
         
@@ -62,18 +59,6 @@ extension LogoWithFavoritesButton {
         imageView.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
         let side = frame.size.height * 0.3
         favoritesButton.frame = CGRect(x: bounds.size.width - side, y: bounds.size.height - side, width: side, height: side)
-        
-//        NSLayoutConstraint.activate([
-//            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            imageView.topAnchor.constraint(equalTo: topAnchor),
-//            imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-//
-//            favoritesButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            favoritesButton.bottomAnchor.constraint(equalTo: bottomAnchor),
-//            favoritesButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
-//            favoritesButton.widthAnchor.constraint(equalTo: favoritesButton.heightAnchor)
-//        ])
         
         layer.cornerRadius = bounds.size.height * 0.5
         imageView.layer.cornerRadius = imageView.bounds.size.height * 0.5

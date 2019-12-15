@@ -37,13 +37,6 @@ class FavoritesDataController {
         }
     }
     
-//    var collectionsBySections: [ShopCategoryData] = [] {
-//        didSet {
-//            needUpdateDates = true
-//            snapshotUpdater?.needUpdateSnapshot = true
-//        }
-//    }
-    
     private var _collectionsByDates: [ShopData] = []
     
     var collectionsByDates: [ShopData] {
@@ -76,7 +69,6 @@ class FavoritesDataController {
 }
 
     // MARK: - Collections Management
-
 extension FavoritesDataController {
     
     func checkCollection() {
