@@ -350,6 +350,8 @@ extension ShopViewController {
                     cell.couponsCount.imageDescription.text = "\(self.shop.promocodes.count) Coupons"
                     cell.couponsCount.imageView.tintColor = UIColor(named: "BlueTintColor")
                     cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
+                    
+                    cell.website.button.addTarget(self, action: #selector(ShopViewController.openWebsite(_:)), for: .touchUpInside)
                     return cell
                     
                 default:
@@ -508,10 +510,24 @@ extension ShopViewController {
             }
 
             DispatchQueue.main.async {
-                self.headerImageView.image = image
-                self.headerImageView.alpha = 1
+                UIView.animate(withDuration: 1) {
+                    self.headerImageView.alpha = 0.1
+                    self.headerImageView.image = image
+                    self.headerImageView.alpha = 1
+                }
                 self.shop.image = image
             }
         }.resume()
+    }
+}
+
+    //MARK: - openURL
+extension ShopViewController {
+    
+    @objc func openWebsite(_ sender: UIButton) {
+        guard let url = URL(string: shop.websiteLink) else {
+            return
+        }
+        UIApplication.shared.open(url)
     }
 }

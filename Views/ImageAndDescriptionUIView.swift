@@ -11,6 +11,7 @@ import UIKit
 class ImageAndDescriptionUIView: UIView {
 
     let imageView = UIImageView()
+    let button = UIButton()
     let imageDescription = UILabel()
     
     override init(frame: CGRect) {
@@ -28,9 +29,12 @@ extension ImageAndDescriptionUIView {
     func setupLayouts() {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageDescription.translatesAutoresizingMaskIntoConstraints = false
+        button.translatesAutoresizingMaskIntoConstraints = false
         
-        addSubview(imageView)
+        //addSubview(imageView)
+        addSubview(button)
         addSubview(imageDescription)
+        button.addSubview(imageView)
         
         imageView.backgroundColor = .clear
         imageView.clipsToBounds = true
@@ -45,14 +49,23 @@ extension ImageAndDescriptionUIView {
         let spacing = CGFloat(10)
         
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
-            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+//            imageView.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+//            imageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+//            imageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
+//            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            button.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            button.centerXAnchor.constraint(equalTo: centerXAnchor),
+            button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
+            button.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+            
+            imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: button.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
             
             imageDescription.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
             imageDescription.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
-            imageDescription.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
+            imageDescription.topAnchor.constraint(equalTo: button.bottomAnchor, constant: spacing),
             imageDescription.bottomAnchor.constraint(equalTo: bottomAnchor),
             imageDescription.centerXAnchor.constraint(equalTo: centerXAnchor)
             
