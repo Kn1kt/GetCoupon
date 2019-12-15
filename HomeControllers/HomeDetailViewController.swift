@@ -187,10 +187,10 @@ extension HomeDetailViewController {
             groupFractionHeigh = CGFloat(0.3)
             
         case (.regular, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.15)
             
         case (.regular, .regular):
-            groupFractionHeigh = CGFloat(0.25)
+            groupFractionHeigh = CGFloat(0.15)
             
         default:
             groupFractionHeigh = CGFloat(0.15)

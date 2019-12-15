@@ -13,4 +13,5 @@ extension Notification.Name {
     static let didUpdateFavorites = Notification.Name("didUpdateFavorites")
     static let didUpdateCollections = Notification.Name("didUpdateCollections")
     static let didUpdateHome = Notification.Name("didUpdateHome")
+    static let didUpdateSearchCollections = Notification.Name("didUpdateSearchCollections")
 }

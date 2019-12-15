@@ -157,10 +157,10 @@ extension ShopViewController {
             groupFractionHeigh = CGFloat(0.25)
             
         case (.regular, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.10)
             
         case (.regular, .regular):
-            groupFractionHeigh = CGFloat(0.25)
+            groupFractionHeigh = CGFloat(0.10)
             
         default:
             groupFractionHeigh = CGFloat(0.12)
@@ -194,10 +194,10 @@ extension ShopViewController {
             groupFractionHeigh = CGFloat(0.15)
             
         case (.regular, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.10)
             
         case (.regular, .regular):
-            groupFractionHeigh = CGFloat(0.25)
+            groupFractionHeigh = CGFloat(0.10)
             
         default:
             groupFractionHeigh = CGFloat(0.08)
@@ -233,10 +233,10 @@ extension ShopViewController {
             groupFractionHeigh = CGFloat(0.4)
             
         case (.regular, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.20)
             
         case (.regular, .regular):
-            groupFractionHeigh = CGFloat(0.25)
+            groupFractionHeigh = CGFloat(0.20)
             
         default:
             groupFractionHeigh = CGFloat(0.2)
@@ -469,6 +469,8 @@ extension ShopViewController {
         if let headerImage = shop.image {
             headerImageView.image = headerImage
         } else {
+            headerImageView.image = shop.previewImage
+            headerImageView.alpha = 0.3
             downloadHeader()
         }
         if let logoImage = shop.previewImage {
@@ -489,8 +491,8 @@ extension ShopViewController {
             }
 
             DispatchQueue.main.async {
-                self.shop.previewImage = image
                 self.logoView.imageView.image = image
+                self.shop.previewImage = image
             }
         }.resume()
     }
@@ -506,8 +508,9 @@ extension ShopViewController {
             }
 
             DispatchQueue.main.async {
-                self.shop.image = image
                 self.headerImageView.image = image
+                self.headerImageView.alpha = 1
+                self.shop.image = image
             }
         }.resume()
     }

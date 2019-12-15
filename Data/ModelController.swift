@@ -31,6 +31,7 @@ class ModelController {
                 //updateFavoritesCollections()
                 loadFavoritesCollectionsFromStorage()
                 homeDataController.updateCollections()
+                setupSearchData()
                 needSaveToStorage = true
             }
             //NotificationCenter.default.post(name: .didUpdateCollections, object: nil)
@@ -40,27 +41,6 @@ class ModelController {
     
     /// Home Collections
     static var homeDataController: HomeDataController = createHomeDataController()
-    
-//    static var homeDataController: HomeDataController {
-//
-//        if _homeDataController == nil {
-//            _homeDataController = createHomeDataController()
-//        }
-//
-//        return _homeDataController!
-//    }
-    
-//    static private var _homeCollections: [ShopCategoryData]?
-//
-//    static var homeCollections: [ShopCategoryData] {
-//        get {
-//            if _homeCollections == nil {
-//                updateHomeCollections()
-//            }
-//
-//            return _homeCollections!
-//        }
-//    }
     
     /// Favorites Collection
     static private var _favoritesDataController: FavoritesDataController?
@@ -93,17 +73,17 @@ class ModelController {
     }
     
     /// Search Collection
-    static private var _searchCollection: ShopCategoryData?
+    static var searchCollection: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
     
-    static var searchCollection: ShopCategoryData {
-        get {
-            if _searchCollection == nil {
-                _searchCollection = setupSearchData()
-            }
-            
-            return _searchCollection!
-        }
-    }
+//    static var searchCollection: ShopCategoryData {
+//        get {
+//            if _searchCollection == nil {
+//                _searchCollection = setupSearchData()
+//            }
+//
+//            return _searchCollection!
+//        }
+//    }
     
     
 }
@@ -890,12 +870,18 @@ extension ModelController {
 
 extension ModelController {
     
-    static private func setupSearchData() -> ShopCategoryData {
+    static private func setupSearchData() {
         
-        let shops = collections.reduce(into: [ShopData]()) { result, section in
-            result.append(contentsOf: section.shops)
+        DispatchQueue.global(qos: .background).async {
+            let shops = collections.reduce(into: [ShopData]()) { result, section in
+                result.append(contentsOf: section.shops)
+            }
+            let newCategory = ShopCategoryData(categoryName: "Search", shops: shops)
+            
+            DispatchQueue.main.async {
+                searchCollection = newCategory
+                NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
+            }
         }
-        
-        return ShopCategoryData(categoryName: "Search", shops: shops)
     }
 }

@@ -67,10 +67,10 @@ extension SearchBaseViewController {
             groupFractionHeigh = CGFloat(0.2)
             
         case (.regular, .compact):
-            groupFractionHeigh = CGFloat(0.35)
+            groupFractionHeigh = CGFloat(0.10)
             
         case (.regular, .regular):
-            groupFractionHeigh = CGFloat(0.25)
+            groupFractionHeigh = CGFloat(0.10)
             
         default:
             groupFractionHeigh = CGFloat(0.1)

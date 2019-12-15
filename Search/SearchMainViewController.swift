@@ -27,6 +27,7 @@ class SearchMainViewController: SearchBaseViewController {
         
         section = ModelController.searchCollection
         resultsViewController.section = ShopCategoryData(categoryName: "Results")
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchMainViewController.updateSection), name: .didUpdateSearchCollections, object: nil)
         
         collectionView.delegate = self
         
@@ -52,6 +53,9 @@ class SearchMainViewController: SearchBaseViewController {
         // There gonna be some restoring features
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didUpdateSearchCollections, object: nil)
+    }
 }
 
     // MARK: - UICollectionViewDelegate
@@ -67,68 +71,9 @@ extension SearchMainViewController: UICollectionViewDelegate {
             selectedShop = resultsViewController.section.shops[indexPath.row]
         }
         
-        // There gonna be some presentation features
-        //debugPrint(selectedShop)
-//        let shop = ShopData(name: "KFC",
-//                            description: "Menu: chicken dishes, french fries, salads, snacks, etc.",
-//                            shortDescription: "Kentucky Fried Chicken",
-//                            websiteLink: "//kindaLink",
-//                            image: UIImage(named: "KFC"),
-//                            previewImage: UIImage(named: "KFC"),
-//                            isFavorite: true,
-//                            promocodes: [
-//                                PromocodeData(name: "COUPON30",
-//                                              addingDate: Date(timeIntervalSinceNow: -1000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
-//                                              description: "save ur 30%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON20",
-//                                              addingDate: Date(timeIntervalSinceNow: -2000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
-//                                              description: "save ur 20%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON10",
-//                                              addingDate: Date(timeIntervalSinceNow: -3000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
-//                                              description: "save your 10% when spent more than 1000",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON30",
-//                                              addingDate: Date(timeIntervalSinceNow: -1000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
-//                                              description: "save ur 30%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON20",
-//                                              addingDate: Date(timeIntervalSinceNow: -2000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
-//                                              description: "save ur 20%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON10",
-//                                              addingDate: Date(timeIntervalSinceNow: -3000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
-//                                              description: "save your 10% when spent more than 1000",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON30",
-//                                              addingDate: Date(timeIntervalSinceNow: -1000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 1000),
-//                                              description: "save ur 30%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON20",
-//                                              addingDate: Date(timeIntervalSinceNow: -2000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 2000),
-//                                              description: "save ur 20%",
-//                                              isHot: false),
-//                                PromocodeData(name: "COUPON10",
-//                                              addingDate: Date(timeIntervalSinceNow: -3000),
-//                                              estimatedDate: Date(timeIntervalSinceNow: 3000),
-//                                              description: "save your 10% when spent more than 1000",
-//                                              isHot: false)
-//        ])
-        
         let viewController = ShopViewController(shop: selectedShop)
         let navController = UINavigationController(rootViewController: viewController)
-        //navController.modalPresentationStyle = .fullScreen
         present(navController, animated: true)
-        
         
         collectionView.deselectItem(at: indexPath, animated: true)
     }
@@ -147,25 +92,9 @@ extension SearchMainViewController: UISearchBarDelegate {
 
 extension SearchMainViewController: UISearchControllerDelegate {
 
-//    func presentSearchController(_ searchController: UISearchController) {
-//        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-//    }
-
     func willPresentSearchController(_ searchController: UISearchController) {
         resultsViewController.collectionView.delegate = self
     }
-//
-//    func didPresentSearchController(_ searchController: UISearchController) {
-//        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-//    }
-//
-//    func willDismissSearchController(_ searchController: UISearchController) {
-//        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-//    }
-//
-//    func didDismissSearchController(_ searchController: UISearchController) {
-//        debugPrint("UISearchControllerDelegate invoked method: \(#function).")
-//    }
 }
 
     // MARK: - UISearchResultsUpdating
@@ -197,4 +126,13 @@ extension SearchMainViewController: UISearchResultsUpdating {
         return filtered.sorted { $0.name < $1.name }
     }
     
+}
+
+    // MARK: - Data Updating
+extension SearchMainViewController {
+    
+    @objc func updateSection() {
+        section = ModelController.searchCollection
+        updateSnapshot()
+    }
 }
