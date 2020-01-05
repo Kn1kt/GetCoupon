@@ -39,7 +39,7 @@ class ModelController {
     /// Home Collections
     static var homeDataController: HomeDataController = createHomeDataController()
     
-    /// Favorites Collection
+    /// Favorites Collections
     static var favoritesDataController: FavoritesDataController = createFavoritesDataController()
     
     static private var _favoritesCollections: [ShopCategoryData] = []
@@ -80,6 +80,8 @@ extension ModelController {
                     loadCollectionsFromStorage()
                     return
             }
+            
+            monitor.cancel()
             
             URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data else { return }

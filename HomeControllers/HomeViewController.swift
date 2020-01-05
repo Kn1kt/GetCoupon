@@ -41,10 +41,21 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if ModelController.collections.isEmpty {
-            collectionView.refreshControl?.beginRefreshing()
+            if let refresh = collectionView.refreshControl,
+                !refresh.isRefreshing {
+                collectionView.refreshControl?.beginRefreshing()
+            }
         }
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = "Home"
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let refresh = collectionView.refreshControl,
+            refresh.isRefreshing {
+            collectionView.refreshControl?.endRefreshing()
+        }
     }
 
     deinit {
@@ -54,7 +65,6 @@ class HomeViewController: UIViewController {
 }
 
     // MARK: - Layouts
-
 extension HomeViewController {
     
     func createLayout() -> UICollectionViewLayout {

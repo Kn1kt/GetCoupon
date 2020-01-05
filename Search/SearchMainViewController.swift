@@ -10,12 +10,6 @@ import UIKit
 
 class SearchMainViewController: SearchBaseViewController {
     
-    /// NSPredicate expressions keys
-    private enum ExpressionKeys: String {
-        case title
-        case tags
-    }
-    
     private var resultsViewController: SearchResultsViewController!
     
     private var searchController: UISearchController!
@@ -48,18 +42,12 @@ class SearchMainViewController: SearchBaseViewController {
         updateSnapshot()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        // There gonna be some restoring features
-    }
-    
     deinit {
         NotificationCenter.default.removeObserver(self, name: .didUpdateSearchCollections, object: nil)
     }
 }
 
     // MARK: - UICollectionViewDelegate
-
 extension SearchMainViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -80,7 +68,6 @@ extension SearchMainViewController: UICollectionViewDelegate {
 }
 
     // MARK: - UISearchBarDelegate
-
 extension SearchMainViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -89,7 +76,6 @@ extension SearchMainViewController: UISearchBarDelegate {
 }
 
      // MARK: - UISearchControllerDelegate
-
 extension SearchMainViewController: UISearchControllerDelegate {
 
     func willPresentSearchController(_ searchController: UISearchController) {
@@ -98,7 +84,6 @@ extension SearchMainViewController: UISearchControllerDelegate {
 }
 
     // MARK: - UISearchResultsUpdating
-
 extension SearchMainViewController: UISearchResultsUpdating {
     
     func updateSearchResults(for searchController: UISearchController) {
