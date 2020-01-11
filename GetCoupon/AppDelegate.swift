@@ -31,6 +31,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
 //            print(storedCategory.description)
 //        }
+//        
+//        try! realm.write {
+//            category.shops.forEach {
+//                $0.promoCodes.forEach {
+//                    realm.delete($0)
+//                }
+//                //$0.promoCodes.removeAll()
+//                realm.delete($0)
+//            }
+//            realm.delete(category)
+//        }
+//        
+//        if let _ = realm.object(ofType: ShopStoredData.self, forPrimaryKey: "TEST") {
+//            print("Exist")
+//        } else {
+//            print("Kinda absence")
+//        }
         
         ModelController.updateCollections()
         return true
