@@ -8,14 +8,29 @@
 
 import UIKit
 import CoreData
+import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+//        let realm = try! Realm()
+//        let fpromo = PromoCodeStoredData(coupon: "SALE10", addingDate: Date(timeIntervalSinceNow: 0), estimatedDate: nil, description: "It is just TEST", isHot: true)
+//        let shop = ShopStoredData(name: "TEST", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
+//        let category = ShopCategoryStoredData(categoryName: "TEST", shops: [shop])
+//        try! realm.write {
+//            realm.add(fpromo)
+//            realm.add(shop)
+//            realm.add(category)
+//            //print(fpromo.description)
+//            //print(shop.description)
+//        }
+//
+//        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
+//            print(storedCategory.description)
+//        }
         
         ModelController.updateCollections()
         return true

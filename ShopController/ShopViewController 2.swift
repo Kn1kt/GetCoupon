@@ -22,23 +22,23 @@ class ShopViewController: UIViewController {
     let headerImageView = UIImageView()
     let logoView = LogoWithFavoritesButton()
     
-    let titleCell: PromoCodeData = PromoCodeData(coupon: "title")
+    let titleCell: PromocodeData = PromocodeData(coupon: "title")
     let titleSection: ShopData
     
-    let detailTitleCell: PromoCodeData = PromoCodeData(coupon: "detailTitle")
+    let detailTitleCell: PromocodeData = PromocodeData(coupon: "detailTitle")
     let detailTitleSection: ShopData
     
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
-        <ShopData, PromoCodeData>! = nil
+        <ShopData, PromocodeData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
-        <ShopData, PromoCodeData>! = nil
+        <ShopData, PromocodeData>! = nil
     
     init(shop: ShopData) {
         self.shop = shop
         favoriteStatus = shop.isFavorite
-        titleSection = ShopData(name: "title", shortDescription: "title", websiteLink: "", promoCodes: [titleCell])
-        detailTitleSection = ShopData(name: "detail", shortDescription: "detail", websiteLink: "", promoCodes: [detailTitleCell])
+        titleSection = ShopData(name: "title", shortDescription: "title", websiteLink: "", promocodes: [titleCell])
+        detailTitleSection = ShopData(name: "detail", shortDescription: "detail", websiteLink: "", promocodes: [detailTitleCell])
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -53,6 +53,7 @@ class ShopViewController: UIViewController {
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .none
         
+        //navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -60,6 +61,7 @@ class ShopViewController: UIViewController {
         navigationController?.navigationBar.alpha = 0.1
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
+        //navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.down.circle.fill"), style: .plain, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
         logoView.favoritesButton.addTarget(self, action: #selector(ShopViewController.addToFavorites(_:)), for: .touchUpInside)
         logoView.favoritesButton.checkbox.isHighlighted = shop.isFavorite
         
@@ -74,6 +76,19 @@ class ShopViewController: UIViewController {
         super.viewWillAppear(animated)
     }
     
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        if favoriteStatus != shop.isFavorite {
+//            switch shop.isFavorite {
+//            case true:
+//                ModelController.insertInFavorites(shop: shop)
+//            case false:
+//                ModelController.deleteFromFavorites(shop: shop)
+//            }
+//            previousViewUpdater?.updateScreen()
+//        }
+//    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if favoriteStatus != shop.isFavorite {
@@ -86,9 +101,18 @@ class ShopViewController: UIViewController {
             previousViewUpdater?.updateScreen()
         }
     }
+    
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//
+//        logoView.layer.cornerRadius = logoView.bounds.size.height * 0.5
+//        logoView.imageView.layer.cornerRadius = logoView.imageView.bounds.size.height * 0.5
+//        logoView.favoritesButton.layer.cornerRadius = logoView.favoritesButton.bounds.height * 0.5
+//    }
 }
 
     // MARK: - Layouts
+
 extension ShopViewController {
     
     func createLayout() -> UICollectionViewLayout {
@@ -109,6 +133,7 @@ extension ShopViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
+        //config.interSectionSpacing = 20
         
         let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                         configuration: config)
@@ -231,12 +256,14 @@ extension ShopViewController {
 }
 
     // MARK: - Setup Collection View
+
 extension ShopViewController {
     
     func configureCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        //logoView.translatesAutoresizingMaskIntoConstraints = false
         
         collectionView.backgroundColor = .systemBackground
         collectionView.alwaysBounceVertical = true
@@ -248,6 +275,8 @@ extension ShopViewController {
         headerImageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 200)
         headerImageView.backgroundColor = .systemGray3
         
+        //headerImageView.image = shop.image
+        
         headerImageView.contentMode = .scaleAspectFill
         headerImageView.clipsToBounds = true
         
@@ -258,6 +287,8 @@ extension ShopViewController {
                                 width: 140,
                                 height: 140)
         
+        //logoView.imageView.image = shop.previewImage
+        
         view.addSubview(logoView)
         
         /// Setup delegate
@@ -267,7 +298,15 @@ extension ShopViewController {
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            //logoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            //logoView.centerYAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: -20),
+            
+            //logoView.heightAnchor.constraint(equalToConstant: 140),
+            //logoView.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.37),
+            
+            //logoView.widthAnchor.constraint(equalTo: logoView.heightAnchor)
         ])
         
         
@@ -283,9 +322,9 @@ extension ShopViewController {
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource
-            <ShopData, PromoCodeData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+            <ShopData, PromocodeData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
-                                                                                cellData: PromoCodeData) -> UICollectionViewCell? in
+                                                                                cellData: PromocodeData) -> UICollectionViewCell? in
                 
                 guard let self = self else {
                     return nil
@@ -308,7 +347,7 @@ extension ShopViewController {
                         fatalError("Can't create new cell")
                     }
                     
-                    cell.couponsCount.imageDescription.text = "\(self.shop.promoCodes.count) Coupons"
+                    cell.couponsCount.imageDescription.text = "\(self.shop.promocodes.count) Coupons"
                     cell.couponsCount.imageView.tintColor = UIColor(named: "BlueTintColor")
                     cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
                     
@@ -321,8 +360,12 @@ extension ShopViewController {
                         fatalError("Can't create new cell")
                     }
                     
+                    //cell.imageView.setNeedsLayout()
+                    
                     cell.imageView.image = self.shop.previewImage
+                    //cell.titleLabel.text = self.shop.name
                     cell.subtitleLabel.text = cellData.description
+                    //cell.couponLabel.text = cellData.name
                     cell.promocodeView.promocodeLabel.text = cellData.coupon
                     
                     if let addingDate = cellData.addingDate {
@@ -337,16 +380,16 @@ extension ShopViewController {
         }
         
         currentSnapshot = NSDiffableDataSourceSnapshot
-            <ShopData, PromoCodeData>()
+            <ShopData, PromocodeData>()
         
         currentSnapshot.appendSections([titleSection])
-        currentSnapshot.appendItems(titleSection.promoCodes)
+        currentSnapshot.appendItems(titleSection.promocodes)
         
         currentSnapshot.appendSections([detailTitleSection])
-        currentSnapshot.appendItems(detailTitleSection.promoCodes)
+        currentSnapshot.appendItems(detailTitleSection.promocodes)
         
         currentSnapshot.appendSections([shop])
-        currentSnapshot.appendItems(shop.promoCodes)
+        currentSnapshot.appendItems(shop.promocodes)
         
         dataSource.apply(currentSnapshot, animatingDifferences: false)
     }
@@ -375,15 +418,19 @@ extension ShopViewController: UICollectionViewDelegate {
         if let navBar = navigationController?.navigationBar {
             if navBar.backgroundImage(for: .default) != nil
                 && y < offset {
+                //UIView.animate(withDuration: 2) {
                     navBar.setBackgroundImage(nil, for: .default)
                     navBar.shadowImage = nil
                     self.navigationItem.title = self.shop.name
+                //}
 
             } else if navBar.backgroundImage(for: .default) == nil
                 && y > offset {
+                //UIView.animate(withDuration: 2) {
                     navBar.setBackgroundImage(UIImage(), for: .default)
                     navBar.shadowImage = UIImage()
                     self.navigationItem.title = nil
+                //}
             }
         }
         

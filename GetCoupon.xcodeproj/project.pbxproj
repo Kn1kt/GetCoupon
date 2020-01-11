@@ -3,10 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01D4788D5D496C1BCE959C2E /* Pods_GetCouponTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14DBB1DA77259D8CE617ACA8 /* Pods_GetCouponTests.framework */; };
+		D60AB2E2C764352797CBE537 /* Pods_GetCoupon_GetCouponUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61FC7666DEFDCF280681DCF3 /* Pods_GetCoupon_GetCouponUITests.framework */; };
+		D9E42250C2BAA2137D528054 /* Pods_GetCoupon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0890D0EA3C07B817B3F70B85 /* Pods_GetCoupon.framework */; };
 		F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F46239009C500A78A74 /* FavoritesViewController.swift */; };
 		F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F4A239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift */; };
 		F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F4C239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift */; };
@@ -32,6 +35,9 @@
 		F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */; };
 		F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */; };
 		F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */; };
+		F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4723CA563100AAC409 /* ShopCategoryStoredData.swift */; };
+		F38F7A4A23CA564200AAC409 /* ShopStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4923CA564200AAC409 /* ShopStoredData.swift */; };
+		F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4B23CA566200AAC409 /* PromoCodeStoredData.swift */; };
 		F3A4B1A6239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A4B1A5239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift */; };
 		F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */; };
 		F3B80405238063A100481152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B80404238063A100481152 /* HomeViewController.swift */; };
@@ -51,7 +57,7 @@
 		F3ED2D6E23984CB700726045 /* SearchResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */; };
 		F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D732399AEBC00726045 /* ShopViewController.swift */; };
 		F3ED2D762399B31000726045 /* ShopData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D752399B31000726045 /* ShopData.swift */; };
-		F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D772399B33400726045 /* PromocodeData.swift */; };
+		F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D772399B33400726045 /* PromoCodeData.swift */; };
 		F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */; };
 		F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D7B239B269E00726045 /* PromocodeView.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +80,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0890D0EA3C07B817B3F70B85 /* Pods_GetCoupon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GetCoupon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14DBB1DA77259D8CE617ACA8 /* Pods_GetCouponTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GetCouponTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1743BA7224135CAF830F4056 /* Pods-GetCoupon-GetCouponUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCoupon-GetCouponUITests.debug.xcconfig"; path = "Target Support Files/Pods-GetCoupon-GetCouponUITests/Pods-GetCoupon-GetCouponUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		4E5309F379555D70486CADB4 /* Pods-GetCoupon-GetCouponUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCoupon-GetCouponUITests.release.xcconfig"; path = "Target Support Files/Pods-GetCoupon-GetCouponUITests/Pods-GetCoupon-GetCouponUITests.release.xcconfig"; sourceTree = "<group>"; };
+		5F97DB8D236A9739B2628246 /* Pods-GetCouponTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCouponTests.release.xcconfig"; path = "Target Support Files/Pods-GetCouponTests/Pods-GetCouponTests.release.xcconfig"; sourceTree = "<group>"; };
+		61FC7666DEFDCF280681DCF3 /* Pods_GetCoupon_GetCouponUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GetCoupon_GetCouponUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9446C084C315C26001754C4A /* Pods-GetCoupon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCoupon.release.xcconfig"; path = "Target Support Files/Pods-GetCoupon/Pods-GetCoupon.release.xcconfig"; sourceTree = "<group>"; };
+		9698348412220C4DEBBFDAAC /* Pods-GetCouponTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCouponTests.debug.xcconfig"; path = "Target Support Files/Pods-GetCouponTests/Pods-GetCouponTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F2A7E065A24EDF2471DE0C61 /* Pods-GetCoupon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GetCoupon.debug.xcconfig"; path = "Target Support Files/Pods-GetCoupon/Pods-GetCoupon.debug.xcconfig"; sourceTree = "<group>"; };
 		F33A9F46239009C500A78A74 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		F33A9F4A239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPlainCollectionViewCell.swift; sourceTree = "<group>"; };
 		F33A9F4C239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSegmentedControlCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -105,6 +120,9 @@
 		F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreSupplementaryView.swift; sourceTree = "<group>"; };
 		F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCaptionImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		F38F7A4723CA563100AAC409 /* ShopCategoryStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopCategoryStoredData.swift; sourceTree = "<group>"; };
+		F38F7A4923CA564200AAC409 /* ShopStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopStoredData.swift; sourceTree = "<group>"; };
+		F38F7A4B23CA566200AAC409 /* PromoCodeStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCodeStoredData.swift; sourceTree = "<group>"; };
 		F3A4B1A5239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailSegmentedControlCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3B80404238063A100481152 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +142,7 @@
 		F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewController.swift; sourceTree = "<group>"; };
 		F3ED2D732399AEBC00726045 /* ShopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopViewController.swift; sourceTree = "<group>"; };
 		F3ED2D752399B31000726045 /* ShopData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopData.swift; sourceTree = "<group>"; };
-		F3ED2D772399B33400726045 /* PromocodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeData.swift; sourceTree = "<group>"; };
+		F3ED2D772399B33400726045 /* PromoCodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCodeData.swift; sourceTree = "<group>"; };
 		F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopPlainCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3ED2D7B239B269E00726045 /* PromocodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromocodeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -134,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9E42250C2BAA2137D528054 /* Pods_GetCoupon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,6 +160,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01D4788D5D496C1BCE959C2E /* Pods_GetCouponTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,12 +168,36 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D60AB2E2C764352797CBE537 /* Pods_GetCoupon_GetCouponUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		65E63BE25E7A2CFBC7DA1381 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0890D0EA3C07B817B3F70B85 /* Pods_GetCoupon.framework */,
+				61FC7666DEFDCF280681DCF3 /* Pods_GetCoupon_GetCouponUITests.framework */,
+				14DBB1DA77259D8CE617ACA8 /* Pods_GetCouponTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E431459743B2EA3637255557 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F2A7E065A24EDF2471DE0C61 /* Pods-GetCoupon.debug.xcconfig */,
+				9446C084C315C26001754C4A /* Pods-GetCoupon.release.xcconfig */,
+				1743BA7224135CAF830F4056 /* Pods-GetCoupon-GetCouponUITests.debug.xcconfig */,
+				4E5309F379555D70486CADB4 /* Pods-GetCoupon-GetCouponUITests.release.xcconfig */,
+				9698348412220C4DEBBFDAAC /* Pods-GetCouponTests.debug.xcconfig */,
+				5F97DB8D236A9739B2628246 /* Pods-GetCouponTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F33A9F452390097100A78A74 /* FavoritesControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +243,8 @@
 				F35B3D40235BAC2D000F7ED0 /* GetCouponTests */,
 				F35B3D4B235BAC2D000F7ED0 /* GetCouponUITests */,
 				F35B3D25235BAC25000F7ED0 /* Products */,
+				E431459743B2EA3637255557 /* Pods */,
+				65E63BE25E7A2CFBC7DA1381 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -266,16 +312,27 @@
 		F35B3D5C235BACB8000F7ED0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F38F7A4623CA560500AAC409 /* StoredData */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */,
 				F3ED2D752399B31000726045 /* ShopData.swift */,
-				F3ED2D772399B33400726045 /* PromocodeData.swift */,
+				F3ED2D772399B33400726045 /* PromoCodeData.swift */,
 				F3B8040C2380654600481152 /* HomeData */,
 				F3E0AEBC238C69EB0063E2C8 /* FavoritesData */,
 				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
 				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		F38F7A4623CA560500AAC409 /* StoredData */ = {
+			isa = PBXGroup;
+			children = (
+				F38F7A4723CA563100AAC409 /* ShopCategoryStoredData.swift */,
+				F38F7A4923CA564200AAC409 /* ShopStoredData.swift */,
+				F38F7A4B23CA566200AAC409 /* PromoCodeStoredData.swift */,
+			);
+			path = StoredData;
 			sourceTree = "<group>";
 		};
 		F3B8040C2380654600481152 /* HomeData */ = {
@@ -364,9 +421,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F35B3D51235BAC2D000F7ED0 /* Build configuration list for PBXNativeTarget "GetCoupon" */;
 			buildPhases = (
+				14F2A21563DDEDADAF61EBBC /* [CP] Check Pods Manifest.lock */,
 				F35B3D20235BAC25000F7ED0 /* Sources */,
 				F35B3D21235BAC25000F7ED0 /* Frameworks */,
 				F35B3D22235BAC25000F7ED0 /* Resources */,
+				5C65A24AF39834C6A117AD44 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -381,6 +440,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F35B3D54235BAC2D000F7ED0 /* Build configuration list for PBXNativeTarget "GetCouponTests" */;
 			buildPhases = (
+				EAD50BA64EDA3DDB145424C4 /* [CP] Check Pods Manifest.lock */,
 				F35B3D39235BAC2D000F7ED0 /* Sources */,
 				F35B3D3A235BAC2D000F7ED0 /* Frameworks */,
 				F35B3D3B235BAC2D000F7ED0 /* Resources */,
@@ -399,9 +459,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F35B3D57235BAC2D000F7ED0 /* Build configuration list for PBXNativeTarget "GetCouponUITests" */;
 			buildPhases = (
+				FAAA191F46F8E37F70F39191 /* [CP] Check Pods Manifest.lock */,
 				F35B3D44235BAC2D000F7ED0 /* Sources */,
 				F35B3D45235BAC2D000F7ED0 /* Frameworks */,
 				F35B3D46235BAC2D000F7ED0 /* Resources */,
+				B7BD977D0AAD7A2351636814 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -487,6 +549,109 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		14F2A21563DDEDADAF61EBBC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GetCoupon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C65A24AF39834C6A117AD44 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GetCoupon/Pods-GetCoupon-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GetCoupon/Pods-GetCoupon-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GetCoupon/Pods-GetCoupon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B7BD977D0AAD7A2351636814 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GetCoupon-GetCouponUITests/Pods-GetCoupon-GetCouponUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-GetCoupon-GetCouponUITests/Pods-GetCoupon-GetCouponUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-GetCoupon-GetCouponUITests/Pods-GetCoupon-GetCouponUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EAD50BA64EDA3DDB145424C4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GetCouponTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FAAA191F46F8E37F70F39191 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-GetCoupon-GetCouponUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F35B3D20235BAC25000F7ED0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -496,6 +661,7 @@
 				F3A4B1A6239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift in Sources */,
 				F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */,
 				F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */,
+				F38F7A4A23CA564200AAC409 /* ShopStoredData.swift in Sources */,
 				F3E0AEB9238A0B060063E2C8 /* LikeImageView.swift in Sources */,
 				F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */,
 				F3E0AEC0238C868C0063E2C8 /* AddToFavoritesButton.swift in Sources */,
@@ -505,13 +671,15 @@
 				F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */,
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
-				F3ED2D782399B33400726045 /* PromocodeData.swift in Sources */,
+				F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
 				F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */,
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
+				F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */,
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
 				F35B3D32235BAC25000F7ED0 /* GetCoupon.xcdatamodeld in Sources */,
 				F3ED2D6C23984C9500726045 /* SearchMainViewController.swift in Sources */,
+				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
 				F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */,
 				F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */,
 				F3B80405238063A100481152 /* HomeViewController.swift in Sources */,
@@ -700,6 +868,7 @@
 		};
 		F35B3D52235BAC2D000F7ED0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2A7E065A24EDF2471DE0C61 /* Pods-GetCoupon.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -718,6 +887,7 @@
 		};
 		F35B3D53235BAC2D000F7ED0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9446C084C315C26001754C4A /* Pods-GetCoupon.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -736,6 +906,7 @@
 		};
 		F35B3D55235BAC2D000F7ED0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9698348412220C4DEBBFDAAC /* Pods-GetCouponTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -758,6 +929,7 @@
 		};
 		F35B3D56235BAC2D000F7ED0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F97DB8D236A9739B2628246 /* Pods-GetCouponTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -780,6 +952,7 @@
 		};
 		F35B3D58235BAC2D000F7ED0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1743BA7224135CAF830F4056 /* Pods-GetCoupon-GetCouponUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -800,6 +973,7 @@
 		};
 		F35B3D59235BAC2D000F7ED0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4E5309F379555D70486CADB4 /* Pods-GetCoupon-GetCouponUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

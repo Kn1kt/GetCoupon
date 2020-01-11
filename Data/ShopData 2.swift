@@ -27,7 +27,7 @@ class ShopData: Codable {
     var isFavorite: Bool
     var favoriteAddingDate: Date?
     
-    var promoCodes: [PromoCodeData]
+    var promocodes: [PromocodeData]
     
     let identifier = UUID()
     
@@ -41,7 +41,7 @@ class ShopData: Codable {
          image: UIImage? = nil,
          previewImage: UIImage? = nil,
          isFavorite: Bool = false,
-         promoCodes: [PromoCodeData] = []) {
+         promocodes: [PromocodeData] = []) {
         self.name = name
         self.description = description
         self.shortDescription = shortDescription
@@ -51,7 +51,7 @@ class ShopData: Codable {
         self.placeholderColor = placeholderColor
         self.image = image
         self.previewImage = previewImage
-        self.promoCodes = promoCodes
+        self.promocodes = promocodes
         self.isFavorite = isFavorite
     }
     
@@ -64,7 +64,7 @@ class ShopData: Codable {
         image: image,
         previewImage: image,
         isFavorite: false,
-        promoCodes: [])
+        promocodes: [])
     }
     
     convenience init(name: String, shortDescription: String) {
@@ -75,7 +75,7 @@ class ShopData: Codable {
         image: nil,
         previewImage: nil,
         isFavorite: false,
-        promoCodes: [])
+        promocodes: [])
     }
     
     /// Codable
@@ -107,7 +107,7 @@ class ShopData: Codable {
         previewImage = try container.decode(UIImage?.self, forKey: .previewImage)
         isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         favoriteAddingDate = try container.decode(Date?.self, forKey: .favoriteAddingDate)
-        promoCodes = try container.decode([PromoCodeData].self, forKey: .promocodes)
+        promocodes = try container.decode([PromocodeData].self, forKey: .promocodes)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -123,7 +123,7 @@ class ShopData: Codable {
         try container.encode(previewImage, forKey: .previewImage)
         try container.encode(isFavorite, forKey: .isFavorite)
         try container.encode(favoriteAddingDate, forKey: .favoriteAddingDate)
-        try container.encode(promoCodes, forKey: .promocodes)
+        try container.encode(promocodes, forKey: .promocodes)
     }
 }
 

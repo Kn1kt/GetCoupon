@@ -9,7 +9,7 @@
 
 import UIKit
 
-class PromoCodeData: Codable {
+class PromocodeData: Codable {
     
     let coupon: String
     let addingDate: Date?
@@ -34,13 +34,13 @@ class PromoCodeData: Codable {
 }
 
 // MARK: - Hashable
-extension PromoCodeData: Hashable {
+extension PromocodeData: Hashable {
 
     func hash(into hasher: inout Hasher) {
         hasher.combine(identifier)
     }
 
-    static func == (lhs: PromoCodeData, rhs: PromoCodeData) -> Bool {
+    static func == (lhs: PromocodeData, rhs: PromocodeData) -> Bool {
         return lhs.identifier == rhs.identifier
     }
 }
