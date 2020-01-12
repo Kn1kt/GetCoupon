@@ -83,6 +83,7 @@ class ShopStoredData: Object, Codable {
         self.name = try container.decode(String.self, forKey: .name)
         self.shopDescription = try container.decode(String?.self, forKey: .shopDescription)
         self.shopShortDescription = try container.decode(String.self, forKey: .shopShortDescription)
+        self.websiteLink = try container.decode(String.self, forKey: .websiteLink)
         self.imageLink = try container.decode(String.self, forKey: .imageLink)
         self.previewImageLink = try container.decode(String.self, forKey: .previewImageLink)
         self.isFavorite = try container.decode(Bool.self, forKey: .isFavorite)

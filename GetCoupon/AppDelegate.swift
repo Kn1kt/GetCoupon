@@ -17,32 +17,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         let realm = try! Realm()
-        let fpromo = PromoCodeStoredData(coupon: "SALE10", addingDate: Date(timeIntervalSinceNow: 0), estimatedDate: nil, description: "It is just TEST", isHot: true)
-        let shop1 = ShopStoredData(name: "TEST", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
-        let shop2 = ShopStoredData(name: "TEST2", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
-        let category1 = ShopCategoryStoredData(categoryName: "TEST", shops: [shop1])
-        let category2 = ShopCategoryStoredData(categoryName: "TEST2", shops: [shop2])
+//        let fpromo = PromoCodeStoredData(coupon: "SALE10", addingDate: Date(timeIntervalSinceNow: 0), estimatedDate: nil, description: "It is just TEST", isHot: true)
+//        let shop1 = ShopStoredData(name: "TEST", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
+//        let shop2 = ShopStoredData(name: "TEST2", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
+//        let category1 = ShopCategoryStoredData(categoryName: "TEST", shops: [shop1])
+//        let category2 = ShopCategoryStoredData(categoryName: "TEST2", shops: [shop2])
         let cache = CacheController()
-        cache.append(categories: [category1, category2])
-
-        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
-            print(storedCategory.description)
-        }
-        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST2") {
-            print(storedCategory.description)
-        }
-        try! realm.write {
-            shop1.shopDescription = "NEW-DESCRIPTION"
-        }
+//        cache.append(categories: [category1, category2])
         
-        cache.update(category: category2, with: [shop1, shop2])
+        let jsonDecoder = JSONDecoder()
+        let url = Bundle.main.url(forResource: "collections", withExtension: "json")
+        let data = try! Data(contentsOf: url!)
+        let collections = try! jsonDecoder.decode([ShopCategoryStoredData].self, from: data)
         
-        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
-            print(storedCategory.description)
-        }
-        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST2") {
-            print(storedCategory.description)
-        }
+        cache.append(categories: collections)
+        print(cache.category(with: "Food")!.description)
+        
+//        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
+//            print(storedCategory.description)
+//        }
+//        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST2") {
+//            print(storedCategory.description)
+//        }
+//        try! realm.write {
+//            shop1.shopDescription = "NEW-DESCRIPTION"
+//        }
+//
+//        cache.update(category: category2, with: [shop1, shop2])
+//
+//        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
+//            print(storedCategory.description)
+//        }
+//        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST2") {
+//            print(storedCategory.description)
+//        }
+        
 //        let encoder = JSONEncoder()
 //        let jsonData = try! encoder.encode(category)
 //        let jsonData = try! encoder.encode(shop)

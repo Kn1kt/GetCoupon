@@ -16,10 +16,40 @@ class ShopData: Codable {
     
     let websiteLink: String
     
-    var image: UIImage?
+    private var _image: UIImage? = nil
+    private let imageQueue = DispatchQueue(label: "imageQueue", attributes: .concurrent)
+    var image: UIImage? {
+        get {
+            imageQueue.sync {
+                return _image
+            }
+        }
+        
+        set {
+            imageQueue.async(flags: .barrier) { [weak self] in
+                self?._image = newValue
+            }
+        }
+    }
+    
     let imageLink: String
     
-    var previewImage: UIImage?
+    private var _previewImage: UIImage? = nil
+    private let previewImageQueue = DispatchQueue(label: "previewImageQueue", attributes: .concurrent)
+    var previewImage: UIImage? {
+        get {
+            previewImageQueue.sync {
+                return _previewImage
+            }
+        }
+        
+        set {
+            previewImageQueue.async(flags: .barrier) { [weak self] in
+                self?._previewImage = newValue
+            }
+        }
+    }
+    
     let previewImageLink: String
     
     let placeholderColor: UIColor
@@ -49,8 +79,8 @@ class ShopData: Codable {
         self.imageLink = imageLink
         self.previewImageLink = previewImageLink
         self.placeholderColor = placeholderColor
-        self.image = image
-        self.previewImage = previewImage
+        self._image = image
+        self._previewImage = previewImage
         self.promoCodes = promoCodes
         self.isFavorite = isFavorite
     }
@@ -103,8 +133,8 @@ class ShopData: Codable {
         imageLink = try container.decode(String.self, forKey: .imageLink)
         previewImageLink = try container.decode(String.self, forKey: .previewImageLink)
         placeholderColor = try container.decode(UIColor.self, forKey: .placeholderColor)
-        image = try container.decode(UIImage?.self, forKey: .image)
-        previewImage = try container.decode(UIImage?.self, forKey: .previewImage)
+        _image = try container.decode(UIImage?.self, forKey: .image)
+        _previewImage = try container.decode(UIImage?.self, forKey: .previewImage)
         isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         favoriteAddingDate = try container.decode(Date?.self, forKey: .favoriteAddingDate)
         promoCodes = try container.decode([PromoCodeData].self, forKey: .promocodes)

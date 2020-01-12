@@ -19,6 +19,8 @@
 		F34251EA239D7102008ABD8C /* LogoWithFavoritesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34251E9239D7102008ABD8C /* LogoWithFavoritesButton.swift */; };
 		F34251EC239DA83E008ABD8C /* ShopCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */; };
 		F348666923CA6CC0004682B3 /* CacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348666823CA6CC0004682B3 /* CacheController.swift */; };
+		F348666D23CBA4AF004682B3 /* collections.json in Resources */ = {isa = PBXBuildFile; fileRef = F348666C23CBA4AF004682B3 /* collections.json */; };
+		F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348666E23CBB5B5004682B3 /* NetworkController.swift */; };
 		F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */; };
 		F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */; };
 		F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D2B235BAC25000F7ED0 /* ViewController.swift */; };
@@ -99,6 +101,8 @@
 		F34251E9239D7102008ABD8C /* LogoWithFavoritesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoWithFavoritesButton.swift; sourceTree = "<group>"; };
 		F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopCategoryData.swift; sourceTree = "<group>"; };
 		F348666823CA6CC0004682B3 /* CacheController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheController.swift; sourceTree = "<group>"; };
+		F348666C23CBA4AF004682B3 /* collections.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = collections.json; path = "../../../Library/Developer/XCPGDevices/97D7F0AC-87C3-492D-BAEE-13AD4F4A4E9D/data/Containers/Data/Application/7A566859-4AB3-45FC-8BAF-8833D79CB979/Documents/collections.json"; sourceTree = "<group>"; };
+		F348666E23CBB5B5004682B3 /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		F35B3D24235BAC25000F7ED0 /* GetCoupon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetCoupon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -231,6 +235,7 @@
 		F35B3D1B235BAC25000F7ED0 = {
 			isa = PBXGroup;
 			children = (
+				F348666C23CBA4AF004682B3 /* collections.json */,
 				F35C0815239345610047A85D /* NotificationName.swift */,
 				F3E0AEB3238881CE0063E2C8 /* Views */,
 				F3ED2D6A239846F300726045 /* SearchViews */,
@@ -314,6 +319,7 @@
 		F35B3D5C235BACB8000F7ED0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F348666E23CBB5B5004682B3 /* NetworkController.swift */,
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
@@ -533,6 +539,7 @@
 				F35B3D64235BB37B000F7ED0 /* Search.storyboard in Resources */,
 				F35B3D2F235BAC25000F7ED0 /* Main.storyboard in Resources */,
 				F35B3D66235BB38A000F7ED0 /* Settings.storyboard in Resources */,
+				F348666D23CBA4AF004682B3 /* collections.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,6 +697,7 @@
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
 				F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */,
 				F34251EA239D7102008ABD8C /* LogoWithFavoritesButton.swift in Sources */,
+				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */,
 				F3B804072380647000481152 /* HomeDataController.swift in Sources */,
 				F348666923CA6CC0004682B3 /* CacheController.swift in Sources */,
