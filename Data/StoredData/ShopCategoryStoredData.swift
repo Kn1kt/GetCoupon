@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class ShopCategoryStoredData: Object {
+class ShopCategoryStoredData: Object, Codable {
     
     @objc dynamic var categoryName: String = ""
     
@@ -23,16 +23,32 @@ class ShopCategoryStoredData: Object {
         self.init()
         self.categoryName = categoryName
         
-        shops.forEach {
-            self.shops.append($0)
-        }
+        self.shops.append(objectsIn: shops)
         
-        tags.forEach {
-            self.tags.append($0)
-        }
+        self.tags.append(objectsIn: tags)
     }
     
     override static func primaryKey() -> String? {
         return "categoryName"
+    }
+    
+    // MARK: - Codable
+    private enum CodingKeys: String, CodingKey {
+        case categoryName
+        case tags
+        case shops
+    }
+    
+    required convenience init(from decoder: Decoder) throws {
+        self.init()
+        
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.categoryName = try container.decode(String.self, forKey: .categoryName)
+        
+        let tags = try container.decode([String].self, forKey: .tags)
+        self.tags.append(objectsIn: tags)
+        
+        let shops = try container.decode([ShopStoredData].self, forKey: .shops)
+        self.shops.append(objectsIn: shops)
     }
 }

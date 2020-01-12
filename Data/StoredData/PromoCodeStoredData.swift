@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class PromoCodeStoredData: Object {
+class PromoCodeStoredData: Object, Codable {
     
     @objc dynamic var coupon: String = ""
     @objc dynamic var addingDate: Date? = nil
