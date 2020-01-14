@@ -12,9 +12,9 @@ import RealmSwift
 class PromoCodeStoredData: Object, Codable {
     
     @objc dynamic var coupon: String = ""
-    @objc dynamic var addingDate: Date? = nil
-    @objc dynamic var estimatedDate: Date? = nil
-    @objc dynamic var promoCodeDescription: String? = nil
+    @objc dynamic var addingDate: Date?
+    @objc dynamic var estimatedDate: Date?
+    @objc dynamic var promoCodeDescription: String?
     @objc dynamic var isHot: Bool = false
     
     convenience init(coupon: String,

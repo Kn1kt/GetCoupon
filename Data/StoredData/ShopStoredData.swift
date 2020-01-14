@@ -12,21 +12,21 @@ import RealmSwift
 class ShopStoredData: Object, Codable {
     
     @objc dynamic var name: String = ""
-    @objc dynamic var shopDescription: String? = nil
+    @objc dynamic var shopDescription: String?
     @objc dynamic var shopShortDescription: String = ""
     
     @objc dynamic var websiteLink: String = ""
     
-    @objc dynamic var imageURL: String? = nil
+    @objc dynamic var imageURL: String?
     @objc dynamic var imageLink: String = ""
     
-    @objc dynamic var previewImageURL: String? = nil
+    @objc dynamic var previewImageURL: String?
     @objc dynamic var previewImageLink: String = ""
     
     let placeholderColor = List<Float>()
     
     @objc dynamic var isFavorite: Bool = false
-    @objc dynamic var favoriteAddingDate: Date? = nil
+    @objc dynamic var favoriteAddingDate: Date?
     
     let promoCodes = List<PromoCodeStoredData>()
     

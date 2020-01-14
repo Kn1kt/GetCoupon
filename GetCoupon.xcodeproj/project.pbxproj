@@ -23,6 +23,9 @@
 		F348667123CBF01D004682B3 /* SetupPreviewImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */; };
 		F348667323CBF6F2004682B3 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667223CBF6F2004682B3 /* AsyncOperation.swift */; };
 		F348667523CBFB93004682B3 /* SetupImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667423CBFB93004682B3 /* SetupImageOperation.swift */; };
+		F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353624E23CE09BC003D7BAB /* NetworkShopData.swift */; };
+		F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353625023CE09D8003D7BAB /* NetworkPromoCodeData.swift */; };
+		F353625323CE09EC003D7BAB /* NetworkShopCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353625223CE09EC003D7BAB /* NetworkShopCategoryData.swift */; };
 		F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */; };
 		F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */; };
 		F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D2B235BAC25000F7ED0 /* ViewController.swift */; };
@@ -107,6 +110,9 @@
 		F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPreviewImageOperation.swift; sourceTree = "<group>"; };
 		F348667223CBF6F2004682B3 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		F348667423CBFB93004682B3 /* SetupImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupImageOperation.swift; sourceTree = "<group>"; };
+		F353624E23CE09BC003D7BAB /* NetworkShopData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkShopData.swift; sourceTree = "<group>"; };
+		F353625023CE09D8003D7BAB /* NetworkPromoCodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPromoCodeData.swift; sourceTree = "<group>"; };
+		F353625223CE09EC003D7BAB /* NetworkShopCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkShopCategoryData.swift; sourceTree = "<group>"; };
 		F35B3D24235BAC25000F7ED0 /* GetCoupon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GetCoupon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -241,6 +247,9 @@
 			isa = PBXGroup;
 			children = (
 				F348666E23CBB5B5004682B3 /* NetworkController.swift */,
+				F353624E23CE09BC003D7BAB /* NetworkShopData.swift */,
+				F353625023CE09D8003D7BAB /* NetworkPromoCodeData.swift */,
+				F353625223CE09EC003D7BAB /* NetworkShopCategoryData.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -353,8 +362,8 @@
 			isa = PBXGroup;
 			children = (
 				F353624C23CE06D2003D7BAB /* ImageOperations */,
-				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
+				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
 				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
@@ -693,6 +702,7 @@
 				F34251E6239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift in Sources */,
 				F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */,
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
+				F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
 				F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
@@ -706,12 +716,14 @@
 				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
 				F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */,
 				F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */,
+				F353625323CE09EC003D7BAB /* NetworkShopCategoryData.swift in Sources */,
 				F348667123CBF01D004682B3 /* SetupPreviewImageOperation.swift in Sources */,
 				F3B80405238063A100481152 /* HomeViewController.swift in Sources */,
 				F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */,
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
 				F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */,
 				F34251EA239D7102008ABD8C /* LogoWithFavoritesButton.swift in Sources */,
+				F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */,
 				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */,
 				F3B804072380647000481152 /* HomeDataController.swift in Sources */,
