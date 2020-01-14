@@ -10,6 +10,8 @@ import UIKit
 
 class HomeDetailViewController: UIViewController {
     
+    let queue = OperationQueue()
+    
     let section: ShopCategoryData
     lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
     
@@ -67,6 +69,14 @@ class HomeDetailViewController: UIViewController {
         
         if !editedCells.isEmpty || needUpdateFavorites {
             favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
+            DispatchQueue.global(qos: .utility).async { [weak self] in
+                guard let self = self else { return }
+                let cache = CacheController()
+                let shops = self.section.shops
+                shops.forEach {
+                    cache.shop(with: $0.name, isFavorite: $0.isFavorite, date: $0.favoriteAddingDate)
+                }
+            }
             //favoritesUpdater?.updateFavoritesCollections(in: section)
             editedCells.removeAll()
             needUpdateFavorites = false
@@ -269,7 +279,7 @@ extension HomeDetailViewController {
                         cell.imageView.image = image
                     } else {
                         cell.imageView.backgroundColor = cellData.placeholderColor
-                        self.downloadWithUrlSession(at: indexPath, with: cellData)
+                        self.setupImage(at: indexPath, with: cellData)
                     }
                     cell.titleLabel.text = cellData.name
                     cell.subtitleLabel.text = cellData.shortDescription
@@ -492,25 +502,24 @@ extension HomeDetailViewController: ScreenUpdaterProtocol {
     }
 }
 
-    //MARK: - URLSessionDataTask
+    //MARK: - Setup Image
 extension HomeDetailViewController {
     
-    private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
-        
-        guard let url = URL(string: cellData.previewImageLink) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self,
-                  let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                    cell.imageView.image = image
-                }
-                cellData.previewImage = image
-            }
-        }.resume()
-    }
+     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
+         //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+             //guard let self = self else { return }
+                
+             //let cache = CacheController()
+             //cache.setPreviewImage(for: cellData)
+             let op = SetupPreviewImageOperation(shop: cellData)
+             op.completionBlock = {
+                 DispatchQueue.main.async {
+                     if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                         cell.imageView.image = cellData.previewImage
+                     }
+                 }
+             }
+             self.queue.addOperation(op)
+         //}
+     }
 }

@@ -155,11 +155,71 @@ class CacheController {
         return shop
     }
     
+    func categories() -> [ShopCategoryStoredData] {
+        let categories = realm.objects(ShopCategoryStoredData.self)
+        
+        return Array(categories)
+    }
+    
+    func shops() -> [ShopStoredData] {
+        let shops = realm.objects(ShopStoredData.self)
+        
+        return Array(shops)
+    }
+    
     // MARK: - Update Categories
     func updateData(with categories: [ShopCategoryStoredData]) {
         do {
             try realm.write {
-                realm.add(categories, update: .modified)
+//                realm.add(categories, update: .modified)
+                categories.forEach { newCategory in
+                    if let category = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: newCategory.categoryName) {
+                        newCategory.shops.forEach { newShop in
+                            if let shop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: newShop.name) {
+                                if let newDescription = newShop.shopDescription {
+                                    if let oldDescription = shop.shopDescription,
+                                        newDescription != oldDescription {
+                                        shop.shopDescription = newDescription
+                                    }
+                                }
+                                
+                                if shop.shopDescription != newShop.shopShortDescription {
+                                    shop.shopShortDescription = newShop.shopShortDescription
+                                }
+                                
+                                if shop.websiteLink != newShop.websiteLink {
+                                    shop.websiteLink = newShop.websiteLink
+                                }
+                                
+                                if shop.previewImageLink != newShop.previewImageLink {
+                                    shop.previewImageLink = newShop.previewImageLink
+                                    shop.previewImageURL = nil
+                                }
+                                
+                                if shop.imageLink != newShop.imageLink {
+                                    shop.imageLink = newShop.imageLink
+                                    shop.imageURL = nil
+                                }
+                                
+                                if shop.placeholderColor != newShop.placeholderColor {
+                                    shop.placeholderColor.removeAll()
+                                    shop.placeholderColor.append(objectsIn: newShop.placeholderColor)
+                                }
+                                
+                                if shop.promoCodes != newShop.promoCodes {
+                                    shop.promoCodes.replaceSubrange((0..<shop.promoCodes.count), with: newShop.promoCodes)
+                                }
+                                
+                            } else {
+                                realm.add(newShop)
+                                category.shops.append(newShop)
+                                
+                            }
+                        }
+                    } else {
+                        realm.add(newCategory)
+                    }
+                }
             }
         } catch {
             debugPrint("Unexpected Error: \(error)")
@@ -181,7 +241,7 @@ class CacheController {
     }
     
     // MARK: - Update Favorite
-    func shop(with name: String, isFavorite: Bool) {
+    func shop(with name: String, isFavorite: Bool, date: Date? = nil) {
         guard let shop = realm.object(ofType: ShopStoredData.self,
                                       forPrimaryKey: name) else {
             debugPrint("No Shop")
@@ -190,6 +250,7 @@ class CacheController {
         do {
             try realm.write {
                 shop.isFavorite = isFavorite
+                shop.favoriteAddingDate = date
             }
         } catch {
             debugPrint("Unexpected Error: \(error)")
@@ -200,7 +261,8 @@ class CacheController {
     // MARK: - Images
 extension CacheController {
     
-    func setImage(for shop: ShopData) {
+    func setImage(for shop: ShopData) -> String? {
+        guard shop.image == nil else { return nil }
         guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                       forPrimaryKey: shop.name) else {
             debugPrint("No Shop")
@@ -212,16 +274,19 @@ extension CacheController {
                 if shop.image == nil {
                     shop.image = image
                 }
+            return nil
 //            } else {
 //                debugPrint("Exactly, Cache Was Cleaned")
 //            }
             
         } else {
-            NetworkController.downloadImage(url: storedShop.imageLink, shop: shop)
+           // NetworkController.downloadImage(url: storedShop.imageLink, shop: shop)
+            return storedShop.imageLink
         }
     }
     
-    func setPreviewImage(for shop: ShopData) {
+    func setPreviewImage(for shop: ShopData) -> String? {
+        guard shop.previewImage == nil else { return nil }
         guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                       forPrimaryKey: shop.name) else {
             debugPrint("No Shop")
@@ -233,12 +298,14 @@ extension CacheController {
                 if shop.previewImage == nil {
                     shop.previewImage = image
                 }
+            return nil
 //            } else {
 //                debugPrint("Exactly, Cache Was Cleaned")
 //            }
             
         } else {
-            NetworkController.downloadPreviewImage(url: storedShop.previewImageLink, shop: shop)
+            //NetworkController.downloadPreviewImage(url: storedShop.previewImageLink, shop: shop)
+            return storedShop.previewImageLink
         }
     }
     

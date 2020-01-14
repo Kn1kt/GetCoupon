@@ -23,6 +23,15 @@ class ShopCategoryData: Codable {
         self.shops = shops
         self.tags = tags
     }
+    
+    /// Bridge for stored data
+    convenience init(_ category: ShopCategoryStoredData) {
+        let tags = Array(category.tags)
+        let shops = Array(category.shops).map(ShopData.init)
+        self.init(categoryName: category.categoryName,
+                  shops: shops,
+                  tags: tags)
+    }
 }
 
 // MARK: - Hashable

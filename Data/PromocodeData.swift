@@ -31,6 +31,15 @@ class PromoCodeData: Codable {
         self.description = description
         self.isHot = isHot
     }
+    
+    /// Bridge for stored data
+    convenience init(_ promoCode: PromoCodeStoredData) {
+        self.init(coupon: promoCode.coupon,
+                  addingDate: promoCode.addingDate,
+                  estimatedDate: promoCode.estimatedDate,
+                  description: promoCode.promoCodeDescription,
+                  isHot: promoCode.isHot)
+    }
 }
 
 // MARK: - Hashable

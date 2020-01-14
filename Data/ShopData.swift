@@ -32,7 +32,7 @@ class ShopData: Codable {
         }
     }
     
-    let imageLink: String
+    //let imageLink: String
     
     private var _previewImage: UIImage? = nil
     private let previewImageQueue = DispatchQueue(label: "previewImageQueue", attributes: .concurrent)
@@ -50,7 +50,7 @@ class ShopData: Codable {
         }
     }
     
-    let previewImageLink: String
+    //let previewImageLink: String
     
     let placeholderColor: UIColor
     
@@ -65,24 +65,26 @@ class ShopData: Codable {
          description: String? = nil,
          shortDescription: String,
          websiteLink: String,
-         imageLink: String = "",
-         previewImageLink: String = "",
+         //imageLink: String = "",
+         //previewImageLink: String = "",
          placeholderColor: UIColor = .systemGray3,
          image: UIImage? = nil,
          previewImage: UIImage? = nil,
          isFavorite: Bool = false,
+         favoriteAddingDate: Date? = nil,
          promoCodes: [PromoCodeData] = []) {
         self.name = name
         self.description = description
         self.shortDescription = shortDescription
         self.websiteLink = websiteLink
-        self.imageLink = imageLink
-        self.previewImageLink = previewImageLink
+        //self.imageLink = imageLink
+        //self.previewImageLink = previewImageLink
         self.placeholderColor = placeholderColor
         self._image = image
         self._previewImage = previewImage
         self.promoCodes = promoCodes
         self.isFavorite = isFavorite
+        self.favoriteAddingDate = favoriteAddingDate
     }
     
     convenience init(image: UIImage?, name: String, shortDescription: String, placeholderColor: UIColor) {
@@ -108,14 +110,32 @@ class ShopData: Codable {
         promoCodes: [])
     }
     
+    /// Bridge for stored data
+    convenience init(_ shop: ShopStoredData) {
+        let color = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(),
+                            components: Array(shop.placeholderColor).map(CGFloat.init))
+        let promoCodes = Array(shop.promoCodes).map(PromoCodeData.init)
+        
+        self.init(name: shop.name,
+        description: shop.shopDescription,
+        shortDescription: shop.shopShortDescription,
+        websiteLink: shop.websiteLink,
+        placeholderColor: UIColor.init(cgColor: color!),
+        image: nil,
+        previewImage: nil,
+        isFavorite: shop.isFavorite,
+        favoriteAddingDate: shop.favoriteAddingDate,
+        promoCodes: promoCodes)
+    }
+    
     /// Codable
     private enum CodingKeys: String, CodingKey {
         case name
         case description
         case shortDescription
         case websiteLink
-        case imageLink
-        case previewImageLink
+        //case imageLink
+        //case previewImageLink
         case placeholderColor
         case image
         case previewImage
@@ -130,8 +150,8 @@ class ShopData: Codable {
         description = try container.decode(String?.self, forKey: .description)
         shortDescription = try container.decode(String.self, forKey: .shortDescription)
         websiteLink = try container.decode(String.self, forKey: .websiteLink)
-        imageLink = try container.decode(String.self, forKey: .imageLink)
-        previewImageLink = try container.decode(String.self, forKey: .previewImageLink)
+        //imageLink = try container.decode(String.self, forKey: .imageLink)
+        //previewImageLink = try container.decode(String.self, forKey: .previewImageLink)
         placeholderColor = try container.decode(UIColor.self, forKey: .placeholderColor)
         _image = try container.decode(UIImage?.self, forKey: .image)
         _previewImage = try container.decode(UIImage?.self, forKey: .previewImage)
@@ -146,8 +166,8 @@ class ShopData: Codable {
         try container.encode(description, forKey: .description)
         try container.encode(shortDescription, forKey: .shortDescription)
         try container.encode(websiteLink, forKey: .websiteLink)
-        try container.encode(imageLink, forKey: .imageLink)
-        try container.encode(previewImageLink, forKey: .previewImageLink)
+        //try container.encode(imageLink, forKey: .imageLink)
+        //try container.encode(previewImageLink, forKey: .previewImageLink)
         try container.encode(placeholderColor, forKey: .placeholderColor)
         try container.encode(image, forKey: .image)
         try container.encode(previewImage, forKey: .previewImage)

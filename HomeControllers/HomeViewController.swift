@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
         <ShopCategoryData, ShopData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
         <ShopCategoryData, ShopData>! = nil
+    let queue = OperationQueue()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -267,7 +268,7 @@ extension HomeViewController {
                         cell.imageView.image = image
                     } else {
                         cell.imageView.backgroundColor = cellData.placeholderColor
-                        self.downloadWithUrlSession(at: indexPath, with: cellData)
+                        self.setupImage(at: indexPath, with: cellData)
                     }
                     
                     cell.titleLabel.text = cellData.name
@@ -285,7 +286,7 @@ extension HomeViewController {
                         cell.imageView.image = image
                     } else {
                         cell.imageView.backgroundColor = cellData.placeholderColor
-                        self.downloadWithUrlSession(at: indexPath, with: cellData)
+                        self.setupImage(at: indexPath, with: cellData)
                     }
                     
                     cell.titleLabel.text = cellData.name
@@ -382,8 +383,9 @@ extension HomeViewController {
     }
     
     @objc func refresh() {
-        ModelController.loadFavoritesCollectionsToStorage()
-        ModelController.updateCollections()
+        //ModelController.loadFavoritesCollectionsToStorage()
+        //ModelController.updateCollections()
+        ModelController.setupCollections()
     }
 }
 
@@ -407,25 +409,24 @@ extension HomeViewController: UICollectionViewDelegate {
     }
 }
 
-    //MARK: - URLSessionDataTask
+    //MARK: - Setup Image
 extension HomeViewController {
     
-    private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
-        
-        guard let url = URL(string: cellData.previewImageLink) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self,
-                  let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                  cell.imageView.image = image
+     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
+        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            //guard let self = self else { return }
+               
+            //let cache = CacheController()
+            //cache.setPreviewImage(for: cellData)
+            let op = SetupPreviewImageOperation(shop: cellData)
+            op.completionBlock = {
+                DispatchQueue.main.async {
+                    if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                        cell.imageView.image = cellData.previewImage
+                    }
                 }
-                cellData.previewImage = image
             }
-        }.resume()
+            self.queue.addOperation(op)
+        //}
     }
 }

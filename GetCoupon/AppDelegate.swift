@@ -16,22 +16,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let realm = try! Realm()
+//        let realm = try! Realm()
 //        let fpromo = PromoCodeStoredData(coupon: "SALE10", addingDate: Date(timeIntervalSinceNow: 0), estimatedDate: nil, description: "It is just TEST", isHot: true)
 //        let shop1 = ShopStoredData(name: "TEST", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
 //        let shop2 = ShopStoredData(name: "TEST2", shortDescription: "short description", websiteLink: "link", promoCodes: [fpromo])
 //        let category1 = ShopCategoryStoredData(categoryName: "TEST", shops: [shop1])
 //        let category2 = ShopCategoryStoredData(categoryName: "TEST2", shops: [shop2])
-        let cache = CacheController()
+//        let cache = CacheController()
 //        cache.append(categories: [category1, category2])
-        
-        let jsonDecoder = JSONDecoder()
-        let url = Bundle.main.url(forResource: "collections", withExtension: "json")
-        let data = try! Data(contentsOf: url!)
-        let collections = try! jsonDecoder.decode([ShopCategoryStoredData].self, from: data)
-        
-        cache.append(categories: collections)
-        print(cache.category(with: "Food")!.description)
+//
+//        let jsonDecoder = JSONDecoder()
+//        let url = Bundle.main.url(forResource: "collections", withExtension: "json")
+//        let data = try! Data(contentsOf: url!)
+//        let collections = try! jsonDecoder.decode([ShopCategoryStoredData].self, from: data)
+//
+//        cache.append(categories: collections)
+//        print(cache.category(with: "Food")!.description)
         
 //        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: "TEST") {
 //            print(storedCategory.description)
@@ -78,11 +78,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        } else {
 //            print("Kinda absence")
 //        }
-        try! realm.write {
-            realm.deleteAll()
-        }
+//        try! realm.write {
+//            realm.deleteAll()
+//        }
         
-        ModelController.updateCollections()
+//        ModelController.updateCollections()
+        ModelController.setupCollections()
         return true
     }
 
@@ -101,8 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        ModelController.loadFavoritesCollectionsToStorage()
-        ModelController.loadCollectionsToStorage()
+        //ModelController.loadFavoritesCollectionsToStorage()
+        //ModelController.loadCollectionsToStorage()
     }
     // MARK: - Core Data stack
 

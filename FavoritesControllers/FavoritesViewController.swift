@@ -10,12 +10,14 @@ import UIKit
 
 class FavoritesViewController: UIViewController {
     
+    let queue = OperationQueue()
+    
     let favoritesDataController = ModelController.favoritesDataController
     var sortType: Int = 0
     static let titleElementKind = "title-element-kind"
     
     var needUpdateDataSource: Bool = false
-    var needUpdateSnapshot: Bool = false
+    //var needUpdateSnapshot: Bool = false
     var textFilter: String = ""
     
     var closeKeyboardGesture: UITapGestureRecognizer?
@@ -55,27 +57,27 @@ class FavoritesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if needUpdateSnapshot {
-            needUpdateSnapshot = false
-            
-            if !textFilter.isEmpty {
-                performQuery(with: textFilter)
-            } else {
-                updateSnapshot()
-            }
-            
-            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-                    return
-                }
-                cell.favoritesButton.checkbox.isHighlighted = true
-            }
-        }
+//        if needUpdateSnapshot {
+//            needUpdateSnapshot = false
+//
+//            if !textFilter.isEmpty {
+//                performQuery(with: textFilter)
+//            } else {
+//                updateSnapshot()
+//            }
+//
+//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+//                    return
+//                }
+//                cell.favoritesButton.checkbox.isHighlighted = true
+//            }
+//        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-
+        
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
@@ -275,7 +277,7 @@ extension FavoritesViewController {
                         cell.imageView.image = image
                     } else {
                         cell.imageView.backgroundColor = cellData.placeholderColor
-                        self.downloadWithUrlSession(at: indexPath, with: cellData)
+                        self.setupImage(at: indexPath, with: cellData)
                     }
                     
                     cell.titleLabel.text = cellData.name
@@ -331,6 +333,11 @@ extension FavoritesViewController {
 extension FavoritesViewController: SnapshotUpdaterProtocol {
     
     func updateSnapshot() {
+        guard textFilter.isEmpty else {
+            performQuery(with: textFilter)
+            return
+        }
+        
         currentSnapshot = NSDiffableDataSourceSnapshot
         <ShopCategoryData, ShopData>()
         
@@ -355,6 +362,11 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+            
+            if let refresh = self.collectionView.refreshControl,
+                refresh.isRefreshing {
+                refresh.endRefreshing()
+            }
         }
     }
 }
@@ -367,18 +379,22 @@ extension FavoritesViewController {
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
-        }
-        needUpdateSnapshot = false
-        
-        if !textFilter.isEmpty {
-            performQuery(with: textFilter)
         } else {
-            updateSnapshot()
+            DispatchQueue.main.async { [weak self] in
+                self?.collectionView.refreshControl?.endRefreshing()
+            }
         }
+//        needUpdateSnapshot = false
         
-        DispatchQueue.main.async { [weak self] in
-            self?.collectionView.refreshControl?.endRefreshing()
-        }
+//        if !textFilter.isEmpty {
+//            performQuery(with: textFilter)
+//        } else {
+//            updateSnapshot()
+//        }
+        
+//        DispatchQueue.main.async { [weak self] in
+//            self?.collectionView.refreshControl?.endRefreshing()
+//        }
     }
     
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
@@ -387,14 +403,16 @@ extension FavoritesViewController {
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
-        }
-        needUpdateSnapshot = false
-        
-        if !textFilter.isEmpty {
-            performQuery(with: textFilter)
         } else {
             updateSnapshot()
         }
+//        needUpdateSnapshot = false
+        
+//        if !textFilter.isEmpty {
+//            performQuery(with: textFilter)
+//        } else {
+//            updateSnapshot()
+//        }
     }
 }
 
@@ -498,68 +516,66 @@ extension FavoritesViewController: UICollectionViewDelegate {
             favoritesDataController.checkCollection()
         }
         
-        if needUpdateSnapshot {
-            needUpdateSnapshot = false
-
-            if !textFilter.isEmpty {
-                performQuery(with: textFilter)
-            } else {
-                updateSnapshot()
-            }
-
-        
-        
-            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-                    return
-                }
-                cell.favoritesButton.checkbox.isHighlighted = true
-            }
-        }
+//        if needUpdateSnapshot {
+//            needUpdateSnapshot = false
+//
+//            if !textFilter.isEmpty {
+//                performQuery(with: textFilter)
+//            } else {
+//                updateSnapshot()
+//            }
+//
+//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+//                    return
+//                }
+//                cell.favoritesButton.checkbox.isHighlighted = true
+//            }
+//        }
     }
 }
 
 extension FavoritesViewController: ScreenUpdaterProtocol {
     
     func updateScreen() {
-        if needUpdateSnapshot {
-            needUpdateSnapshot = false
-            
-            if !textFilter.isEmpty {
-                performQuery(with: textFilter)
-            } else {
-                updateSnapshot()
-            }
-            
-            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-                    return
-                }
-                cell.favoritesButton.checkbox.isHighlighted = true
-            }
-        }
+        favoritesDataController.checkCollection()
+//        if needUpdateSnapshot {
+//            needUpdateSnapshot = false
+//
+//            if !textFilter.isEmpty {
+//                performQuery(with: textFilter)
+//            } else {
+//                updateSnapshot()
+//            }
+//
+//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
+//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+//                    return
+//                }
+//                cell.favoritesButton.checkbox.isHighlighted = true
+//            }
+//        }
     }
 }
 
-    //MARK: - URLSessionDataTask
+    //MARK: - Setup Image
 extension FavoritesViewController {
     
-    private func downloadWithUrlSession(at indexPath: IndexPath, with cellData: ShopData) {
-        
-        guard let url = URL(string: cellData.previewImageLink) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self,
-                  let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                    cell.imageView.image = image
+    private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
+        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            //guard let self = self else { return }
+               
+            //let cache = CacheController()
+            //cache.setPreviewImage(for: cellData)
+            let op = SetupPreviewImageOperation(shop: cellData)
+            op.completionBlock = {
+                DispatchQueue.main.async {
+                    if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                        cell.imageView.image = cellData.previewImage
+                    }
                 }
-                cellData.previewImage = image
             }
-        }.resume()
+            self.queue.addOperation(op)
+        //}
     }
 }

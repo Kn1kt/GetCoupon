@@ -28,9 +28,9 @@ class ModelController {
             collectionsQueue.async(flags: .barrier) {
                 self._collections = newValue
                 NotificationCenter.default.post(name: .didUpdateCollections, object: nil)
-                loadFavoritesCollectionsFromStorage()
+                //loadFavoritesCollectionsFromStorage()
                 homeDataController.updateCollections()
-                setupSearchData()
+                //setupSearchData()
                 needSaveToStorage = true
             }
         }
@@ -61,7 +61,21 @@ class ModelController {
     }
     
     /// Search Collection
-    static var searchCollection: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
+    static var _searchCollection: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
+    static private let searchCollectionQueue = DispatchQueue(label: "searchCollectionQueue", attributes: .concurrent)
+    static var searchCollection: ShopCategoryData {
+        get {
+            searchCollectionQueue.sync {
+                return _searchCollection
+            }
+        }
+        
+        set {
+            searchCollectionQueue.async(flags: .barrier) {
+                self._searchCollection = newValue
+            }
+        }
+    }
 }
 
     // MARK: - Data Management
@@ -73,7 +87,7 @@ extension ModelController {
         let monitor = NWPathMonitor()
         monitor.start(queue: queue)
         
-        DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1) {
+        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
             guard monitor.currentPath.status == .satisfied,
                 let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
                     
@@ -95,6 +109,10 @@ extension ModelController {
                 }
             }.resume()
         }
+    }
+    
+    static func setupCollections() {
+        NetworkController.downloadDataBase()
     }
     
     static func loadCollectionsToStorage() {
@@ -124,43 +142,85 @@ extension ModelController {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
-            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-                in: .userDomainMask).first
-            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-            do {
-                
-                let jsonDecoder = JSONDecoder()
-                let jsonData = try Data(contentsOf: fileURL)
-                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
-                collections = decodedCollections
-            } catch {
-                debugPrint(error)
-                homeDataController.updateCollections()
+//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+//                in: .userDomainMask).first
+//            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
+//            do {
+//
+//                let jsonDecoder = JSONDecoder()
+//                let jsonData = try Data(contentsOf: fileURL)
+//                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
+//                collections = decodedCollections
+//            } catch {
+//                debugPrint(error)
+//                homeDataController.updateCollections()
+//            }
+            
+            let cache = CacheController()
+            let categories = cache.categories()
+            var favoriteCollections = [ShopCategoryData]()
+            let collections = categories.reduce(into: [ShopCategoryData]()) { result, storedCategory in
+                let category = ShopCategoryData(categoryName: storedCategory.categoryName,
+                                                tags: Array(storedCategory.tags))
+                let shops = Array(storedCategory.shops).reduce(into: [ShopData]()) { result, storedShop in
+                    let shop = ShopData(storedShop)
+                    if shop.isFavorite {
+                        insert(in: &favoriteCollections, shop: shop, categoryName: category.categoryName)
+                    }
+                    result.append(shop)
+                }
+                category.shops = shops
+                result.append(category)
             }
+            
+            self.collections = collections
+            self.favoritesCollections = favoriteCollections
+            
+            let searchCollection = collections.reduce(into: [ShopData]()) { result, category in
+                result.append(contentsOf: category.shops)
+            }
+            self.searchCollection = ShopCategoryData(categoryName: "Search", shops: searchCollection)
+            NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
+            
+            favoritesDataController.collectionsBySections = favoritesCollections
             
             debugPrint("loaded Collections from storage")
         }
     }
     
+    static private func insert(in collection: inout [ShopCategoryData], shop: ShopData, categoryName: String) {
+        
+        if let sectionIndex = collection.firstIndex(where: { $0.categoryName == categoryName }) {
+            collection[sectionIndex].shops.append(shop)
+        } else {
+            collection.append(ShopCategoryData(categoryName: categoryName, shops: [shop]))
+            collection.sort { $0.categoryName < $1.categoryName }
+        }
+    }
+    
     static func removeCollectionsFromStorage() {
         
-        let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-                                                    in: .userDomainMask).first
-        let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-        do {
-            try FileManager.default.removeItem(at: fileURL)
-        } catch {
-            debugPrint(error)
+//        let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+//                                                    in: .userDomainMask).first
+//        let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
+//        do {
+//            try FileManager.default.removeItem(at: fileURL)
+//        } catch {
+//            debugPrint(error)
+//        }
+//
+//        collections.forEach { category in
+//            category.shops.forEach { shop in
+//                shop.image = nil
+//                shop.previewImage = nil
+//            }
+//        }
+//
+//        needSaveToStorage = false
+        let cache = CacheController()
+        try! cache.realm.write {
+            cache.realm.deleteAll()
         }
-        
-        collections.forEach { category in
-            category.shops.forEach { shop in
-                shop.image = nil
-                shop.previewImage = nil
-            }
-        }
-        
-        needSaveToStorage = false
         debugPrint("deleted from storage")
     }
     
@@ -188,7 +248,7 @@ extension ModelController {
     
     static private func updateFavoritesCollections(storedCollection: [ShopCategoryData]) {
         
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .utility).async {
             let favoritesCollections = collections.reduce(into: [ShopCategoryData]()) { result, section in
                 guard let storedSection = storedCollection.first(where: { $0.categoryName == section.categoryName }) else {
                     return
@@ -344,8 +404,10 @@ extension ModelController {
         }
         
         favoritesCollections.forEach { section in
-            section.shops.forEach { cell in
-                cell.isFavorite = false
+            let cache = CacheController()
+            section.shops.forEach { shop in
+                shop.isFavorite = false
+                cache.shop(with: shop.name, isFavorite: false)
             }
         }
         favoritesCollections = []

@@ -22,10 +22,15 @@ class HomeDataController {
  }
 
     // MARK: - FavoritesUpdaterProtocol
-
 extension HomeDataController: FavoritesUpdaterProtocol {
     
     func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>) {
+//        DispatchQueue.global(qos: .utility).async {
+//            let cache = CacheController()
+//            addedCells.forEach {
+//                cache.shop(with: $0.name, isFavorite: $0.isFavorite)
+//            }
+//        }
         ModelController.updateFavoritesCollections(in: name, with: addedCells)
     }
 }

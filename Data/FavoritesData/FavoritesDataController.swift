@@ -9,7 +9,8 @@
 import UIKit
 
 protocol SnapshotUpdaterProtocol {
-    var needUpdateSnapshot: Bool { get set }
+    //var needUpdateSnapshot: Bool { get set }
+    func updateSnapshot()
 }
 
 class FavoritesDataController {
@@ -33,7 +34,8 @@ class FavoritesDataController {
                 self?._collectionsBySections = newValue
             }
             needUpdateDates = true
-            snapshotUpdater?.needUpdateSnapshot = true
+            //snapshotUpdater?.needUpdateSnapshot = true
+            snapshotUpdater?.updateSnapshot()
         }
     }
     
@@ -52,7 +54,8 @@ class FavoritesDataController {
     
     init(collections: [ShopCategoryData]) {
         collectionsBySections = collections
-        snapshotUpdater?.needUpdateSnapshot = true
+        //snapshotUpdater?.needUpdateSnapshot = true
+        snapshotUpdater?.updateSnapshot()
     }
     
     private func setupCollectionsByDates() {
@@ -72,15 +75,16 @@ class FavoritesDataController {
 extension FavoritesDataController {
     
     func checkCollection() {
-        
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            
             guard let self = self else { return }
             var needUpdate = false
+            
+            var deleted = Set<ShopData>()
             
             let filtered = self.collectionsBySections.filter { section in
                 let shops = section.shops.filter { cell in
                     if !cell.isFavorite {
+                        deleted.insert(cell)
                         cell.favoriteAddingDate = nil
                         needUpdate = true
                         return false
@@ -101,6 +105,13 @@ extension FavoritesDataController {
             if needUpdate {
                 self.collectionsBySections = filtered
                 ModelController.updateFavoritesCollections(with: filtered)
+            }
+            
+            DispatchQueue.global(qos: .utility).async {
+                let cache = CacheController()
+                deleted.forEach {
+                    cache.shop(with: $0.name, isFavorite: $0.isFavorite, date: $0.favoriteAddingDate)
+                }
             }
         }
     }

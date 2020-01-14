@@ -16,6 +16,8 @@ class ShopViewController: UIViewController {
 
     var previousViewUpdater: ScreenUpdaterProtocol?
     
+    let queue = OperationQueue()
+    
     let shop: ShopData
     let favoriteStatus: Bool
     let dateFormatter = DateFormatter()
@@ -77,6 +79,8 @@ class ShopViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if favoriteStatus != shop.isFavorite {
+            let cache = CacheController()
+            cache.shop(with: shop.name, isFavorite: shop.isFavorite, date: shop.favoriteAddingDate)
             switch shop.isFavorite {
             case true:
                 ModelController.insertInFavorites(shop: shop)
@@ -392,7 +396,7 @@ extension ShopViewController: UICollectionViewDelegate {
     }
 }
 
-
+    // MARK: - Actions
 extension ShopViewController {
     
     @objc func backButtonTapped(_ sender: UIBarButtonItem) {
@@ -426,51 +430,43 @@ extension ShopViewController {
         } else {
             headerImageView.image = shop.previewImage
             headerImageView.alpha = 0.3
-            downloadHeader()
+            setupHeaderImage()
         }
         if let logoImage = shop.previewImage {
             logoView.imageView.image = logoImage
         } else {
-            downloadLogo()
+            setupPreviewImage()
         }
     }
     
-    private func downloadLogo() {
-        
-        guard let url = URL(string: shop.previewImageLink) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self,
-                  let data = data,
-                  let image = UIImage(data: data) else {
-              return
+    private func setupPreviewImage() {
+        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
+            //guard let self = self else { return }
+               
+            //let cache = CacheController()
+            //cache.setPreviewImage(for: cellData)
+            let op = SetupPreviewImageOperation(shop: shop)
+            op.completionBlock = {
+                DispatchQueue.main.async { [weak self] in
+                    self?.logoView.imageView.image = self?.shop.previewImage
+                }
             }
-
-            DispatchQueue.main.async {
-                self.logoView.imageView.image = image
-                self.shop.previewImage = image
-            }
-        }.resume()
+            self.queue.addOperation(op)
+        //}
     }
     
-    private func downloadHeader() {
-        
-        guard let url = URL(string: shop.imageLink) else { return }
-        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
-            guard let self = self,
-                  let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-
-            DispatchQueue.main.async {
+    private func setupHeaderImage() {
+        let op = SetupImageOperation(shop: shop)
+        op.completionBlock = {
+            DispatchQueue.main.async { [weak self] in
                 UIView.animate(withDuration: 1) {
-                    self.headerImageView.alpha = 0.1
-                    self.headerImageView.image = image
-                    self.headerImageView.alpha = 1
+                    self?.headerImageView.alpha = 0.1
+                    self?.headerImageView.image = self?.shop.image
+                    self?.headerImageView.alpha = 1
                 }
-                self.shop.image = image
             }
-        }.resume()
+        }
+        self.queue.addOperation(op)
     }
 }
 
