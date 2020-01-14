@@ -211,6 +211,7 @@
 		F33A9F452390097100A78A74 /* FavoritesControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F3E0AEBD238C6A0E0063E2C8 /* FavoritesDataController.swift */,
 				F33A9F46239009C500A78A74 /* FavoritesViewController.swift */,
 			);
 			path = FavoritesControllers;
@@ -236,18 +237,46 @@
 			path = FavoritesViews;
 			sourceTree = "<group>";
 		};
+		F353624B23CE06A2003D7BAB /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F348666E23CBB5B5004682B3 /* NetworkController.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F353624C23CE06D2003D7BAB /* ImageOperations */ = {
+			isa = PBXGroup;
+			children = (
+				F348667223CBF6F2004682B3 /* AsyncOperation.swift */,
+				F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */,
+				F348667423CBFB93004682B3 /* SetupImageOperation.swift */,
+			);
+			path = ImageOperations;
+			sourceTree = "<group>";
+		};
+		F353624D23CE0700003D7BAB /* ViewData */ = {
+			isa = PBXGroup;
+			children = (
+				F3ED2D772399B33400726045 /* PromoCodeData.swift */,
+				F3ED2D752399B31000726045 /* ShopData.swift */,
+				F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */,
+			);
+			path = ViewData;
+			sourceTree = "<group>";
+		};
 		F35B3D1B235BAC25000F7ED0 = {
 			isa = PBXGroup;
 			children = (
 				F35C0815239345610047A85D /* NotificationName.swift */,
-				F3E0AEB3238881CE0063E2C8 /* Views */,
-				F3ED2D6A239846F300726045 /* SearchViews */,
 				F35B3D26235BAC25000F7ED0 /* GetCoupon */,
+				F3E0AEB3238881CE0063E2C8 /* Views */,
+				F353624B23CE06A2003D7BAB /* Network */,
 				F35B3D5C235BACB8000F7ED0 /* Data */,
-				F3ED2D722399AE6600726045 /* ShopController */,
+				F3ED2D722399AE6600726045 /* ShopControllers */,
 				F35B3D5A235BAC82000F7ED0 /* HomeControllers */,
 				F33A9F452390097100A78A74 /* FavoritesControllers */,
-				F3ED2D652398417200726045 /* Search */,
+				F3ED2D652398417200726045 /* SearchControllers */,
 				F3ED2D6223983DFD00726045 /* Settings */,
 				F35B3D5B235BACA5000F7ED0 /* StoryBoards */,
 				F35B3D40235BAC2D000F7ED0 /* GetCouponTests */,
@@ -300,6 +329,7 @@
 		F35B3D5A235BAC82000F7ED0 /* HomeControllers */ = {
 			isa = PBXGroup;
 			children = (
+				F3B804062380647000481152 /* HomeDataController.swift */,
 				F3B80404238063A100481152 /* HomeViewController.swift */,
 				F3E0AEB0238804A10063E2C8 /* HomeDetailViewController.swift */,
 			);
@@ -322,18 +352,11 @@
 		F35B3D5C235BACB8000F7ED0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F348666823CA6CC0004682B3 /* CacheController.swift */,
-				F348667223CBF6F2004682B3 /* AsyncOperation.swift */,
-				F348666E23CBB5B5004682B3 /* NetworkController.swift */,
-				F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */,
-				F348667423CBFB93004682B3 /* SetupImageOperation.swift */,
-				F38F7A4623CA560500AAC409 /* StoredData */,
+				F353624C23CE06D2003D7BAB /* ImageOperations */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
-				F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */,
-				F3ED2D752399B31000726045 /* ShopData.swift */,
-				F3ED2D772399B33400726045 /* PromoCodeData.swift */,
-				F3B8040C2380654600481152 /* HomeData */,
-				F3E0AEBC238C69EB0063E2C8 /* FavoritesData */,
+				F348666823CA6CC0004682B3 /* CacheController.swift */,
+				F38F7A4623CA560500AAC409 /* StoredData */,
+				F353624D23CE0700003D7BAB /* ViewData */,
 				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
 				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
 			);
@@ -350,20 +373,13 @@
 			path = StoredData;
 			sourceTree = "<group>";
 		};
-		F3B8040C2380654600481152 /* HomeData */ = {
-			isa = PBXGroup;
-			children = (
-				F3B804062380647000481152 /* HomeDataController.swift */,
-			);
-			path = HomeData;
-			sourceTree = "<group>";
-		};
 		F3E0AEB3238881CE0063E2C8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				F3ED2D712399AD8100726045 /* ShopViews */,
 				F33A9F49239068B800A78A74 /* FavoritesViews */,
 				F33A9F482390688F00A78A74 /* HomeViews */,
+				F3ED2D6A239846F300726045 /* SearchViews */,
 				F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */,
 				F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */,
 				F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */,
@@ -375,14 +391,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F3E0AEBC238C69EB0063E2C8 /* FavoritesData */ = {
-			isa = PBXGroup;
-			children = (
-				F3E0AEBD238C6A0E0063E2C8 /* FavoritesDataController.swift */,
-			);
-			path = FavoritesData;
-			sourceTree = "<group>";
-		};
 		F3ED2D6223983DFD00726045 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -391,14 +399,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		F3ED2D652398417200726045 /* Search */ = {
+		F3ED2D652398417200726045 /* SearchControllers */ = {
 			isa = PBXGroup;
 			children = (
 				F3ED2D662398430900726045 /* SearchBaseViewController.swift */,
 				F3ED2D6B23984C9500726045 /* SearchMainViewController.swift */,
 				F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */,
 			);
-			path = Search;
+			path = SearchControllers;
 			sourceTree = "<group>";
 		};
 		F3ED2D6A239846F300726045 /* SearchViews */ = {
@@ -421,12 +429,12 @@
 			path = ShopViews;
 			sourceTree = "<group>";
 		};
-		F3ED2D722399AE6600726045 /* ShopController */ = {
+		F3ED2D722399AE6600726045 /* ShopControllers */ = {
 			isa = PBXGroup;
 			children = (
 				F3ED2D732399AEBC00726045 /* ShopViewController.swift */,
 			);
-			path = ShopController;
+			path = ShopControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
