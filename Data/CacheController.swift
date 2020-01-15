@@ -223,6 +223,7 @@ class CacheController {
                     storedShop.promoCodes.forEach { promoCode in
                         realm.delete(promoCode)
                     }
+                    deleteImages(from: storedShop)
                     realm.delete(storedShop)
                 }
             }
@@ -259,11 +260,13 @@ class CacheController {
         
         if shop.previewImageLink != storedShop.previewImageLink {
             storedShop.previewImageLink = shop.previewImageLink
+            //deletePreviewImage(from: storedShop)
             storedShop.previewImageURL = nil
         }
         
         if shop.imageLink != storedShop.imageLink {
             storedShop.imageLink = shop.imageLink
+            //deleteImage(from: storedShop)
             storedShop.imageURL = nil
         }
         
@@ -392,6 +395,50 @@ extension CacheController {
             try realm.write {
                 storedShop.previewImageURL = fileURL.path
             }
+        } catch {
+            debugPrint("Unexpected Error: \(error)")
+        }
+    }
+    
+    private func deleteImages(from shop: ShopStoredData) {
+        
+        do {
+            if let previewPath = shop.previewImageURL {
+                let url = URL(fileURLWithPath: previewPath)
+                try FileManager.default.removeItem(at: url)
+            }
+            
+            if let imagePath = shop.imageURL {
+                let url = URL(fileURLWithPath: imagePath)
+                try FileManager.default.removeItem(at: url)
+            }
+            debugPrint("Deleted Old Images From \(shop.name)")
+        } catch {
+            debugPrint("Unexpected Error: \(error)")
+        }
+    }
+    
+    private func deletePreviewImage(from shop: ShopStoredData) {
+        
+        do {
+            if let previewPath = shop.previewImageURL {
+                let url = URL(fileURLWithPath: previewPath)
+                try FileManager.default.removeItem(at: url)
+            }
+            debugPrint("Deleted Old Preview Image From \(shop.name)")
+        } catch {
+            debugPrint("Unexpected Error: \(error)")
+        }
+    }
+    
+    private func deleteImage(from shop: ShopStoredData) {
+        
+        do {
+            if let imagePath = shop.imageURL {
+                let url = URL(fileURLWithPath: imagePath)
+                try FileManager.default.removeItem(at: url)
+            }
+            debugPrint("Deleted Old Image From \(shop.name)")
         } catch {
             debugPrint("Unexpected Error: \(error)")
         }
