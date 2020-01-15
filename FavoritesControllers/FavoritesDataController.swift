@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SnapshotUpdaterProtocol {
-    //var needUpdateSnapshot: Bool { get set }
+//    var needUpdateSnapshot: Bool { get set }
     func updateSnapshot()
 }
 

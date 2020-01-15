@@ -14,18 +14,32 @@ class NetworkPromoCodeData: Codable {
     let addingDate: Date?
     let estimatedDate: Date?
     let promoCodeDescription: String?
-    let isHot: Bool
+    
+    let websiteLink: String
     
     init(coupon: String,
          addingDate: Date? = nil,
          estimatedDate: Date? = nil,
          promoCodeDescription: String? = nil,
-         isHot: Bool = false) {
+         websiteLink: String) {
         
         self.coupon = coupon
         self.addingDate = addingDate
         self.estimatedDate = estimatedDate
         self.promoCodeDescription = promoCodeDescription
-        self.isHot = isHot
+        self.websiteLink = websiteLink
+    }
+}
+
+    // MARK: - Hashable
+extension NetworkPromoCodeData: Hashable {
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(addingDate)
+        hasher.combine(estimatedDate)
+    }
+
+    static func == (lhs: NetworkPromoCodeData, rhs: NetworkPromoCodeData) -> Bool {
+        return lhs.coupon == rhs.coupon
     }
 }

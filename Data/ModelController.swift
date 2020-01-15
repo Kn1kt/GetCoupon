@@ -55,8 +55,10 @@ class ModelController {
         set {
             favoritesCollectionsQueue.async(flags: .barrier) {
                 self._favoritesCollections = newValue
+                self.favoritesDataController.collectionsBySections = newValue
             }
-            needSaveFavoritesToStorage = true
+           // needSaveFavoritesToStorage = true
+            
         }
     }
     
@@ -74,6 +76,7 @@ class ModelController {
             searchCollectionQueue.async(flags: .barrier) {
                 self._searchCollection = newValue
             }
+            NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
         }
     }
 }
@@ -82,61 +85,61 @@ class ModelController {
 
 extension ModelController {
     
-    static func updateCollections() {
-        let queue = DispatchQueue(label: "monitor")
-        let monitor = NWPathMonitor()
-        monitor.start(queue: queue)
-        
-        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
-            guard monitor.currentPath.status == .satisfied,
-                let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
-                    
-                    loadCollectionsFromStorage()
-                    return
-            }
-            
-            monitor.cancel()
-            
-            URLSession.shared.dataTask(with: url) { data, response, error in
-                guard let data = data else { return }
-                
-                do {
-                    let jsonDecoder = JSONDecoder()
-                    let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: data)
-                    collections = decodedCollections
-                } catch {
-                    debugPrint(error)
-                }
-            }.resume()
-        }
-    }
+//    static func updateCollections() {
+//        let queue = DispatchQueue(label: "monitor")
+//        let monitor = NWPathMonitor()
+//        monitor.start(queue: queue)
+//
+//        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
+//            guard monitor.currentPath.status == .satisfied,
+//                let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
+//
+//                    loadCollectionsFromStorage()
+//                    return
+//            }
+//
+//            monitor.cancel()
+//
+//            URLSession.shared.dataTask(with: url) { data, response, error in
+//                guard let data = data else { return }
+//
+//                do {
+//                    let jsonDecoder = JSONDecoder()
+//                    let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: data)
+//                    collections = decodedCollections
+//                } catch {
+//                    debugPrint(error)
+//                }
+//            }.resume()
+//        }
+//    }
     
     static func setupCollections() {
         NetworkController.downloadDataBase()
     }
     
-    static func loadCollectionsToStorage() {
-        
-        guard needSaveToStorage else {
-            return
-        }
-        
-        //DispatchQueue.global(qos: .background).async {
-            
-            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-                in: .userDomainMask).first
-            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-            do {
-                let jsonEncoder = JSONEncoder()
-                let jsonData = try jsonEncoder.encode(collections)
-                try jsonData.write(to: fileURL, options: .noFileProtection)
-            } catch {
-                debugPrint(error)
-            }
-            
-            debugPrint("loaded Collections to storage")
-        //}
-    }
+//    static func loadCollectionsToStorage() {
+//
+//        guard needSaveToStorage else {
+//            return
+//        }
+//
+//        //DispatchQueue.global(qos: .background).async {
+//
+//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+//                in: .userDomainMask).first
+//            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
+//            do {
+//                let jsonEncoder = JSONEncoder()
+//                let jsonData = try jsonEncoder.encode(collections)
+//                try jsonData.write(to: fileURL, options: .noFileProtection)
+//            } catch {
+//                debugPrint(error)
+//            }
+//
+//            debugPrint("loaded Collections to storage")
+//        //}
+//    }
     
     static func loadCollectionsFromStorage() {
         
@@ -180,9 +183,6 @@ extension ModelController {
                 result.append(contentsOf: category.shops)
             }
             self.searchCollection = ShopCategoryData(categoryName: "Search", shops: searchCollection)
-            NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
-            
-            favoritesDataController.collectionsBySections = favoritesCollections
             
             debugPrint("loaded Collections from storage")
         }
@@ -272,49 +272,49 @@ extension ModelController {
         }
     }
     
-    static func loadFavoritesCollectionsToStorage() {
-        
-        guard needSaveFavoritesToStorage else {
-            return
-        }
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            
-            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-                in: .userDomainMask).first
-            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
-            do {
-                let jsonEncoder = JSONEncoder()
-                let jsonData = try jsonEncoder.encode(favoritesCollections)
-                try jsonData.write(to: fileURL, options: .noFileProtection)
-            } catch {
-                debugPrint(error)
-            }
-            
-            debugPrint("loaded favoritesCollections to storage")
-        }
-    }
+//    static func loadFavoritesCollectionsToStorage() {
+//
+//        guard needSaveFavoritesToStorage else {
+//            return
+//        }
+//
+//        DispatchQueue.global(qos: .userInitiated).async {
+//
+//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+//                in: .userDomainMask).first
+//            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
+//            do {
+//                let jsonEncoder = JSONEncoder()
+//                let jsonData = try jsonEncoder.encode(favoritesCollections)
+//                try jsonData.write(to: fileURL, options: .noFileProtection)
+//            } catch {
+//                debugPrint(error)
+//            }
+//
+//            debugPrint("loaded favoritesCollections to storage")
+//        }
+//    }
     
-    static func loadFavoritesCollectionsFromStorage() {
-        
-        DispatchQueue.global(qos: .userInitiated).async {
-            
-            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-                in: .userDomainMask).first
-            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
-            do {
-                
-                let jsonDecoder = JSONDecoder()
-                let jsonData = try Data(contentsOf: fileURL)
-                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
-                updateFavoritesCollections(storedCollection: decodedCollections)
-            } catch {
-                debugPrint(error)
-            }
-            
-            debugPrint("loaded favoritesCollections from storage")
-        }
-    }
+//    static func loadFavoritesCollectionsFromStorage() {
+//
+//        DispatchQueue.global(qos: .userInitiated).async {
+//
+//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+//                in: .userDomainMask).first
+//            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
+//            do {
+//
+//                let jsonDecoder = JSONDecoder()
+//                let jsonData = try Data(contentsOf: fileURL)
+//                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
+//                updateFavoritesCollections(storedCollection: decodedCollections)
+//            } catch {
+//                debugPrint(error)
+//            }
+//
+//            debugPrint("loaded favoritesCollections from storage")
+//        }
+//    }
     
     static func updateFavoritesCollections(with collections: [ShopCategoryData]) {
         
@@ -375,10 +375,10 @@ extension ModelController {
                 if addedCells.contains(cell) {
                     return false
                 }
-                
+
                 return cell.isFavorite
             }
-            
+
             reduced.append(contentsOf: addedCells)
             
             if reduced.isEmpty {
@@ -395,6 +395,39 @@ extension ModelController {
         favoritesDataController.collectionsBySections = favoritesCollections
 
         
+    }
+    
+    static func updateFavoritesCollections(in name: String,
+                                           added addedCells: Set<ShopData>,
+                                           deleted deletedCells: Set<ShopData>) {
+        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.categoryName == name }) {
+            let section = favoritesCollections[sectionIndex]
+            
+            var reduced = section.shops.filter { shop in
+                if addedCells.contains(shop) ||
+                    deletedCells.contains(shop){
+                    return false
+                }
+                return true
+            }
+            
+            reduced.append(contentsOf: addedCells)
+            
+            if reduced.isEmpty {
+                favoritesCollections.remove(at: sectionIndex)
+                
+            } else {
+                section.shops = reduced
+            }
+            
+        } else {
+            if !addedCells.isEmpty {
+                favoritesCollections.append(ShopCategoryData(categoryName: name, shops: Array(addedCells)))
+            }
+        }
+        
+        favoritesCollections.sort { $0.categoryName < $1.categoryName }
+        favoritesDataController.collectionsBySections = favoritesCollections
     }
     
     static func removeAllFavorites() {

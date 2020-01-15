@@ -23,6 +23,7 @@ class HomeViewController: UIViewController {
         <ShopCategoryData, ShopData>! = nil
     var currentSnapshot: NSDiffableDataSourceSnapshot
         <ShopCategoryData, ShopData>! = nil
+    
     let queue = OperationQueue()
     
     override func viewDidLoad() {
@@ -35,6 +36,8 @@ class HomeViewController: UIViewController {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
         collectionView?.refreshControl = refresh
+        
+//        queue.maxConcurrentOperationCount = 7
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     }

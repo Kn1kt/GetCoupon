@@ -15,9 +15,12 @@ class HomeDetailViewController: UIViewController {
     let section: ShopCategoryData
     lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
     
-    var editedCells: Set<ShopData> = []
+    //var editedCells: Set<ShopData> = []
     
-    var needUpdateFavorites: Bool = false
+    var addedInFavorites: Set<ShopData> = []
+    var deletedFromFavorites: Set<ShopData> = []
+    
+    //var needUpdateFavorites: Bool = false
     var needUpdateVisibleItems: Bool = false
     var sortType: Int = 0
     var textFilter: String = ""
@@ -65,10 +68,15 @@ class HomeDetailViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        print("dissapear")
         super.viewDidDisappear(animated)
         
-        if !editedCells.isEmpty || needUpdateFavorites {
-            favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
+        //if !editedCells.isEmpty || needUpdateFavorites {
+        if !addedInFavorites.isEmpty || !deletedFromFavorites.isEmpty {
+//            favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
+            favoritesUpdater?.updateFavoritesCollections(in: section.categoryName,
+                                                         added: addedInFavorites,
+                                                         deleted: deletedFromFavorites)
             DispatchQueue.global(qos: .utility).async { [weak self] in
                 guard let self = self else { return }
                 let cache = CacheController()
@@ -78,8 +86,10 @@ class HomeDetailViewController: UIViewController {
                 }
             }
             //favoritesUpdater?.updateFavoritesCollections(in: section)
-            editedCells.removeAll()
-            needUpdateFavorites = false
+            //editedCells.removeAll()
+            //needUpdateFavorites = false
+            addedInFavorites.removeAll()
+            deletedFromFavorites.removeAll()
         }
     }
     
@@ -329,12 +339,16 @@ extension HomeDetailViewController {
         
         if cell.isFavorite {
             cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-            editedCells.insert(cell)
+            //editedCells.insert(cell)
+            addedInFavorites.insert(cell)
+            deletedFromFavorites.remove(cell)
         } else {
             cell.favoriteAddingDate = nil
-            if editedCells.remove(cell) == nil {
-                needUpdateFavorites = true
-            }
+            deletedFromFavorites.insert(cell)
+            addedInFavorites.remove(cell)
+//            if editedCells.remove(cell) == nil {
+//                needUpdateFavorites = true
+//            }
         }
     }
     
@@ -483,6 +497,12 @@ extension HomeDetailViewController: UICollectionViewDelegate {
         
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
+        if let _ = addedInFavorites.remove(selectedShop) {
+            ModelController.insertInFavorites(shop: selectedShop)
+        } else if let _ = deletedFromFavorites.remove(selectedShop) {
+            ModelController.deleteFromFavorites(shop: selectedShop)
+        }
+        
         let viewController = ShopViewController(shop: selectedShop)
         viewController.previousViewUpdater = self
         let navController = UINavigationController(rootViewController: viewController)
@@ -494,8 +514,20 @@ extension HomeDetailViewController: UICollectionViewDelegate {
 
 extension HomeDetailViewController: ScreenUpdaterProtocol {
     
+    func updateShop(shop: ShopData) {
+        
+        if shop.isFavorite {
+            deletedFromFavorites.remove(shop)
+        } else {
+            addedInFavorites.remove(shop)
+        }
+        
+        updateScreen()
+    }
+    
     func updateScreen() {
         if needUpdateVisibleItems {
+            //needUpdateFavorites = true
             needUpdateVisibleItems = false
             updateVisibleItems()
         }

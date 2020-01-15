@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ShopCategoryData: Codable {
+class ShopCategoryData {
     
     let categoryName: String
     

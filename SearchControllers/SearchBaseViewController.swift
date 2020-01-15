@@ -13,7 +13,7 @@ class SearchBaseViewController: UIViewController {
     let queue = OperationQueue()
 
     var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
-    
+    var needUpdateSnapshot: Bool = false
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
         <ShopCategoryData, ShopData>! = nil
@@ -26,6 +26,15 @@ class SearchBaseViewController: UIViewController {
         
         configureCollectionView()
         configureDataSource()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if needUpdateSnapshot {
+            needUpdateSnapshot = false
+            updateSnapshot()
+        }
     }
 }
 

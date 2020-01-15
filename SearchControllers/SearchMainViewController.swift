@@ -118,6 +118,14 @@ extension SearchMainViewController {
     
     @objc func updateSection() {
         section = ModelController.searchCollection
-        updateSnapshot()
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if let currentVC = self.navigationController?.tabBarController?.selectedIndex,
+                currentVC == 2 {
+                self.updateSnapshot()
+            } else {
+                self.needUpdateSnapshot = true
+            }
+        }
     }
 }

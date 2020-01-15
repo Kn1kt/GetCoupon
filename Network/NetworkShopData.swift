@@ -13,6 +13,7 @@ class NetworkShopData: Codable {
     let name: String
     let shopDescription: String?
     let shopShortDescription: String
+    let isHot: Bool
     
     let websiteLink: String
     let imageLink: String
@@ -25,6 +26,7 @@ class NetworkShopData: Codable {
     init(name: String,
          shopDescription: String? = nil,
          shopShortDescription: String,
+         isHot: Bool = false,
          websiteLink: String,
          imageLink: String,
          previewImageLink: String,
@@ -33,6 +35,7 @@ class NetworkShopData: Codable {
         self.name = name
         self.shopDescription = shopDescription
         self.shopShortDescription = shopShortDescription
+        self.isHot = isHot
         self.websiteLink = websiteLink
         self.imageLink = imageLink
         self.previewImageLink = previewImageLink

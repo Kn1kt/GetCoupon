@@ -10,6 +10,7 @@ import UIKit
 
 protocol ScreenUpdaterProtocol {
     func updateScreen()
+    func updateShop(shop: ShopData)
 }
 
 class ShopViewController: UIViewController {
@@ -81,13 +82,13 @@ class ShopViewController: UIViewController {
         if favoriteStatus != shop.isFavorite {
             let cache = CacheController()
             cache.shop(with: shop.name, isFavorite: shop.isFavorite, date: shop.favoriteAddingDate)
-            switch shop.isFavorite {
-            case true:
+            if shop.isFavorite {
                 ModelController.insertInFavorites(shop: shop)
-            case false:
+            } else {
                 ModelController.deleteFromFavorites(shop: shop)
             }
             previousViewUpdater?.updateScreen()
+//            previousViewUpdater?.updateShop(shop: shop)
         }
     }
 }

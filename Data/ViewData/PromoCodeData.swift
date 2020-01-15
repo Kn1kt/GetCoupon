@@ -9,13 +9,14 @@
 
 import UIKit
 
-class PromoCodeData: Codable {
+class PromoCodeData {
     
     let coupon: String
     let addingDate: Date?
     let estimatedDate: Date?
     let description: String?
-    let isHot: Bool
+    
+    let websiteLink: String
     
     let identifier = UUID()
     
@@ -23,13 +24,13 @@ class PromoCodeData: Codable {
          addingDate: Date? = nil,
          estimatedDate: Date? = nil,
          description: String? = nil,
-         isHot: Bool = false) {
+         websiteLink: String = "") {
         
         self.coupon = coupon
         self.addingDate = addingDate
         self.estimatedDate = estimatedDate
         self.description = description
-        self.isHot = isHot
+        self.websiteLink = websiteLink
     }
     
     /// Bridge for stored data
@@ -38,11 +39,11 @@ class PromoCodeData: Codable {
                   addingDate: promoCode.addingDate,
                   estimatedDate: promoCode.estimatedDate,
                   description: promoCode.promoCodeDescription,
-                  isHot: promoCode.isHot)
+                  websiteLink: promoCode.websiteLink)
     }
 }
 
-// MARK: - Hashable
+    // MARK: - Hashable
 extension PromoCodeData: Hashable {
 
     func hash(into hasher: inout Hasher) {

@@ -32,12 +32,33 @@ class CacheController {
         }
     }
     
+    func append(category: ShopCategoryStoredData) {
+        do {
+            try realm.write {
+                realm.add(category)
+            }
+        } catch {
+            debugPrint("Unexpected Error: \(error)")
+        }
+    }
+    
     // MARK: - Add Shops
     func append(shops: [ShopStoredData], in category: ShopCategoryStoredData) {
         do {
             try realm.write {
                 realm.add(shops)
                 category.shops.append(objectsIn: shops)
+            }
+        } catch {
+            debugPrint("Unexpected Error: \(error)")
+        }
+    }
+    
+    func append(shop: ShopStoredData, in category: ShopCategoryStoredData) {
+        do {
+            try realm.write {
+                realm.add(shop)
+                category.shops.append(shop)
             }
         } catch {
             debugPrint("Unexpected Error: \(error)")
@@ -168,57 +189,11 @@ class CacheController {
     }
     
     // MARK: - Update Categories
-    func updateData(with categories: [ShopCategoryStoredData]) {
+    func updateData(with categories: [NetworkShopCategoryData]) {
         do {
             try realm.write {
-//                realm.add(categories, update: .modified)
                 categories.forEach { newCategory in
-                    if let category = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: newCategory.categoryName) {
-                        newCategory.shops.forEach { newShop in
-                            if let shop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: newShop.name) {
-                                if let newDescription = newShop.shopDescription {
-                                    if let oldDescription = shop.shopDescription,
-                                        newDescription != oldDescription {
-                                        shop.shopDescription = newDescription
-                                    }
-                                }
-                                
-                                if shop.shopDescription != newShop.shopShortDescription {
-                                    shop.shopShortDescription = newShop.shopShortDescription
-                                }
-                                
-                                if shop.websiteLink != newShop.websiteLink {
-                                    shop.websiteLink = newShop.websiteLink
-                                }
-                                
-                                if shop.previewImageLink != newShop.previewImageLink {
-                                    shop.previewImageLink = newShop.previewImageLink
-                                    shop.previewImageURL = nil
-                                }
-                                
-                                if shop.imageLink != newShop.imageLink {
-                                    shop.imageLink = newShop.imageLink
-                                    shop.imageURL = nil
-                                }
-                                
-                                if shop.placeholderColor != newShop.placeholderColor {
-                                    shop.placeholderColor.removeAll()
-                                    shop.placeholderColor.append(objectsIn: newShop.placeholderColor)
-                                }
-                                
-                                if shop.promoCodes != newShop.promoCodes {
-                                    shop.promoCodes.replaceSubrange((0..<shop.promoCodes.count), with: newShop.promoCodes)
-                                }
-                                
-                            } else {
-                                realm.add(newShop)
-                                category.shops.append(newShop)
-                                
-                            }
-                        }
-                    } else {
-                        realm.add(newCategory)
-                    }
+                    update(category: newCategory)
                 }
             }
         } catch {
@@ -226,17 +201,98 @@ class CacheController {
         }
     }
     
-    func update(category: ShopCategoryStoredData, with shops: [ShopStoredData]) {
-        let exist = Set<ShopStoredData>(category.shops)
-        let noExist = shops.filter { !exist.contains($0) }
-        
-        do {
-            try realm.write {
-                realm.add(shops, update: .modified)
-                category.shops.append(objectsIn: noExist)
+    /// WARNING: Use only from realm.write
+    private func update(category: NetworkShopCategoryData) {
+        if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: category.categoryName) {
+            var existing = Set<String>()
+            category.shops.forEach { shop in
+                if let storedShop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: shop.name) {
+                    update(storedShop: storedShop, with: shop)
+                } else {
+                    let newStoredShop = ShopStoredData(shop)
+                    realm.add(newStoredShop)
+                    storedCategory.shops.append(newStoredShop)
+                }
+                existing.insert(shop.name)
             }
-        } catch {
-            debugPrint("Unexpected Error: \(error)")
+            
+            // Clean Cache
+            storedCategory.shops.indices.reversed().forEach { index in
+                let storedShop = storedCategory.shops[index]
+                if !existing.contains(storedShop.name) {
+                    storedShop.promoCodes.forEach { promoCode in
+                        realm.delete(promoCode)
+                    }
+                    realm.delete(storedShop)
+                }
+            }
+            
+        } else {
+            let newStoredCategory = ShopCategoryStoredData(category)
+            realm.add(newStoredCategory)
+        }
+    }
+    
+    /// WARNING: Use only from realm.write
+    private func update(storedShop: ShopStoredData, with shop: NetworkShopData) {
+        if let newDescription = shop.shopDescription {
+            if let oldDescription = storedShop.shopDescription {
+                if newDescription != oldDescription {
+                    storedShop.shopDescription = newDescription
+                }
+            } else {
+                storedShop.shopDescription = newDescription
+            }
+        }
+        
+        if shop.shopShortDescription != storedShop.shopShortDescription {
+            storedShop.shopShortDescription = shop.shopShortDescription
+        }
+        
+        if shop.isHot != storedShop.isHot {
+            storedShop.isHot = shop.isHot
+        }
+        
+        if shop.websiteLink != storedShop.websiteLink {
+            storedShop.websiteLink = shop.websiteLink
+        }
+        
+        if shop.previewImageLink != storedShop.previewImageLink {
+            storedShop.previewImageLink = shop.previewImageLink
+            storedShop.previewImageURL = nil
+        }
+        
+        if shop.imageLink != storedShop.imageLink {
+            storedShop.imageLink = shop.imageLink
+            storedShop.imageURL = nil
+        }
+        
+        if shop.placeholderColor != Array(storedShop.placeholderColor) {
+            storedShop.placeholderColor.replaceSubrange((0..<storedShop.placeholderColor.count), with: shop.placeholderColor)
+        }
+        
+        updatePromoCodes(in: storedShop, with: shop)
+    }
+    
+    /// WARNING: Use only from realm.write
+    private func updatePromoCodes(in storedShop: ShopStoredData, with shop: NetworkShopData) {
+        var promoCodes = shop.promoCodes.reduce(into: [String : NetworkPromoCodeData]()) { result, promo in
+                    result[promo.coupon] = promo
+        }
+        storedShop.promoCodes.indices.reversed().forEach { index in
+            let storedPromoCode = storedShop.promoCodes[index]
+            if let _ = promoCodes[storedPromoCode.coupon] {
+                promoCodes.removeValue(forKey: storedPromoCode.coupon)
+            } else {
+                storedShop.promoCodes.remove(at: index)
+                realm.delete(storedPromoCode)
+            }
+        }
+        
+        if !promoCodes.isEmpty {
+            let newPromoCodes = promoCodes.values.map(PromoCodeStoredData.init)
+            realm.add(newPromoCodes)
+            storedShop.promoCodes.append(objectsIn: newPromoCodes)
         }
     }
     
@@ -264,7 +320,7 @@ extension CacheController {
     func setImage(for shop: ShopData) -> String? {
         guard shop.image == nil else { return nil }
         guard let storedShop = realm.object(ofType: ShopStoredData.self,
-                                      forPrimaryKey: shop.name) else {
+                                            forPrimaryKey: shop.name) else {
             debugPrint("No Shop")
             fatalError()
         }
@@ -275,12 +331,8 @@ extension CacheController {
                     shop.image = image
                 }
             return nil
-//            } else {
-//                debugPrint("Exactly, Cache Was Cleaned")
-//            }
             
         } else {
-           // NetworkController.downloadImage(url: storedShop.imageLink, shop: shop)
             return storedShop.imageLink
         }
     }
@@ -299,12 +351,8 @@ extension CacheController {
                     shop.previewImage = image
                 }
             return nil
-//            } else {
-//                debugPrint("Exactly, Cache Was Cleaned")
-//            }
             
         } else {
-            //NetworkController.downloadPreviewImage(url: storedShop.previewImageLink, shop: shop)
             return storedShop.previewImageLink
         }
     }
@@ -322,7 +370,7 @@ extension CacheController {
         do {
             try image.pngData()?.write(to: fileURL, options: .noFileProtection)
             try realm.write {
-                storedShop.imageURL = fileURL.absoluteString
+                storedShop.imageURL = fileURL.path
             }
         } catch {
             debugPrint("Unexpected Error: \(error)")
@@ -342,7 +390,7 @@ extension CacheController {
         do {
             try image.pngData()?.write(to: fileURL, options: .noFileProtection)
             try realm.write {
-                storedShop.previewImageURL = fileURL.absoluteString
+                storedShop.previewImageURL = fileURL.path
             }
         } catch {
             debugPrint("Unexpected Error: \(error)")

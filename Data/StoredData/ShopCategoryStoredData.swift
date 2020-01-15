@@ -9,7 +9,7 @@
 import Foundation
 import RealmSwift
 
-class ShopCategoryStoredData: Object, Codable {
+class ShopCategoryStoredData: Object {
     
     @objc dynamic var categoryName: String = ""
     
@@ -32,23 +32,33 @@ class ShopCategoryStoredData: Object, Codable {
         return "categoryName"
     }
     
-    // MARK: - Codable
-    private enum CodingKeys: String, CodingKey {
-        case categoryName
-        case tags
-        case shops
-    }
+//    // MARK: - Codable
+//    private enum CodingKeys: String, CodingKey {
+//        case categoryName
+//        case tags
+//        case shops
+//    }
+//    
+//    required convenience init(from decoder: Decoder) throws {
+//        self.init()
+//        
+//        let container = try decoder.container(keyedBy: CodingKeys.self)
+//        self.categoryName = try container.decode(String.self, forKey: .categoryName)
+//        
+//        let tags = try container.decode([String].self, forKey: .tags)
+//        self.tags.append(objectsIn: tags)
+//        
+//        let shops = try container.decode([ShopStoredData].self, forKey: .shops)
+//        self.shops.append(objectsIn: shops)
+//    }
+}
+
+    // MARK: - NetworkShopCategoryData Compatible
+extension ShopCategoryStoredData {
     
-    required convenience init(from decoder: Decoder) throws {
-        self.init()
-        
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.categoryName = try container.decode(String.self, forKey: .categoryName)
-        
-        let tags = try container.decode([String].self, forKey: .tags)
-        self.tags.append(objectsIn: tags)
-        
-        let shops = try container.decode([ShopStoredData].self, forKey: .shops)
-        self.shops.append(objectsIn: shops)
+    convenience init(_ networkCategory: NetworkShopCategoryData) {
+        self.init(categoryName: networkCategory.categoryName,
+                  shops: networkCategory.shops.map(ShopStoredData.init),
+                  tags: networkCategory.tags)
     }
 }

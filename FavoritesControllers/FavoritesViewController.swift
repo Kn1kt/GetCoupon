@@ -17,7 +17,7 @@ class FavoritesViewController: UIViewController {
     static let titleElementKind = "title-element-kind"
     
     var needUpdateDataSource: Bool = false
-    //var needUpdateSnapshot: Bool = false
+    var needUpdateSnapshot: Bool = false
     var textFilter: String = ""
     
     var closeKeyboardGesture: UITapGestureRecognizer?
@@ -57,6 +57,10 @@ class FavoritesViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if needUpdateSnapshot {
+            needUpdateSnapshot = false
+            updateSnapshot()
+        }
 //        if needUpdateSnapshot {
 //            needUpdateSnapshot = false
 //
@@ -333,34 +337,41 @@ extension FavoritesViewController {
 extension FavoritesViewController: SnapshotUpdaterProtocol {
     
     func updateSnapshot() {
-        guard textFilter.isEmpty else {
-            performQuery(with: textFilter)
-            return
-        }
-        
-        currentSnapshot = NSDiffableDataSourceSnapshot
-        <ShopCategoryData, ShopData>()
-        
-        currentSnapshot.appendSections([searchSection])
-        currentSnapshot.appendItems(searchSection.shops)
-
-        currentSnapshot.appendSections([segmentedSection])
-        currentSnapshot.appendItems(segmentedSection.shops)
-
-        switch sortType {
-        case 0:
-            favoritesDataController.collectionsBySections.forEach { collection in
-                currentSnapshot.appendSections([collection])
-                currentSnapshot.appendItems(collection.shops)
-            }
-        default:
-            let section = ShopCategoryData(categoryName: "", shops: favoritesDataController.collectionsByDates)
-            currentSnapshot.appendSections([section])
-            currentSnapshot.appendItems(section.shops)
-        }
-        
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            guard let currentVC = self.navigationController?.tabBarController?.selectedIndex,
+                currentVC == 1 else {
+                    self.needUpdateSnapshot = true
+                    return
+            }
+            
+            self.needUpdateSnapshot = false
+            guard self.textFilter.isEmpty else {
+                self.performQuery(with: self.textFilter)
+                return
+            }
+            
+            self.currentSnapshot = NSDiffableDataSourceSnapshot
+            <ShopCategoryData, ShopData>()
+            
+            self.currentSnapshot.appendSections([self.searchSection])
+            self.currentSnapshot.appendItems(self.searchSection.shops)
+
+            self.currentSnapshot.appendSections([self.segmentedSection])
+            self.currentSnapshot.appendItems(self.segmentedSection.shops)
+
+            switch self.sortType {
+            case 0:
+                self.favoritesDataController.collectionsBySections.forEach { collection in
+                    self.currentSnapshot.appendSections([collection])
+                    self.currentSnapshot.appendItems(collection.shops)
+                }
+            default:
+                let section = ShopCategoryData(categoryName: "", shops: self.favoritesDataController.collectionsByDates)
+                self.currentSnapshot.appendSections([section])
+                self.currentSnapshot.appendItems(section.shops)
+            }
+        
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
             
             if let refresh = self.collectionView.refreshControl,
@@ -375,26 +386,18 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
 extension FavoritesViewController {
     
     @objc func refresh() {
-        
         if needUpdateDataSource {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         } else {
             DispatchQueue.main.async { [weak self] in
-                self?.collectionView.refreshControl?.endRefreshing()
+                guard let self = self else { return }
+                if let refresh = self.collectionView.refreshControl,
+                    refresh.isRefreshing {
+                    refresh.endRefreshing()
+                }
             }
         }
-//        needUpdateSnapshot = false
-        
-//        if !textFilter.isEmpty {
-//            performQuery(with: textFilter)
-//        } else {
-//            updateSnapshot()
-//        }
-        
-//        DispatchQueue.main.async { [weak self] in
-//            self?.collectionView.refreshControl?.endRefreshing()
-//        }
     }
     
     @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
@@ -464,6 +467,11 @@ extension FavoritesViewController {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
+            
+            if let refresh = self.collectionView.refreshControl,
+                refresh.isRefreshing {
+                refresh.endRefreshing()
+            }
         }
         
     }
@@ -536,6 +544,10 @@ extension FavoritesViewController: UICollectionViewDelegate {
 }
 
 extension FavoritesViewController: ScreenUpdaterProtocol {
+    
+    func updateShop(shop: ShopData) {
+        
+    }
     
     func updateScreen() {
         favoritesDataController.checkCollection()

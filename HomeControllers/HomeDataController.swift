@@ -10,6 +10,9 @@ import UIKit
 
 protocol FavoritesUpdaterProtocol {
     func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>)
+    func updateFavoritesCollections(in name: String,
+                                    added addedCells: Set<ShopData>,
+                                    deleted deletedCells: Set<ShopData>)
 }
 
 class HomeDataController {
@@ -32,6 +35,14 @@ extension HomeDataController: FavoritesUpdaterProtocol {
 //            }
 //        }
         ModelController.updateFavoritesCollections(in: name, with: addedCells)
+    }
+    
+    func updateFavoritesCollections(in name: String,
+                                    added addedCells: Set<ShopData>,
+                                    deleted deletedCells: Set<ShopData>) {
+        ModelController.updateFavoritesCollections(in: name,
+                                                   added: addedCells,
+                                                   deleted: deletedCells)
     }
 }
 

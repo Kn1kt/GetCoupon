@@ -32,7 +32,7 @@ class NetworkController {
                     
                     do {
                         let jsonDecoder = JSONDecoder()
-                        let decodedCollections = try jsonDecoder.decode([ShopCategoryStoredData].self, from: data)
+                        let decodedCollections = try jsonDecoder.decode([NetworkShopCategoryData].self, from: data)
                         
                         DispatchQueue.global(qos: .userInitiated).async {
                             let cache = CacheController()
