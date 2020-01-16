@@ -24,9 +24,6 @@ class HomeViewController: UIViewController {
     var currentSnapshot: NSDiffableDataSourceSnapshot
         <ShopCategoryData, ShopData>! = nil
     
-    /// Image processing queue
-    let queue = OperationQueue()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
@@ -37,8 +34,6 @@ class HomeViewController: UIViewController {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
         collectionView?.refreshControl = refresh
-        
-//        queue.maxConcurrentOperationCount = 7
         
         NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     }
@@ -412,14 +407,12 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController {
     
      private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        let op = SetupPreviewImageOperation(shop: cellData)
-        op.completionBlock = {
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+        NetworkController.setupPreviewImage(in: cellData) {
+            DispatchQueue.main.async { [weak self] in
+                if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
                     cell.imageView.image = cellData.previewImage
                 }
             }
         }
-        self.queue.addOperation(op)
     }
 }

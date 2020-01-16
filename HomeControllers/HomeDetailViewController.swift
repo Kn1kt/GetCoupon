@@ -10,9 +10,6 @@ import UIKit
 
 class HomeDetailViewController: UIViewController {
     
-    /// Image processing queue
-    let queue = OperationQueue()
-    
     let section: ShopCategoryData
     lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
     
@@ -505,14 +502,12 @@ extension HomeDetailViewController: ScreenUpdaterProtocol {
 extension HomeDetailViewController {
     
      private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-         let op = SetupPreviewImageOperation(shop: cellData)
-         op.completionBlock = {
-             DispatchQueue.main.async {
-                 if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                     cell.imageView.image = cellData.previewImage
-                 }
-             }
-         }
-         self.queue.addOperation(op)
+        NetworkController.setupPreviewImage(in: cellData) {
+            DispatchQueue.main.async { [weak self] in
+                if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                    cell.imageView.image = cellData.previewImage
+                }
+            }
+        }
      }
 }

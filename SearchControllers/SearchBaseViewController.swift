@@ -9,9 +9,6 @@
 import UIKit
 
 class SearchBaseViewController: UIViewController {
-    
-    /// Image processing queue
-    let queue = OperationQueue()
 
     var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
     var needUpdateSnapshot: Bool = false
@@ -200,14 +197,12 @@ extension SearchBaseViewController {
 extension SearchBaseViewController {
     
     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        let op = SetupPreviewImageOperation(shop: cellData)
-        op.completionBlock = {
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+        NetworkController.setupPreviewImage(in: cellData) {
+            DispatchQueue.main.async { [weak self] in
+                if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
                     cell.imageView.image = cellData.previewImage
                 }
             }
         }
-        self.queue.addOperation(op)
     }
 }

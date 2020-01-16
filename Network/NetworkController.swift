@@ -50,8 +50,15 @@ class NetworkController {
         }
     }
     
-    static func setupImage(at indexPath: IndexPath, with cellData: ShopData, completionHandler: (() -> Void)? = nil) {
-           let op = SetupPreviewImageOperation(shop: cellData)
+    /// Download or extract from cache preview image
+    static func setupPreviewImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
+           let op = SetupPreviewImageOperation(shop: shop)
+           op.completionBlock = completionHandler
+           queue.addOperation(op)
+    }
+    /// Download or extract from cache image
+    static func setupImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
+           let op = SetupImageOperation(shop: shop)
            op.completionBlock = completionHandler
            queue.addOperation(op)
     }

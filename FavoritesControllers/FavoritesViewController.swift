@@ -10,9 +10,6 @@ import UIKit
 
 class FavoritesViewController: UIViewController {
     
-    /// Image processing queue
-    let queue = OperationQueue()
-    
     let favoritesDataController = ModelController.favoritesDataController
     var sortType: Int = 0
     static let titleElementKind = "title-element-kind"
@@ -529,14 +526,12 @@ extension FavoritesViewController: ScreenUpdaterProtocol {
 extension FavoritesViewController {
     
     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        let op = SetupPreviewImageOperation(shop: cellData)
-        op.completionBlock = {
-            DispatchQueue.main.async {
-                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+        NetworkController.setupPreviewImage(in: cellData) {
+            DispatchQueue.main.async { [weak self] in
+                if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
                     cell.imageView.image = cellData.previewImage
                 }
             }
         }
-        self.queue.addOperation(op)
     }
 }

@@ -16,9 +16,6 @@ class ShopViewController: UIViewController {
 
     var previousViewUpdater: ScreenUpdaterProtocol?
     
-    /// Image processing queue
-    let queue = OperationQueue()
-    
     let shop: ShopData
     let favoriteStatus: Bool
     let dateFormatter = DateFormatter()
@@ -452,28 +449,24 @@ extension ShopViewController {
     }
     
     private func setupPreviewImage() {
-            let op = SetupPreviewImageOperation(shop: shop)
-            op.completionBlock = {
-                DispatchQueue.main.async { [weak self] in
-                    self?.logoView.imageView.image = self?.shop.previewImage
-                    self?.updateVisibleItems()
-                }
+        NetworkController.setupPreviewImage(in: shop) {
+            DispatchQueue.main.async { [weak self] in
+                self?.logoView.imageView.image = self?.shop.previewImage
+                self?.updateVisibleItems()
             }
-            self.queue.addOperation(op)
+        }
     }
     
     private func setupHeaderImage() {
-        let op = SetupImageOperation(shop: shop)
-        op.completionBlock = {
+        NetworkController.setupImage(in: shop) {
             DispatchQueue.main.async { [weak self] in
-                UIView.animate(withDuration: 1) {
-                    self?.headerImageView.alpha = 0.1
-                    self?.headerImageView.image = self?.shop.image
-                    self?.headerImageView.alpha = 1
-                }
+                           UIView.animate(withDuration: 1) {
+                               self?.headerImageView.alpha = 0.1
+                               self?.headerImageView.image = self?.shop.image
+                               self?.headerImageView.alpha = 1
+                           }
             }
         }
-        self.queue.addOperation(op)
     }
 }
 
