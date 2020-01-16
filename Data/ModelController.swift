@@ -10,13 +10,11 @@ import UIKit
 import Network
 
 class ModelController {
-    
-    /// Main Collection
-    static private var needSaveToStorage: Bool = false
-    static private var needSaveFavoritesToStorage: Bool = false
-    
+
     static fileprivate var _collections: [ShopCategoryData] = []
     static private let collectionsQueue = DispatchQueue(label: "collectionsQueue", attributes: .concurrent)
+    
+     /// Main Collections
     static var collections: [ShopCategoryData] {
         get {
             collectionsQueue.sync {
@@ -28,10 +26,6 @@ class ModelController {
             collectionsQueue.async(flags: .barrier) {
                 self._collections = newValue
                 NotificationCenter.default.post(name: .didUpdateCollections, object: nil)
-                //loadFavoritesCollectionsFromStorage()
-                homeDataController.updateCollections()
-                //setupSearchData()
-                needSaveToStorage = true
             }
         }
     }
@@ -57,8 +51,6 @@ class ModelController {
                 self._favoritesCollections = newValue
                 self.favoritesDataController.collectionsBySections = newValue
             }
-           // needSaveFavoritesToStorage = true
-            
         }
     }
     
@@ -75,90 +67,22 @@ class ModelController {
         set {
             searchCollectionQueue.async(flags: .barrier) {
                 self._searchCollection = newValue
+                NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
             }
-            NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
         }
     }
 }
 
     // MARK: - Data Management
-
 extension ModelController {
-    
-//    static func updateCollections() {
-//        let queue = DispatchQueue(label: "monitor")
-//        let monitor = NWPathMonitor()
-//        monitor.start(queue: queue)
-//
-//        DispatchQueue.global(qos: .userInitiated).asyncAfter(deadline: .now() + 1) {
-//            guard monitor.currentPath.status == .satisfied,
-//                let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
-//
-//                    loadCollectionsFromStorage()
-//                    return
-//            }
-//
-//            monitor.cancel()
-//
-//            URLSession.shared.dataTask(with: url) { data, response, error in
-//                guard let data = data else { return }
-//
-//                do {
-//                    let jsonDecoder = JSONDecoder()
-//                    let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: data)
-//                    collections = decodedCollections
-//                } catch {
-//                    debugPrint(error)
-//                }
-//            }.resume()
-//        }
-//    }
     
     static func setupCollections() {
         NetworkController.downloadDataBase()
     }
     
-//    static func loadCollectionsToStorage() {
-//
-//        guard needSaveToStorage else {
-//            return
-//        }
-//
-//        //DispatchQueue.global(qos: .background).async {
-//
-//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-//                in: .userDomainMask).first
-//            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-//            do {
-//                let jsonEncoder = JSONEncoder()
-//                let jsonData = try jsonEncoder.encode(collections)
-//                try jsonData.write(to: fileURL, options: .noFileProtection)
-//            } catch {
-//                debugPrint(error)
-//            }
-//
-//            debugPrint("loaded Collections to storage")
-//        //}
-//    }
-    
     static func loadCollectionsFromStorage() {
         
         DispatchQueue.global(qos: .userInitiated).async {
-            
-//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-//                in: .userDomainMask).first
-//            let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-//            do {
-//
-//                let jsonDecoder = JSONDecoder()
-//                let jsonData = try Data(contentsOf: fileURL)
-//                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
-//                collections = decodedCollections
-//            } catch {
-//                debugPrint(error)
-//                homeDataController.updateCollections()
-//            }
-            
             let cache = CacheController()
             let categories = cache.categories()
             var favoriteCollections = [ShopCategoryData]()
@@ -179,10 +103,7 @@ extension ModelController {
             self.collections = collections
             self.favoritesCollections = favoriteCollections
             
-            let searchCollection = collections.reduce(into: [ShopData]()) { result, category in
-                result.append(contentsOf: category.shops)
-            }
-            self.searchCollection = ShopCategoryData(categoryName: "Search", shops: searchCollection)
+            setupSearchData()
             
             debugPrint("loaded Collections from storage")
         }
@@ -199,24 +120,6 @@ extension ModelController {
     }
     
     static func removeCollectionsFromStorage() {
-        
-//        let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-//                                                    in: .userDomainMask).first
-//        let fileURL = URL(fileURLWithPath: "collections", relativeTo: directoryURL).appendingPathExtension("json")
-//        do {
-//            try FileManager.default.removeItem(at: fileURL)
-//        } catch {
-//            debugPrint(error)
-//        }
-//
-//        collections.forEach { category in
-//            category.shops.forEach { shop in
-//                shop.image = nil
-//                shop.previewImage = nil
-//            }
-//        }
-//
-//        needSaveToStorage = false
         let cache = CacheController()
         try! cache.realm.write {
             cache.realm.deleteAll()
@@ -236,7 +139,6 @@ extension ModelController {
 extension ModelController {
     
     static private func createHomeDataController() -> HomeDataController {
-        
         let controller = HomeDataController()
         
         return controller
@@ -245,76 +147,6 @@ extension ModelController {
 
     // MARK: - Favorites Section Data Controller
 extension ModelController {
-    
-    static private func updateFavoritesCollections(storedCollection: [ShopCategoryData]) {
-        
-        DispatchQueue.global(qos: .utility).async {
-            let favoritesCollections = collections.reduce(into: [ShopCategoryData]()) { result, section in
-                guard let storedSection = storedCollection.first(where: { $0.categoryName == section.categoryName }) else {
-                    return
-                }
-                
-                let shops = section.shops.filter { shop in
-                    if let storedShop = storedSection.shops.first(where: { $0.name == shop.name }) {
-                        shop.isFavorite = true
-                        shop.favoriteAddingDate = storedShop.favoriteAddingDate
-                        return true
-                    }
-                    return false
-                }
-                if !shops.isEmpty {
-                    let newSection = ShopCategoryData(categoryName: section.categoryName, shops: shops, tags: [])
-                    result.append(newSection)
-                }
-            }.sorted { $0.categoryName < $1.categoryName }
-            self.favoritesCollections = favoritesCollections
-            favoritesDataController.collectionsBySections = favoritesCollections
-        }
-    }
-    
-//    static func loadFavoritesCollectionsToStorage() {
-//
-//        guard needSaveFavoritesToStorage else {
-//            return
-//        }
-//
-//        DispatchQueue.global(qos: .userInitiated).async {
-//
-//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-//                in: .userDomainMask).first
-//            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
-//            do {
-//                let jsonEncoder = JSONEncoder()
-//                let jsonData = try jsonEncoder.encode(favoritesCollections)
-//                try jsonData.write(to: fileURL, options: .noFileProtection)
-//            } catch {
-//                debugPrint(error)
-//            }
-//
-//            debugPrint("loaded favoritesCollections to storage")
-//        }
-//    }
-    
-//    static func loadFavoritesCollectionsFromStorage() {
-//
-//        DispatchQueue.global(qos: .userInitiated).async {
-//
-//            let directoryURL = FileManager.default.urls(for: .cachesDirectory,
-//                in: .userDomainMask).first
-//            let fileURL = URL(fileURLWithPath: "favoritesCollections", relativeTo: directoryURL).appendingPathExtension("json")
-//            do {
-//
-//                let jsonDecoder = JSONDecoder()
-//                let jsonData = try Data(contentsOf: fileURL)
-//                let decodedCollections = try jsonDecoder.decode([ShopCategoryData].self, from: jsonData)
-//                updateFavoritesCollections(storedCollection: decodedCollections)
-//            } catch {
-//                debugPrint(error)
-//            }
-//
-//            debugPrint("loaded favoritesCollections from storage")
-//        }
-//    }
     
     static func updateFavoritesCollections(with collections: [ShopCategoryData]) {
         
@@ -366,37 +198,6 @@ extension ModelController {
         favoritesDataController.collectionsBySections = favoritesCollections
     }
     
-    static func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData> = []) {
-            
-        if let sectionIndex = favoritesCollections.firstIndex(where: { $0.categoryName == name }) {
-            let section = favoritesCollections[sectionIndex]
-            
-            var reduced = section.shops.filter { cell in
-                if addedCells.contains(cell) {
-                    return false
-                }
-
-                return cell.isFavorite
-            }
-
-            reduced.append(contentsOf: addedCells)
-            
-            if reduced.isEmpty {
-                favoritesCollections.remove(at: sectionIndex)
-            } else {
-                section.shops = reduced
-            }
-            
-        } else {
-            favoritesCollections.append(ShopCategoryData(categoryName: name, shops: Array(addedCells)))
-        }
-        
-        favoritesCollections.sort { $0.categoryName < $1.categoryName }
-        favoritesDataController.collectionsBySections = favoritesCollections
-
-        
-    }
-    
     static func updateFavoritesCollections(in name: String,
                                            added addedCells: Set<ShopData>,
                                            deleted deletedCells: Set<ShopData>) {
@@ -444,12 +245,10 @@ extension ModelController {
             }
         }
         favoritesCollections = []
-        favoritesDataController.collectionsBySections = []
         NotificationCenter.default.post(name: .didUpdateFavorites, object: nil)
     }
     
     static private func createFavoritesDataController() -> FavoritesDataController {
-        
         let controller = FavoritesDataController(collections: favoritesCollections)
         
         return controller
@@ -460,17 +259,13 @@ extension ModelController {
 extension ModelController {
     
     static private func setupSearchData() {
-        
-        DispatchQueue.global(qos: .background).async {
+        DispatchQueue.global(qos: .utility).async {
             let shops = collections.reduce(into: [ShopData]()) { result, section in
                 result.append(contentsOf: section.shops)
             }
-            let newCategory = ShopCategoryData(categoryName: "Search", shops: shops)
             
-            DispatchQueue.main.async {
-                searchCollection = newCategory
-                NotificationCenter.default.post(name: .didUpdateSearchCollections, object: nil)
-            }
+            let newCategory = ShopCategoryData(categoryName: "Search", shops: shops)
+            searchCollection = newCategory
         }
     }
 }

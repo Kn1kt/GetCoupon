@@ -10,7 +10,4 @@ import UIKit
 
 class SearchResultsViewController: SearchBaseViewController {
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        updateSnapshot()
-//    }
 }

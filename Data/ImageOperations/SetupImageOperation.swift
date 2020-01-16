@@ -31,19 +31,20 @@ final class SetupImageOperation: AsyncOperation {
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            defer { self?.state = .finished }
+            
             guard let self = self,
                     let data = data,
                     let image = UIImage(data: data) else {
                 return
             }
-//            defer { self.state = .finished }
+            
             if self.shop.image == nil {
                 self.shop.image = image
             }
             
             let cache = CacheController()
             cache.cacheImage(image, for: self.shop.name)
-            self.state = .finished
         }.resume()
     }
 }

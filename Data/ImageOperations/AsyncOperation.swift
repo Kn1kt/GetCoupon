@@ -9,6 +9,7 @@
 import Foundation
 
 class AsyncOperation: Operation {
+    
   // Create state management
   enum State: String {
     case ready, executing, finished

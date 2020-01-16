@@ -9,7 +9,6 @@
 import UIKit
 
 protocol FavoritesUpdaterProtocol {
-    func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>)
     func updateFavoritesCollections(in name: String,
                                     added addedCells: Set<ShopData>,
                                     deleted deletedCells: Set<ShopData>)
@@ -22,20 +21,18 @@ class HomeDataController {
     func section(for index: Int) -> ShopCategoryData? {
         return ModelController.section(for: index)
     }
+    
+    init() {
+        NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
+    }
  }
 
     // MARK: - FavoritesUpdaterProtocol
 extension HomeDataController: FavoritesUpdaterProtocol {
-    
-    func updateFavoritesCollections(in name: String, with addedCells: Set<ShopData>) {
-//        DispatchQueue.global(qos: .utility).async {
-//            let cache = CacheController()
-//            addedCells.forEach {
-//                cache.shop(with: $0.name, isFavorite: $0.isFavorite)
-//            }
-//        }
-        ModelController.updateFavoritesCollections(in: name, with: addedCells)
-    }
     
     func updateFavoritesCollections(in name: String,
                                     added addedCells: Set<ShopData>,
@@ -50,11 +47,10 @@ extension HomeDataController: FavoritesUpdaterProtocol {
 extension HomeDataController {
     
     @objc func updateCollections() {
-        
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             let collections = ModelController.collections.reduce(into: [ShopCategoryData]()){ result, section in
             
-                let shops = Array(section.shops.prefix(15))
+                let shops = Array(section.shops.prefix(10))
     
                 let reducedSection = ShopCategoryData(categoryName: section.categoryName,
                                                  shops: shops)

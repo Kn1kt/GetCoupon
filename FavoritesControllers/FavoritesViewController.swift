@@ -10,6 +10,7 @@ import UIKit
 
 class FavoritesViewController: UIViewController {
     
+    /// Image processing queue
     let queue = OperationQueue()
     
     let favoritesDataController = ModelController.favoritesDataController
@@ -19,8 +20,6 @@ class FavoritesViewController: UIViewController {
     var needUpdateDataSource: Bool = false
     var needUpdateSnapshot: Bool = false
     var textFilter: String = ""
-    
-    var closeKeyboardGesture: UITapGestureRecognizer?
     
     let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
     let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
@@ -61,22 +60,6 @@ class FavoritesViewController: UIViewController {
             needUpdateSnapshot = false
             updateSnapshot()
         }
-//        if needUpdateSnapshot {
-//            needUpdateSnapshot = false
-//
-//            if !textFilter.isEmpty {
-//                performQuery(with: textFilter)
-//            } else {
-//                updateSnapshot()
-//            }
-//
-//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-//                    return
-//                }
-//                cell.favoritesButton.checkbox.isHighlighted = true
-//            }
-//        }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -374,6 +357,8 @@ extension FavoritesViewController: SnapshotUpdaterProtocol {
         
             self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
             
+            self.updateVisibleItems()
+            
             if let refresh = self.collectionView.refreshControl,
                 refresh.isRefreshing {
                 refresh.endRefreshing()
@@ -409,16 +394,24 @@ extension FavoritesViewController {
         } else {
             updateSnapshot()
         }
-//        needUpdateSnapshot = false
+    }
+    
+    func updateVisibleItems() {
+        let indexPaths = collectionView.indexPathsForVisibleItems
         
-//        if !textFilter.isEmpty {
-//            performQuery(with: textFilter)
-//        } else {
-//            updateSnapshot()
-//        }
+        indexPaths.forEach { indexPath in
+            guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
+                return
+            }
+            
+            UIView.animate(withDuration: 0.3) {
+                cell.favoritesButton.checkbox.isHighlighted = true
+            }
+        }
     }
 }
 
+    // MARK: - Add to Favorites
 extension FavoritesViewController {
     
     // Add to Favorites
@@ -510,7 +503,6 @@ extension FavoritesViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
         let viewController = ShopViewController(shop: selectedShop)
@@ -523,50 +515,13 @@ extension FavoritesViewController: UICollectionViewDelegate {
             needUpdateDataSource = false
             favoritesDataController.checkCollection()
         }
-        
-//        if needUpdateSnapshot {
-//            needUpdateSnapshot = false
-//
-//            if !textFilter.isEmpty {
-//                performQuery(with: textFilter)
-//            } else {
-//                updateSnapshot()
-//            }
-//
-//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-//                    return
-//                }
-//                cell.favoritesButton.checkbox.isHighlighted = true
-//            }
-//        }
     }
 }
 
 extension FavoritesViewController: ScreenUpdaterProtocol {
     
-    func updateShop(shop: ShopData) {
-        
-    }
-    
     func updateScreen() {
-        favoritesDataController.checkCollection()
-//        if needUpdateSnapshot {
-//            needUpdateSnapshot = false
-//
-//            if !textFilter.isEmpty {
-//                performQuery(with: textFilter)
-//            } else {
-//                updateSnapshot()
-//            }
-//
-//            collectionView.indexPathsForVisibleItems.forEach { indexPath in
-//                guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-//                    return
-//                }
-//                cell.favoritesButton.checkbox.isHighlighted = true
-//            }
-//        }
+        updateSnapshot()
     }
 }
 
@@ -574,20 +529,14 @@ extension FavoritesViewController: ScreenUpdaterProtocol {
 extension FavoritesViewController {
     
     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            //guard let self = self else { return }
-               
-            //let cache = CacheController()
-            //cache.setPreviewImage(for: cellData)
-            let op = SetupPreviewImageOperation(shop: cellData)
-            op.completionBlock = {
-                DispatchQueue.main.async {
-                    if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                        cell.imageView.image = cellData.previewImage
-                    }
+        let op = SetupPreviewImageOperation(shop: cellData)
+        op.completionBlock = {
+            DispatchQueue.main.async {
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                    cell.imageView.image = cellData.previewImage
                 }
             }
-            self.queue.addOperation(op)
-        //}
+        }
+        self.queue.addOperation(op)
     }
 }

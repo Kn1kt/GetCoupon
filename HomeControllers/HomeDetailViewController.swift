@@ -10,17 +10,15 @@ import UIKit
 
 class HomeDetailViewController: UIViewController {
     
+    /// Image processing queue
     let queue = OperationQueue()
     
     let section: ShopCategoryData
     lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
     
-    //var editedCells: Set<ShopData> = []
-    
     var addedInFavorites: Set<ShopData> = []
     var deletedFromFavorites: Set<ShopData> = []
     
-    //var needUpdateFavorites: Bool = false
     var needUpdateVisibleItems: Bool = false
     var sortType: Int = 0
     var textFilter: String = ""
@@ -68,12 +66,9 @@ class HomeDetailViewController: UIViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        print("dissapear")
         super.viewDidDisappear(animated)
         
-        //if !editedCells.isEmpty || needUpdateFavorites {
         if !addedInFavorites.isEmpty || !deletedFromFavorites.isEmpty {
-//            favoritesUpdater?.updateFavoritesCollections(in: section.categoryName, with: editedCells)
             favoritesUpdater?.updateFavoritesCollections(in: section.categoryName,
                                                          added: addedInFavorites,
                                                          deleted: deletedFromFavorites)
@@ -85,9 +80,6 @@ class HomeDetailViewController: UIViewController {
                     cache.shop(with: $0.name, isFavorite: $0.isFavorite, date: $0.favoriteAddingDate)
                 }
             }
-            //favoritesUpdater?.updateFavoritesCollections(in: section)
-            //editedCells.removeAll()
-            //needUpdateFavorites = false
             addedInFavorites.removeAll()
             deletedFromFavorites.removeAll()
         }
@@ -223,7 +215,6 @@ extension HomeDetailViewController {
         collectionView.keyboardDismissMode = .onDrag
         view.addSubview(collectionView)
         
-        
         collectionView.delegate = self
         
         NSLayoutConstraint.activate([
@@ -251,7 +242,6 @@ extension HomeDetailViewController {
             <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
                                                                                 indexPath: IndexPath,
                                                                                 cellData: ShopData) -> UICollectionViewCell? in
-                
                 guard let self = self else {
                     return nil
                 }
@@ -339,16 +329,15 @@ extension HomeDetailViewController {
         
         if cell.isFavorite {
             cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-            //editedCells.insert(cell)
+            
             addedInFavorites.insert(cell)
             deletedFromFavorites.remove(cell)
+            
         } else {
             cell.favoriteAddingDate = nil
+            
             deletedFromFavorites.insert(cell)
             addedInFavorites.remove(cell)
-//            if editedCells.remove(cell) == nil {
-//                needUpdateFavorites = true
-//            }
         }
     }
     
@@ -391,17 +380,7 @@ extension HomeDetailViewController {
     }
     
     func updateVisibleItems() {
-        
         let indexPaths = collectionView.indexPathsForVisibleItems
-        
-        /// This code is crashing
-//        let items = indexPaths.reduce(into: [ShopData]()) { result, index in
-//            guard let cell = dataSource.itemIdentifier(for: index) else { return }
-//            result.append(cell)
-//        }
-        
-//        currentSnapshot.reloadItems(items)
-//        dataSource.apply(currentSnapshot, animatingDifferences: true)
         
         indexPaths.forEach { indexPath in
             guard let cell = collectionView.cellForItem(at: indexPath) as? HomeDetailCollectionViewCell,
@@ -494,7 +473,6 @@ extension HomeDetailViewController: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
         if let _ = addedInFavorites.remove(selectedShop) {
@@ -514,17 +492,6 @@ extension HomeDetailViewController: UICollectionViewDelegate {
 
 extension HomeDetailViewController: ScreenUpdaterProtocol {
     
-    func updateShop(shop: ShopData) {
-        
-        if shop.isFavorite {
-            deletedFromFavorites.remove(shop)
-        } else {
-            addedInFavorites.remove(shop)
-        }
-        
-        updateScreen()
-    }
-    
     func updateScreen() {
         if needUpdateVisibleItems {
             //needUpdateFavorites = true
@@ -538,20 +505,14 @@ extension HomeDetailViewController: ScreenUpdaterProtocol {
 extension HomeDetailViewController {
     
      private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-         //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-             //guard let self = self else { return }
-                
-             //let cache = CacheController()
-             //cache.setPreviewImage(for: cellData)
-             let op = SetupPreviewImageOperation(shop: cellData)
-             op.completionBlock = {
-                 DispatchQueue.main.async {
-                     if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                         cell.imageView.image = cellData.previewImage
-                     }
+         let op = SetupPreviewImageOperation(shop: cellData)
+         op.completionBlock = {
+             DispatchQueue.main.async {
+                 if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                     cell.imageView.image = cellData.previewImage
                  }
              }
-             self.queue.addOperation(op)
-         //}
+         }
+         self.queue.addOperation(op)
      }
 }

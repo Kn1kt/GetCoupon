@@ -10,6 +10,7 @@ import UIKit
 
 class SearchBaseViewController: UIViewController {
     
+    /// Image processing queue
     let queue = OperationQueue()
 
     var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
@@ -199,20 +200,14 @@ extension SearchBaseViewController {
 extension SearchBaseViewController {
     
     private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            //guard let self = self else { return }
-               
-            //let cache = CacheController()
-            //cache.setPreviewImage(for: cellData)
-            let op = SetupPreviewImageOperation(shop: cellData)
-            op.completionBlock = {
-                DispatchQueue.main.async {
-                    if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                        cell.imageView.image = cellData.previewImage
-                    }
+        let op = SetupPreviewImageOperation(shop: cellData)
+        op.completionBlock = {
+            DispatchQueue.main.async {
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                    cell.imageView.image = cellData.previewImage
                 }
             }
-            self.queue.addOperation(op)
-        //}
+        }
+        self.queue.addOperation(op)
     }
 }

@@ -9,7 +9,6 @@
 import UIKit
 
 protocol SnapshotUpdaterProtocol {
-//    var needUpdateSnapshot: Bool { get set }
     func updateSnapshot()
 }
 
@@ -32,10 +31,9 @@ class FavoritesDataController {
         set {
             collectionsBySectionsQueue.async(flags: .barrier) { [weak self] in
                 self?._collectionsBySections = newValue
+                self?.needUpdateDates = true
+                self?.snapshotUpdater?.updateSnapshot()
             }
-            needUpdateDates = true
-            //snapshotUpdater?.needUpdateSnapshot = true
-            snapshotUpdater?.updateSnapshot()
         }
     }
     
@@ -54,7 +52,6 @@ class FavoritesDataController {
     
     init(collections: [ShopCategoryData]) {
         collectionsBySections = collections
-        //snapshotUpdater?.needUpdateSnapshot = true
         snapshotUpdater?.updateSnapshot()
     }
     
@@ -121,7 +118,6 @@ extension FavoritesDataController {
 extension FavoritesDataController {
     
     func filteredCollectionBySections(with filter: String) -> [ShopCategoryData] {
-        
         if filter.isEmpty {
             return collectionsBySections
         }
@@ -142,7 +138,6 @@ extension FavoritesDataController {
     }
     
     func filteredCollectionByDates(with filter: String) -> [ShopData] {
-        
         if filter.isEmpty {
             return collectionsByDates
         }

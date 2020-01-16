@@ -10,13 +10,13 @@ import UIKit
 
 protocol ScreenUpdaterProtocol {
     func updateScreen()
-    func updateShop(shop: ShopData)
 }
 
 class ShopViewController: UIViewController {
 
     var previousViewUpdater: ScreenUpdaterProtocol?
     
+    /// Image processing queue
     let queue = OperationQueue()
     
     let shop: ShopData
@@ -79,16 +79,17 @@ class ShopViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
         if favoriteStatus != shop.isFavorite {
             let cache = CacheController()
             cache.shop(with: shop.name, isFavorite: shop.isFavorite, date: shop.favoriteAddingDate)
+            
             if shop.isFavorite {
                 ModelController.insertInFavorites(shop: shop)
             } else {
                 ModelController.deleteFromFavorites(shop: shop)
             }
             previousViewUpdater?.updateScreen()
-//            previousViewUpdater?.updateShop(shop: shop)
         }
     }
 }
@@ -265,7 +266,7 @@ extension ShopViewController {
         
         view.addSubview(logoView)
         
-        /// Setup delegate
+        // Setup delegate
         collectionView.delegate = self
         
         NSLayoutConstraint.activate([
@@ -401,12 +402,10 @@ extension ShopViewController: UICollectionViewDelegate {
 extension ShopViewController {
     
     @objc func backButtonTapped(_ sender: UIBarButtonItem) {
-        
-        dismiss(animated: true, completion: {debugPrint("Shop did dismiss")})
+        dismiss(animated: true, completion: { debugPrint("Shop did dismiss") })
     }
     
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-        
         shop.isFavorite = !shop.isFavorite
         
         UIView.animate(withDuration: 0.15) { [weak self] in
@@ -420,9 +419,21 @@ extension ShopViewController {
             shop.favoriteAddingDate = nil
         }
     }
+    
+    func updateVisibleItems() {
+        let indexPaths = collectionView.indexPathsForVisibleItems
+        
+        indexPaths.forEach { indexPath in
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ShopPlainCollectionViewCell else {
+                return
+            }
+            
+            cell.imageView.image = shop.previewImage
+        }
+    }
 }
 
-    //MARK: - URLSessionDataTask
+    //MARK: - Setup Images
 extension ShopViewController {
     
     private func updateImages() {
@@ -441,19 +452,14 @@ extension ShopViewController {
     }
     
     private func setupPreviewImage() {
-        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            //guard let self = self else { return }
-               
-            //let cache = CacheController()
-            //cache.setPreviewImage(for: cellData)
             let op = SetupPreviewImageOperation(shop: shop)
             op.completionBlock = {
                 DispatchQueue.main.async { [weak self] in
                     self?.logoView.imageView.image = self?.shop.previewImage
+                    self?.updateVisibleItems()
                 }
             }
             self.queue.addOperation(op)
-        //}
     }
     
     private func setupHeaderImage() {

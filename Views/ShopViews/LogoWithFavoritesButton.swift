@@ -65,3 +65,6 @@ extension LogoWithFavoritesButton {
         favoritesButton.layer.cornerRadius = favoritesButton.bounds.height * 0.5
     }
 }
+
+    //MARK: - CellWithImageProtocol
+extension LogoWithFavoritesButton: CellWithImage {}

@@ -11,6 +11,9 @@ import Network
 
 class NetworkController {
     
+    /// Image processing queue
+    private static let queue = OperationQueue()
+    
     static func downloadDataBase() {
         DispatchQueue.global(qos: .userInitiated).async {
             let queue = DispatchQueue(label: "monitor")
@@ -20,7 +23,6 @@ class NetworkController {
             DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + 1) {
                 guard monitor.currentPath.status == .satisfied,
                     let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
-//                let url = URL(string: "http://192.168.0.101:8000") else {
                         ModelController.loadCollectionsFromStorage()
                         return
                 }
@@ -48,47 +50,9 @@ class NetworkController {
         }
     }
     
-    static func downloadImage(url: String, shop: ShopData) {
-        
-        guard let url = URL(string: url),
-            shop.image == nil else {
-                return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-            
-            if shop.image == nil {
-                shop.image = image
-            }
-            
-            let cache = CacheController()
-            cache.cacheImage(image, for: shop.name)
-        }.resume()
-    }
-    
-    static func downloadPreviewImage(url: String, shop: ShopData) {
-        
-        guard let url = URL(string: url),
-            shop.previewImage == nil else {
-                return
-        }
-        
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data,
-                  let image = UIImage(data: data) else {
-              return
-            }
-            
-            if shop.previewImage == nil {
-                shop.previewImage = image
-            }
-            
-            let cache = CacheController()
-            cache.cachePreviewImage(image, for: shop.name)
-        }.resume()
+    static func setupImage(at indexPath: IndexPath, with cellData: ShopData, completionHandler: (() -> Void)? = nil) {
+           let op = SetupPreviewImageOperation(shop: cellData)
+           op.completionBlock = completionHandler
+           queue.addOperation(op)
     }
 }

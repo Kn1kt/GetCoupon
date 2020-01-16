@@ -24,6 +24,7 @@ class HomeViewController: UIViewController {
     var currentSnapshot: NSDiffableDataSourceSnapshot
         <ShopCategoryData, ShopData>! = nil
     
+    /// Image processing queue
     let queue = OperationQueue()
     
     override func viewDidLoad() {
@@ -350,7 +351,7 @@ extension HomeViewController {
     // MARK: - Interaction
 extension HomeViewController {
     
-    // Show more button
+    /// Show more button
     @objc func showDetailList(_ sender: ShowMoreUIButton) {
         guard let sectionIndex = sender.sectionIndex,
             let section = homeDataController.section(for: sectionIndex) else {
@@ -364,7 +365,6 @@ extension HomeViewController {
     }
     
     @objc func updateSnapshot() {
-        
         currentSnapshot = NSDiffableDataSourceSnapshot
             <ShopCategoryData, ShopData>()
         
@@ -386,8 +386,6 @@ extension HomeViewController {
     }
     
     @objc func refresh() {
-        //ModelController.loadFavoritesCollectionsToStorage()
-        //ModelController.updateCollections()
         ModelController.setupCollections()
     }
 }
@@ -396,12 +394,10 @@ extension HomeViewController {
 extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        
         return true
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         
         let viewController = ShopViewController(shop: selectedShop)
@@ -416,20 +412,14 @@ extension HomeViewController: UICollectionViewDelegate {
 extension HomeViewController {
     
      private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-        //DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            //guard let self = self else { return }
-               
-            //let cache = CacheController()
-            //cache.setPreviewImage(for: cellData)
-            let op = SetupPreviewImageOperation(shop: cellData)
-            op.completionBlock = {
-                DispatchQueue.main.async {
-                    if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-                        cell.imageView.image = cellData.previewImage
-                    }
+        let op = SetupPreviewImageOperation(shop: cellData)
+        op.completionBlock = {
+            DispatchQueue.main.async {
+                if let cell = self.collectionView.cellForItem(at: indexPath) as? CellWithImage {
+                    cell.imageView.image = cellData.previewImage
                 }
             }
-            self.queue.addOperation(op)
-        //}
+        }
+        self.queue.addOperation(op)
     }
 }

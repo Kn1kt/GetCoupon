@@ -117,15 +117,18 @@ extension SearchMainViewController: UISearchResultsUpdating {
 extension SearchMainViewController {
     
     @objc func updateSection() {
-        section = ModelController.searchCollection
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            if let currentVC = self.navigationController?.tabBarController?.selectedIndex,
-                currentVC == 2 {
-                self.updateSnapshot()
-            } else {
-                self.needUpdateSnapshot = true
+        DispatchQueue.global(qos: .utility).async { [weak self] in
+            self?.section = ModelController.searchCollection
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                if let currentVC = self.navigationController?.tabBarController?.selectedIndex,
+                    currentVC == 2 {
+                    self.updateSnapshot()
+                } else {
+                    self.needUpdateSnapshot = true
+                }
             }
         }
+        
     }
 }

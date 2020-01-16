@@ -30,7 +30,6 @@
 		F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */; };
 		F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D2B235BAC25000F7ED0 /* ViewController.swift */; };
 		F35B3D2F235BAC25000F7ED0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D2D235BAC25000F7ED0 /* Main.storyboard */; };
-		F35B3D32235BAC25000F7ED0 /* GetCoupon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */; };
 		F35B3D34235BAC2D000F7ED0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */; };
 		F35B3D37235BAC2D000F7ED0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D35235BAC2D000F7ED0 /* LaunchScreen.storyboard */; };
 		F35B3D42235BAC2D000F7ED0 /* GetCouponTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35B3D41235BAC2D000F7ED0 /* GetCouponTests.swift */; };
@@ -118,7 +117,6 @@
 		F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F35B3D2B235BAC25000F7ED0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F35B3D2E235BAC25000F7ED0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		F35B3D31235BAC25000F7ED0 /* GetCoupon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GetCoupon.xcdatamodel; sourceTree = "<group>"; };
 		F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F35B3D36235BAC2D000F7ED0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F35B3D38235BAC2D000F7ED0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -366,7 +364,6 @@
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
-				F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */,
 				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
 			);
 			path = Data;
@@ -711,7 +708,6 @@
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
 				F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */,
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
-				F35B3D32235BAC25000F7ED0 /* GetCoupon.xcdatamodeld in Sources */,
 				F3ED2D6C23984C9500726045 /* SearchMainViewController.swift in Sources */,
 				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
 				F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */,
@@ -1072,19 +1068,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		F35B3D30235BAC25000F7ED0 /* GetCoupon.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				F35B3D31235BAC25000F7ED0 /* GetCoupon.xcdatamodel */,
-			);
-			currentVersion = F35B3D31235BAC25000F7ED0 /* GetCoupon.xcdatamodel */;
-			path = GetCoupon.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = F35B3D1C235BAC25000F7ED0 /* Project object */;
 }

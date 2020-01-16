@@ -31,19 +31,19 @@ final class SetupPreviewImageOperation: AsyncOperation {
         }
         
         URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            defer { self?.state = .finished }
+            
             guard let self = self,
                     let data = data,
                     let image = UIImage(data: data) else {
                 return
             }
-//            defer { self.state = .finished }
             if self.shop.previewImage == nil {
                 self.shop.previewImage = image
             }
             
             let cache = CacheController()
             cache.cachePreviewImage(image, for: self.shop.name)
-            self.state = .finished
         }.resume()
     }
 }

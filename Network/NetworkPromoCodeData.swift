@@ -30,16 +30,3 @@ class NetworkPromoCodeData: Codable {
         self.websiteLink = websiteLink
     }
 }
-
-    // MARK: - Hashable
-extension NetworkPromoCodeData: Hashable {
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(addingDate)
-        hasher.combine(estimatedDate)
-    }
-
-    static func == (lhs: NetworkPromoCodeData, rhs: NetworkPromoCodeData) -> Bool {
-        return lhs.coupon == rhs.coupon
-    }
-}
