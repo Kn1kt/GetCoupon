@@ -92,9 +92,15 @@ extension SearchMainViewController: UISearchResultsUpdating {
             return
         }
         
-        let filtered = filteredCollection(with: filter)
-        resultsController.section.shops = filtered
-        resultsController.updateSnapshot()
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let self = self else { return }
+            let filtered = self.filteredCollection(with: filter)
+            
+            DispatchQueue.main.async {
+                resultsController.section.shops = filtered
+                resultsController.updateSnapshot()
+            }
+        }
     }
     
     private func filteredCollection(with filter: String) -> [ShopData] {

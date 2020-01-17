@@ -9,8 +9,9 @@
 import UIKit
 
 class SearchBaseViewController: UIViewController {
-
+    
     var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
+    
     var needUpdateSnapshot: Bool = false
     var collectionView: UICollectionView! = nil
     var dataSource: UICollectionViewDiffableDataSource
