@@ -35,7 +35,6 @@ extension LogoWithFavoritesButton {
         addSubview(imageView)
         addSubview(favoritesButton)
         
-        imageView.backgroundColor = .systemGray3
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
         

@@ -253,7 +253,7 @@ extension ShopViewController {
         
         headerImageView.contentMode = .scaleAspectFill
         headerImageView.clipsToBounds = true
-        
+        headerImageView.backgroundColor = shop.placeholderColor
         view.addSubview(headerImageView)
         
         logoView.frame = CGRect(x: view.center.x - 70,
@@ -261,6 +261,7 @@ extension ShopViewController {
                                 width: 140,
                                 height: 140)
         
+        logoView.imageView.backgroundColor = shop.placeholderColor
         view.addSubview(logoView)
         
         // Setup delegate
@@ -324,6 +325,7 @@ extension ShopViewController {
                         fatalError("Can't create new cell")
                     }
                     
+                    cell.imageView.backgroundColor = self.shop.placeholderColor
                     cell.imageView.image = self.shop.previewImage
                     cell.subtitleLabel.text = cellData.description
                     cell.promocodeView.promocodeLabel.text = cellData.coupon
@@ -441,6 +443,7 @@ extension ShopViewController {
             headerImageView.alpha = 0.3
             setupHeaderImage()
         }
+        
         if let logoImage = shop.previewImage {
             logoView.imageView.image = logoImage
         } else {
@@ -461,9 +464,11 @@ extension ShopViewController {
         NetworkController.setupImage(in: shop) {
             DispatchQueue.main.async { [weak self] in
                            UIView.animate(withDuration: 1) {
-                               self?.headerImageView.alpha = 0.1
-                               self?.headerImageView.image = self?.shop.image
-                               self?.headerImageView.alpha = 1
+                                if let image = self?.shop.image {
+                                   self?.headerImageView.alpha = 0.1
+                                   self?.headerImageView.image = image
+                                   self?.headerImageView.alpha = 1
+                                }
                            }
             }
         }
