@@ -359,11 +359,11 @@
 		F35B3D5C235BACB8000F7ED0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F353624C23CE06D2003D7BAB /* ImageOperations */,
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
+				F353624C23CE06D2003D7BAB /* ImageOperations */,
 				F35B3D33235BAC2D000F7ED0 /* Assets.xcassets */,
 			);
 			path = Data;
