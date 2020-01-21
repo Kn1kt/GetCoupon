@@ -30,6 +30,20 @@ class NetworkController {
                 monitor.cancel()
                 
                 URLSession.shared.dataTask(with: url) { data, response, error in
+                    if let error = error {
+                        debugPrint("From error")
+                        debugPrint(error)
+                        ModelController.loadCollectionsFromStorage()
+                        return
+                    }
+                    
+                    guard let httpResponse = response as? HTTPURLResponse,
+                        (200...299).contains(httpResponse.statusCode) else {
+                        debugPrint("From response")
+                        ModelController.loadCollectionsFromStorage()
+                        return
+                    }
+                    
                     guard let data = data else { return }
                     
                     do {

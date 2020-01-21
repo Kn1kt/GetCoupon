@@ -85,6 +85,7 @@ extension ModelController {
         DispatchQueue.global(qos: .userInitiated).async {
             let cache = CacheController()
             let categories = cache.categories()
+            
             var favoriteCollections = [ShopCategoryData]()
             let collections = categories.reduce(into: [ShopCategoryData]()) { result, storedCategory in
                 let category = ShopCategoryData(categoryName: storedCategory.categoryName,
