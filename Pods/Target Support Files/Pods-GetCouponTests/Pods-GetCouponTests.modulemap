@@ -1,0 +1,6 @@
+framework module Pods_GetCouponTests {
+  umbrella header "Pods-GetCouponTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
