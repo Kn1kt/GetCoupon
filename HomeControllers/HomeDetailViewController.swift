@@ -315,7 +315,6 @@ extension HomeDetailViewController {
     
     // Add to Favorites
     @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-        
         guard let cell = sender.cell else { return }
         
         cell.isFavorite = !cell.isFavorite

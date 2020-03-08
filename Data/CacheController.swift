@@ -299,7 +299,7 @@ class CacheController {
         }
     }
     
-    // MARK: - Update Favorite
+    // MARK: - Update Favorites
     func shop(with name: String, isFavorite: Bool, date: Date? = nil) {
         guard let shop = realm.object(ofType: ShopStoredData.self,
                                       forPrimaryKey: name) else {
