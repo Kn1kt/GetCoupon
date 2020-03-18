@@ -7,41 +7,51 @@
 //
 
 import UIKit
+import RxSwift
 
 class SearchCollectionViewCell: UICollectionViewCell {
-    
-    static let reuseIdentidier = "search-cell-reuse-identifier"
-    
-    let searchBar = UISearchBar()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayouts()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+  
+  var disposeBag = DisposeBag()
+  
+  static let reuseIdentidier = "search-cell-reuse-identifier"
+  
+  let searchBar = UISearchBar()
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupLayouts()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 }
 
-    // MARK: - Layouts
+// MARK: - Layouts
 extension SearchCollectionViewCell {
+  
+  func setupLayouts() {
     
-    func setupLayouts() {
-        
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Search"
-            
-        contentView.addSubview(searchBar)
-        
-        contentView.clipsToBounds = true
-        
-        NSLayoutConstraint.activate([
-            searchBar.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            searchBar.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-    }
+    searchBar.translatesAutoresizingMaskIntoConstraints = false
+    searchBar.searchBarStyle = .minimal
+    searchBar.placeholder = "Search"
+    
+    contentView.addSubview(searchBar)
+    
+    contentView.clipsToBounds = true
+    
+    NSLayoutConstraint.activate([
+      searchBar.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+      searchBar.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+      searchBar.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      searchBar.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+    ])
+  }
+}
+
+extension SearchCollectionViewCell {
+  
+  override func prepareForReuse() {
+    disposeBag = DisposeBag()
+  }
 }

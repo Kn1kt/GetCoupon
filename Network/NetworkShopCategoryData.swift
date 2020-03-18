@@ -9,18 +9,18 @@
 import UIKit
 
 class NetworkShopCategoryData: Codable {
-    
-    let categoryName: String
-    
-    let tags: [String]
-    
-    let shops: [NetworkShopData]
-    
-    init(categoryName: String,
-         tags: [String] = [],
-         shops: [NetworkShopData] = []) {
-        self.categoryName = categoryName
-        self.tags = tags
-        self.shops = shops
-    }
+  
+  let categoryName: String
+  
+  let tags: [String]
+  
+  let shops: [NetworkShopData]
+  
+  init(categoryName: String,
+       tags: [String] = [],
+       shops: [NetworkShopData] = []) {
+    self.categoryName = categoryName
+    self.tags = tags
+    self.shops = shops
+  }
 }

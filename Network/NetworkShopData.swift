@@ -9,37 +9,37 @@
 import UIKit
 
 class NetworkShopData: Codable {
-    
-    let name: String
-    let shopDescription: String?
-    let shopShortDescription: String
-    let isHot: Bool
-    
-    let websiteLink: String
-    let imageLink: String
-    let previewImageLink: String
-    
-    let placeholderColor: [Float]
-    
-    let promoCodes: [NetworkPromoCodeData]
-    
-    init(name: String,
-         shopDescription: String? = nil,
-         shopShortDescription: String,
-         isHot: Bool = false,
-         websiteLink: String,
-         imageLink: String,
-         previewImageLink: String,
-         placeholderColor: [Float] = [],
-         promoCodes: [NetworkPromoCodeData] = []) {
-        self.name = name
-        self.shopDescription = shopDescription
-        self.shopShortDescription = shopShortDescription
-        self.isHot = isHot
-        self.websiteLink = websiteLink
-        self.imageLink = imageLink
-        self.previewImageLink = previewImageLink
-        self.placeholderColor = placeholderColor
-        self.promoCodes = promoCodes
-    }
+  
+  let name: String
+  let shopDescription: String?
+  let shopShortDescription: String
+  let isHot: Bool
+  
+  let websiteLink: String
+  let imageLink: String
+  let previewImageLink: String
+  
+  let placeholderColor: [Float]
+  
+  let promoCodes: [NetworkPromoCodeData]
+  
+  init(name: String,
+       shopDescription: String? = nil,
+       shopShortDescription: String,
+       isHot: Bool = false,
+       websiteLink: String,
+       imageLink: String,
+       previewImageLink: String,
+       placeholderColor: [Float] = [],
+       promoCodes: [NetworkPromoCodeData] = []) {
+    self.name = name
+    self.shopDescription = shopDescription
+    self.shopShortDescription = shopShortDescription
+    self.isHot = isHot
+    self.websiteLink = websiteLink
+    self.imageLink = imageLink
+    self.previewImageLink = previewImageLink
+    self.placeholderColor = placeholderColor
+    self.promoCodes = promoCodes
+  }
 }

@@ -96,10 +96,10 @@ extension SettingsTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.section == 0 {
-            ModelController.removeAllFavorites()
+          ModelController.shared.removeAllFavorites()
             
         } else if indexPath.section == 1 {
-            ModelController.removeCollectionsFromStorage()
+          ModelController.shared.removeCollectionsFromStorage()
         }
         tableView.deselectRow(at: indexPath, animated: true)
     }
