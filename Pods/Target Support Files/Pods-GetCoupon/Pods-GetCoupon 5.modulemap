@@ -1,0 +1,6 @@
+module Pods_GetCoupon {
+  umbrella header "Pods-GetCoupon-umbrella.h"
+
+  export *
+  module * { export * }
+}

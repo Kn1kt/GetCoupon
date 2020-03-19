@@ -41,6 +41,12 @@ class HomeDetailViewModel {
       .asDriver()
   }
   
+  private let _favoritesUpdates =  PublishRelay<Void>()
+  
+  var favoritesUpdates: Signal<Void> {
+    return _favoritesUpdates.asSignal()
+  }
+  
   // MARK: - Init
   init(navigator: Navigator,
        model: HomeDataController,
@@ -121,6 +127,14 @@ class HomeDetailViewModel {
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .bind(to: _currentSection)
+      .disposed(by: disposeBag)
+    
+    ModelController.shared.favoriteCollections
+      .skip(1)
+      .map { _ in }
+      .subscribeOn(eventScheduler)
+      .observeOn(eventScheduler)
+      .bind(to: _favoritesUpdates)
       .disposed(by: disposeBag)
   }
   

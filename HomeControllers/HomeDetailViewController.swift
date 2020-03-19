@@ -120,6 +120,11 @@ class HomeDetailViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
+    viewModel.favoritesUpdates
+      .emit(onNext: { [weak self] in
+        self?.updateVisibleItems()
+      })
+      .disposed(by: disposeBag)
   }
   
   private func bindViewModel() {
