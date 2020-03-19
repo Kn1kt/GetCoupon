@@ -6,7 +6,7 @@
 //  Copyright © 2020 Nikita Konashenko. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -40,7 +40,7 @@ class FavoritesViewModel {
       .asDriver()
   }
   
-  private let _isRefreshing = BehaviorRelay<Bool>(value: true)
+  private let _isRefreshing = BehaviorRelay<Bool>(value: false)
   
   var isRefreshing: Driver<Bool> {
     return _isRefreshing
@@ -133,7 +133,7 @@ class FavoritesViewModel {
       .observeOn(eventScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        self.model.updateFavorites(self.model.currentCollectionsBySections)
+        self.model.updateFavorites()
       })
       .disposed(by: disposeBag)
     
@@ -158,7 +158,16 @@ class FavoritesViewModel {
       .observeOn(eventScheduler)
       .bind(to: commitChanges)
       .disposed(by: disposeBag)
-
+    
+    refresh
+      .filter { $0 }
+      .map { _ in false }
+      .delay(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: _isRefreshing)
+      .disposed(by: disposeBag)
+    
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in

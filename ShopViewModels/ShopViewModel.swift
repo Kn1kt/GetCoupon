@@ -6,7 +6,7 @@
 //  Copyright © 2020 Nikita Konashenko. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -58,7 +58,7 @@ class ShopViewModel {
   
   private func bindActions() {
     let shopDidEdit = shopIsFavoriteChanged
-      .scan(true) { prev, _ in
+      .scan(false) { prev, _ in
         return !prev
     }
     
@@ -69,6 +69,7 @@ class ShopViewModel {
       .observeOn(eventScheduler)
       .subscribe(onNext: { [unowned self] _ in
 //        guard let self = self else { return }
+//        print("isChanged run")
         ModelController.shared.updateFavoritesCategory(self.section.value, shop: self.currentShop)
       })
       .disposed(by: disposeBag)

@@ -15,16 +15,16 @@ class LogoWithFavoritesButton: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    setupLayouts()
+//    setupLayouts()
   }
   
   required init?(coder: NSCoder) {
     fatalError("not implemented")
   }
   
-//  override func layoutSubviews() {
-//    setupLayouts()
-//  }
+  override func layoutSubviews() {
+    setupLayouts()
+  }
   
 }
 

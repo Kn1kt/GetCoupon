@@ -115,6 +115,7 @@ class HomeDetailViewController: UIViewController {
   private func bindUI() {
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
+//        print("\n***\nupdateHomeaDetail\n***\n")
         self?.updateSnapshot(section)
       })
       .disposed(by: disposeBag)
@@ -123,7 +124,9 @@ class HomeDetailViewController: UIViewController {
   
   private func bindViewModel() {
     
+//    let collectionViewItem = collectionView.rx.itemSelected.share()
     collectionView.rx.itemSelected
+//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -133,6 +136,7 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
+//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .map { _ in () }
       .subscribeOn(eventScheduler)
@@ -141,6 +145,7 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
+//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .map { [unowned self] indexPath in
         let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
@@ -337,9 +342,13 @@ extension HomeDetailViewController {
           .disposed(by: cell.disposeBag)
           
           cell.segmentedControl.selectedSegmentIndex = self.viewModel.segmentIndex.value
-          cell.segmentedControl.rx.selectedSegmentIndex
+          
+//          cell.segmentedControl.rx.selectedSegmentIndex
+            cell.segmentedControl.rx.controlEvent(.valueChanged)
             .throttle(RxTimeInterval.milliseconds(500),
                       scheduler: MainScheduler.instance)
+//            .distinctUntilChanged()
+            .map { cell.segmentedControl.selectedSegmentIndex }
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.segmentIndex)

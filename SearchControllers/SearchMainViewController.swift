@@ -25,7 +25,7 @@ class SearchMainViewController: SearchBaseViewController {
 //    resultsViewController.section = ShopCategoryData(categoryName: "Results")
 //    NotificationCenter.default.addObserver(self, selector: #selector(SearchMainViewController.updateSection), name: .didUpdateSearchCollections, object: nil)
     
-    collectionView.delegate = self
+//    collectionView.delegate = self
     
     searchController = UISearchController(searchResultsController: resultsViewController)
     searchController.searchResultsUpdater = self
@@ -50,7 +50,7 @@ class SearchMainViewController: SearchBaseViewController {
 }
 
 // MARK: - UICollectionViewDelegate
-extension SearchMainViewController: UICollectionViewDelegate {
+//extension SearchMainViewController: UICollectionViewDelegate {
   
 //  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 //    let selectedShop: ShopData
@@ -67,7 +67,7 @@ extension SearchMainViewController: UICollectionViewDelegate {
 //
 //    collectionView.deselectItem(at: indexPath, animated: true)
 //  }
-}
+//}
 
 // MARK: - UISearchBarDelegate
 extension SearchMainViewController: UISearchBarDelegate {
@@ -81,7 +81,7 @@ extension SearchMainViewController: UISearchBarDelegate {
 extension SearchMainViewController: UISearchControllerDelegate {
   
   func willPresentSearchController(_ searchController: UISearchController) {
-    resultsViewController.collectionView.delegate = self
+//    resultsViewController.collectionView.delegate = self
   }
 }
 

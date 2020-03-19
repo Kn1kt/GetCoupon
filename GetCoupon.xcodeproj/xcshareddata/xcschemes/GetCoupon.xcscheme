@@ -20,6 +20,34 @@
                ReferencedContainer = "container:GetCoupon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F35B3D3C235BAC2D000F7ED0"
+               BuildableName = "GetCouponTests.xctest"
+               BlueprintName = "GetCouponTests"
+               ReferencedContainer = "container:GetCoupon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F35B3D47235BAC2D000F7ED0"
+               BuildableName = "GetCouponUITests.xctest"
+               BlueprintName = "GetCouponUITests"
+               ReferencedContainer = "container:GetCoupon.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

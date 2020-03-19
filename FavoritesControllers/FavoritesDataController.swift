@@ -132,7 +132,16 @@ class FavoritesDataController {
   // MARK: - Favorites Updates
 extension FavoritesDataController {
   
-  func updateFavorites(_ categories: [ShopCategoryData]) {
+  func updateFavorites() {
+    let categories = currentCollectionsBySections.reduce(into: [ShopCategoryData]()) { result, category in
+      let shops = category.shops.filter { $0.isFavorite }
+      
+      if !shops.isEmpty {
+        category.shops = shops
+        result.append(category)
+      }
+    }
+    
     ModelController.shared.updateFavoritesCollections(with: categories)
   }
 }

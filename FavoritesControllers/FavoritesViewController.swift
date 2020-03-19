@@ -305,9 +305,11 @@ extension FavoritesViewController {
           }
           
           cell.segmentedControl.selectedSegmentIndex = self.viewModel.segmentIndex.value
-          cell.segmentedControl.rx.selectedSegmentIndex
+//          cell.segmentedControl.rx.selectedSegmentIndex
+            cell.segmentedControl.rx.controlEvent(.valueChanged)
             .throttle(RxTimeInterval.milliseconds(500),
                       scheduler: MainScheduler.instance)
+            .map { cell.segmentedControl.selectedSegmentIndex }
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.segmentIndex)

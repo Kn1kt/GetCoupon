@@ -6,7 +6,7 @@
 //  Copyright © 2020 Nikita Konashenko. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -53,12 +53,12 @@ class SearchViewModel {
         guard  let self = self else { return }
         
         let searchText = self.searchText.value
-        self.searchText.accept(searchText)
-//        if !searchText.isEmpty {
-//          self.searchText.accept(searchText)
-//        }
-//
-//        self._currentCollection.accept(collection)
+//        self.searchText.accept(searchText)
+        if !searchText.isEmpty {
+          self.searchText.accept(searchText)
+        }
+
+        self._currentCollection.accept(collection)
       })
       .disposed(by: disposeBag)
     
@@ -78,6 +78,7 @@ class SearchViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
+        print("ShowShopFromVMSearchVC")
         let section = ModelController.shared.category(for: shop)
         self.showShopVC(vc, section: section, shop: shop)
       })
@@ -107,7 +108,7 @@ extension SearchViewModel {
     let collection = ModelController.shared.currentSearchCollection
     
     if filter.isEmpty {
-      return collection
+      return ShopCategoryData(categoryName: "")
     }
     
     let lowercasedFilter = filter.lowercased()
@@ -129,5 +130,6 @@ extension SearchViewModel {
   
   private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData) {
     navigator.showShopVC(sender: vc, section: section, shop: shop)
+    print("From searchVC: showShopVC")
   }
 }
