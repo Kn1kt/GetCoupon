@@ -115,11 +115,23 @@ class FavoritesViewModel {
   }
   
   private func bindActions() {
-    let unicEditedShops = editedShops
-      .scan(into: Set<ShopData>()) { result, shop in
-          result.insert(shop)
-    }
-    .subscribeOn(defaultScheduler)
+    
+    let unicEditedShops = BehaviorRelay<Set<ShopData>>(value: [])
+    
+//    let unicEditedShops = editedShops
+//      .scan(into: Set<ShopData>()) { result, shop in
+//          result.insert(shop)
+//    }
+//    .subscribeOn(defaultScheduler)
+    
+    editedShops
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { shop in
+        var set = unicEditedShops.value
+        set.insert(shop)
+        unicEditedShops.accept(set)
+      })
+      .disposed(by: disposeBag)
     
     commitChanges
       .withLatestFrom(unicEditedShops)
@@ -134,6 +146,7 @@ class FavoritesViewModel {
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         self.model.updateFavorites()
+        unicEditedShops.accept([])
       })
       .disposed(by: disposeBag)
     

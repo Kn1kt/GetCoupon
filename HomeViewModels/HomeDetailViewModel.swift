@@ -139,11 +139,22 @@ class HomeDetailViewModel {
   }
   
   private func bindActions() {
-    let unicEditedShops = editedShops
-      .scan(into: Set<ShopData>()) { result, shop in
-          result.insert(shop)
-      }
-      .subscribeOn(defaultScheduler)
+//    let unicEditedShops = editedShops
+//      .scan(into: Set<ShopData>()) { result, shop in
+//          result.insert(shop)
+//      }
+//      .subscribeOn(defaultScheduler)
+    
+    let unicEditedShops = BehaviorRelay<Set<ShopData>>(value: [])
+    
+    editedShops
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { shop in
+        var set = unicEditedShops.value
+        set.insert(shop)
+        unicEditedShops.accept(set)
+      })
+      .disposed(by: disposeBag)
     
     controllerWillDisappear
       .withLatestFrom(unicEditedShops)
@@ -153,6 +164,7 @@ class HomeDetailViewModel {
       .subscribe(onNext: { [weak self] shops in
         guard let self = self else { return }
         self.model.updateFavoritesCategory(self.section.value, shops: shops)
+        unicEditedShops.accept([])
       })
       .disposed(by: disposeBag)
     
