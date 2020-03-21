@@ -278,14 +278,21 @@ extension ModelController {
   func updateFavoritesCategory(_ category: ShopCategoryData, shops: Set<ShopData>) {
     var favoriteCategories = _favoriteCollections.value
     
-    if let updatingCategory = favoriteCategories.first(where: { $0.categoryName == category.categoryName }) {
-      updatingCategory.shops = shops + updatingCategory.shops.filter { shop in
+    if let updatingCategoryIndex = favoriteCategories.firstIndex(where: { $0.categoryName == category.categoryName }) {
+      let newShops = favoriteCategories[updatingCategoryIndex].shops.filter { shop in
         guard shop.isFavorite,
           !shops.contains(shop) else {
           return false
         }
         
         return true
+      }
+        + shops
+      
+      if newShops.isEmpty {
+        favoriteCategories.remove(at: updatingCategoryIndex)
+      } else {
+        favoriteCategories[updatingCategoryIndex].shops = newShops
       }
     } else {
       let newCategory = ShopCategoryData(categoryName: category.categoryName,
@@ -300,11 +307,17 @@ extension ModelController {
   func updateFavoritesCategory(_ category: ShopCategoryData, shop: ShopData) {
     var favoriteCategories = _favoriteCollections.value
     
-    if let updatingCategory = favoriteCategories.first(where: { $0.categoryName == category.categoryName }) {
+    if let updatingCategoryIndex = favoriteCategories.firstIndex(where: { $0.categoryName == category.categoryName }) {
+      let updatingCategory = favoriteCategories[updatingCategoryIndex]
+      
       if shop.isFavorite {
         updatingCategory.shops.append(shop)
       } else if let index = updatingCategory.shops.firstIndex(of: shop) {
         updatingCategory.shops.remove(at: index)
+      }
+      
+      if updatingCategory.shops.isEmpty {
+        favoriteCategories.remove(at: updatingCategoryIndex)
       }
     } else {
       guard shop.isFavorite else { fatalError("SHOP \(shop.name) NOT FAVORITE") }
