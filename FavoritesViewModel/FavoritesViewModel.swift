@@ -188,6 +188,13 @@ class FavoritesViewModel {
         self.showShopVC(vc, section: section, shop: shop)
       })
       .disposed(by: disposeBag)
+    
+    showShopVC
+    .map { _ in }
+    .subscribeOn(defaultScheduler)
+    .observeOn(defaultScheduler)
+    .bind(to: commitChanges)
+    .disposed(by: disposeBag)
   }
 }
 

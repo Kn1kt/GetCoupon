@@ -57,10 +57,16 @@ class ShopViewModel {
   }
   
   private func bindActions() {
+    
     let shopDidEdit = shopIsFavoriteChanged
       .scan(false) { prev, _ in
         return !prev
     }
+    
+    controllerWillDisappear
+      .observeOn(defaultScheduler)
+      .bind(to: shopIsFavoriteChanged)
+      .disposed(by: disposeBag)
     
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)
