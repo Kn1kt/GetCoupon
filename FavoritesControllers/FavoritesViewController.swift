@@ -55,7 +55,7 @@ class FavoritesViewController: UIViewController {
     
     let refresh = UIRefreshControl()
     //    refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
-    collectionView?.refreshControl = refresh
+//    collectionView?.refreshControl = refresh
     
     bindViewModel()
     bindUI()

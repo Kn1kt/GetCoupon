@@ -102,6 +102,22 @@ class ShopViewController: UIViewController {
   }
   
   private func bindUI() {
+    viewModel.favoriteButtonEnabled
+      .drive(logoView.favoritesButton.rx.isEnabled)
+      .disposed(by: disposeBag)
+    
+    viewModel.favoriteButtonEnabled
+      .filter { !$0 }
+      .map { _ in CGFloat(0.5) }
+      .drive(logoView.favoritesButton.checkbox.rx.alpha)
+      .disposed(by: disposeBag)
+    
+    viewModel.favoriteButtonEnabled
+      .drive(onNext: { b in
+        print("isEnabled \(b)")
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.shop
       .drive(onNext: { [weak self] shop in
         self?.configureLogoView(shop: shop)

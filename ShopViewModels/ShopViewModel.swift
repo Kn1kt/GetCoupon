@@ -28,6 +28,14 @@ class ShopViewModel {
   let websiteButton = PublishRelay<Void>()
   
   // MARK: - Output
+  
+  private let _favoriteButtonEnabled: BehaviorRelay<Bool>!
+  
+  var favoriteButtonEnabled: Driver<Bool> {
+    return _favoriteButtonEnabled
+      .asDriver()
+  }
+  
   private let _shop: BehaviorRelay<ShopData>!
   
   var shop: Driver<ShopData> {
@@ -42,11 +50,13 @@ class ShopViewModel {
   // MARK: - Init
   init(navigator: Navigator,
        section: ShopCategoryData,
-       shop: ShopData) {
+       shop: ShopData,
+       favoriteButtonEnabled: Bool) {
     self.navigator = navigator
     
     self._shop = BehaviorRelay<ShopData>(value: shop)
     self.section = BehaviorRelay<ShopCategoryData>(value: section)
+    self._favoriteButtonEnabled = BehaviorRelay<Bool>(value: favoriteButtonEnabled)
     
     bindOutput()
     bindActions()

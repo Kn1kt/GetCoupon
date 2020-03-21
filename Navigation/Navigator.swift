@@ -32,10 +32,12 @@ class Navigator {
   
   func showShopVC(sender: UIViewController,
                   section: ShopCategoryData,
-                  shop: ShopData) {
+                  shop: ShopData,
+                  favoritesButton: Bool = true) {
     let vm = ShopViewModel(navigator: self,
                            section: section,
-                           shop: shop)
+                           shop: shop,
+                           favoriteButtonEnabled: favoritesButton)
     let vc = ShopViewController.createWith(viewModel: vm)
     
     showShop(target: vc, sender: sender)

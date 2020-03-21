@@ -35,10 +35,12 @@ class HomeViewModel {
       .share()
   }
   
-  private let _isRefreshing = BehaviorRelay<Bool>(value: true)
+  private let isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  var isRefreshing: Driver<Bool> {
-    return _isRefreshing
+  private let _endRefreshing = BehaviorRelay<Bool>(value: true)
+  
+  var endRefreshing: Driver<Bool> {
+    return _endRefreshing
       .asDriver()
   }
   
@@ -62,9 +64,15 @@ class HomeViewModel {
       .map { _ in false }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
-      .bind(to: _isRefreshing)
+      .bind(to: _endRefreshing)
       .disposed(by: disposeBag)
     
+    Observable
+      .merge([refresh.asObservable(), _endRefreshing.asObservable()])
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: isRefreshing)
+      .disposed(by: disposeBag)
   }
   
   private func bindActions() {
@@ -94,8 +102,9 @@ class HomeViewModel {
 //      .subscribeOn(eventScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
+        let isEnabled = !self.isRefreshing.value
         let section = self.model.category(for: shop)
-        self.showShopVC(vc, section: section, shop: shop)
+        self.showShopVC(vc, section: section, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
   }
@@ -144,7 +153,7 @@ extension HomeViewModel {
   // MARK: - Show Shop View Controller
 extension HomeViewModel {
   
-  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: section, shop: shop)
+  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData, favoritesButton: Bool) {
+    navigator.showShopVC(sender: vc, section: section, shop: shop, favoritesButton: favoritesButton)
   }
 }
