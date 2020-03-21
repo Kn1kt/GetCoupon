@@ -53,9 +53,10 @@ class FavoritesViewController: UIViewController {
     configureCollectionView()
     configureDataSource()
     
-    let refresh = UIRefreshControl()
-    //    refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
+//    let refresh = UIRefreshControl()
 //    collectionView?.refreshControl = refresh
+    
+    //    refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
     
     bindViewModel()
     bindUI()
@@ -162,7 +163,7 @@ extension FavoritesViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(56))
     
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     
@@ -229,7 +230,7 @@ extension FavoritesViewController {
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 30, trailing: 10)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(44))
+                                           heightDimension: .estimated(60))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: FavoritesViewController.titleElementKind,

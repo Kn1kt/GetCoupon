@@ -65,15 +65,20 @@ extension HomeCaptionImageCollectionViewCell {
       imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
       
       
-      titleLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
-      titleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
+      //      titleLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
+      //      titleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
+//      titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
+      titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing / 2),
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
       
+//      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
+      subtitleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.1)
+      //      contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
       
     ])
     

@@ -12,7 +12,6 @@ import RxSwift
 class TitleSupplementaryView: UICollectionReusableView {
   
   let label = UILabel()
-  
   var disposeBag = DisposeBag()
   
   static let reuseIdentifier = "title-supplementary-reuse-identifier"

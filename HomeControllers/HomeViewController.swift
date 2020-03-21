@@ -201,7 +201,7 @@ extension HomeViewController {
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(44))
+                                           heightDimension: .estimated(60))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
@@ -254,9 +254,9 @@ extension HomeViewController {
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(44))
+                                           heightDimension: .estimated(60))
     let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                            heightDimension: .estimated(35))
+                                            heightDimension: .estimated(32))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
@@ -414,16 +414,12 @@ extension HomeViewController {
     
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
-//    homeDataController.collections.forEach { collection in
-//      currentSnapshot.appendSections([collection])
-//      currentSnapshot.appendItems(collection.shops)
-//    }
     
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
 }
 
-// MARK: - Interaction
+  // MARK: - Interaction
 extension HomeViewController {
   
 //  /// Show more button

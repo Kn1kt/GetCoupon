@@ -27,7 +27,7 @@ class HomeViewModel {
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
   // MARK: - Output
-  let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
+  private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
   var collections: Observable<[ShopCategoryData]> {
     return _collections
