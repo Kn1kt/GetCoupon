@@ -112,7 +112,8 @@ class FavoritesDataController {
             }
             return lhsDate > rhsDate
           }
-        return [ShopCategoryData(categoryName: "Dates",
+        let name = shops.isEmpty ? "" : "Dates"
+        return [ShopCategoryData(categoryName: name,
                                 shops: shops)]
       }
       .subscribeOn(defaultScheduler)
