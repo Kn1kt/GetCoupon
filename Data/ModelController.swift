@@ -111,6 +111,12 @@ class ModelController {
     homeDataController = HomeDataController(collections: collections)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
     
+    _favoriteCollections
+      .subscribe(onNext: { c in
+        print(c)
+      })
+      .disposed(by: disposeBag)
+    
     bindFavorites()
     bindSearch()
   }
@@ -294,7 +300,7 @@ extension ModelController {
       } else {
         favoriteCategories[updatingCategoryIndex].shops = newShops
       }
-    } else {
+    } else if !shops.isEmpty {
       let newCategory = ShopCategoryData(categoryName: category.categoryName,
                                          shops: Array(shops),
                                          tags: category.tags)

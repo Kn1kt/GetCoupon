@@ -73,10 +73,10 @@ class ShopViewModel {
         return !prev
     }
     
-    controllerWillDisappear
-      .observeOn(defaultScheduler)
-      .bind(to: shopIsFavoriteChanged)
-      .disposed(by: disposeBag)
+//    controllerWillDisappear
+//      .observeOn(defaultScheduler)
+//      .bind(to: shopIsFavoriteChanged)
+//      .disposed(by: disposeBag)
     
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)
@@ -87,6 +87,7 @@ class ShopViewModel {
 //        guard let self = self else { return }
 //        print("isChanged run")
         ModelController.shared.updateFavoritesCategory(self.section.value, shop: self.currentShop)
+        self.shopIsFavoriteChanged.accept(())
       })
       .disposed(by: disposeBag)
     

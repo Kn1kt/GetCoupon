@@ -158,6 +158,7 @@ class HomeDetailViewModel {
     
     controllerWillDisappear
       .withLatestFrom(unicEditedShops)
+      .filter { !$0.isEmpty }
       .map { shops in shops.filter { $0.isFavorite } }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
