@@ -115,14 +115,7 @@ class FavoritesViewModel {
   }
   
   private func bindActions() {
-    
     let unicEditedShops = BehaviorRelay<Set<ShopData>>(value: [])
-    
-//    let unicEditedShops = editedShops
-//      .scan(into: Set<ShopData>()) { result, shop in
-//          result.insert(shop)
-//    }
-//    .subscribeOn(defaultScheduler)
     
     editedShops
       .observeOn(defaultScheduler)

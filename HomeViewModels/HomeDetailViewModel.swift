@@ -139,12 +139,6 @@ class HomeDetailViewModel {
   }
   
   private func bindActions() {
-//    let unicEditedShops = editedShops
-//      .scan(into: Set<ShopData>()) { result, shop in
-//          result.insert(shop)
-//      }
-//      .subscribeOn(defaultScheduler)
-    
     let unicEditedShops = BehaviorRelay<Set<ShopData>>(value: [])
     
     editedShops

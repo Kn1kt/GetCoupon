@@ -53,7 +53,6 @@ class SearchViewModel {
         guard  let self = self else { return }
         
         let searchText = self.searchText.value
-//        self.searchText.accept(searchText)
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
         }

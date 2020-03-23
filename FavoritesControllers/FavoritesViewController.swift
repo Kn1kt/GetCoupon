@@ -18,13 +18,7 @@ class FavoritesViewController: UIViewController {
   
   private let viewModel = FavoritesViewModel()
   
-  //    let favoritesDataController = ModelController.favoritesDataController
-  //    var sortType: Int = 0
   static let titleElementKind = "title-element-kind"
-  
-  //  var needUpdateDataSource: Bool = false
-  //  var needUpdateSnapshot: Bool = false
-  //  var textFilter: String = ""
   
   private let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
   private let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
@@ -49,43 +43,26 @@ class FavoritesViewController: UIViewController {
     segmentedSection.shops.append(segmentedCell)
     searchSection.shops.append(searchCell)
     
-    //    favoritesDataController.snapshotUpdater = self
     configureCollectionView()
     configureDataSource()
     
 //    let refresh = UIRefreshControl()
 //    collectionView?.refreshControl = refresh
     
-    //    refresh.addTarget(self, action: #selector(FavoritesViewController.refresh), for: UIControl.Event.valueChanged)
-    
     bindViewModel()
     bindUI()
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-    //    if needUpdateSnapshot {
-    //      needUpdateSnapshot = false
-    //      updateSnapshot()
-    //    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     viewModel.commitChanges.accept(())
-    //    if needUpdateDataSource {
-    //      needUpdateDataSource = false
-    //      favoritesDataController.checkCollection()
-    //    }
   }
   
   private func bindViewModel() {
     if let refresh = collectionView.refreshControl {
       refresh.rx.controlEvent(.valueChanged)
         .map { _ in refresh.isRefreshing }
-//        .filter { $0 }
         .subscribeOn(eventScheduler)
         .observeOn(eventScheduler)
         .bind(to: viewModel.refresh)
@@ -306,7 +283,6 @@ extension FavoritesViewController {
           }
           
           cell.segmentedControl.selectedSegmentIndex = self.viewModel.segmentIndex.value
-//          cell.segmentedControl.rx.selectedSegmentIndex
             cell.segmentedControl.rx.controlEvent(.valueChanged)
             .throttle(RxTimeInterval.milliseconds(500),
                       scheduler: MainScheduler.instance)
@@ -315,8 +291,6 @@ extension FavoritesViewController {
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.segmentIndex)
             .disposed(by: cell.disposeBag)
-          
-//          cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
           
           return cell
           
@@ -330,7 +304,6 @@ extension FavoritesViewController {
             cell.imageView.image = image
           } else {
             cell.imageView.backgroundColor = cellData.placeholderColor
-//            self.setupImage(at: indexPath, with: cellData)
             self.viewModel.setupImage(for: cellData)
               .observeOn(MainScheduler.instance)
               .subscribe(onCompleted: {
@@ -362,8 +335,6 @@ extension FavoritesViewController {
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.editedShops)
             .disposed(by: cell.disposeBag)
-          
-//          cell.favoritesButton.addTarget(self, action: #selector(FavoritesViewController.addToFavorites(_:)), for: .touchUpInside)
           
           return cell
         }
@@ -399,11 +370,6 @@ extension FavoritesViewController {
     currentSnapshot.appendSections([segmentedSection])
     currentSnapshot.appendItems(segmentedSection.shops)
     
-//    favoritesDataController.collectionsBySections.forEach { collection in
-//      currentSnapshot.appendSections([collection])
-//      currentSnapshot.appendItems(collection.shops)
-//    }
-    
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
 }
@@ -412,86 +378,26 @@ extension FavoritesViewController {
 extension FavoritesViewController {
   
   func updateSnapshot(_ section: [ShopCategoryData]) {
-//    DispatchQueue.main.async { [weak self] in
-//      guard let self = self else { return }
-//      guard let currentVC = self.navigationController?.tabBarController?.selectedIndex,
-//        currentVC == 1 else {
-//          self.needUpdateSnapshot = true
-//          return
-//      }
-//
-//      self.needUpdateSnapshot = false
-//      guard self.textFilter.isEmpty else {
-//        self.performQuery(with: self.textFilter)
-//        return
-//      }
-      
-      currentSnapshot = NSDiffableDataSourceSnapshot
-        <ShopCategoryData, ShopData>()
-      
-      currentSnapshot.appendSections([searchSection])
-      currentSnapshot.appendItems(searchSection.shops)
-      
-      currentSnapshot.appendSections([segmentedSection])
-      currentSnapshot.appendItems(segmentedSection.shops)
-      
-//      switch self.sortType {
-//      case 0:
-//        self.favoritesDataController.collectionsBySections.forEach { collection in
-//          self.currentSnapshot.appendSections([collection])
-//          self.currentSnapshot.appendItems(collection.shops)
-//        }
-//      default:
-//        let section = ShopCategoryData(categoryName: "", shops: self.favoritesDataController.collectionsByDates)
-//        self.currentSnapshot.appendSections([section])
-//        self.currentSnapshot.appendItems(section.shops)
-//      }
-      
-      section.forEach { section in
-        currentSnapshot.appendSections([section])
-        currentSnapshot.appendItems(section.shops)
-      }
-      
-      dataSource.apply(currentSnapshot, animatingDifferences: true)
-//      updateVisibleItems()
-      
-//      if let refresh = self.collectionView.refreshControl,
-//        refresh.isRefreshing {
-//        refresh.endRefreshing()
-//      }
-//    }
+    currentSnapshot = NSDiffableDataSourceSnapshot
+      <ShopCategoryData, ShopData>()
+    
+    currentSnapshot.appendSections([searchSection])
+    currentSnapshot.appendItems(searchSection.shops)
+    
+    currentSnapshot.appendSections([segmentedSection])
+    currentSnapshot.appendItems(segmentedSection.shops)
+    
+    section.forEach { section in
+      currentSnapshot.appendSections([section])
+      currentSnapshot.appendItems(section.shops)
+    }
+    
+    dataSource.apply(currentSnapshot, animatingDifferences: true)
   }
 }
 
 // MARK: - Actions
 extension FavoritesViewController {
-  
-//  @objc func refresh() {
-//    if needUpdateDataSource {
-//      needUpdateDataSource = false
-//      favoritesDataController.checkCollection()
-//    } else {
-//      DispatchQueue.main.async { [weak self] in
-//        guard let self = self else { return }
-//        if let refresh = self.collectionView.refreshControl,
-//          refresh.isRefreshing {
-//          refresh.endRefreshing()
-//        }
-//      }
-//    }
-//  }
-  
-//  @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
-//    sortType = segmentedControl.selectedSegmentIndex
-//
-//    if needUpdateDataSource {
-//      needUpdateDataSource = false
-//      favoritesDataController.checkCollection()
-//    } else {
-//      updateSnapshot()
-//    }
-//  }
-  
   func updateVisibleItems() {
     let indexPaths = collectionView.indexPathsForVisibleItems
     
@@ -507,66 +413,7 @@ extension FavoritesViewController {
   }
 }
 
-// MARK: - Add to Favorites
-extension FavoritesViewController {
-  
-  // Add to Favorites
-//  @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-//    guard let cell = sender.cell else { return }
-//
-//    cell.isFavorite = !cell.isFavorite
-//
-//    UIView.animate(withDuration: 0.15) {
-//      sender.checkbox.isHighlighted = cell.isFavorite
-//    }
-//
-//    if !cell.isFavorite {
-//      needUpdateDataSource = true
-//    }
-//  }
-}
-
-// MARK: - Search
-extension FavoritesViewController {
-  
-//  func performQuery(with filter: String) {
-//    currentSnapshot = NSDiffableDataSourceSnapshot
-//      <ShopCategoryData, ShopData>()
-//
-//    currentSnapshot.appendSections([searchSection])
-//    currentSnapshot.appendItems(searchSection.shops)
-//
-//    currentSnapshot.appendSections([segmentedSection])
-//    currentSnapshot.appendItems(segmentedSection.shops)
-//
-//    switch sortType {
-//    case 0:
-//      let filtered = favoritesDataController.filteredCollectionBySections(with: filter)
-//      filtered.forEach { collection in
-//        currentSnapshot.appendSections([collection])
-//        currentSnapshot.appendItems(collection.shops)
-//      }
-//    default:
-//      let filtered = favoritesDataController.filteredCollectionByDates(with: filter)
-//      let section = ShopCategoryData(categoryName: "", shops: filtered)
-//      currentSnapshot.appendSections([section])
-//      currentSnapshot.appendItems(section.shops)
-//    }
-//
-//    DispatchQueue.main.async { [weak self] in
-//      guard let self = self else { return }
-//      self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
-//
-//      if let refresh = self.collectionView.refreshControl,
-//        refresh.isRefreshing {
-//        refresh.endRefreshing()
-//      }
-//    }
-//
-//  }
-}
-
-// MARK: - SerachBarDelegate
+  // MARK: - SerachBarDelegate
 extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
     viewModel.searchText.accept(searchText)
@@ -578,7 +425,7 @@ extension FavoritesViewController: UISearchBarDelegate, UITextFieldDelegate {
   }
 }
 
-// MARK: - UICollectionViewDelegate
+  // MARK: - UICollectionViewDelegate
 extension FavoritesViewController: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -591,40 +438,5 @@ extension FavoritesViewController: UICollectionViewDelegate {
       return true
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-//
-//    let viewController = ShopViewController(shop: selectedShop)
-//    viewController.previousViewUpdater = self
-//    let navController = UINavigationController(rootViewController: viewController)
-//    present(navController, animated: true)
-//    collectionView.deselectItem(at: indexPath, animated: true)
-//
-//    if needUpdateDataSource {
-//      needUpdateDataSource = false
-//      favoritesDataController.checkCollection()
-//    }
-//  }
 }
 
-//extension FavoritesViewController: ScreenUpdaterProtocol {
-//
-//  func updateScreen() {
-//    updateSnapshot()
-//  }
-//}
-
-//MARK: - Setup Image
-//extension FavoritesViewController {
-//
-//  private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-//    NetworkController.setupPreviewImage(in: cellData) {
-//      DispatchQueue.main.async { [weak self] in
-//        if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-//          cell.imageView.image = cellData.previewImage
-//        }
-//      }
-//    }
-//  }
-//}

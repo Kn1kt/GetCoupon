@@ -11,16 +11,13 @@ import RxSwift
 import RxCocoa
 
 class ShopViewController: UIViewController {
-  
-  //    var previousViewUpdater: ScreenUpdaterProtocol?
+
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
 
   private var viewModel: ShopViewModel!
   
-//  let shop: ShopData
-//  let favoriteStatus: Bool
   private let dateFormatter = DateFormatter()
   private let headerImageView = UIImageView()
   private let logoView = LogoWithFavoritesButton()
@@ -38,8 +35,6 @@ class ShopViewController: UIViewController {
     <ShopData, PromoCodeData>! = nil
   
   init() {
-//    self.shop = shop
-//    favoriteStatus = shop.isFavorite
     titleSection = ShopData(name: "title", shortDescription: "title", websiteLink: "", promoCodes: [titleCell])
     detailTitleSection = ShopData(name: "detail", shortDescription: "detail", websiteLink: "", promoCodes: [detailTitleCell])
     
@@ -64,17 +59,6 @@ class ShopViewController: UIViewController {
     dateFormatter.timeStyle = .none
     
     configureNavigationController(self.navigationController)
-//    navigationController?.navigationBar.prefersLargeTitles = false
-//    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//    navigationController?.navigationBar.shadowImage = UIImage()
-//    navigationController?.navigationBar.isTranslucent = true
-//    navigationController?.navigationBar.alpha = 0.1
-    
-//    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(ShopViewController.backButtonTapped(_:)))
-//    logoView.favoritesButton.addTarget(self, action: #selector(ShopViewController.addToFavorites(_:)), for: .touchUpInside)
-//    logoView.favoritesButton.checkbox.isHighlighted = shop.isFavorite
-    
-//    updateImages()
     
     configureCollectionView()
     configureDataSource()
@@ -87,18 +71,6 @@ class ShopViewController: UIViewController {
     super.viewWillDisappear(animated)
     
     viewModel.controllerWillDisappear.accept(())
-    
-//    if favoriteStatus != shop.isFavorite {
-//      let cache = CacheController()
-//      cache.shop(with: shop.name, isFavorite: shop.isFavorite, date: shop.favoriteAddingDate)
-//
-//      if shop.isFavorite {
-//        ModelController.insertInFavorites(shop: shop)
-//      } else {
-//        ModelController.deleteFromFavorites(shop: shop)
-//      }
-//      previousViewUpdater?.updateScreen()
-//    }
   }
   
   private func bindUI() {
@@ -110,12 +82,6 @@ class ShopViewController: UIViewController {
       .filter { !$0 }
       .map { _ in CGFloat(0.5) }
       .drive(logoView.favoritesButton.checkbox.rx.alpha)
-      .disposed(by: disposeBag)
-    
-    viewModel.favoriteButtonEnabled
-      .drive(onNext: { b in
-        print("isEnabled \(b)")
-      })
       .disposed(by: disposeBag)
     
     viewModel.shop
@@ -155,7 +121,6 @@ class ShopViewController: UIViewController {
   }
   
   private func configureLogoView(shop: ShopData) {
-//    logoView.favoritesButton.addTarget(self, action: #selector(ShopViewController.addToFavorites(_:)), for: .touchUpInside)
     logoView.favoritesButton.checkbox.isHighlighted = shop.isFavorite
   }
   
@@ -401,7 +366,6 @@ extension ShopViewController {
           cell.couponsCount.imageView.tintColor = UIColor(named: "BlueTintColor")
           cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
           
-//          cell.website.button.addTarget(self, action: #selector(ShopViewController.openWebsite(_:)), for: .touchUpInside)
           cell.website.button.rx.tap
             .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribeOn(self.eventScheduler)
@@ -441,9 +405,6 @@ extension ShopViewController {
     
     currentSnapshot.appendSections([detailTitleSection])
     currentSnapshot.appendItems(detailTitleSection.promoCodes)
-    
-//    currentSnapshot.appendSections([shop])
-//    currentSnapshot.appendItems(shop.promoCodes)
     
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
@@ -516,25 +477,6 @@ extension ShopViewController: UICollectionViewDelegate {
   // MARK: - Actions
 extension ShopViewController {
   
-//  @objc func backButtonTapped(_ sender: UIBarButtonItem) {
-//    dismiss(animated: true, completion: { debugPrint("Shop did dismiss") })
-//  }
-  
-//  @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-//    shop.isFavorite = !shop.isFavorite
-//
-//    UIView.animate(withDuration: 0.15) { [weak self] in
-//      guard let self = self else { return }
-//      sender.checkbox.isHighlighted = self.shop.isFavorite
-//    }
-//
-//    if shop.isFavorite {
-//      shop.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-//    } else {
-//      shop.favoriteAddingDate = nil
-//    }
-//  }
-  
   func updateVisibleItems(shop: ShopData) {
     let indexPaths = collectionView.indexPathsForVisibleItems
     
@@ -557,7 +499,6 @@ extension ShopViewController {
     } else {
       headerImageView.image = shop.previewImage
       headerImageView.alpha = 0.3
-//      setupHeaderImage()
       viewModel.setupImage(for: shop)
         .observeOn(MainScheduler.instance)
         .subscribe(onCompleted: {
@@ -575,7 +516,6 @@ extension ShopViewController {
     if let logoImage = shop.previewImage {
       logoView.imageView.image = logoImage
     } else {
-//      setupPreviewImage()
       viewModel.setupPreviewImage(for: shop)
         .observeOn(MainScheduler.instance)
         .subscribe(onCompleted: {
@@ -585,42 +525,5 @@ extension ShopViewController {
         .disposed(by: disposeBag)
     }
   }
-  
-//  private func setupPreviewImage() {
-//    NetworkController.setupPreviewImage(in: shop) {
-//      DispatchQueue.main.async { [weak self] in
-//        self?.logoView.imageView.image = self?.shop.previewImage
-//        self?.updateVisibleItems()
-//      }
-//    }
-//  }
-//
-//  private func setupHeaderImage() {
-//    NetworkController.setupImage(in: shop) {
-//      DispatchQueue.main.async { [weak self] in
-//        UIView.animate(withDuration: 1) {
-//          if let image = self?.shop.image {
-//            self?.headerImageView.alpha = 0.1
-//            self?.headerImageView.image = image
-//            self?.headerImageView.alpha = 1
-//          }
-//        }
-//      }
-//    }
-//  }
 }
 
-//  //MARK: - openURL
-//extension ShopViewController {
-//  
-//  func openWebsite(_ button: UIButton) {
-//    button.rx.tap
-//      .observeOn(MainScheduler.instance)
-//      .bind(to: viewModel.websiteButton)
-//      .disposed(by: disposeBag)
-////    guard let url = URL(string: shop.websiteLink) else {
-////      return
-////    }
-////    UIApplication.shared.open(url)
-//  }
-//}

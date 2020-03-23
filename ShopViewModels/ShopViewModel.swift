@@ -73,19 +73,12 @@ class ShopViewModel {
         return !prev
     }
     
-//    controllerWillDisappear
-//      .observeOn(defaultScheduler)
-//      .bind(to: shopIsFavoriteChanged)
-//      .disposed(by: disposeBag)
-    
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)
       .filter { $0 }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .subscribe(onNext: { [unowned self] _ in
-//        guard let self = self else { return }
-//        print("isChanged run")
         ModelController.shared.updateFavoritesCategory(self.section.value, shop: self.currentShop)
         self.shopIsFavoriteChanged.accept(())
       })
@@ -97,7 +90,6 @@ class ShopViewModel {
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [unowned self] _ in
-//        guard let self = self else { return }
         let cache = CacheController()
         cache.shop(with: self.currentShop.name,
                    isFavorite: self.currentShop.isFavorite,

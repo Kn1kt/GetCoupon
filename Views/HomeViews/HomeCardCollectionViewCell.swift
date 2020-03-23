@@ -79,20 +79,15 @@ extension HomeCardCollectionViewCell {
       imageView.topAnchor.constraint(equalTo: backView.topAnchor),
       imageView.heightAnchor.constraint(equalTo: backView.heightAnchor, multiplier: 0.625),
       
-//      titleLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
-//      titleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: imageView.bottomAnchor, multiplier: 1.0),
       titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing / 2),
       titleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
       titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
       
-//      subtitleLabel.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor),
-//      subtitleLabel.topAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 0.1),
       subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       subtitleLabel.leadingAnchor.constraint(equalTo: backView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: backView.trailingAnchor, constant: -spacing),
       subtitleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.1)
-//      backView.bottomAnchor.constraint(lessThanOrEqualToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
     ])
   }
 }

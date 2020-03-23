@@ -21,55 +21,6 @@ class NetworkController {
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   
-//  static func downloadDataBase() {
-//    let queue = DispatchQueue(label: "monitor")
-//    let monitor = NWPathMonitor()
-//    monitor.start(queue: queue)
-//    monitor.pathUpdateHandler = { currentPath in
-//      monitor.cancel()
-//      guard currentPath.status == .satisfied,
-//        let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
-//          ModelController.loadCollectionsFromStorage()
-//          return
-//      }
-//
-//      URLSession.shared.dataTask(with: url) { data, response, error in
-//        if let error = error {
-//          debugPrint("From error")
-//          debugPrint(error)
-//          ModelController.loadCollectionsFromStorage()
-//          return
-//        }
-//
-//        guard let httpResponse = response as? HTTPURLResponse,
-//          (200...299).contains(httpResponse.statusCode) else {
-//            debugPrint("From response")
-//            ModelController.loadCollectionsFromStorage()
-//            return
-//        }
-//
-//        guard let data = data else {
-//          ModelController.loadCollectionsFromStorage()
-//          return
-//        }
-//
-//        do {
-//          let jsonDecoder = JSONDecoder()
-//          let decodedCollections = try jsonDecoder.decode([NetworkShopCategoryData].self, from: data)
-//
-//          DispatchQueue.global(qos: .userInitiated).async {
-//            let cache = CacheController()
-//            cache.updateData(with: decodedCollections)
-//            ModelController.loadCollectionsFromStorage()
-//          }
-//
-//        } catch {
-//          debugPrint(error)
-//        }
-//      }.resume()
-//    }
-//  }
-  
   /// Download or extract from cache preview image
   func setupPreviewImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
     let op = SetupPreviewImageOperation(shop: shop)

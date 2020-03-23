@@ -91,7 +91,6 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     showDetailVC
-//      .subscribeOn(eventScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (button, vc) in
         self.showDetailVC(button, vc: vc)
@@ -99,7 +98,6 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     showShopVC
-//      .subscribeOn(eventScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
         let isEnabled = !self.isRefreshing.value

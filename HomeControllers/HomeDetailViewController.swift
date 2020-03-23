@@ -17,19 +17,6 @@ class HomeDetailViewController: UIViewController {
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   private var viewModel: HomeDetailViewModel!
-//  private var navigator: Navigator!
-  
-//  let section: ShopCategoryData!
-//  lazy var sectionByDates: ShopCategoryData = ShopCategoryData(categoryName: section.categoryName, shops: section.shops.shuffled())
-  
-//  var addedInFavorites: Set<ShopData> = []
-//  var deletedFromFavorites: Set<ShopData> = []
-  
-//  private var needUpdateVisibleItems: Bool = false
-//  var sortType: Int = 0
-//  var textFilter: String = ""
-  
-//  var favoritesUpdater: FavoritesUpdaterProtocol?
   
   private let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented", websiteLink: "")
   private let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
@@ -61,8 +48,6 @@ class HomeDetailViewController: UIViewController {
     
     bindViewModel()
     bindUI()
-    
-//    NotificationCenter.default.addObserver(self, selector: #selector(HomeDetailViewController.favoritesDidChange), name: .didUpdateFavorites, object: nil)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -80,42 +65,15 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-//    if needUpdateVisibleItems {
-//      needUpdateVisibleItems = false
-//      updateVisibleItems()
-//    }
-    
-  }
-  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
     viewModel.controllerWillDisappear.accept(())
-    
-//    if !addedInFavorites.isEmpty || !deletedFromFavorites.isEmpty {
-//      favoritesUpdater?.updateFavoritesCollections(in: section.categoryName,
-//                                                   added: addedInFavorites,
-//                                                   deleted: deletedFromFavorites)
-//      DispatchQueue.global(qos: .utility).async { [weak self] in
-//        guard let self = self else { return }
-//        let cache = CacheController()
-//        let shops = self.section.shops
-//        shops.forEach {
-//          cache.shop(with: $0.name, isFavorite: $0.isFavorite, date: $0.favoriteAddingDate)
-//        }
-//      }
-//      addedInFavorites.removeAll()
-//      deletedFromFavorites.removeAll()
-//    }
   }
   
   private func bindUI() {
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
-//        print("\n***\nupdateHomeaDetail\n***\n")
         self?.updateSnapshot(section)
       })
       .disposed(by: disposeBag)
@@ -129,9 +87,7 @@ class HomeDetailViewController: UIViewController {
   
   private func bindViewModel() {
     
-//    let collectionViewItem = collectionView.rx.itemSelected.share()
     collectionView.rx.itemSelected
-//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -141,7 +97,6 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .map { _ in () }
       .subscribeOn(eventScheduler)
@@ -150,7 +105,6 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-//    collectionViewItem
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .map { [unowned self] indexPath in
         let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
@@ -161,19 +115,6 @@ class HomeDetailViewController: UIViewController {
       .bind(to: viewModel.showShopVC)
       .disposed(by: disposeBag)
   }
-  
-//  init() {
-//    super.init(nibName: nil, bundle: nil)
-//  }
-//
-//  required init?(coder: NSCoder) {
-//    fatalError("init(coder:) has not been implemented")
-//  }
-//
-//  deinit {
-//    NotificationCenter.default.removeObserver(self, name: .didUpdateFavorites, object: nil)
-//  }
-  
 }
 
 // MARK: - Layouts
@@ -338,7 +279,6 @@ extension HomeDetailViewController {
                                                                 fatalError("Can't create new cell")
           }
           
-//          cell.countLabel.text = "\(self.section.shops.count) shops"
           self.viewModel.currentSection
             .map { section in
               return "\(section.shops.count) shops"
@@ -348,17 +288,14 @@ extension HomeDetailViewController {
           
           cell.segmentedControl.selectedSegmentIndex = self.viewModel.segmentIndex.value
           
-//          cell.segmentedControl.rx.selectedSegmentIndex
             cell.segmentedControl.rx.controlEvent(.valueChanged)
             .throttle(RxTimeInterval.milliseconds(500),
                       scheduler: MainScheduler.instance)
-//            .distinctUntilChanged()
             .map { cell.segmentedControl.selectedSegmentIndex }
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.segmentIndex)
             .disposed(by: cell.disposeBag)
-//          cell.segmentedControl.addTarget(self, action: #selector(FavoritesViewController.selectedSegmentDidChange(_:)), for: .valueChanged)
           
           return cell
           
@@ -372,7 +309,6 @@ extension HomeDetailViewController {
             cell.imageView.image = image
           } else {
             cell.imageView.backgroundColor = cellData.placeholderColor
-//            self.setupImage(at: indexPath, with: cellData)
             self.viewModel.setupImage(for: cellData)
               .observeOn(MainScheduler.instance)
               .subscribe(onCompleted: {
@@ -384,8 +320,6 @@ extension HomeDetailViewController {
           cell.subtitleLabel.text = cellData.shortDescription
           cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
           cell.addToFavoritesButton.cell = cellData
-          
-//          cell.addToFavoritesButton.addTarget(self, action: #selector(HomeDetailViewController.addToFavorites(_:)), for: .touchUpInside)
           
           cell.addToFavoritesButton.rx.tap
             .observeOn(MainScheduler.instance)
@@ -406,7 +340,6 @@ extension HomeDetailViewController {
             .bind(to: self.viewModel.editedShops)
             .disposed(by: cell.disposeBag)
           
-//          if indexPath.row == self.section.shops.count - 1 {
           if indexPath.row == self.currentSnapshot.numberOfItems - 3 {
             cell.separatorView.isHidden = true
           }
@@ -425,53 +358,12 @@ extension HomeDetailViewController {
     currentSnapshot.appendSections([segmentedSection])
     currentSnapshot.appendItems(segmentedSection.shops)
     
-//    currentSnapshot.appendSections([section])
-//    currentSnapshot.appendItems(section.shops)
-    
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
 }
 
   // MARK: - Interaction
 extension HomeDetailViewController {
-  
-  // Add to Favorites
-//  @objc func addToFavorites(_ sender: AddToFavoritesButton) {
-//    guard let cell = sender.cell else { return }
-//
-//    cell.isFavorite = !cell.isFavorite
-//
-//    UIView.animate(withDuration: 0.15) {
-//      sender.checkbox.isHighlighted = cell.isFavorite
-//    }
-//
-//    if cell.isFavorite {
-//      cell.favoriteAddingDate = Date(timeIntervalSinceNow: 0)
-//
-//      addedInFavorites.insert(cell)
-//      deletedFromFavorites.remove(cell)
-//
-//    } else {
-//      cell.favoriteAddingDate = nil
-//
-//      deletedFromFavorites.insert(cell)
-//      addedInFavorites.remove(cell)
-//    }
-//  }
-//
-//  @objc func favoritesDidChange() {
-//    needUpdateVisibleItems = true
-//  }
-  
-//  @objc func selectedSegmentDidChange(_ segmentedControl: UISegmentedControl) {
-//    sortType = segmentedControl.selectedSegmentIndex
-//
-//    if !textFilter.isEmpty {
-//      performQuery(with: textFilter)
-//    } else {
-//      updateSnapshot()
-//    }
-//  }
   
   func updateSnapshot(_ section: ShopCategoryData) {
     
@@ -484,17 +376,10 @@ extension HomeDetailViewController {
     currentSnapshot.appendSections([segmentedSection])
     currentSnapshot.appendItems(segmentedSection.shops)
     
-//    switch sortType {
-//    case 0:
-      currentSnapshot.appendSections([section])
-      currentSnapshot.appendItems(section.shops)
-//    default:
-//      currentSnapshot.appendSections([sectionByDates])
-//      currentSnapshot.appendItems(sectionByDates.shops)
-//    }
-    
+    currentSnapshot.appendSections([section])
+    currentSnapshot.appendItems(section.shops)
+
     dataSource.apply(currentSnapshot, animatingDifferences: true)
-    
   }
   
   func updateVisibleItems() {
@@ -513,52 +398,7 @@ extension HomeDetailViewController {
   }
 }
 
-// MARK: - Search
-extension HomeDetailViewController {
-  
-//  func performQuery(with filter: String) {
-//    currentSnapshot = NSDiffableDataSourceSnapshot
-//      <ShopCategoryData, ShopData>()
-//
-//    currentSnapshot.appendSections([searchSection])
-//    currentSnapshot.appendItems(searchSection.shops)
-//
-//    currentSnapshot.appendSections([segmentedSection])
-//    currentSnapshot.appendItems(segmentedSection.shops)
-//
-//
-//    let filtered = filteredCollection(with: filter)
-//    let section = ShopCategoryData(categoryName: self.section.categoryName, shops: filtered)
-//    currentSnapshot.appendSections([section])
-//    currentSnapshot.appendItems(section.shops)
-//
-//    dataSource.apply(currentSnapshot, animatingDifferences: true)
-//  }
-  
-//  func filteredCollection(with filter: String) -> [ShopData] {
-//
-//    let shops: [ShopData]
-//    switch sortType {
-//    case 0:
-//      shops = section.shops
-//    default:
-//      shops = sectionByDates.shops
-//    }
-//
-//    if filter.isEmpty {
-//      return shops
-//    }
-//    let lowercasedFilter = filter.lowercased()
-//
-//    let filtered = shops.filter { cell in
-//      return cell.name.lowercased().contains(lowercasedFilter)
-//    }
-//
-//    return filtered.sorted { $0.name < $1.name }
-//  }
-}
-
-// MARK: - SerachBarDelegate
+  // MARK: - SerachBarDelegate
 extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
   
   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -571,7 +411,7 @@ extension HomeDetailViewController: UISearchBarDelegate, UITextFieldDelegate {
   }
 }
 
-// MARK: - UICollectionViewDelegate
+  // MARK: - UICollectionViewDelegate
 extension HomeDetailViewController: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -584,46 +424,4 @@ extension HomeDetailViewController: UICollectionViewDelegate {
       return true
     }
   }
-  
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-//
-//    if let _ = addedInFavorites.remove(selectedShop) {
-//      ModelController.insertInFavorites(shop: selectedShop)
-//    } else if let _ = deletedFromFavorites.remove(selectedShop) {
-//      ModelController.deleteFromFavorites(shop: selectedShop)
-//    }
-//
-//    let viewController = ShopViewController(shop: selectedShop)
-//    viewController.previousViewUpdater = self
-//    let navController = UINavigationController(rootViewController: viewController)
-//    present(navController, animated: true)
-//
-//    collectionView.deselectItem(at: indexPath, animated: true)
-//  }
-}
-
-//extension HomeDetailViewController: ScreenUpdaterProtocol {
-//
-//  func updateScreen() {
-//    if needUpdateVisibleItems {
-//      //needUpdateFavorites = true
-//      needUpdateVisibleItems = false
-//      updateVisibleItems()
-//    }
-//  }
-//}
-
-//MARK: - Setup Image
-extension HomeDetailViewController {
-  
-//  private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-//    NetworkController.setupPreviewImage(in: cellData) {
-//      DispatchQueue.main.async { [weak self] in
-//        if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-//          cell.imageView.image = cellData.previewImage
-//        }
-//      }
-//    }
-//  }
 }

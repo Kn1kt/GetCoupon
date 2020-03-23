@@ -20,7 +20,6 @@ class HomeViewController: UIViewController {
   private let defaultSheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
-  //  let homeDataController = ModelController.homeDataController
   private let viewModel: HomeViewModel = HomeViewModel()
   
   static let titleElementKind = "title-element-kind"
@@ -40,10 +39,7 @@ class HomeViewController: UIViewController {
     configureDataSource()
     
     let refresh = UIRefreshControl()
-//    refresh.addTarget(self, action: #selector(HomeViewController.refresh), for: .valueChanged)
     collectionView?.refreshControl = refresh
-    
-    //    NotificationCenter.default.addObserver(self, selector: #selector(HomeViewController.updateSnapshot), name: .didUpdateHome, object: nil)
     
     bindViewModel()
     bindUI()
@@ -51,33 +47,14 @@ class HomeViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-//    if ModelController.collections.isEmpty {
-//      if let refresh = collectionView.refreshControl,
-//        !refresh.isRefreshing {
-//        collectionView.refreshControl?.beginRefreshing()
-//      }
-//    }
     navigationController?.navigationBar.prefersLargeTitles = false
     navigationItem.title = "Home"
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-//    if let refresh = collectionView.refreshControl,
-//      refresh.isRefreshing {
-//      collectionView.refreshControl?.endRefreshing()
-//    }
-  }
-  
-  deinit {
-//    NotificationCenter.default.removeObserver(self, name: .didUpdateHome, object: nil)
   }
   
   private func bindViewModel() {
     if let refresh = collectionView.refreshControl {
       refresh.rx.controlEvent(.valueChanged)
         .map { _ in refresh.isRefreshing }
-//        .filter { $0 }
         .subscribeOn(eventScheduler)
         .observeOn(eventScheduler)
         .bind(to: viewModel.refresh)
@@ -285,8 +262,6 @@ extension HomeViewController {
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     view.addSubview(collectionView)
     
-//    collectionView.delegate = self
-    
     NSLayoutConstraint.activate([
       
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -327,7 +302,6 @@ extension HomeViewController {
             cell.imageView.image = image
           } else {
             cell.imageView.backgroundColor = cellData.placeholderColor
-//            self.setupImage(at: indexPath, with: cellData)
             self.viewModel.setupImage(for: cellData)
               .observeOn(MainScheduler.instance)
               .subscribe(onCompleted: {
@@ -351,7 +325,6 @@ extension HomeViewController {
             cell.imageView.image = image
           } else {
             cell.imageView.backgroundColor = cellData.placeholderColor
-//            self.setupImage(at: indexPath, with: cellData)
             self.viewModel.setupImage(for: cellData)
               .observeOn(MainScheduler.instance)
               .subscribe(onCompleted: {
@@ -393,14 +366,12 @@ extension HomeViewController {
                                                                                       for: indexPath) as? ShowMoreSupplementaryView {
           
           footerSupplementary.showMoreButton.sectionIndex = indexPath.section
-//          footerSupplementary.showMoreButton.addTarget(self, action: #selector(HomeViewController.showDetailList(_:)), for: .touchUpInside)
           
           footerSupplementary.showMoreButton.rx.tap
             .map { _ in (footerSupplementary.showMoreButton, self) }
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.showDetailVC)
-/// TODO: - TEST DISPOSING
             .disposed(by: footerSupplementary.disposeBag)
           
           return footerSupplementary
@@ -422,19 +393,6 @@ extension HomeViewController {
   // MARK: - Interaction
 extension HomeViewController {
   
-//  /// Show more button
-//  @objc func showDetailList(_ sender: ShowMoreUIButton) {
-//    guard let sectionIndex = sender.sectionIndex,
-//      let section = homeDataController.section(for: sectionIndex) else {
-//        return
-//    }
-//
-//    let viewController = HomeDetailViewController(section: section)
-//    viewController.favoritesUpdater = homeDataController
-//
-//    show(viewController, sender: self)
-//  }
-  
   private func updateSnapshot(_ collections: [ShopCategoryData]) {
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
@@ -446,49 +404,7 @@ extension HomeViewController {
       currentSnapshot.appendSections([collection])
       currentSnapshot.appendItems(collection.shops)
     }
-    
-//    DispatchQueue.main.async { [weak self] in
-//      guard let self = self else { return }
       
-      self.dataSource.apply(self.currentSnapshot, animatingDifferences: true)
-//      self.collectionView.refreshControl?.endRefreshing()
-//    }
-    
+    dataSource.apply(currentSnapshot, animatingDifferences: true)
   }
-  
-//  @objc func refresh() {
-//    ModelController.setupCollections()
-//  }
-}
-
-// MARK: - UICollectionViewDelegate
-//extension HomeViewController: UICollectionViewDelegate {
-//
-//  func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-//    return true
-//  }
-//
-//  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//    let selectedShop = currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-//
-//    let viewController = ShopViewController(shop: selectedShop)
-//    let navController = UINavigationController(rootViewController: viewController)
-//    present(navController, animated: true)
-//
-//    collectionView.deselectItem(at: indexPath, animated: true)
-//  }
-//}
-
-//MARK: - Setup Image
-extension HomeViewController {
-  
-//  private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-//    NetworkController.setupPreviewImage(in: cellData) {
-//      DispatchQueue.main.async { [weak self] in
-//        if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-//          cell.imageView.image = cellData.previewImage
-//        }
-//      }
-//    }
-//  }
 }

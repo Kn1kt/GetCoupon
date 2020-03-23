@@ -43,22 +43,6 @@ class Navigator {
     showShop(target: vc, sender: sender)
   }
   
-//  func show(segue: Segue, sender: UIViewController) {
-//    switch segue {
-//    case .homeDetailScreen(let section):
-//      let vm = HomeDetailViewModel()
-//      show(target: HomeDetailViewController.createWith(section: section,
-//                                                       navigator: self,
-//                                                       viewModel: vm),
-//           sender: sender)
-//    case .shopScreen:
-//      print("JUST SOME STUB")
-//
-////    default:
-////      fatalError("Incorrect Segue")
-//    }
-//  }
-  
   // Need test this implementation
   private func show(target: UIViewController, sender: UIViewController) {
     if let nav = sender.navigationController {

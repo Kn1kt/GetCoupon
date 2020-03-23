@@ -17,10 +17,7 @@ class SearchBaseViewController: UIViewController {
   let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   let viewModel = SearchViewModel()
-  
-//  var section: ShopCategoryData = ShopCategoryData(categoryName: "Empty")
-  
-//  var needUpdateSnapshot: Bool = false
+
   var collectionView: UICollectionView! = nil
   var dataSource: UICollectionViewDiffableDataSource
     <ShopCategoryData, ShopData>! = nil
@@ -36,15 +33,6 @@ class SearchBaseViewController: UIViewController {
     
     bindViewModel()
     bindUI()
-  }
-  
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-//    if needUpdateSnapshot {
-//      needUpdateSnapshot = false
-//      updateSnapshot()
-//    }
   }
   
   private func bindViewModel() {
@@ -78,7 +66,7 @@ class SearchBaseViewController: UIViewController {
   }
 }
 
-// MARK: - Layouts
+  // MARK: - Layouts
 extension SearchBaseViewController {
   
   func createLayout() -> UICollectionViewLayout {
@@ -184,7 +172,6 @@ extension SearchBaseViewController {
           cell.imageView.image = image
         } else {
           cell.imageView.backgroundColor = cellData.placeholderColor
-//          self.setupImage(at: indexPath, with: cellData)
           self.viewModel.setupImage(for: cellData)
             .observeOn(MainScheduler.instance)
             .subscribe(onCompleted: {
@@ -207,9 +194,6 @@ extension SearchBaseViewController {
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
     
-//    currentSnapshot.appendSections([section])
-//    currentSnapshot.appendItems(section.shops)
-    
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
 }
@@ -218,13 +202,6 @@ extension SearchBaseViewController {
 extension SearchBaseViewController {
   
   func updateSnapshot(_ collection: ShopCategoryData) {
-    
-//    if let cellData = currentSnapshot.itemIdentifiers.last,
-//      let indexPath = dataSource.indexPath(for: cellData),
-//      let cell = collectionView.cellForItem(at: indexPath) as? SearchPlainCollectionViewCell {
-//      cell.separatorView.isHidden = false
-//    }
-    
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
     
@@ -232,25 +209,5 @@ extension SearchBaseViewController {
     currentSnapshot.appendItems(collection.shops)
     
     dataSource.apply(currentSnapshot, animatingDifferences: true)
-    
-//    if let cellData = currentSnapshot.itemIdentifiers.last,
-//      let indexPath = dataSource.indexPath(for: cellData),
-//      let cell = collectionView.cellForItem(at: indexPath) as? SearchPlainCollectionViewCell {
-//      cell.separatorView.isHidden = true
-//    }
   }
 }
-
-////MARK: - Setup Image
-//extension SearchBaseViewController {
-//
-//  private func setupImage(at indexPath: IndexPath, with cellData: ShopData) {
-//    NetworkController.setupPreviewImage(in: cellData) {
-//      DispatchQueue.main.async { [weak self] in
-//        if let cell = self?.collectionView.cellForItem(at: indexPath) as? CellWithImage {
-//          cell.imageView.image = cellData.previewImage
-//        }
-//      }
-//    }
-//  }
-//}
