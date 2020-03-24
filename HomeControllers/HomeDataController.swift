@@ -6,61 +6,58 @@
 //  Copyright © 2019 Nikita Konashenko. All rights reserved.
 //
 
-import UIKit
-
-protocol FavoritesUpdaterProtocol {
-    func updateFavoritesCollections(in name: String,
-                                    added addedCells: Set<ShopData>,
-                                    deleted deletedCells: Set<ShopData>)
-}
+import Foundation
+import RxSwift
+import RxCocoa
 
 class HomeDataController {
-    
-    var collections: [ShopCategoryData] = []
-    
-    func section(for index: Int) -> ShopCategoryData? {
-        return ModelController.section(for: index)
+  
+  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+  private let disposeBag = DisposeBag()
+  private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
+  
+  var collections: Observable<[ShopCategoryData]> {
+    return _collections
+      .asObservable()
+      .share()
+  }
+  
+  func section(for index: Int) -> Observable<ShopCategoryData> {
+    let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
+      guard index >= 0, categories.count > index else { fatalError("Index overbound") }
+      return categories[index]
     }
     
-    init() {
-        NotificationCenter.default.addObserver(self, selector: #selector(HomeDataController.updateCollections), name: .didUpdateCollections, object: nil)
+    return section
+  }
+  
+  func category(for shop: ShopData) -> ShopCategoryData {
+    guard let category = _collections.value.first(where: { $0.shops.contains(shop) }) else {
+      fatalError("No category")
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: .didUpdateCollections, object: nil)
+    return category
+  }
+  
+  init(collections: Observable<[ShopCategoryData]>) {
+    collections.map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
+      return collections.map { category in
+        return ShopCategoryData(categoryName: category.categoryName,
+                                shops: Array(category.shops.prefix(10)),
+                                tags: category.tags)
+      }
     }
- }
-
-    // MARK: - FavoritesUpdaterProtocol
-extension HomeDataController: FavoritesUpdaterProtocol {
-    
-    func updateFavoritesCollections(in name: String,
-                                    added addedCells: Set<ShopData>,
-                                    deleted deletedCells: Set<ShopData>) {
-        ModelController.updateFavoritesCollections(in: name,
-                                                   added: addedCells,
-                                                   deleted: deletedCells)
-    }
+    .subscribeOn(defaultScheduler)
+    .observeOn(defaultScheduler)
+    .bind(to: _collections)
+    .disposed(by: disposeBag)
+  }
 }
 
-    // MARK: - Updating
+  // MARK: - Favorites Updates
 extension HomeDataController {
-    
-    @objc func updateCollections() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            let collections = ModelController.collections.reduce(into: [ShopCategoryData]()){ result, section in
-            
-                let shops = Array(section.shops.prefix(10))
-    
-                let reducedSection = ShopCategoryData(categoryName: section.categoryName,
-                                                 shops: shops)
-    
-                result.append(reducedSection)
-            }
-           
-            self?.collections = collections
-            NotificationCenter.default.post(name: .didUpdateHome, object: nil)
-        }
-        
-    }
+  
+  func updateFavoritesCategory(_ category: ShopCategoryData, shops: Set<ShopData>) {
+    ModelController.shared.updateFavoritesCategory(category, shops: shops)
+  }
 }

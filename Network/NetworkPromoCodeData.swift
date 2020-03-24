@@ -9,24 +9,24 @@
 import UIKit
 
 class NetworkPromoCodeData: Codable {
+  
+  let coupon: String
+  let addingDate: Date?
+  let estimatedDate: Date?
+  let promoCodeDescription: String?
+  
+  let websiteLink: String
+  
+  init(coupon: String,
+       addingDate: Date? = nil,
+       estimatedDate: Date? = nil,
+       promoCodeDescription: String? = nil,
+       websiteLink: String) {
     
-    let coupon: String
-    let addingDate: Date?
-    let estimatedDate: Date?
-    let promoCodeDescription: String?
-    
-    let websiteLink: String
-    
-    init(coupon: String,
-         addingDate: Date? = nil,
-         estimatedDate: Date? = nil,
-         promoCodeDescription: String? = nil,
-         websiteLink: String) {
-        
-        self.coupon = coupon
-        self.addingDate = addingDate
-        self.estimatedDate = estimatedDate
-        self.promoCodeDescription = promoCodeDescription
-        self.websiteLink = websiteLink
-    }
+    self.coupon = coupon
+    self.addingDate = addingDate
+    self.estimatedDate = estimatedDate
+    self.promoCodeDescription = promoCodeDescription
+    self.websiteLink = websiteLink
+  }
 }

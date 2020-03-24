@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SearchResultsViewController: SearchBaseViewController {
-    
+  
 }

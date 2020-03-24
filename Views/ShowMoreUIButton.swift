@@ -9,21 +9,21 @@
 import UIKit
 
 class ShowMoreUIButton: UIButton {
-
-    var sectionIndex: Int?
+  
+  var sectionIndex: Int?
+  
+  init() {
+    super.init(frame: .zero)
     
-    init() {
-        super.init(frame: .zero)
-        
-        titleLabel?.adjustsFontForContentSizeCategory = true
-        titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-        setTitle("Show all shops in category", for: .normal)
-        setTitleColor(UIColor(named: "BlueTintColor"), for: .normal)
-        setTitleColor(.systemGray, for: .highlighted)
-        titleLabel?.textAlignment = .center
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    titleLabel?.adjustsFontForContentSizeCategory = true
+    titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
+    setTitle("Show all shops in category", for: .normal)
+    setTitleColor(UIColor(named: "BlueTintColor"), for: .normal)
+    setTitleColor(.systemGray, for: .highlighted)
+    titleLabel?.textAlignment = .center
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 }

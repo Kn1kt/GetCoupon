@@ -9,38 +9,38 @@
 import UIKit
 
 class AddToFavoritesButton: UIButton {
-
-    var cell: ShopData?
-    let checkbox = LikeImageView()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayouts()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+  
+  var cell: ShopData?
+  let checkbox = LikeImageView()
+  
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    setupLayouts()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 }
 
-    // MARK: - Layouts
+// MARK: - Layouts
 extension AddToFavoritesButton {
+  
+  func setupLayouts() {
+    checkbox.image = UIImage(systemName: "heart")
+    checkbox.highlightedImage = UIImage(systemName: "heart.fill")
+    checkbox.tintColor = .systemGray4
+    checkbox.isUserInteractionEnabled = false
+    checkbox.contentMode = .scaleAspectFit
     
-    func setupLayouts() {
-        checkbox.image = UIImage(systemName: "heart")
-        checkbox.highlightedImage = UIImage(systemName: "heart.fill")
-        checkbox.tintColor = .systemGray4
-        checkbox.isUserInteractionEnabled = false
-        checkbox.contentMode = .scaleAspectFit
-        
-        checkbox.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(checkbox)
-        
-        NSLayoutConstraint.activate([
-            checkbox.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            checkbox.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            checkbox.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            checkbox.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-        ])
-    }
+    checkbox.translatesAutoresizingMaskIntoConstraints = false
+    addSubview(checkbox)
+    
+    NSLayoutConstraint.activate([
+      checkbox.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+      checkbox.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+      checkbox.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+      checkbox.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+    ])
+  }
 }
