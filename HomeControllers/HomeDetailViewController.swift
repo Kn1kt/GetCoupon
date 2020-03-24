@@ -18,10 +18,10 @@ class HomeDetailViewController: UIViewController {
   
   private var viewModel: HomeDetailViewModel!
   
-  private let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented", websiteLink: "")
+  private let segmentedCell = ShopData(name: "segmented", shortDescription: "segmented")
   private let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
   
-  private let searchCell: ShopData = ShopData(name: "search", shortDescription: "search", websiteLink: "")
+  private let searchCell = ShopData(name: "search", shortDescription: "search")
   private let searchSection: ShopCategoryData = ShopCategoryData(categoryName: "search")
   
   var collectionView: UICollectionView! = nil

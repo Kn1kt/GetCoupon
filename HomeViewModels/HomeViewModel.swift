@@ -101,8 +101,7 @@ class HomeViewModel {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
         let isEnabled = !self.isRefreshing.value
-        let section = self.model.category(for: shop)
-        self.showShopVC(vc, section: section, shop: shop, favoritesButton: isEnabled)
+        self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
   }
@@ -151,7 +150,7 @@ extension HomeViewModel {
   // MARK: - Show Shop View Controller
 extension HomeViewModel {
   
-  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData, favoritesButton: Bool) {
-    navigator.showShopVC(sender: vc, section: section, shop: shop, favoritesButton: favoritesButton)
+  private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
+    navigator.showShopVC(sender: vc, section: shop.category, shop: shop, favoritesButton: favoritesButton)
   }
 }

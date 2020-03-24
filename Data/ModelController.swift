@@ -57,12 +57,6 @@ class ModelController {
     homeDataController = HomeDataController(collections: collections)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
     
-    _favoriteCollections
-      .subscribe(onNext: { c in
-        print(c)
-      })
-      .disposed(by: disposeBag)
-    
     bindFavorites()
     bindSearch()
   }
@@ -88,10 +82,12 @@ extension ModelController {
       .map { (cachedCategories: [ShopCategoryStoredData]) -> [ShopCategoryData] in
         return cachedCategories.map { cachedCategory in
           
-          let shops = cachedCategory.shops.map(ShopData.init)
-          return ShopCategoryData(categoryName: cachedCategory.categoryName,
-                                  shops: Array(shops),
-                                  tags: Array(cachedCategory.tags))
+          let category = ShopCategoryData(categoryName: cachedCategory.categoryName,
+                                          tags: Array(cachedCategory.tags))
+          let shops = cachedCategory.shops.map { ShopData($0, category: category) }
+          category.shops = Array(shops)
+          
+          return category
         }
       }
     .observeOn(defaultScheduler)
@@ -237,6 +233,6 @@ extension ModelController {
     try! cache.realm.write {
       cache.realm.deleteAll()
     }
-    debugPrint("deleted from storage")
+    debugPrint("Deleted From Storage")
   }
 }

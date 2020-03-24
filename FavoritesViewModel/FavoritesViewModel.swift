@@ -177,8 +177,7 @@ class FavoritesViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        let section = self.model.category(for: shop)
-        self.showShopVC(vc, section: section, shop: shop)
+        self.showShopVC(vc, shop: shop)
       })
       .disposed(by: disposeBag)
     
@@ -252,7 +251,7 @@ extension FavoritesViewModel {
   // MARK: - Show Shop View Controller
 extension FavoritesViewModel {
   
-  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: section, shop: shop)
+  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
   }
 }

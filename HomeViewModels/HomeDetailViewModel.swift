@@ -180,7 +180,7 @@ class HomeDetailViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        self.showShopVC(vc, section: self.section.value, shop: shop)
+        self.showShopVC(vc, shop: shop)
       })
       .disposed(by: disposeBag)
   }
@@ -240,7 +240,7 @@ extension HomeDetailViewModel {
   // MARK: - Show Shop View Controller
 extension HomeDetailViewModel {
   
-  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: section, shop: shop)
+  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
   }
 }

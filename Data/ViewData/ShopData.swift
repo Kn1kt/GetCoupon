@@ -56,6 +56,8 @@ class ShopData {
   
   var promoCodes: [PromoCodeData]
   
+  
+  unowned let category: ShopCategoryData!
   let identifier = UUID()
   
   init(name: String,
@@ -68,7 +70,8 @@ class ShopData {
        previewImage: UIImage? = nil,
        isFavorite: Bool = false,
        favoriteAddingDate: Date? = nil,
-       promoCodes: [PromoCodeData] = []) {
+       promoCodes: [PromoCodeData] = [],
+       category: ShopCategoryData = ShopCategoryData(categoryName: "STUB")) {
     self.name = name
     self.description = description
     self.shortDescription = shortDescription
@@ -80,6 +83,7 @@ class ShopData {
     self.promoCodes = promoCodes
     self.isFavorite = isFavorite
     self.favoriteAddingDate = favoriteAddingDate
+    self.category = category
   }
   
   convenience init(image: UIImage?, name: String, shortDescription: String, placeholderColor: UIColor) {
@@ -91,7 +95,8 @@ class ShopData {
               image: image,
               previewImage: image,
               isFavorite: false,
-              promoCodes: [])
+              promoCodes: [],
+              category: ShopCategoryData(categoryName: "STUB"))
   }
   
   convenience init(name: String, shortDescription: String) {
@@ -102,11 +107,12 @@ class ShopData {
               image: nil,
               previewImage: nil,
               isFavorite: false,
-              promoCodes: [])
+              promoCodes: [],
+              category: ShopCategoryData(categoryName: "STUB"))
   }
   
   /// Bridge for stored data
-  convenience init(_ shop: ShopStoredData) {
+  convenience init(_ shop: ShopStoredData, category: ShopCategoryData) {
     let color = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(),
                         components: Array(shop.placeholderColor).map(CGFloat.init))
     let promoCodes = Array(shop.promoCodes).map(PromoCodeData.init)
@@ -121,7 +127,8 @@ class ShopData {
               previewImage: nil,
               isFavorite: shop.isFavorite,
               favoriteAddingDate: shop.favoriteAddingDate,
-              promoCodes: promoCodes)
+              promoCodes: promoCodes,
+              category: category)
   }
 }
 

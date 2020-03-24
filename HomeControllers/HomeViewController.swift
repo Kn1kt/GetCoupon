@@ -93,7 +93,6 @@ class HomeViewController: UIViewController {
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] collections in
-        debugPrint("update")
         self?.updateSnapshot(collections)
       })
       .disposed(by: disposeBag)

@@ -77,9 +77,7 @@ class SearchViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        print("ShowShopFromVMSearchVC")
-        let section = ModelController.shared.category(for: shop)
-        self.showShopVC(vc, section: section, shop: shop)
+        self.showShopVC(vc, shop: shop)
       })
       .disposed(by: disposeBag)
   }
@@ -127,8 +125,7 @@ extension SearchViewModel {
   // MARK: - Show Shop View Controller
 extension SearchViewModel {
   
-  private func showShopVC(_ vc: UIViewController, section: ShopCategoryData, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: section, shop: shop)
-    print("From searchVC: showShopVC")
+  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
   }
 }
