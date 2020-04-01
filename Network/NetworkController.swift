@@ -27,9 +27,17 @@ class NetworkController {
     op.completionBlock = completionHandler
     queue.addOperation(op)
   }
+  
   /// Download or extract from cache image
   func setupImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
     let op = SetupImageOperation(shop: shop)
+    op.completionBlock = completionHandler
+    queue.addOperation(op)
+  }
+  
+  /// Download or extract from cache image
+  func setupDefaultImage(in category: ShopCategoryData, completionHandler: (() -> Void)? = nil) {
+    let op = SetupDefaultImageOperation(category: category)
     op.completionBlock = completionHandler
     queue.addOperation(op)
   }

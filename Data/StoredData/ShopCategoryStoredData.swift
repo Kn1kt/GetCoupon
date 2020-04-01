@@ -13,18 +13,21 @@ class ShopCategoryStoredData: Object {
   
   @objc dynamic var categoryName: String = ""
   
+  @objc dynamic var defaultImageURL: String?
+  @objc dynamic var defaultImageLink: String = ""
+  
   let tags = List<String>()
   
   let shops = List<ShopStoredData>()
   
   convenience init(categoryName: String,
+                   defaultImageLink: String = "",
                    shops: [ShopStoredData] = [],
                    tags: [String] = []) {
     self.init()
     self.categoryName = categoryName
-    
+    self.defaultImageLink = defaultImageLink
     self.shops.append(objectsIn: shops)
-    
     self.tags.append(objectsIn: tags)
   }
   
@@ -38,6 +41,7 @@ extension ShopCategoryStoredData {
   
   convenience init(_ networkCategory: NetworkShopCategoryData) {
     self.init(categoryName: networkCategory.categoryName,
+              defaultImageLink: networkCategory.defaultImageLink,
               shops: networkCategory.shops.map(ShopStoredData.init),
               tags: networkCategory.tags)
   }

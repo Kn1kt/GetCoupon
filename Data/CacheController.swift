@@ -199,6 +199,12 @@ class CacheController {
   /// WARNING: Use only from realm.write
   private func update(category: NetworkShopCategoryData) {
     if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: category.categoryName) {
+      
+      if category.defaultImageLink != storedCategory.defaultImageLink {
+        storedCategory.defaultImageLink = category.defaultImageLink
+        storedCategory.defaultImageURL = nil
+      }
+      
       var existing = Set<String>()
       category.shops.forEach { shop in
         if let storedShop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: shop.name) {
@@ -355,6 +361,26 @@ extension CacheController {
     }
   }
   
+  func setDefaultImage(for category: ShopCategoryData) -> String? {
+    guard category.defaultImage == nil else { return nil }
+    guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
+                                            forPrimaryKey: category.categoryName) else {
+      debugPrint("No Category")
+      fatalError()
+    }
+    
+    if let url = storedCategory.defaultImageURL,
+      let image = UIImage(contentsOfFile: url) {
+      if category.defaultImage == nil {
+        category.defaultImage = image
+      }
+      return nil
+      
+    } else {
+      return storedCategory.defaultImageLink
+    }
+  }
+  
   func cacheImage(_ image: UIImage, for shop: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
@@ -395,6 +421,26 @@ extension CacheController {
     }
   }
   
+  func cacheDefaultImage(_ image: UIImage, for category: String) {
+    let directoryURL = FileManager.default.urls(for: .cachesDirectory,
+                                                in: .userDomainMask).first
+    let fileURL = URL(fileURLWithPath: "\(category)-defaultImage", relativeTo: directoryURL).appendingPathExtension("png")
+    guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
+                                        forPrimaryKey: category) else {
+      debugPrint("No Category")
+      fatalError()
+    }
+    
+    do {
+      try image.pngData()?.write(to: fileURL, options: .noFileProtection)
+      try realm.write {
+        storedCategory.defaultImageURL = fileURL.path
+      }
+    } catch {
+      debugPrint("Unexpected Error: \(error)")
+    }
+  }
+  
   private func deleteImages(from shop: ShopStoredData) {
     
     do {
@@ -414,7 +460,6 @@ extension CacheController {
   }
   
   private func deletePreviewImage(from shop: ShopStoredData) {
-    
     do {
       if let previewPath = shop.previewImageURL {
         let url = URL(fileURLWithPath: previewPath)
@@ -427,13 +472,24 @@ extension CacheController {
   }
   
   private func deleteImage(from shop: ShopStoredData) {
-    
     do {
       if let imagePath = shop.imageURL {
         let url = URL(fileURLWithPath: imagePath)
         try FileManager.default.removeItem(at: url)
       }
       debugPrint("Deleted Old Image From \(shop.name)")
+    } catch {
+      debugPrint("Unexpected Error: \(error)")
+    }
+  }
+  
+  private func deleteDefaultImage(from category: ShopCategoryStoredData) {
+    do {
+      if let imagePath = category.defaultImageURL {
+        let url = URL(fileURLWithPath: imagePath)
+        try FileManager.default.removeItem(at: url)
+      }
+      debugPrint("Deleted Old Default Image From \(category.categoryName)")
     } catch {
       debugPrint("Unexpected Error: \(error)")
     }

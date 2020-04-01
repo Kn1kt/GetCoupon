@@ -18,6 +18,22 @@ class ShopCategoryData {
   
   let identifier = UUID()
   
+  private var _defaultImage: UIImage? = nil
+  private let defaultImageQueue = DispatchQueue(label: "defaultImageQueue", attributes: .concurrent)
+  var defaultImage: UIImage? {
+    get {
+      defaultImageQueue.sync {
+        return _defaultImage
+      }
+    }
+    
+    set {
+      defaultImageQueue.async(flags: .barrier) { [weak self] in
+        self?._defaultImage = newValue
+      }
+    }
+  }
+  
   init(categoryName: String, shops: [ShopData] = [], tags: [String] = []) {
     self.categoryName = categoryName
     self.shops = shops

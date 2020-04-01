@@ -113,7 +113,14 @@ extension HomeViewModel {
   func setupImage(for shop: ShopData) -> Completable {
     let subject = PublishSubject<Void>()
     NetworkController.shared.setupPreviewImage(in: shop) {
-      subject.onCompleted()
+      if let _ = shop.previewImage {
+        subject.onCompleted()
+      } else {
+        NetworkController.shared.setupDefaultImage(in: shop.category) {
+          shop.previewImage = shop.category.defaultImage
+          subject.onCompleted()
+        }
+      }
     }
     
     return subject
@@ -131,16 +138,6 @@ extension HomeViewModel {
         return
     }
     
-//    model.section(for: sectionIndex)
-//      .observeOn(MainScheduler.instance)
-//      .subscribe(onNext: { [unowned self] section in
-//        guard let section = section else { return }
-//
-//        self.navigator.showHomeDetailVC(sender: vc,
-//                                        model: self.model,
-//                                        section: section)
-//      })
-//      .disposed(by: disposeBag)
     let section = model.section(for: sectionIndex)
     navigator.showHomeDetailVC(sender: vc,
                                model: model,

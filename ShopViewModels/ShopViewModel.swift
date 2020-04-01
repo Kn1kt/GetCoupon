@@ -114,7 +114,14 @@ extension ShopViewModel {
   func setupPreviewImage(for shop: ShopData) -> Completable {
     let subject = PublishSubject<Void>()
     NetworkController.shared.setupPreviewImage(in: shop) {
-      subject.onCompleted()
+      if let _ = shop.previewImage {
+        subject.onCompleted()
+      } else {
+        NetworkController.shared.setupDefaultImage(in: shop.category) {
+          shop.previewImage = shop.category.defaultImage
+          subject.onCompleted()
+        }
+      }
     }
     
     return subject
@@ -126,7 +133,14 @@ extension ShopViewModel {
   func setupImage(for shop: ShopData) -> Completable {
     let subject = PublishSubject<Void>()
     NetworkController.shared.setupImage(in: shop) {
-      subject.onCompleted()
+      if let _ = shop.image {
+        subject.onCompleted()
+      } else {
+        NetworkController.shared.setupDefaultImage(in: shop.category) {
+          shop.image = shop.category.defaultImage
+          subject.onCompleted()
+        }
+      }
     }
     
     return subject

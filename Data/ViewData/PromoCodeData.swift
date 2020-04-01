@@ -7,7 +7,7 @@
 //  Copyright © 2019 Nikita Konashenko. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 class PromoCodeData {
   

@@ -192,7 +192,14 @@ extension HomeDetailViewModel {
   func setupImage(for shop: ShopData) -> Completable {
     let subject = PublishSubject<Void>()
     NetworkController.shared.setupPreviewImage(in: shop) {
-      subject.onCompleted()
+      if let _ = shop.previewImage {
+        subject.onCompleted()
+      } else {
+        NetworkController.shared.setupDefaultImage(in: shop.category) {
+          shop.previewImage = shop.category.defaultImage
+          subject.onCompleted()
+        }
+      }
     }
     
     return subject

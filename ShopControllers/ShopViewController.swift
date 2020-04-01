@@ -135,7 +135,7 @@ class ShopViewController: UIViewController {
     navigationItem.rightBarButtonItem?.rx.tap
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
-        self?.dismiss(animated: true, completion: { debugPrint("Shop did dismiss") })
+        self?.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
   }
