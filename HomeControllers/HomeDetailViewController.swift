@@ -86,7 +86,6 @@ class HomeDetailViewController: UIViewController {
   }
   
   private func bindViewModel() {
-    
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)

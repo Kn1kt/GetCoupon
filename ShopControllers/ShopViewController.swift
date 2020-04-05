@@ -11,16 +11,50 @@ import RxSwift
 import RxCocoa
 
 class ShopViewController: UIViewController {
-
+  
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
-
+  
   private var viewModel: ShopViewModel!
   
   private let dateFormatter = DateFormatter()
   private let headerImageView = UIImageView()
   private let logoView = LogoWithFavoritesButton()
+  
+  
+  private let overlayView = UIView()
+  private let popupView = CouponPopupView()
+  
+  private let label = UILabel()
+  private var labelOnTop: Bool = true
+  
+  private lazy var pointOfFade: CGFloat = {
+    switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
+    case (.compact, .regular):
+      return CGFloat(-35)
+      
+    case (.compact, .compact):
+     return CGFloat(-55)
+      
+    default:
+      return CGFloat(-35)
+    }
+  }()
+  
+  private lazy var navBarPlaceholder: UIVisualEffectView = {
+    let blurEffect = UIBlurEffect(style: .systemChromeMaterial)
+    let view = UIVisualEffectView(effect: blurEffect)
+    view.alpha = 0
+    return view
+  }()
+  
+  private lazy var navBarShadow: UIView = {
+    let view = UIView()
+    view.backgroundColor = .systemGray2
+    view.alpha = 0
+    return view
+  }()
   
   private let titleCell: PromoCodeData = PromoCodeData(coupon: "title")
   private let titleSection: ShopData
@@ -63,8 +97,24 @@ class ShopViewController: UIViewController {
     configureCollectionView()
     configureDataSource()
     
+    layoutPopupView()
+    panRecognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
+    panRecognizer.delegate = popupView
+    popupView.addGestureRecognizer(panRecognizer)
+    
+    layoutNavBarPlaceholder()
+    
     bindViewModel()
     bindUI()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if labelOnTop {
+      labelOnTop = false
+      label.layer.position = CGPoint(x: label.layer.position.x,
+                                          y: label.layer.position.y + label.bounds.height)
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -74,6 +124,36 @@ class ShopViewController: UIViewController {
   }
   
   private func bindUI() {
+    collectionView.rx.itemSelected
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] indexPath in
+        self.collectionView.deselectItem(at: indexPath, animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    collectionView.rx.itemSelected
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] indexPath in
+        let shop = self.viewModel.currentShop
+        self.setupPopupView(shopName: shop.name,
+                            promocode: shop.promoCodes[indexPath.row])
+        self.showPopupView()
+      })
+      .disposed(by: disposeBag)
+    
+    popupView.exitButton.rx.tap
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] _ in
+        self.closePopupView()
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.favoriteButtonEnabled
       .drive(logoView.favoritesButton.rx.isEnabled)
       .disposed(by: disposeBag)
@@ -129,20 +209,231 @@ class ShopViewController: UIViewController {
     nc?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     nc?.navigationBar.shadowImage = UIImage()
     nc?.navigationBar.isTranslucent = true
-    nc?.navigationBar.alpha = 0.1
+
+//    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: nil, action: nil)
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: nil, action: nil)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"),
+                                                        style: .plain,
+                                                        target: nil,
+                                                        action: nil)
+    navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "BlueTintColor")
+    
     navigationItem.rightBarButtonItem?.rx.tap
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         self?.dismiss(animated: true)
       })
       .disposed(by: disposeBag)
+    
+    label.font = UIFont.preferredFont(forTextStyle: .headline)
+    label.text = self.viewModel.currentShop.name
+    label.alpha = 0
+    navigationItem.titleView = label
   }
+  
+  // MARK: - Animation
+  
+  private var bottomPopupView = NSLayoutConstraint()
+  
+  private var popupOffset: CGFloat {
+    return popupView.bounds.height
+  }
+  
+  /// The current state of the animation. This variable is changed only when an animation completes.
+  private var currentState: State = .closed
+  
+  /// All of the currently running animators.
+  private var runningAnimators = [UIViewPropertyAnimator]()
+  
+  /// The progress of each animator. This array is parallel to the `runningAnimators` array.
+  private var animationProgress = [CGFloat]()
+  
+  private let panRecognizer = UIPanGestureRecognizer()
+  
+  /// Animates the transition, if the animation is not already running.
+  private func animateTransitionIfNeeded(to state: State, duration: TimeInterval) {
+    
+    // ensure that the animators array is empty (which implies new animations need to be created)
+    guard runningAnimators.isEmpty else { return }
+    
+    // an animator for the transition
+    let transitionAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1, animations: { [weak self] in
+      guard let self = self else { return }
+      switch state {
+      case .open:
+        self.bottomPopupView.constant = 0
+        self.popupView.layer.cornerRadius = 20
+        self.overlayView.alpha = 0.5
+        
+      case .closed:
+        self.bottomPopupView.constant = self.popupView.bounds.height
+        self.popupView.layer.cornerRadius = 0
+        self.overlayView.alpha = 0
+      }
+      self.view.layoutIfNeeded()
+    })
+    
+    // the transition completion block
+    transitionAnimator.addCompletion { position in
+      
+      // update the state
+      switch position {
+      case .start:
+        self.currentState = state.opposite
+      case .end:
+        self.currentState = state
+      case .current:
+        ()
+      @unknown default:
+        fatalError()
+      }
+      
+      // manually reset the constraint positions
+      switch self.currentState {
+      case .open:
+        self.bottomPopupView.constant = 0
+      case .closed:
+        self.bottomPopupView.constant = self.popupView.bounds.height
+      }
+      
+      // remove all running animators
+      self.runningAnimators.removeAll()
+    }
+    
+    // start all animators
+    transitionAnimator.startAnimation()
+    
+    // keep track of all running animators
+    runningAnimators.append(transitionAnimator)
+  }
+  
+  @objc private func popupViewPanned(recognizer: UIPanGestureRecognizer) {
+    switch recognizer.state {
+    case .began:
+      // start the animations
+      animateTransitionIfNeeded(to: currentState.opposite, duration: 0.5)
+      
+      // pause all animations, since the next event may be a pan changed
+      runningAnimators.forEach { $0.pauseAnimation() }
+      
+      // keep track of each animator's progress
+      animationProgress = runningAnimators.map { $0.fractionComplete }
+      
+    case .changed:
+      // variable setup
+      let translation = recognizer.translation(in: popupView)
+      var fraction = -translation.y / popupOffset
+      
+      // adjust the fraction for the current state and reversed state
+      if currentState == .open { fraction *= -1 }
+      if runningAnimators[0].isReversed { fraction *= -1 }
+      
+      // apply the new fraction
+      for (index, animator) in runningAnimators.enumerated() {
+        animator.fractionComplete = fraction + animationProgress[index]
+      }
+      
+    case .ended:
+      // variable setup
+      let yVelocity = recognizer.velocity(in: popupView).y
+      let shouldClose = yVelocity > 0
+      
+      // if there is no motion, continue all animations and exit early
+      if yVelocity == 0 {
+        runningAnimators.forEach { $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
+        break
+      }
+      
+      // reverse the animations based on their current state and pan motion
+      switch currentState {
+      case .open:
+        if !shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+        if shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+      case .closed:
+        if shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+        if !shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+      }
+      
+      // continue all animations
+      runningAnimators.forEach { $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
+
+    default:
+      ()
+    }
+  }
+  
+  private func showPopupView() {
+    animateTransitionIfNeeded(to: .open, duration: 0.5)
+  }
+  
+  private func closePopupView() {
+    animateTransitionIfNeeded(to: .closed, duration: 0.5)
+  }
+  
+}
+
+// MARK: - State
+private enum State {
+    case closed
+    case open
+}
+
+extension State {
+    var opposite: State {
+        switch self {
+        case .open: return .closed
+        case .closed: return .open
+        }
+    }
 }
 
 // MARK: - Layouts
 extension ShopViewController {
+  
+  private func layoutPopupView() {
+    overlayView.backgroundColor = .black
+    overlayView.alpha = 0
+    
+    overlayView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(overlayView)
+    overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    overlayView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+    overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    
+    popupView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(popupView)
+    popupView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    popupView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    popupView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor, multiplier: 0.85).isActive = true
+    
+    bottomPopupView = popupView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: view.bounds.height)
+    bottomPopupView.isActive = true
+  }
+  
+  private func layoutNavBarPlaceholder() {
+    guard let navBarHeight = navigationController?.navigationBar.bounds.height else {
+      return
+    }
+    
+    navBarPlaceholder.translatesAutoresizingMaskIntoConstraints = false
+    navBarShadow.translatesAutoresizingMaskIntoConstraints = false
+    
+    view.addSubview(navBarPlaceholder)
+    view.addSubview(navBarShadow)
+    
+    NSLayoutConstraint.activate([
+      navBarPlaceholder.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      navBarPlaceholder.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      navBarPlaceholder.topAnchor.constraint(equalTo: view.topAnchor),
+      navBarPlaceholder.heightAnchor.constraint(equalToConstant: navBarHeight),
+      
+      navBarShadow.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+      navBarShadow.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+      navBarShadow.topAnchor.constraint(equalTo: navBarPlaceholder.bottomAnchor),
+      navBarShadow.heightAnchor.constraint(equalToConstant: 0.3)
+    ])
+  }
   
   func createLayout() -> UICollectionViewLayout {
     
@@ -390,7 +681,7 @@ extension ShopViewController {
             cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: addingDate)
           }
           if let estimatedDate = cellData.estimatedDate {
-            cell.estimatedDateLabel.text = "Expiration date: " + self.dateFormatter.string(from: estimatedDate)
+            cell.estimatedDateLabel.text = "Expire: " + self.dateFormatter.string(from: estimatedDate)
           }
           
           return cell
@@ -412,7 +703,7 @@ extension ShopViewController {
   
 }
 
-  // MARK: - Interaction
+// MARK: - Interaction
 extension ShopViewController {
   
   func updateSnapshot(_ shop: ShopData) {
@@ -428,53 +719,76 @@ extension ShopViewController {
     
     currentSnapshot.appendSections([shop])
     currentSnapshot.appendItems(shop.promoCodes)
-
+    
     dataSource.apply(currentSnapshot, animatingDifferences: true)
     
   }
 }
 
-  //MARK: - Custom Header
+//MARK: - Custom Header
 extension ShopViewController: UICollectionViewDelegate {
+  
+  func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+    switch indexPath.section {
+    case 0:
+      return false
+    case 1:
+      return false
+    default:
+      return true
+    }
+  }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let y = 200 - (scrollView.contentOffset.y + 200)
     
     let height = min(max(y, 0), UIScreen.main.bounds.size.height)
-    let offset: CGFloat
-    
-    switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-    case (.compact, .regular):
-      offset = CGFloat(-35)
-      
-    case (.compact, .compact):
-      offset = CGFloat(-55)
-      
-    default:
-      offset = CGFloat(-35)
-    }
     
     if let navBar = navigationController?.navigationBar {
+      // Point Of Fade is negative, so need to subtract this
+      let alpha = 1 - max(min(y - pointOfFade, 250), 0) / 250
+      
+      // Update placeholder
+      if navBar.backgroundImage(for: .default) != nil {
+        navBarPlaceholder.alpha = alpha
+        navBarShadow.alpha = alpha
+      }
+      
+      // Swap placeholder to navigation bar or vice versa
       if navBar.backgroundImage(for: .default) != nil
-        && y < offset {
+        && y < pointOfFade {
         navBar.setBackgroundImage(nil, for: .default)
         navBar.shadowImage = nil
-        self.navigationItem.title = self.viewModel.currentShop.name
+        
+        UIView.animate(withDuration: 0.3) {
+          self.navBarPlaceholder.alpha = 0
+          self.navBarShadow.alpha = 0
+          self.label.alpha = 1
+          self.label.layer.position = CGPoint(x: self.label.layer.position.x,
+                                              y: self.label.layer.position.y - self.label.bounds.height)
+        }
         
       } else if navBar.backgroundImage(for: .default) == nil
-        && y > offset {
+        && y > pointOfFade {
+        navBarPlaceholder.alpha = alpha
+        navBarShadow.alpha = alpha
         navBar.setBackgroundImage(UIImage(), for: .default)
         navBar.shadowImage = UIImage()
-        self.navigationItem.title = nil
+        
+        UIView.animate(withDuration: 0.3) {
+          self.label.alpha = 0
+          self.label.layer.position = CGPoint(x: self.label.layer.position.x,
+                                              y: self.label.layer.position.y + self.label.bounds.height)
+        }
       }
     }
     
-    logoView.frame = CGRect(x: view.center.x - 70, y: y - 90, width: 140, height: 140)
+    logoView.layer.position = CGPoint(x: logoView.layer.position.x, y: y - 20)
     headerImageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
   }
 }
 
-  // MARK: - Actions
+// MARK: - Actions
 extension ShopViewController {
   
   func updateVisibleItems(shop: ShopData) {
@@ -490,7 +804,7 @@ extension ShopViewController {
   }
 }
 
-  //MARK: - Setup Images
+// MARK: - Setup Images
 extension ShopViewController {
   
   private func updateImages(shop: ShopData) {
@@ -527,3 +841,17 @@ extension ShopViewController {
   }
 }
 
+// MARK: - Setup Coupon Popup View
+extension ShopViewController {
+  
+  private func setupPopupView(shopName: String, promocode: PromoCodeData) {
+    popupView.titleLabel.text = shopName
+    popupView.subtitleLabel.text = promocode.description
+    popupView.promocodeView.promocodeLabel.text = promocode.coupon
+    if let date = promocode.estimatedDate {
+       popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: date)
+    } else {
+      popupView.expirationDateLabel.text = "Expire instantly"
+    }
+  }
+}

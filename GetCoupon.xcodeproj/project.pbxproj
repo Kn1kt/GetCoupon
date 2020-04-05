@@ -20,6 +20,8 @@
 		F348667123CBF01D004682B3 /* SetupPreviewImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */; };
 		F348667323CBF6F2004682B3 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667223CBF6F2004682B3 /* AsyncOperation.swift */; };
 		F348667523CBFB93004682B3 /* SetupImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F348667423CBFB93004682B3 /* SetupImageOperation.swift */; };
+		F34C575A2437A235004A03B3 /* CouponViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34C57592437A235004A03B3 /* CouponViewController.swift */; };
+		F34C575C2437B263004A03B3 /* CouponPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34C575B2437B262004A03B3 /* CouponPopupView.swift */; };
 		F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353624E23CE09BC003D7BAB /* NetworkShopData.swift */; };
 		F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353625023CE09D8003D7BAB /* NetworkPromoCodeData.swift */; };
 		F353625323CE09EC003D7BAB /* NetworkShopCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F353625223CE09EC003D7BAB /* NetworkShopCategoryData.swift */; };
@@ -110,6 +112,8 @@
 		F348667023CBF01D004682B3 /* SetupPreviewImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupPreviewImageOperation.swift; sourceTree = "<group>"; };
 		F348667223CBF6F2004682B3 /* AsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		F348667423CBFB93004682B3 /* SetupImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupImageOperation.swift; sourceTree = "<group>"; };
+		F34C57592437A235004A03B3 /* CouponViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponViewController.swift; sourceTree = "<group>"; };
+		F34C575B2437B262004A03B3 /* CouponPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponPopupView.swift; sourceTree = "<group>"; };
 		F353624E23CE09BC003D7BAB /* NetworkShopData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkShopData.swift; sourceTree = "<group>"; };
 		F353625023CE09D8003D7BAB /* NetworkPromoCodeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkPromoCodeData.swift; sourceTree = "<group>"; };
 		F353625223CE09EC003D7BAB /* NetworkShopCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkShopCategoryData.swift; sourceTree = "<group>"; };
@@ -229,6 +233,15 @@
 			path = FavoritesViews;
 			sourceTree = "<group>";
 		};
+		F34C57582437A1F2004A03B3 /* CouponView */ = {
+			isa = PBXGroup;
+			children = (
+				F34C57592437A235004A03B3 /* CouponViewController.swift */,
+				F34C575B2437B262004A03B3 /* CouponPopupView.swift */,
+			);
+			path = CouponView;
+			sourceTree = "<group>";
+		};
 		F353624B23CE06A2003D7BAB /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +282,7 @@
 				F353624B23CE06A2003D7BAB /* Network */,
 				F35B3D5C235BACB8000F7ED0 /* Data */,
 				F3F3445924157BEE005EF34C /* Navigation */,
+				F34C57582437A1F2004A03B3 /* CouponView */,
 				F3ED2D722399AE6600726045 /* ShopControllers */,
 				F3F34460241A663B005EF34C /* ShopViewModels */,
 				F35B3D5A235BAC82000F7ED0 /* HomeControllers */,
@@ -628,6 +642,7 @@
 				F3E0AEB5238882490063E2C8 /* HomeDetailCollectionViewCell.swift in Sources */,
 				F3A4B1A6239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift in Sources */,
 				F3F3445B24157C08005EF34C /* Navigator.swift in Sources */,
+				F34C575C2437B263004A03B3 /* CouponPopupView.swift in Sources */,
 				F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */,
 				F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */,
 				F38F7A4A23CA564200AAC409 /* ShopStoredData.swift in Sources */,
@@ -642,6 +657,7 @@
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
 				F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
+				F34C575A2437A235004A03B3 /* CouponViewController.swift in Sources */,
 				F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
 				F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */,
