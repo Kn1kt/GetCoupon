@@ -50,7 +50,7 @@ extension HomeCaptionImageCollectionViewCell {
     
     contentView.clipsToBounds = true
     
-    imageView.layer.cornerRadius = 6
+    imageView.layer.cornerRadius = 7
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill

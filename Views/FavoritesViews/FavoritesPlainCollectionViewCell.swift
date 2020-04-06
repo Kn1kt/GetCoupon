@@ -44,7 +44,7 @@ extension FavoritesPlainCollectionViewCell {
     
 //    contentView.addSubview(backView)
     contentView.clipsToBounds = true
-    contentView.layer.cornerRadius = 6
+    contentView.layer.cornerRadius = 7
     contentView.frame = contentView.frame
     contentView.backgroundColor = .secondarySystemGroupedBackground
     

@@ -156,7 +156,7 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 5, bottom: 0, trailing: 5)
     
     return section
   }
@@ -173,7 +173,7 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 30, trailing: 10)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 30, trailing: 15)
     
     return section
   }
@@ -184,7 +184,7 @@ extension HomeDetailViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
     
     var groupFractionHeigh: CGFloat! = nil
     

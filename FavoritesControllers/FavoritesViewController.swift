@@ -146,7 +146,7 @@ extension FavoritesViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 0, trailing: 0)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 5, bottom: 0, trailing: 5)
     
     return section
   }
@@ -163,7 +163,7 @@ extension FavoritesViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 10, bottom: 30, trailing: 10)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 30, trailing: 15)
     
     return section
   }
@@ -204,10 +204,10 @@ extension FavoritesViewController {
     let section = NSCollectionLayoutSection(group: group)
     
     section.interGroupSpacing = 10
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 30, trailing: 10)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 30, trailing: 15)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(60))
+                                           heightDimension: .estimated(53))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: FavoritesViewController.titleElementKind,
@@ -229,7 +229,7 @@ extension FavoritesViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.keyboardDismissMode = .onDrag
     collectionView.alwaysBounceVertical = true
-    collectionView.showsVerticalScrollIndicator = false
+//    collectionView.showsVerticalScrollIndicator = false
     view.addSubview(collectionView)
     
     collectionView.delegate = self

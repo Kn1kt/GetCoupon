@@ -92,7 +92,7 @@ extension SearchBaseViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
     
     var groupFractionHeigh: CGFloat! = nil
     
@@ -201,12 +201,12 @@ extension SearchBaseViewController {
   private func updateBorder(for cell: SearchPlainCollectionViewCell, at indexPath: IndexPath) {
     if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 1 {
       cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 10
+      cell.contentView.layer.cornerRadius = 15
       cell.separatorView.isHidden = true
       
     } else if indexPath.row == 0 {
       cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-      cell.contentView.layer.cornerRadius = 10
+      cell.contentView.layer.cornerRadius = 15
       
     } else if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
       cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]

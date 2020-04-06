@@ -40,7 +40,7 @@ extension HomeCardCollectionViewCell {
     
 //    contentView.addSubview(backView)
     contentView.clipsToBounds = true
-    contentView.layer.cornerRadius = 6
+    contentView.layer.cornerRadius = 7
     
     contentView.addSubview(imageView)
     contentView.addSubview(titleLabel)

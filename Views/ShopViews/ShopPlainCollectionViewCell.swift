@@ -78,7 +78,8 @@ extension ShopPlainCollectionViewCell {
 //    contentView.layer.rasterizationScale = UIScreen.main.scale
     
     imageView.backgroundColor = .systemGray3
-//    imageView.layer.cornerRadius = 6
+    imageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
+    imageView.layer.cornerRadius = 6
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
@@ -107,13 +108,15 @@ extension ShopPlainCollectionViewCell {
       
       addingDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       addingDateLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor, constant: -spacing),
-      addingDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
+//      addingDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
+      addingDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
       addingDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       
       estimatedDateLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: spacing),
       estimatedDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      estimatedDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
-      estimatedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
+//      estimatedDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
+      estimatedDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
+      estimatedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
     ])
   }
 }

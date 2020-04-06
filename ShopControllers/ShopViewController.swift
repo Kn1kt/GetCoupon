@@ -27,7 +27,7 @@ class ShopViewController: UIViewController {
   private let popupView = CouponPopupView()
   
   private let label = UILabel()
-  private var labelOnTop: Bool = true
+//  private var labelOnTop: Bool = false
   
   private lazy var pointOfFade: CGFloat = {
     switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
@@ -108,14 +108,16 @@ class ShopViewController: UIViewController {
     bindUI()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    if labelOnTop {
-      labelOnTop = false
-      label.layer.position = CGPoint(x: label.layer.position.x,
-                                          y: label.layer.position.y + label.bounds.height)
-    }
-  }
+//  override func viewDidAppear(_ animated: Bool) {
+//    super.viewDidAppear(animated)
+//    if labelOnTop, label.layer.position.y > 10 {
+//      label.layer.position = CGPoint(x: label.layer.position.x,
+//                                          y: label.layer.position.y - label.bounds.height)
+//    } else if !labelOnTop, label.layer.position.y < 10 {
+//      label.layer.position = CGPoint(x: label.layer.position.x,
+//                                     y: label.layer.position.y + label.bounds.height)
+//    }
+//  }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
@@ -229,6 +231,8 @@ class ShopViewController: UIViewController {
     label.text = self.viewModel.currentShop.name
     label.alpha = 0
     navigationItem.titleView = label
+//    layer.position = CGPoint(x: label.layer.position.x,
+//                                   y: label.layer.position.y + label.bounds.height)
   }
   
   // MARK: - Animations
@@ -540,7 +544,7 @@ extension ShopViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15)
     
     var groupFractionHeigh: CGFloat! = nil
     
@@ -585,7 +589,7 @@ extension ShopViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.showsVerticalScrollIndicator = false
-    collectionView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
+    collectionView.contentInset = UIEdgeInsets(top: 250, left: 0, bottom: 0, right: 0)
     view.addSubview(collectionView)
     
     //  Setup header image
@@ -764,19 +768,26 @@ extension ShopViewController: UICollectionViewDelegate {
       // Swap placeholder to navigation bar or vice versa
       if navBar.backgroundImage(for: .default) != nil
         && y < pointOfFade {
+        if label.layer.position.y < 10 {
+          label.layer.position = CGPoint(x: label.layer.position.x,
+                                         y: label.layer.position.y + label.bounds.height)
+        }
         navBar.setBackgroundImage(nil, for: .default)
         navBar.shadowImage = nil
-        
         UIView.animate(withDuration: 0.3) {
           self.navBarPlaceholder.alpha = 0
           self.navBarShadow.alpha = 0
           self.label.alpha = 1
           self.label.layer.position = CGPoint(x: self.label.layer.position.x,
-                                              y: self.label.layer.position.y - self.label.bounds.height)
+                                                y: self.label.layer.position.y - self.label.bounds.height)
         }
         
       } else if navBar.backgroundImage(for: .default) == nil
         && y > pointOfFade {
+        if label.layer.position.y > 10 {
+          label.layer.position = CGPoint(x: label.layer.position.x,
+                                         y: label.layer.position.y - label.bounds.height)
+        }
         navBarPlaceholder.alpha = alpha
         navBarShadow.alpha = alpha
         navBar.setBackgroundImage(UIImage(), for: .default)
