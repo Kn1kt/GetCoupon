@@ -119,7 +119,7 @@ extension HomeViewController {
     }
     
     let config = UICollectionViewCompositionalLayoutConfiguration()
-    config.interSectionSpacing = 20
+    config.interSectionSpacing = 10
     
     let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                      configuration: config)
@@ -177,7 +177,7 @@ extension HomeViewController {
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(60))
+                                           heightDimension: .estimated(53))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
@@ -230,19 +230,19 @@ extension HomeViewController {
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .estimated(60))
-    let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                            heightDimension: .estimated(32))
+                                           heightDimension: .estimated(53))
+//    let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                            heightDimension: .estimated(32))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
                                                                          alignment: .top)
     
-    let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
-                                                                          elementKind: HomeViewController.showMoreElementKind,
-                                                                          alignment: .bottom)
+//    let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
+//                                                                          elementKind: HomeViewController.showMoreElementKind,
+//                                                                          alignment: .bottom)
     
-    section.boundarySupplementaryItems = [titleSupplementary, footerSupplementary]
+    section.boundarySupplementaryItems = [titleSupplementary]//, footerSupplementary]
     
     return section
   }
@@ -255,7 +255,7 @@ extension HomeViewController {
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .systemBackground
+    collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.showsVerticalScrollIndicator = false
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
@@ -279,9 +279,9 @@ extension HomeViewController {
                             forSupplementaryViewOfKind: HomeViewController.titleElementKind,
                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier)
     
-    collectionView.register(ShowMoreSupplementaryView.self,
-                            forSupplementaryViewOfKind: HomeViewController.showMoreElementKind,
-                            withReuseIdentifier: ShowMoreSupplementaryView.reuseIdentifier)
+//    collectionView.register(ShowMoreSupplementaryView.self,
+//                            forSupplementaryViewOfKind: HomeViewController.showMoreElementKind,
+//                            withReuseIdentifier: ShowMoreSupplementaryView.reuseIdentifier)
   }
   
   func configureDataSource() {
@@ -355,6 +355,19 @@ extension HomeViewController {
           let section = snapshot.sectionIdentifiers[indexPath.section]
           titleSupplementary.label.text = section.categoryName
           
+          titleSupplementary.showMoreButton.sectionIndex = indexPath.section
+          
+          if indexPath.section != 0 {
+            titleSupplementary.showMoreButton.isHidden = false
+            titleSupplementary.showMoreButton.isEnabled = true
+            
+            titleSupplementary.showMoreButton.rx.tap
+              .map { _ in (titleSupplementary.showMoreButton, self) }
+              .subscribeOn(self.eventScheduler)
+              .observeOn(self.eventScheduler)
+              .bind(to: self.viewModel.showDetailVC)
+              .disposed(by: titleSupplementary.disposeBag)
+          }
           return titleSupplementary
         } else {
           fatalError("Can't create new supplementary")

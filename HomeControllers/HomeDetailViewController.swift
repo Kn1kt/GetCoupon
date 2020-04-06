@@ -184,7 +184,7 @@ extension HomeDetailViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 0)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     
     var groupFractionHeigh: CGFloat! = nil
     
@@ -213,7 +213,6 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
-    
     return section
   }
 }
@@ -225,7 +224,7 @@ extension HomeDetailViewController {
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .systemBackground
+    collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.keyboardDismissMode = .onDrag
     view.addSubview(collectionView)
@@ -320,6 +319,8 @@ extension HomeDetailViewController {
           cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
           cell.addToFavoritesButton.cell = cellData
           
+          self.updateBorder(for: cell, at: indexPath)
+          
           cell.addToFavoritesButton.rx.tap
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
@@ -339,10 +340,6 @@ extension HomeDetailViewController {
             .bind(to: self.viewModel.editedShops)
             .disposed(by: cell.disposeBag)
           
-          if indexPath.row == self.currentSnapshot.numberOfItems - 3 {
-            cell.separatorView.isHidden = true
-          }
-          
           return cell
         }
         
@@ -359,13 +356,29 @@ extension HomeDetailViewController {
     
     dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
+  
+  private func updateBorder(for cell: HomeDetailCollectionViewCell, at indexPath: IndexPath) {
+    if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 3 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.contentView.layer.cornerRadius = 15
+      cell.separatorView.isHidden = true
+      
+    } else if indexPath.row == 0 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+      cell.contentView.layer.cornerRadius = 15
+      
+    } else if indexPath.row == self.currentSnapshot.numberOfItems - 3 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.contentView.layer.cornerRadius = 15
+      cell.separatorView.isHidden = true
+    }
+  }
 }
 
   // MARK: - Interaction
 extension HomeDetailViewController {
   
   func updateSnapshot(_ section: ShopCategoryData) {
-    
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
     

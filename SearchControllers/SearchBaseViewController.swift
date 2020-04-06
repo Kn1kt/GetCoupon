@@ -92,25 +92,25 @@ extension SearchBaseViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     var groupFractionHeigh: CGFloat! = nil
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
-      groupFractionHeigh = CGFloat(0.1)
+      groupFractionHeigh = CGFloat(0.12)
       
     case (.compact, .compact):
       groupFractionHeigh = CGFloat(0.2)
       
     case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.10)
+      groupFractionHeigh = CGFloat(0.12)
       
     case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.10)
+      groupFractionHeigh = CGFloat(0.12)
       
     default:
-      groupFractionHeigh = CGFloat(0.1)
+      groupFractionHeigh = CGFloat(0.12)
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -133,7 +133,7 @@ extension SearchBaseViewController {
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .systemBackground
+    collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.keyboardDismissMode = .onDrag
     view.addSubview(collectionView)
@@ -183,9 +183,10 @@ extension SearchBaseViewController {
         cell.titleLabel.text = cellData.name
         cell.subtitleLabel.text = cellData.shortDescription
         
-        if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
-          cell.separatorView.isHidden = true
-        }
+        self.updateBorder(for: cell, at: indexPath)
+//        if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
+//          cell.separatorView.isHidden = true
+//        }
         
         return cell
         
@@ -195,6 +196,23 @@ extension SearchBaseViewController {
       <ShopCategoryData, ShopData>()
     
     dataSource.apply(currentSnapshot, animatingDifferences: false)
+  }
+  
+  private func updateBorder(for cell: SearchPlainCollectionViewCell, at indexPath: IndexPath) {
+    if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 1 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.contentView.layer.cornerRadius = 10
+      cell.separatorView.isHidden = true
+      
+    } else if indexPath.row == 0 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+      cell.contentView.layer.cornerRadius = 10
+      
+    } else if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
+      cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.contentView.layer.cornerRadius = 15
+      cell.separatorView.isHidden = true
+    }
   }
 }
 

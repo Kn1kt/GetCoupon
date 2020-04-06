@@ -41,19 +41,19 @@ extension LogoWithFavoritesButton {
     favoritesButton.backgroundColor = .secondarySystemGroupedBackground
     favoritesButton.clipsToBounds = true
     
-    layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-    layer.shadowOffset = CGSize(width: 0, height: 8)
-    layer.shadowOpacity = 1
-    layer.shadowRadius = 28
-    layer.shouldRasterize = true
-    layer.rasterizationScale = UIScreen.main.scale
+//    layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+//    layer.shadowOffset = CGSize(width: 0, height: 8)
+//    layer.shadowOpacity = 1
+//    layer.shadowRadius = 28
+//    layer.shouldRasterize = true
+//    layer.rasterizationScale = UIScreen.main.scale
     
-    favoritesButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-    favoritesButton.layer.shadowOffset = CGSize(width: 0, height: 8)
-    favoritesButton.layer.shadowOpacity = 1
-    favoritesButton.layer.shadowRadius = 28
-    favoritesButton.layer.shouldRasterize = true
-    favoritesButton.layer.rasterizationScale = UIScreen.main.scale
+//    favoritesButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
+//    favoritesButton.layer.shadowOffset = CGSize(width: 0, height: 8)
+//    favoritesButton.layer.shadowOpacity = 1
+//    favoritesButton.layer.shadowRadius = 28
+//    favoritesButton.layer.shouldRasterize = true
+//    favoritesButton.layer.rasterizationScale = UIScreen.main.scale
     
     imageView.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
     let side = frame.size.height * 0.3

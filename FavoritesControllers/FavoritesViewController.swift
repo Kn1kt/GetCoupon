@@ -226,7 +226,7 @@ extension FavoritesViewController {
     collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
     
     collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.backgroundColor = .systemBackground
+    collectionView.backgroundColor = .systemGroupedBackground
     collectionView.keyboardDismissMode = .onDrag
     collectionView.alwaysBounceVertical = true
     collectionView.showsVerticalScrollIndicator = false

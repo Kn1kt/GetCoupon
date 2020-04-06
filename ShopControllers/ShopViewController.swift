@@ -21,7 +21,7 @@ class ShopViewController: UIViewController {
   private let dateFormatter = DateFormatter()
   private let headerImageView = UIImageView()
   private let logoView = LogoWithFavoritesButton()
-  
+  private let cornedTopView = UIView()
   
   private let overlayView = UIView()
   private let popupView = CouponPopupView()
@@ -231,7 +231,7 @@ class ShopViewController: UIViewController {
     navigationItem.titleView = label
   }
   
-  // MARK: - Animation
+  // MARK: - Animations
   
   private var bottomPopupView = NSLayoutConstraint()
   
@@ -262,7 +262,7 @@ class ShopViewController: UIViewController {
       switch state {
       case .open:
         self.bottomPopupView.constant = 0
-        self.popupView.layer.cornerRadius = 20
+        self.popupView.layer.cornerRadius = 25
         self.overlayView.alpha = 0.5
         
       case .closed:
@@ -582,13 +582,13 @@ extension ShopViewController {
     
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     
-    collectionView.backgroundColor = .systemBackground
+    collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.showsVerticalScrollIndicator = false
+    collectionView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
     view.addSubview(collectionView)
     
     //  Setup header image
-    collectionView.contentInset = UIEdgeInsets(top: 200, left: 0, bottom: 0, right: 0)
     headerImageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: 200)
     headerImageView.backgroundColor = .systemGray3
     
@@ -596,6 +596,13 @@ extension ShopViewController {
     headerImageView.clipsToBounds = true
     headerImageView.backgroundColor = viewModel.currentShop.placeholderColor
     view.addSubview(headerImageView)
+    
+    cornedTopView.frame = CGRect(x: 0, y: collectionView.contentInset.top, width: UIScreen.main.bounds.size.width, height: 50)
+    cornedTopView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    cornedTopView.layer.cornerRadius = 25
+    cornedTopView.backgroundColor = .systemGroupedBackground
+    
+    view.addSubview(cornedTopView)
     
     logoView.frame = CGRect(x: view.center.x - 70,
                             y: 110,
@@ -783,7 +790,8 @@ extension ShopViewController: UICollectionViewDelegate {
       }
     }
     
-    logoView.layer.position = CGPoint(x: logoView.layer.position.x, y: y - 20)
+    cornedTopView.layer.position = CGPoint(x: cornedTopView.layer.position.x, y: y - 10)
+    logoView.layer.position = CGPoint(x: logoView.layer.position.x, y: y - 30)
     headerImageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: height)
   }
 }
