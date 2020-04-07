@@ -146,7 +146,7 @@ extension HomeViewController {
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
-      groupFractionalWidth = CGFloat(0.45)
+      groupFractionalWidth = CGFloat(0.44)
       groupFractionHeigh = CGFloat(0.4)
       
     case (.compact, .compact):

@@ -613,7 +613,7 @@ extension ShopViewController {
     
     cornedTopView.frame = CGRect(x: 0, y: collectionView.contentInset.top, width: UIScreen.main.bounds.size.width, height: 50)
     cornedTopView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-    cornedTopView.layer.cornerRadius = 25
+    cornedTopView.layer.cornerRadius = 15
     cornedTopView.backgroundColor = .systemGroupedBackground
     
     view.addSubview(cornedTopView)

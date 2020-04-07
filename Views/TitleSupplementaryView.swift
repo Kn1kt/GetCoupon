@@ -39,6 +39,9 @@ extension TitleSupplementaryView {
     addSubview(label)
     addSubview(showMoreButton)
     
+    showMoreButton.isEnabled = false
+    showMoreButton.isHidden = true
+    
     let inset = CGFloat(10)
     NSLayoutConstraint.activate([
       label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
