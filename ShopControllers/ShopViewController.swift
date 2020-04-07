@@ -119,6 +119,16 @@ class ShopViewController: UIViewController {
 //    }
 //  }
   
+//  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+//    if let _ = touches.first(where: { $0.view == popupView }) {
+//      print("CATCH")
+//      panRecognizer.state = .began
+//      return
+//    }
+//    
+//    super.touchesBegan(touches, with: event)
+//  }
+  
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
     
