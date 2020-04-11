@@ -98,6 +98,10 @@ class ShopViewController: UIViewController {
     configureDataSource()
     
     layoutPopupView()
+    tapRecognizer.addTarget(self, action: #selector(closePopupView))
+    tapRecognizer.delegate = self
+    overlayView.addGestureRecognizer(tapRecognizer)
+    
     panRecognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
     panRecognizer.delegate = popupView
     popupView.addGestureRecognizer(panRecognizer)
@@ -263,6 +267,7 @@ class ShopViewController: UIViewController {
   private var animationProgress = [CGFloat]()
   
   private let panRecognizer = UIPanGestureRecognizer()
+  private let tapRecognizer = UITapGestureRecognizer()
   
   /// Animates the transition, if the animation is not already running.
   private func animateTransitionIfNeeded(to state: State, duration: TimeInterval) {
@@ -380,7 +385,7 @@ class ShopViewController: UIViewController {
     animateTransitionIfNeeded(to: .open, duration: 0.5)
   }
   
-  private func closePopupView() {
+  @objc private func closePopupView() {
     animateTransitionIfNeeded(to: .closed, duration: 0.5)
   }
   
@@ -882,5 +887,17 @@ extension ShopViewController {
     } else {
       popupView.expirationDateLabel.text = "Expire instantly"
     }
+  }
+}
+
+// MARK: - Tap To Close Coupon Ciew
+extension ShopViewController: UIGestureRecognizerDelegate {
+  
+  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+    if currentState == .open {
+      return true
+    }
+    
+    return false
   }
 }
