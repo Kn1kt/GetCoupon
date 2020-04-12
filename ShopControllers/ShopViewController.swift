@@ -103,8 +103,13 @@ class ShopViewController: UIViewController {
     overlayView.addGestureRecognizer(tapRecognizer)
     
     panRecognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
-    panRecognizer.delegate = popupView
+//    panRecognizer.delegate = popupView
+    panRecognizer.delegate = self
     popupView.addGestureRecognizer(panRecognizer)
+    
+    let r = UIPanGestureRecognizer()
+    r.delegate = self
+    overlayView.addGestureRecognizer(r)
     
     layoutNavBarPlaceholder()
     
@@ -121,16 +126,6 @@ class ShopViewController: UIViewController {
 //      label.layer.position = CGPoint(x: label.layer.position.x,
 //                                     y: label.layer.position.y + label.bounds.height)
 //    }
-//  }
-  
-//  override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//    if let _ = touches.first(where: { $0.view == popupView }) {
-//      print("CATCH")
-//      panRecognizer.state = .began
-//      return
-//    }
-//    
-//    super.touchesBegan(touches, with: event)
 //  }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -258,7 +253,11 @@ class ShopViewController: UIViewController {
   }
   
   /// The current state of the animation. This variable is changed only when an animation completes.
-  private var currentState: State = .closed
+  private var currentState: State = .closed {
+    willSet {
+      print(newValue)
+    }
+  }
   
   /// All of the currently running animators.
   private var runningAnimators = [UIViewPropertyAnimator]()
@@ -339,9 +338,12 @@ class ShopViewController: UIViewController {
       animationProgress = runningAnimators.map { $0.fractionComplete }
       
     case .changed:
+      guard !runningAnimators.isEmpty else { return }
       // variable setup
       let translation = recognizer.translation(in: popupView)
       var fraction = -translation.y / popupOffset
+      
+      
       
       // adjust the fraction for the current state and reversed state
       if currentState == .open { fraction *= -1 }
@@ -353,10 +355,11 @@ class ShopViewController: UIViewController {
       }
       
     case .ended:
+      guard !runningAnimators.isEmpty else { return }
+
       // variable setup
       let yVelocity = recognizer.velocity(in: popupView).y
       let shouldClose = yVelocity > 0
-      
       // if there is no motion, continue all animations and exit early
       if yVelocity == 0 {
         runningAnimators.forEach { $0.continueAnimation(withTimingParameters: nil, durationFactor: 0) }
@@ -369,8 +372,10 @@ class ShopViewController: UIViewController {
         if !shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
         if shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
       case .closed:
-        if shouldClose && !runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
-        if !shouldClose && runningAnimators[0].isReversed { runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+        if shouldClose && !runningAnimators[0].isReversed {
+          runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
+        if !shouldClose && runningAnimators[0].isReversed {
+          runningAnimators.forEach { $0.isReversed = !$0.isReversed } }
       }
       
       // continue all animations
@@ -894,10 +899,15 @@ extension ShopViewController {
 extension ShopViewController: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-    if currentState == .open {
-      return true
+    
+    if gestureRecognizer == panRecognizer {
+      return currentState == .open
     }
     
-    return false
+    if gestureRecognizer == tapRecognizer {
+      return currentState == .open
+    }
+    
+    return true
   }
 }
