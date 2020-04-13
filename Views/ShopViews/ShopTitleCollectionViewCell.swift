@@ -46,16 +46,15 @@ extension ShopTitleCollectionViewCell {
     
     let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
-      titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: spacing),
-      titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -spacing),
+      titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-      titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
       
-      subtitleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: spacing),
-      subtitleLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -spacing),
+      subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2),
-      subtitleLabel.lastBaselineAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing),
-      subtitleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+      subtitleLabel.lastBaselineAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
     ])
   }
 }

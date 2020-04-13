@@ -57,6 +57,7 @@ extension HomeDetailCollectionViewCell {
     separatorView.backgroundColor = .systemGray4
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
+    titleLabel.numberOfLines = 2
     titleLabel.adjustsFontForContentSizeCategory = true
     
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -77,8 +78,9 @@ extension HomeDetailCollectionViewCell {
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.3),
       
       addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      addToFavoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-      addToFavoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 2.0),
+//      addToFavoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+      addToFavoritesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+      addToFavoritesButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.32),
       addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
       
       titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
@@ -86,7 +88,8 @@ extension HomeDetailCollectionViewCell {
       titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
       titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
       
-      subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToFavoritesButton.bottomAnchor, multiplier: 1.0),
+//      subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToFavoritesButton.bottomAnchor, multiplier: 1.0),
+      subtitleLabel.topAnchor.constraint(equalTo: addToFavoritesButton.bottomAnchor, constant: spacing),
       subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       

@@ -109,7 +109,8 @@ class ShopViewController: UIViewController {
     
     let r = UIPanGestureRecognizer()
     r.delegate = self
-    overlayView.addGestureRecognizer(r)
+//    overlayView.addGestureRecognizer(r)
+    view.addGestureRecognizer(r)
     
     layoutNavBarPlaceholder()
     
@@ -772,7 +773,6 @@ extension ShopViewController: UICollectionViewDelegate {
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
     let y = 200 - (scrollView.contentOffset.y + 200)
-    
     let height = min(max(y, 0), UIScreen.main.bounds.size.height)
     
     if let navBar = navigationController?.navigationBar {
@@ -786,12 +786,12 @@ extension ShopViewController: UICollectionViewDelegate {
       }
       
       // Swap placeholder to navigation bar or vice versa
-      if navBar.backgroundImage(for: .default) != nil
-        && y < pointOfFade {
-        if label.layer.position.y < 10 {
+      if navBar.backgroundImage(for: .default) != nil && y < pointOfFade {
+        if label.frame.minY == 0 {
           label.layer.position = CGPoint(x: label.layer.position.x,
                                          y: label.layer.position.y + label.bounds.height)
         }
+        
         navBar.setBackgroundImage(nil, for: .default)
         navBar.shadowImage = nil
         UIView.animate(withDuration: 0.3) {
@@ -804,10 +804,6 @@ extension ShopViewController: UICollectionViewDelegate {
         
       } else if navBar.backgroundImage(for: .default) == nil
         && y > pointOfFade {
-        if label.layer.position.y > 10 {
-          label.layer.position = CGPoint(x: label.layer.position.x,
-                                         y: label.layer.position.y - label.bounds.height)
-        }
         navBarPlaceholder.alpha = alpha
         navBarShadow.alpha = alpha
         navBar.setBackgroundImage(UIImage(), for: .default)
@@ -899,15 +895,19 @@ extension ShopViewController {
 extension ShopViewController: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-    
     if gestureRecognizer == panRecognizer {
-      return currentState == .open
+//      return currentState == .open
+      return true
     }
     
     if gestureRecognizer == tapRecognizer {
       return currentState == .open
     }
     
-    return true
+    if currentState == .open || !runningAnimators.isEmpty {
+      return true
+    }
+    
+    return false
   }
 }
