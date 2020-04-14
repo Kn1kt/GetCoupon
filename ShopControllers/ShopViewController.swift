@@ -896,8 +896,7 @@ extension ShopViewController: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
     if gestureRecognizer == panRecognizer {
-//      return currentState == .open
-      return true
+      return currentState == .open
     }
     
     if gestureRecognizer == tapRecognizer {

@@ -55,6 +55,10 @@
 		F3B80405238063A100481152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B80404238063A100481152 /* HomeViewController.swift */; };
 		F3B804072380647000481152 /* HomeDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804062380647000481152 /* HomeDataController.swift */; };
 		F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */; };
+		F3D9DC8B2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */; };
+		F3D9DC8D24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */; };
+		F3D9DC8F2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */; };
+		F3D9DC9124465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC9024465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift */; };
 		F3E0AEAF2385DBC70063E2C8 /* ShowMoreUIButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */; };
 		F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEB0238804A10063E2C8 /* HomeDetailViewController.swift */; };
 		F3E0AEB5238882490063E2C8 /* HomeDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEB4238882490063E2C8 /* HomeDetailCollectionViewCell.swift */; };
@@ -145,6 +149,10 @@
 		F3B80404238063A100481152 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F3B804062380647000481152 /* HomeDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataController.swift; sourceTree = "<group>"; };
 		F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
+		F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextAndAccessoryTableViewCell.swift; sourceTree = "<group>"; };
+		F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextAndSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDoubleTextAndAccessoryTableViewCell.swift; sourceTree = "<group>"; };
+		F3D9DC9024465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDoubleTextAndSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreUIButton.swift; sourceTree = "<group>"; };
 		F3E0AEB0238804A10063E2C8 /* HomeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailViewController.swift; sourceTree = "<group>"; };
 		F3E0AEB4238882490063E2C8 /* HomeDetailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -403,6 +411,10 @@
 			isa = PBXGroup;
 			children = (
 				F3ED2D6323983E7B00726045 /* SettingsTableViewController.swift */,
+				F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */,
+				F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */,
+				F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */,
+				F3D9DC9024465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift */,
 			);
 			path = SettingsControllers;
 			sourceTree = "<group>";
@@ -647,6 +659,7 @@
 				F3F34466241E84DA005EF34C /* FavoritesViewModel.swift in Sources */,
 				F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */,
 				F3E0AEC0238C868C0063E2C8 /* AddToFavoritesButton.swift in Sources */,
+				F3D9DC8D24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift in Sources */,
 				F3E0AEAF2385DBC70063E2C8 /* ShowMoreUIButton.swift in Sources */,
 				F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */,
 				F34251E6239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift in Sources */,
@@ -671,6 +684,7 @@
 				F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */,
 				F353625323CE09EC003D7BAB /* NetworkShopCategoryData.swift in Sources */,
 				F348667123CBF01D004682B3 /* SetupPreviewImageOperation.swift in Sources */,
+				F3D9DC8B2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift in Sources */,
 				F3B80405238063A100481152 /* HomeViewController.swift in Sources */,
 				F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */,
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
@@ -681,10 +695,12 @@
 				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */,
 				F3B804072380647000481152 /* HomeDataController.swift in Sources */,
+				F3D9DC8F2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift in Sources */,
 				F348666923CA6CC0004682B3 /* CacheController.swift in Sources */,
 				F34251E4239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift in Sources */,
 				F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */,
 				F34251EC239DA83E008ABD8C /* ShopCategoryData.swift in Sources */,
+				F3D9DC9124465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift in Sources */,
 				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
 				F3ED2D762399B31000726045 /* ShopData.swift in Sources */,
 				F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */,
