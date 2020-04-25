@@ -254,11 +254,7 @@ class ShopViewController: UIViewController {
   }
   
   /// The current state of the animation. This variable is changed only when an animation completes.
-  private var currentState: State = .closed {
-    willSet {
-      print(newValue)
-    }
-  }
+  private var currentState: State = .closed
   
   /// All of the currently running animators.
   private var runningAnimators = [UIViewPropertyAnimator]()
@@ -412,7 +408,7 @@ extension State {
     }
 }
 
-// MARK: - Layouts
+// MARK: - Popup Layouts
 extension ShopViewController {
   
   private func layoutPopupView() {
@@ -517,7 +513,7 @@ extension ShopViewController {
     
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 55, leading: 10, bottom: 0, trailing: 10)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 50, leading: 10, bottom: 10, trailing: 10)
     
     return section
   }

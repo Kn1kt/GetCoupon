@@ -54,7 +54,7 @@ extension ShopTitleCollectionViewCell {
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2),
-      subtitleLabel.lastBaselineAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
     ])
   }
 }

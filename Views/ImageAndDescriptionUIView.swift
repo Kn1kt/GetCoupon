@@ -31,9 +31,9 @@ extension ImageAndDescriptionUIView {
     imageDescription.translatesAutoresizingMaskIntoConstraints = false
     button.translatesAutoresizingMaskIntoConstraints = false
     
-    addSubview(button)
-    addSubview(imageDescription)
+    button.addSubview(imageDescription)
     button.addSubview(imageView)
+    addSubview(button)
     
     imageView.backgroundColor = .clear
     imageView.clipsToBounds = true
@@ -48,21 +48,20 @@ extension ImageAndDescriptionUIView {
     let spacing = CGFloat(10)
     
     NSLayoutConstraint.activate([
-      button.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
-      button.centerXAnchor.constraint(equalTo: centerXAnchor),
-      button.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4),
-      button.widthAnchor.constraint(equalTo: imageView.heightAnchor),
+      button.leadingAnchor.constraint(equalTo: leadingAnchor),
+      button.trailingAnchor.constraint(equalTo: trailingAnchor),
+      button.topAnchor.constraint(equalTo: topAnchor),
+      button.bottomAnchor.constraint(equalTo: bottomAnchor),
       
       imageView.leadingAnchor.constraint(equalTo: button.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: button.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: button.topAnchor),
-      imageView.bottomAnchor.constraint(equalTo: button.bottomAnchor),
+      imageView.heightAnchor.constraint(equalTo: button.widthAnchor, multiplier: 0.22),
       
-      imageDescription.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
-      imageDescription.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
-      imageDescription.topAnchor.constraint(equalTo: button.bottomAnchor, constant: spacing),
-      imageDescription.bottomAnchor.constraint(equalTo: bottomAnchor),
-      imageDescription.centerXAnchor.constraint(equalTo: centerXAnchor)
+      imageDescription.leadingAnchor.constraint(equalTo: button.leadingAnchor),
+      imageDescription.trailingAnchor.constraint(equalTo: button.trailingAnchor),
+      imageDescription.firstBaselineAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
+      imageDescription.bottomAnchor.constraint(equalTo: button.bottomAnchor)
     ])
   }
 }

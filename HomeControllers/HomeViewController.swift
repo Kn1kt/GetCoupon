@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
   private let defaultSheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
-  private let viewModel: HomeViewModel = HomeViewModel()
+  private let viewModel = HomeViewModel()
   
   static let titleElementKind = "title-element-kind"
   static let showMoreElementKind = "show-more-element-kind"

@@ -43,6 +43,15 @@ class Navigator {
     showShop(target: vc, sender: sender)
   }
   
+  func showFedbackVC(sender: UIViewController,
+                     feedbackType: FeedbackViewModel.FeedbackType) {
+    let vm = FeedbackViewModel(feedbackType: feedbackType)
+    let nc = FeedbackViewController.createWith(viewModel: vm)
+    
+    sender.present(nc, animated: true)
+//    showFeedback(target: vc, sender: sender)
+  }
+  
   // Need test this implementation
   private func show(target: UIViewController, sender: UIViewController) {
     if let nav = sender.navigationController {
@@ -57,6 +66,13 @@ class Navigator {
   
   private func showShop(target: UIViewController, sender: UIViewController) {
     let navController = UINavigationController(rootViewController: target)
+    sender.present(navController, animated: true)
+  }
+  
+  private func showFeedback(target: FeedbackViewController, sender: UIViewController) {
+//    let navController = UINavigationController(rootViewController: target)
+//    navController.modalPresentationStyle = .fullScreen
+    let navController = target.navigationController!
     sender.present(navController, animated: true)
   }
 }

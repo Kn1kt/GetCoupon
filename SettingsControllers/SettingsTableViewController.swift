@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class SettingsTableViewController: UITableViewController {
+  
+  private let disposeBag = DisposeBag()
+  private let defaultSheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+  private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
+  
+  private let viewModel = SettingsViewModel()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -34,7 +42,7 @@ class SettingsTableViewController: UITableViewController {
     case 0:
       return 5
     case 1:
-      return 2
+      return 3
     default:
       fatalError("Overbound Sections")
     }
@@ -121,6 +129,8 @@ class SettingsTableViewController: UITableViewController {
         return "Rate Us"
       case 1:
         return "Terms of Service"
+      case 2:
+        return "To Contact Us"
       default:
         fatalError("Overbound Rows")
       }
@@ -194,7 +204,7 @@ class SettingsTableViewController: UITableViewController {
   
 }
 
-// MARK: - Clear Buttons
+// MARK: - Actions
 extension SettingsTableViewController {
   
   override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -216,6 +226,21 @@ extension SettingsTableViewController {
     
     if indexPath.section == 0, indexPath.row == 2 {
       ModelController.shared.removeCollectionsFromStorage()
+    }
+    
+    if indexPath.section == 1, indexPath.row == 1 {
+      
+      let storyboard = UIStoryboard(name: "SettingsTermsOfService", bundle: nil)
+      let vc = storyboard.instantiateViewController(identifier: "SettingsTermsOfService")
+      show(vc, sender: self)
+    }
+    
+    if indexPath.section == 0, indexPath.row == 4 {
+      viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
+    }
+    
+    if indexPath.section == 1, indexPath.row == 2 {
+      viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
     }
     
     tableView.deselectRow(at: indexPath, animated: true)

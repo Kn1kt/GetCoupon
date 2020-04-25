@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Feedback-->
+        <scene sceneID="e5R-Pl-bum">
+            <objects>
+                <viewController storyboardIdentifier="SettingsFeedbackViewController" id="VMI-eV-Zyb" customClass="FeedbackViewController" customModule="GetCoupon" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8tF-1B-toe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gMy-6P-tVX">
+                                <rect key="frame" x="0.0" y="152" width="414" height="744"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="tintColor" name="BlueTintColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="General Feedback" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xh6-s1-njZ" userLabel="TitleLabel">
+                                <rect key="frame" x="15" y="103" width="384" height="16"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Briefly explain what you love, or what could improve." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eCz-e5-aW9" userLabel="SubtitleLabel">
+                                <rect key="frame" x="15" y="127" width="384" height="15"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="eCz-e5-aW9" firstAttribute="leading" secondItem="4Qe-JD-o39" secondAttribute="leading" constant="15" id="EkY-UF-1hQ"/>
+                            <constraint firstItem="gMy-6P-tVX" firstAttribute="top" secondItem="eCz-e5-aW9" secondAttribute="bottom" constant="10" id="P4b-4r-zHt"/>
+                            <constraint firstAttribute="bottom" secondItem="gMy-6P-tVX" secondAttribute="bottom" id="TIM-k0-lKh"/>
+                            <constraint firstItem="eCz-e5-aW9" firstAttribute="top" secondItem="Xh6-s1-njZ" secondAttribute="bottom" constant="8" id="UnI-iV-EW0"/>
+                            <constraint firstItem="gMy-6P-tVX" firstAttribute="trailing" secondItem="4Qe-JD-o39" secondAttribute="trailing" id="ZLM-hc-8CL"/>
+                            <constraint firstItem="Xh6-s1-njZ" firstAttribute="leading" secondItem="4Qe-JD-o39" secondAttribute="leading" constant="15" id="gFv-ya-GHc"/>
+                            <constraint firstItem="gMy-6P-tVX" firstAttribute="leading" secondItem="4Qe-JD-o39" secondAttribute="leading" id="gvd-kb-QkK"/>
+                            <constraint firstItem="Xh6-s1-njZ" firstAttribute="top" secondItem="4Qe-JD-o39" secondAttribute="top" constant="15" id="m9b-W4-EXq"/>
+                            <constraint firstItem="4Qe-JD-o39" firstAttribute="trailing" secondItem="Xh6-s1-njZ" secondAttribute="trailing" constant="15" id="sXb-a0-HAn"/>
+                            <constraint firstItem="4Qe-JD-o39" firstAttribute="trailing" secondItem="eCz-e5-aW9" secondAttribute="trailing" constant="15" id="t8H-g4-OYa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4Qe-JD-o39"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Feedback" largeTitleDisplayMode="never" id="Uu9-ky-lvy">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="EoH-c2-P63">
+                            <color key="tintColor" name="BlueTintColor"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Send" id="vJk-SN-7Co">
+                            <color key="tintColor" name="BlueTintColor"/>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="EoH-c2-P63" id="tAr-Id-NFm"/>
+                        <outlet property="sendButton" destination="vJk-SN-7Co" id="zfk-hV-s5D"/>
+                        <outlet property="subtitleLabel" destination="eCz-e5-aW9" id="JTc-VM-Qcp"/>
+                        <outlet property="textView" destination="gMy-6P-tVX" id="tSZ-K5-c5D"/>
+                        <outlet property="textViewBottom" destination="TIM-k0-lKh" id="9Pb-NZ-1Sz"/>
+                        <outlet property="titleLabel" destination="Xh6-s1-njZ" id="cKk-cG-XzJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dDp-dY-Ygu" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="566.66666666666674" y="-3.3482142857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fLh-VH-EiS">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pDK-Fe-tfq" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="SettingsFeedbackNavigationController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="gOR-Km-oNu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5Wp-pt-IDa">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="VMI-eV-Zyb" kind="relationship" relationship="rootViewController" id="Bvr-v2-XIc"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="-343.47826086956525" y="-3.3482142857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <namedColor name="BlueTintColor">
+            <color red="0.32300001382827759" green="0.53200000524520874" blue="0.85500001907348633" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>
