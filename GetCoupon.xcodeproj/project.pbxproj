@@ -39,6 +39,7 @@
 		F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */; };
 		F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */; };
 		F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */; };
+		F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35EE48924576B5000430002 /* UserDefaultKeys.swift */; };
 		F371E478242640D200301D5E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E477242640D200301D5E /* RxSwift */; };
 		F371E47A242640D200301D5E /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = F371E479242640D200301D5E /* RxTest */; };
 		F371E47C242640D200301D5E /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = F371E47B242640D200301D5E /* RxRelay */; };
@@ -146,6 +147,7 @@
 		F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
 		F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreSupplementaryView.swift; sourceTree = "<group>"; };
 		F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCaptionImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		F35EE48924576B5000430002 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		F3888C92244F6817002B6115 /* SettingsFeedbackScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsFeedbackScreen.storyboard; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 			children = (
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
+				F35EE48924576B5000430002 /* UserDefaultKeys.swift */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
 				F353624C23CE06D2003D7BAB /* ImageOperations */,
@@ -732,6 +735,7 @@
 				F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */,
 				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */,
+				F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */,
 				F3B804072380647000481152 /* HomeDataController.swift in Sources */,
 				F3D9DC8F2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift in Sources */,
 				F348666923CA6CC0004682B3 /* CacheController.swift in Sources */,

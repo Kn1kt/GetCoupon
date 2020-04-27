@@ -494,4 +494,11 @@ extension CacheController {
       debugPrint("Unexpected Error: \(error)")
     }
   }
+  
+  func clearImageCache() {
+    categories().forEach { category in
+      deleteDefaultImage(from: category)
+      category.shops.forEach(deleteImages(from:))
+    }
+  }
 }

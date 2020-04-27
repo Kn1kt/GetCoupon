@@ -20,6 +20,7 @@ class HomeViewModel {
   private var model: HomeDataController!
   
   // MARK: - Input
+  /// Receive refresh controller pull down event
   let refresh = BehaviorRelay<Bool>(value: false)
   
   let showDetailVC = PublishRelay<(ShowMoreUIButton, UIViewController)>()
@@ -35,9 +36,11 @@ class HomeViewModel {
       .share()
   }
   
+  /// Current status of refresh controller
   private let isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  private let _endRefreshing = BehaviorRelay<Bool>(value: true)
+  /// Send to refresh controller terminating events
+  private let _endRefreshing: BehaviorRelay<Bool>!
   
   var endRefreshing: Driver<Bool> {
     return _endRefreshing
@@ -48,6 +51,9 @@ class HomeViewModel {
   init() {
     self.model = ModelController.shared.homeDataController
     self.navigator = Navigator()
+    
+    let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
+    _endRefreshing = BehaviorRelay<Bool>(value: forceUpdating)
     
     bindOutput()
     bindActions()

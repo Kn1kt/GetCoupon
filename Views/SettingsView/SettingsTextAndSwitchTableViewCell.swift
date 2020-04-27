@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import RxSwift
 
 class SettingsTextAndSwitchTableViewCell: UITableViewCell {
+  
+  var disposeBag = DisposeBag()
   
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var switcher: UISwitch!
@@ -25,4 +28,7 @@ class SettingsTextAndSwitchTableViewCell: UITableViewCell {
     // Configure the view for the selected state
   }
   
+  override func prepareForReuse() {
+    disposeBag = DisposeBag()
+  }
 }

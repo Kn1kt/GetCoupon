@@ -228,11 +228,23 @@ extension ModelController {
     _favoriteCollections.accept([])
   }
   
+  func clearImageCache() {
+    let cache = CacheController()
+    
+    cache.clearImageCache()
+  }
+  
   func removeCollectionsFromStorage() {
     let cache = CacheController()
-    try! cache.realm.write {
-      cache.realm.deleteAll()
+    
+    do {
+      try cache.realm.write {
+        cache.realm.deleteAll()
+      }
+    } catch {
+      debugPrint(error.localizedDescription)
     }
+    
     debugPrint("Deleted From Storage")
   }
 }

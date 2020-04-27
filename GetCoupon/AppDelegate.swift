@@ -14,9 +14,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
     
+    if let updatingKey = UserDefaults.standard.object(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue) as? Bool,
+      updatingKey == false {
+      ModelController.shared.loadCollectionsFromStorage()
+      return true
+      
+    } else {
+      UserDefaults.standard.set(true, forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
+    }
+    
     ModelController.shared.loadCollectionsFromStorage()
     ModelController.shared.setupCollections()
-
+    
     return true
   }
   
