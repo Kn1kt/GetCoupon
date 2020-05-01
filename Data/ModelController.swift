@@ -18,6 +18,9 @@ class ModelController {
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   
+  /// System Permission to Send Push Notifications
+  let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
+  
   private let _collections =  BehaviorRelay<[ShopCategoryData]>(value: [])
   
   var collections: Observable<[ShopCategoryData]> {

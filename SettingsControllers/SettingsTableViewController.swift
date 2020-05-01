@@ -181,16 +181,10 @@ extension SettingsTableViewController {
     cell.titleLabel.text = "Push Notifications"
     cell.subtitleLabel.text = "Receive push notifications of new promo codes"
     
-    viewModel.pushNotificationsDisabled
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] isOn in
+    viewModel.pushNotificationsSwitherShould
+      .drive(onNext: { [weak self] isOn in
         cell.switcher.setOn(isOn, animated: true)
-        let alertController = UIAlertController(title: "No Access to Notifications",
-                                                message: "Please, allow notifications for GetCoupon app in settings.",
-                                                preferredStyle: .alert)
-        let action = UIAlertAction(title: "OK", style: .default, handler: nil)
-        alertController.addAction(action)
-        self?.present(alertController, animated: true, completion: nil)
+        self?.showPushDisabledAlert()
       })
       .disposed(by: cell.disposeBag)
     
@@ -213,13 +207,24 @@ extension SettingsTableViewController {
       cell.titleLabel.text = "Receive Email Notifications"
       cell.subtitleLabel.text = "Every week you will receive an email with new promotional codes"
       
-      cell.switcher.isOn = false
-  //    cell.switcher.rx.isOn
-  //      .skip(1)
-  //      .subscribeOn(eventScheduler)
-  //      .observeOn(eventScheduler)
-  //      .bind(to: viewModel.forceCatalogUpdating)
-  //      .disposed(by: cell.disposeBag)
+      cell.switcher.isOn = viewModel.emailNotifications.value
+      cell.switcher.rx.isOn
+        .skip(1)
+        .filter { $0 }
+        .subscribeOn(eventScheduler)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onNext: { [weak self] _ in
+          self?.showEmailAlert(switcher: cell.switcher)
+        })
+        .disposed(by: cell.disposeBag)
+      
+      cell.switcher.rx.isOn
+        .skip(1)
+        .debounce(RxTimeInterval.milliseconds(500), scheduler: defaultSheduler)
+        .subscribeOn(defaultSheduler)
+        .observeOn(defaultSheduler)
+        .bind(to: viewModel.emailNotifications)
+        .disposed(by: cell.disposeBag)
       
       return cell
     }
@@ -235,7 +240,6 @@ extension SettingsTableViewController {
     cell.switcher.isOn = viewModel.forceCatalogUpdating.value
     cell.switcher.rx.isOn
       .skip(1)
-//      .map { cell.switcher.isOn }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .bind(to: viewModel.forceCatalogUpdating)
@@ -327,27 +331,7 @@ extension SettingsTableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     
     if indexPath.section == 0, indexPath.row == 3 {
-      let title = "Deleting Cached Images"
-      let message = "Are u actually wanna delete all cached images"
-      let cancelButtonTile = "Cancel"
-      let destructiveButtonTitle = "Clear Cache"
-      
-      let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
-      
-      let cancelAction = UIAlertAction(title: cancelButtonTile, style: .cancel) { _ in
-        debugPrint("The cancel action occurred.")
-      }
-      let destructiveAction = UIAlertAction(title: destructiveButtonTitle, style: .destructive) { [weak self] _ in
-        guard let self = self else { return }
-        
-        self.viewModel.clearCache.accept(())
-        debugPrint("The destructive action occurred.")
-      }
-      
-      alertController.addAction(cancelAction)
-      alertController.addAction(destructiveAction)
-      
-      present(alertController, animated: true, completion: nil)
+      showClearCacheAlert()
       tableView.deselectRow(at: indexPath, animated: true)
     }
     
@@ -368,6 +352,108 @@ extension SettingsTableViewController {
       tableView.deselectRow(at: indexPath, animated: true)
     }
     
-//    tableView.deselectRow(at: indexPath, animated: true)
+  }
+}
+
+  // MARK: - Alerts
+extension SettingsTableViewController {
+  
+  private func showPushDisabledAlert() {
+    let alertController = UIAlertController(title: "No Access to Notifications",
+                                            message: "Please, allow notifications for GetCoupon app in settings.",
+                                            preferredStyle: .alert)
+    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(action)
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  private func showEmailAlert(switcher: UISwitch) {
+    var disposeBag: DisposeBag? = DisposeBag()
+    weak var textBox: UITextField?
+    
+    let title = NSLocalizedString("Email Notifications", comment: "")
+    let message = NSLocalizedString("Enter email address for weekly notifications", comment: "")
+    let cancelButtonTitle = NSLocalizedString("Cancel", comment: "")
+    let otherButtonTitle = NSLocalizedString("OK", comment: "")
+    
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    
+    let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { [weak self] _ in
+      print("The Email alert's cancel action occurred.")
+      self?.viewModel.emailNotifications.accept(false)
+      switcher.setOn(false, animated: true)
+      disposeBag = nil
+    }
+    
+    let acceptAction = UIAlertAction(title: otherButtonTitle, style: .default) { [weak self] _ in
+      print("The Email alert's other action occurred.")
+//      self?.viewModel.emailNotifications.accept(true)
+      
+      if let email = textBox?.text {
+        self?.viewModel.userEmail.accept(email)
+      }
+      disposeBag = nil
+    }
+    
+    alertController.addTextField { [weak self] textField in
+      guard let self = self else { return }
+      
+      textBox = textField
+      
+      textField.text = self.viewModel.userEmail.value
+      
+      textField.rx.text
+        .map {
+          guard let text = $0,
+            !text.isEmpty else { return false }
+          
+          if let index = text.firstIndex(of: "@") {
+            let suffix = text.suffix(from: index)
+            if let dotIndex = suffix.firstIndex(of: ".") {
+              let dotSuffix = suffix.suffix(from: dotIndex)
+              if dotSuffix.count > 2 {
+                return true
+              }
+            }
+          }
+          
+          return false
+        }
+        .subscribeOn(self.eventScheduler)
+        .observeOn(MainScheduler.instance)
+        .bind(to: acceptAction.rx.isEnabled)
+        .disposed(by: disposeBag!)
+        
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(acceptAction)
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  private func showClearCacheAlert() {
+    let title = "Deleting Cached Images"
+    let message = "Are u actually wanna delete all cached images"
+    let cancelButtonTile = "Cancel"
+    let destructiveButtonTitle = "Clear Cache"
+    
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+    
+    let cancelAction = UIAlertAction(title: cancelButtonTile, style: .cancel) { _ in
+      debugPrint("The cancel action occurred.")
+    }
+    let destructiveAction = UIAlertAction(title: destructiveButtonTitle, style: .destructive) { [weak self] _ in
+      guard let self = self else { return }
+      
+      self.viewModel.clearCache.accept(())
+      debugPrint("The destructive action occurred.")
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(destructiveAction)
+    
+    present(alertController, animated: true, completion: nil)
   }
 }

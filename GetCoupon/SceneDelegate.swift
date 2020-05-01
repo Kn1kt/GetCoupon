@@ -52,9 +52,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   private func checkNotifications() {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { setting in
-      if setting.authorizationStatus != .authorized {
-        UserDefaults.standard.set(false, forKey: UserDefaultKeys.pushNotifications.rawValue)
+      if setting.authorizationStatus == .authorized {
+//        UserDefaults.standard.set(false, forKey: UserDefaultKeys.pushNotifications.rawValue)
+        ModelController.shared.systemPermissionToPush.accept(true)
+      } else {
+        ModelController.shared.systemPermissionToPush.accept(false)
       }
+      
     }
   }
 }
