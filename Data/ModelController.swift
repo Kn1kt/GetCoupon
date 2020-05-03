@@ -240,14 +240,16 @@ extension ModelController {
   func removeCollectionsFromStorage() {
     let cache = CacheController()
     
-    do {
-      try cache.realm.write {
-        cache.realm.deleteAll()
-      }
-    } catch {
-      debugPrint(error.localizedDescription)
-    }
-    
-    debugPrint("Deleted From Storage")
+    cache.removeCollectionsFromStorage()
+//    do {
+//      cache.clearImageCache()
+//      try cache.realm.write {
+//        cache.realm.deleteAll()
+//      }
+//    } catch {
+//      debugPrint(error.localizedDescription)
+//    }
+//
+//    debugPrint("Deleted From Storage")
   }
 }

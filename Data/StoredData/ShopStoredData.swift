@@ -11,6 +11,8 @@ import RealmSwift
 
 class ShopStoredData: Object {
   
+  @objc dynamic var category: ShopCategoryStoredData! = nil
+  
   @objc dynamic var name: String = ""
   @objc dynamic var shopDescription: String?
   @objc dynamic var shopShortDescription: String = ""
@@ -39,7 +41,8 @@ class ShopStoredData: Object {
                    imageLink: String = "",
                    previewImageLink: String = "",
                    placeholderColor: [Float] = [],
-                   promoCodes: [PromoCodeStoredData] = []) {
+                   promoCodes: [PromoCodeStoredData] = [],
+                   category: ShopCategoryStoredData) {
     self.init()
     self.name = name
     self.shopDescription = description
@@ -48,6 +51,7 @@ class ShopStoredData: Object {
     self.websiteLink = websiteLink
     self.imageLink = imageLink
     self.previewImageLink = previewImageLink
+    self.category = category
     
     self.placeholderColor.append(objectsIn: placeholderColor)
     
@@ -62,7 +66,7 @@ class ShopStoredData: Object {
 // MARK: - NetworkShopData Compatible
 extension ShopStoredData {
   
-  convenience init(_ networkShop: NetworkShopData) {
+  convenience init(_ networkShop: NetworkShopData, category: ShopCategoryStoredData) {
     self.init(name: networkShop.name,
               description: networkShop.shopDescription,
               shortDescription: networkShop.shopShortDescription,
@@ -71,6 +75,7 @@ extension ShopStoredData {
               imageLink: networkShop.imageLink,
               previewImageLink: networkShop.previewImageLink,
               placeholderColor: networkShop.placeholderColor,
-              promoCodes: networkShop.promoCodes.map(PromoCodeStoredData.init))
+              promoCodes: networkShop.promoCodes.map(PromoCodeStoredData.init),
+              category: category)
   }
 }

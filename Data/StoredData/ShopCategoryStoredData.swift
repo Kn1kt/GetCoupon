@@ -42,7 +42,10 @@ extension ShopCategoryStoredData {
   convenience init(_ networkCategory: NetworkShopCategoryData) {
     self.init(categoryName: networkCategory.categoryName,
               defaultImageLink: networkCategory.defaultImageLink,
-              shops: networkCategory.shops.map(ShopStoredData.init),
+//              shops: networkCategory.shops.map(ShopStoredData.init),
+              shops: [],
               tags: networkCategory.tags)
+    
+    self.shops.append(objectsIn: networkCategory.shops.map { ShopStoredData($0, category: self) })
   }
 }

@@ -22,10 +22,36 @@ class SettingsTableViewController: UITableViewController {
     super.viewDidLoad()
     
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+    
+    bindViewModel()
+    bindUI()
   }
   
   private func bindViewModel() {
-      
+    tableView.rx.itemSelected
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .filter { indexPath in
+        if indexPath.section == 1, indexPath.row == 1 {
+          return false
+        }
+        
+        return true
+      }
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] indexPath in
+        self.tableView.deselectRow(at: indexPath, animated: true)
+      })
+      .disposed(by: disposeBag)
+    
+    tableView.rx.itemSelected
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] indexPath in
+        self.showScreen(for: indexPath)
+      })
+      .disposed(by: disposeBag)
   }
   
   private func bindUI() {
@@ -122,52 +148,6 @@ class SettingsTableViewController: UITableViewController {
       fatalError("Overbound Sections")
     }
   }
-  
-  /*
-   // Override to support conditional editing of the table view.
-   override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-   // Return false if you do not want the specified item to be editable.
-   return true
-   }
-   */
-  
-  /*
-   // Override to support editing the table view.
-   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-   if editingStyle == .delete {
-   // Delete the row from the data source
-   tableView.deleteRows(at: [indexPath], with: .fade)
-   } else if editingStyle == .insert {
-   // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-   }
-   }
-   */
-  
-  /*
-   // Override to support rearranging the table view.
-   override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-   
-   }
-   */
-  
-  /*
-   // Override to support conditional rearranging of the table view.
-   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-   // Return false if you do not want the item to be re-orderable.
-   return true
-   }
-   */
-  
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destination.
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
 }
   
   // MARK: - Configuring Cells
@@ -328,36 +308,45 @@ extension SettingsTableViewController {
     }
   }
   
-  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+  private func showScreen(for indexPath: IndexPath) {
     
-    if indexPath.section == 0, indexPath.row == 3 {
-      showClearCacheAlert()
-      tableView.deselectRow(at: indexPath, animated: true)
+    switch indexPath.section {
+    case 0:
+      switch indexPath.row {
+      case 3:
+        showClearCacheAlert()
+      case 4:
+        viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
+      default:
+        fatalError("Overbound Rows")
+      }
+    case 1:
+      switch indexPath.row {
+      case 0:
+        showRateUsAlert()
+      case 1:
+        showTermsOfServiceScreen()
+      case 2:
+        viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
+      default:
+        fatalError("Overbound Rows")
+      }
+    default:
+      fatalError("Overbound Sections")
     }
-    
-    if indexPath.section == 1, indexPath.row == 1 {
-      
-      let storyboard = UIStoryboard(name: "SettingsTermsOfService", bundle: nil)
-      let vc = storyboard.instantiateViewController(identifier: "SettingsTermsOfService")
-      show(vc, sender: self)
-    }
-    
-    if indexPath.section == 0, indexPath.row == 4 {
-      viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
-      tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    if indexPath.section == 1, indexPath.row == 2 {
-      viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
-      tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
+  }
+  
+  private func showTermsOfServiceScreen() {
+    let storyboard = UIStoryboard(name: "SettingsTermsOfService", bundle: nil)
+    let vc = storyboard.instantiateViewController(identifier: "SettingsTermsOfService")
+    show(vc, sender: self)
   }
 }
 
   // MARK: - Alerts
 extension SettingsTableViewController {
   
+  // MARK: - Push Alert
   private func showPushDisabledAlert() {
     let alertController = UIAlertController(title: "No Access to Notifications",
                                             message: "Please, allow notifications for GetCoupon app in settings.",
@@ -368,6 +357,7 @@ extension SettingsTableViewController {
     present(alertController, animated: true, completion: nil)
   }
   
+  // MARK: - Email Alert
   private func showEmailAlert(switcher: UISwitch) {
     var disposeBag: DisposeBag? = DisposeBag()
     weak var textBox: UITextField?
@@ -388,7 +378,6 @@ extension SettingsTableViewController {
     
     let acceptAction = UIAlertAction(title: otherButtonTitle, style: .default) { [weak self] _ in
       print("The Email alert's other action occurred.")
-//      self?.viewModel.emailNotifications.accept(true)
       
       if let email = textBox?.text {
         self?.viewModel.userEmail.accept(email)
@@ -433,6 +422,7 @@ extension SettingsTableViewController {
     present(alertController, animated: true, completion: nil)
   }
   
+  // MARK: - Cache Alert
   private func showClearCacheAlert() {
     let title = "Deleting Cached Images"
     let message = "Are u actually wanna delete all cached images"
@@ -453,6 +443,17 @@ extension SettingsTableViewController {
     
     alertController.addAction(cancelAction)
     alertController.addAction(destructiveAction)
+    
+    present(alertController, animated: true, completion: nil)
+  }
+  
+  // MARK: - Rate Us Alert
+  private func showRateUsAlert() {
+    let alertController = UIAlertController(title: "Rate Our App",
+                                            message: "Please leave a review about the application.\n(just placeholder)",
+                                            preferredStyle: .alert)
+    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+    alertController.addAction(action)
     
     present(alertController, animated: true, completion: nil)
   }
