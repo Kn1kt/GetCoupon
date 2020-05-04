@@ -13,7 +13,8 @@ class NetworkShopData: Codable {
   let name: String
   let shopDescription: String?
   let shopShortDescription: String
-  let isHot: Bool
+  //  let isHot: Bool
+  let priority: Int
   
   let websiteLink: String
   let imageLink: String
@@ -26,16 +27,18 @@ class NetworkShopData: Codable {
   init(name: String,
        shopDescription: String? = nil,
        shopShortDescription: String,
-       isHot: Bool = false,
+       priority: Int,
        websiteLink: String,
        imageLink: String,
        previewImageLink: String,
        placeholderColor: [Float] = [],
        promoCodes: [NetworkPromoCodeData] = []) {
+    
     self.name = name
     self.shopDescription = shopDescription
     self.shopShortDescription = shopShortDescription
-    self.isHot = isHot
+    //    self.isHot = isHot
+    self.priority = priority
     self.websiteLink = websiteLink
     self.imageLink = imageLink
     self.previewImageLink = previewImageLink

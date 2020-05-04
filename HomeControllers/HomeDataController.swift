@@ -24,7 +24,10 @@ class HomeDataController {
   
   func section(for index: Int) -> Observable<ShopCategoryData> {
     let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
-      guard index >= 0, categories.count > index else { fatalError("Index overbound") }
+      guard index >= 0, categories.count > index else {
+        // Maybe need remove this error
+        fatalError("Index overbound")
+      }
       return categories[index]
     }
     

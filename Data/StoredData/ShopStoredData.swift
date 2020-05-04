@@ -16,7 +16,8 @@ class ShopStoredData: Object {
   @objc dynamic var name: String = ""
   @objc dynamic var shopDescription: String?
   @objc dynamic var shopShortDescription: String = ""
-  @objc dynamic var isHot: Bool = false
+  //  @objc dynamic var isHot: Bool = false
+  @objc dynamic var priority: Int = 0
   
   @objc dynamic var websiteLink: String = ""
   
@@ -36,7 +37,7 @@ class ShopStoredData: Object {
   convenience init(name: String,
                    description: String? = nil,
                    shortDescription: String,
-                   isHot: Bool = false,
+                   priority: Int = 0,
                    websiteLink: String,
                    imageLink: String = "",
                    previewImageLink: String = "",
@@ -47,7 +48,8 @@ class ShopStoredData: Object {
     self.name = name
     self.shopDescription = description
     self.shopShortDescription = shortDescription
-    self.isHot = isHot
+    //        self.isHot = isHot
+    self.priority = priority
     self.websiteLink = websiteLink
     self.imageLink = imageLink
     self.previewImageLink = previewImageLink
@@ -70,7 +72,7 @@ extension ShopStoredData {
     self.init(name: networkShop.name,
               description: networkShop.shopDescription,
               shortDescription: networkShop.shopShortDescription,
-              isHot: networkShop.isHot,
+              priority: networkShop.priority,
               websiteLink: networkShop.websiteLink,
               imageLink: networkShop.imageLink,
               previewImageLink: networkShop.previewImageLink,

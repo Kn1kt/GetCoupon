@@ -200,12 +200,18 @@ class CacheController {
   
   // MARK: - Update Categories
   func updateData(with categories: [NetworkShopCategoryData]) {
-    var invalidated = [String : (Bool, Date?)]()
+    var invalidatedShops = [String : (Bool, Date?)]()
+    var validatedCategories = Set<String>()
+    
     do {
       try realm.write {
         categories.forEach { newCategory in
-          update(category: newCategory, invalidated: &invalidated)
+          update(category: newCategory,
+                 invalidatedShops: &invalidatedShops,
+                 validatedCategories: &validatedCategories)
         }
+        
+        checkValidity(validatedCategories)
       }
     } catch {
       debugPrint("Unexpected Error: \(error)")
@@ -213,7 +219,9 @@ class CacheController {
   }
   
   /// WARNING: Use only from realm.write
-  private func update(category: NetworkShopCategoryData, invalidated: inout [String : (Bool, Date?)]) {
+  private func update(category: NetworkShopCategoryData,
+                      invalidatedShops: inout [String : (Bool, Date?)],
+                      validatedCategories: inout Set<String>) {
     
     if let storedCategory = realm.object(ofType: ShopCategoryStoredData.self, forPrimaryKey: category.categoryName) {
       
@@ -228,10 +236,10 @@ class CacheController {
           update(storedShop: storedShop, with: shop, in: storedCategory)
         } else {
           let newStoredShop = ShopStoredData(shop, category: storedCategory)
-          if let favoriteAttributes = invalidated[newStoredShop.name] {
+          if let favoriteAttributes = invalidatedShops[newStoredShop.name] {
             newStoredShop.isFavorite = favoriteAttributes.0
             newStoredShop.favoriteAddingDate = favoriteAttributes.1
-            invalidated[newStoredShop.name] = nil
+            invalidatedShops[newStoredShop.name] = nil
           }
           realm.add(newStoredShop)
           storedCategory.shops.append(newStoredShop)
@@ -240,17 +248,19 @@ class CacheController {
       }
       
       // Clean Cache
-      storedCategory.shops.indices.reversed().forEach { index in
-        let storedShop = storedCategory.shops[index]
-        if !existing.contains(storedShop.name) {
-          invalidated[storedShop.name] = (storedShop.isFavorite, storedShop.favoriteAddingDate)
-          
-          storedShop.promoCodes.forEach { promoCode in
-            realm.delete(promoCode)
+      if existing.count != storedCategory.shops.count {
+        storedCategory.shops.indices.reversed().forEach { index in
+          let storedShop = storedCategory.shops[index]
+          if !existing.contains(storedShop.name) {
+            invalidatedShops[storedShop.name] = (storedShop.isFavorite, storedShop.favoriteAddingDate)
+            
+            storedShop.promoCodes.forEach { promoCode in
+              realm.delete(promoCode)
+            }
+            deleteImages(from: storedShop)
+            storedCategory.shops.remove(at: index)
+            realm.delete(storedShop)
           }
-          deleteImages(from: storedShop)
-          storedCategory.shops.remove(at: index)
-          realm.delete(storedShop)
         }
       }
       
@@ -262,6 +272,28 @@ class CacheController {
     } else if !category.shops.isEmpty {
       let newStoredCategory = ShopCategoryStoredData(category)
       realm.add(newStoredCategory)
+    }
+    
+    validatedCategories.insert(category.categoryName)
+  }
+  
+  /// WARNING: Use only from realm.write
+  private func checkValidity(_ validated: Set<String>) {
+    let categories: [ShopCategoryStoredData] = self.categories()
+    if categories.count != validated.count {
+      categories.forEach { category in
+        if !validated.contains(category.categoryName) {
+          category.shops.forEach { shop in
+            shop.promoCodes.forEach { promoCode in
+              realm.delete(promoCode)
+            }
+            deleteImages(from: shop)
+            realm.delete(shop)
+          }
+          deleteDefaultImage(from: category)
+          realm.delete(category)
+        }
+      }
     }
   }
   
@@ -290,8 +322,11 @@ class CacheController {
       storedShop.shopShortDescription = shop.shopShortDescription
     }
     
-    if shop.isHot != storedShop.isHot {
-      storedShop.isHot = shop.isHot
+//    if shop.isHot != storedShop.isHot {
+//      storedShop.isHot = shop.isHot
+//    }
+    if shop.priority != storedShop.priority {
+      storedShop.priority = shop.priority
     }
     
     if shop.websiteLink != storedShop.websiteLink {

@@ -15,18 +15,18 @@ class NetworkPromoCodeData: Codable {
   let estimatedDate: Date?
   let promoCodeDescription: String?
   
-  let websiteLink: String
+  //  let websiteLink: String
   
   init(coupon: String,
        addingDate: Date? = nil,
        estimatedDate: Date? = nil,
-       promoCodeDescription: String? = nil,
-       websiteLink: String) {
+       promoCodeDescription: String? = nil) {
+    //       websiteLink: String) {
     
     self.coupon = coupon
     self.addingDate = addingDate
     self.estimatedDate = estimatedDate
     self.promoCodeDescription = promoCodeDescription
-    self.websiteLink = websiteLink
+    //    self.websiteLink = websiteLink
   }
 }
