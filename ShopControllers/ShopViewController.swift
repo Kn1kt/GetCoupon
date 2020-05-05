@@ -756,7 +756,7 @@ extension ShopViewController {
   }
   
   private func showShareCouponVC() {
-    let firstActivityItem = " "
+    let firstActivityItem = "Best App for Coupon Searching"
     let secondActivityItem : NSURL = NSURL(string: "https://github.com/Kn1kt/GetCoupon")!
     // If you want to put an image
     let image : UIImage = UIImage(named: "GetCouponLogo")!
