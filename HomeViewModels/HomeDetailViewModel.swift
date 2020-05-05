@@ -36,16 +36,16 @@ class HomeDetailViewModel {
   // MARK: - Output
   private let _currentSection: BehaviorRelay<ShopCategoryData>!
   
-  var currentSection: Driver<ShopCategoryData> {
-    return _currentSection
-      .asDriver()
-  }
+  let currentSection: Driver<ShopCategoryData> //{
+//    return _currentSection
+//      .asDriver()
+//  }
   
   private let _favoritesUpdates =  PublishRelay<Void>()
   
-  var favoritesUpdates: Signal<Void> {
-    return _favoritesUpdates.asSignal()
-  }
+  let favoritesUpdates: Signal<Void> //{
+//    return _favoritesUpdates.asSignal()
+//  }
   
   // MARK: - Init
   init(navigator: Navigator,
@@ -58,6 +58,10 @@ class HomeDetailViewModel {
     self.sectionByDates = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
     
     self._currentSection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
+    
+    self.currentSection = _currentSection.asDriver()
+    
+    self.favoritesUpdates = _favoritesUpdates.asSignal()
     
     section
       .observeOn(defaultScheduler)

@@ -23,11 +23,11 @@ class ModelController {
   
   private let _collections =  BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var collections: Observable<[ShopCategoryData]> {
-    return _collections
-      .asObservable()
-      .share(replay: 1)
-  }
+  let collections: Observable<[ShopCategoryData]> //{
+//    return _collections
+//      .asObservable()
+//      .share(replay: 1)
+//  }
   
   /// Home Collections
   var homeDataController: HomeDataController!
@@ -37,26 +37,33 @@ class ModelController {
   
   private let _favoriteCollections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var favoriteCollections: Observable<[ShopCategoryData]> {
-    return _favoriteCollections
-      .asObservable()
-      .share(replay: 1)
-  }
+  let favoriteCollections: Observable<[ShopCategoryData]> //{
+//    return _favoriteCollections
+//      .asObservable()
+//      .share(replay: 1)
+//  }
   
   /// Search Collection
   private let _searchCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
   
-  var searchCollection: Observable<ShopCategoryData> {
-    return _searchCollection
-      .asObservable()
-      .share(replay: 1)
-  }
+  let searchCollection: Observable<ShopCategoryData> //{
+//    return _searchCollection
+//      .asObservable()
+//      .share(replay: 1)
+//  }
   
   var currentSearchCollection: ShopCategoryData {
     return _searchCollection.value
   }
   
   init() {
+    self.collections = _collections
+      .share(replay: 1)
+    self.favoriteCollections = _favoriteCollections
+      .share(replay: 1)
+    self.searchCollection = _searchCollection
+      .share(replay: 1)
+    
     homeDataController = HomeDataController(collections: collections)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
     

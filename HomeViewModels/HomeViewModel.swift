@@ -30,11 +30,11 @@ class HomeViewModel {
   // MARK: - Output
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var collections: Observable<[ShopCategoryData]> {
-    return _collections
-      .asObservable()
-      .share()
-  }
+  let collections: Observable<[ShopCategoryData]> //{
+//    return _collections
+//      .asObservable()
+//      .share()
+//  }
   
   /// Current status of refresh controller
   private let isRefreshing = BehaviorRelay<Bool>(value: true)
@@ -42,18 +42,22 @@ class HomeViewModel {
   /// Send to refresh controller terminating events
   private let _endRefreshing: BehaviorRelay<Bool>!
   
-  var endRefreshing: Driver<Bool> {
-    return _endRefreshing
-      .asDriver()
-  }
+  let endRefreshing: Driver<Bool>// {
+//    return _endRefreshing
+//      .asDriver()
+//  }
   
   // MARK: - Init
   init() {
     self.model = ModelController.shared.homeDataController
     self.navigator = Navigator()
     
+    self.collections = _collections.share(replay: 1)
+    
     let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
     _endRefreshing = BehaviorRelay<Bool>(value: forceUpdating)
+    
+    self.endRefreshing = _endRefreshing.asDriver()
     
     bindOutput()
     bindActions()
@@ -140,11 +144,9 @@ extension HomeViewModel {
 extension HomeViewModel {
   
   private func showDetailVC(_ sender: ShowMoreUIButton, vc: UIViewController) {
-    guard let sectionIndex = sender.sectionIndex else {
-        return
-    }
+    guard let sectionIndex = sender.sectionIndex,
+          let section = model.section(for: sectionIndex) else { return }
     
-    let section = model.section(for: sectionIndex)
     navigator.showHomeDetailVC(sender: vc,
                                model: model,
                                section: section)

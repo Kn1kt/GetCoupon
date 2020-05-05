@@ -26,21 +26,24 @@ class SearchViewModel {
   // MARK: - Output
   private let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
   
-  var currentCollection: Driver<ShopCategoryData> {
-    return _currentCollection
-      .asDriver()
-  }
+  let currentCollection: Driver<ShopCategoryData> //{
+//    return _currentCollection
+//      .asDriver()
+//  }
   
   private let _isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  var isRefreshing: Driver<Bool> {
-    return _isRefreshing
-      .asDriver()
-  }
+  let isRefreshing: Driver<Bool> //{
+//    return _isRefreshing
+//      .asDriver()
+//  }
   
   // MARK: - Init
   init() {
     self.navigator = Navigator()
+    
+    self.currentCollection = _currentCollection.asDriver()
+    self.isRefreshing = _isRefreshing.asDriver()
     
     bindOutput()
     bindActions()

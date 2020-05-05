@@ -35,22 +35,25 @@ class FavoritesViewModel {
   // MARK: - Output
   private let _currentSection = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var currentSection: Driver<[ShopCategoryData]> {
-    return _currentSection
-      .asDriver()
-  }
+  let currentSection: Driver<[ShopCategoryData]> //{
+//    return _currentSection
+//      .asDriver()
+//  }
   
   private let _isRefreshing = BehaviorRelay<Bool>(value: false)
   
-  var isRefreshing: Driver<Bool> {
-    return _isRefreshing
-      .asDriver()
-  }
+  let isRefreshing: Driver<Bool> //{
+//    return _isRefreshing
+//      .asDriver()
+//  }
   
   // MARK: - Init
   init() {
     self.navigator = Navigator()
     self.model = ModelController.shared.favoritesDataController
+    
+    self.currentSection = _currentSection.asDriver()
+    self.isRefreshing = _isRefreshing.asDriver()
     
     bindOutput()
     bindActions()

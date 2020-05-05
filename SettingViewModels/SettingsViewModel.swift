@@ -34,14 +34,16 @@ class SettingsViewModel {
   // MARK: - Output
   private let _pushNotificationsSwitherShould = PublishRelay<Bool>()
   
-  var pushNotificationsSwitherShould: Driver<Bool> {
-    return _pushNotificationsSwitherShould
-      .asDriver(onErrorJustReturn: false)
-  }
+  let pushNotificationsSwitherShould: Driver<Bool>// {
+//    return _pushNotificationsSwitherShould
+//      .asDriver(onErrorJustReturn: false)
+//  }
   
   // MARK: - Init
   init() {
     self.navigator = Navigator()
+    
+    self.pushNotificationsSwitherShould = _pushNotificationsSwitherShould.asDriver(onErrorJustReturn: false)
     
     let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
     forceCatalogUpdating = BehaviorRelay<Bool>(value: forceUpdating)

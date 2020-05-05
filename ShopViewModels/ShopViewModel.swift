@@ -31,17 +31,17 @@ class ShopViewModel {
   
   private let _favoriteButtonEnabled: BehaviorRelay<Bool>!
   
-  var favoriteButtonEnabled: Driver<Bool> {
-    return _favoriteButtonEnabled
-      .asDriver()
-  }
+  let favoriteButtonEnabled: Driver<Bool>// {
+//    return _favoriteButtonEnabled
+//      .asDriver()
+//  }
   
   private let _shop: BehaviorRelay<ShopData>!
   
-  var shop: Driver<ShopData> {
-    return _shop
-      .asDriver()
-  }
+  let shop: Driver<ShopData> //{
+//    return _shop
+//      .asDriver()
+//  }
   
   var currentShop: ShopData {
     return _shop.value
@@ -55,8 +55,10 @@ class ShopViewModel {
     self.navigator = navigator
     
     self._shop = BehaviorRelay<ShopData>(value: shop)
+    self.shop = _shop.asDriver()
     self.section = BehaviorRelay<ShopCategoryData>(value: section)
     self._favoriteButtonEnabled = BehaviorRelay<Bool>(value: favoriteButtonEnabled)
+    self.favoriteButtonEnabled = _favoriteButtonEnabled.asDriver()
     
     bindOutput()
     bindActions()
@@ -71,7 +73,8 @@ class ShopViewModel {
     let shopDidEdit = shopIsFavoriteChanged
       .scan(false) { prev, _ in
         return !prev
-    }
+      }
+      .share()
     
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)

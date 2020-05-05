@@ -17,11 +17,11 @@ class FavoritesDataController {
   
   private let _collectionsBySections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var collectionsBySections: Observable<[ShopCategoryData]> {
-    return _collectionsBySections
-      .asObservable()
-      .share(replay: 1)
-  }
+  let collectionsBySections: Observable<[ShopCategoryData]> //{
+//    return _collectionsBySections
+//      .asObservable()
+//      .share(replay: 1)
+//  }
   
   var currentCollectionsBySections: [ShopCategoryData] {
     return _collectionsBySections.value
@@ -29,17 +29,20 @@ class FavoritesDataController {
 
   private let _collectionsByDates = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  var collectionsByDates: Observable<[ShopCategoryData]> {
-    return _collectionsByDates
-      .asObservable()
-      .share(replay: 1)
-  }
+  let collectionsByDates: Observable<[ShopCategoryData]> //{
+//    return _collectionsByDates
+//      .asObservable()
+//      .share(replay: 1)
+//  }
   
   var currentCollectionsByDates: [ShopCategoryData] {
     return _collectionsByDates.value
   }
   
   init(collections: Observable<[ShopCategoryData]>) {
+    self.collectionsBySections = _collectionsBySections.share(replay: 1)
+    self.collectionsByDates = _collectionsByDates.share(replay: 1)
+    
     collections
       .observeOn(defaultScheduler)
       .bind(to: _collectionsBySections)
