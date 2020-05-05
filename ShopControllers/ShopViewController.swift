@@ -153,6 +153,15 @@ class ShopViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
+    popupView.shareButton.rx.tap
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] _ in
+        self.showShareCouponVC()
+      })
+      .disposed(by: disposeBag)
+    
     viewModel.favoriteButtonEnabled
       .drive(logoView.favoritesButton.rx.isEnabled)
       .disposed(by: disposeBag)
@@ -679,6 +688,15 @@ extension ShopViewController {
             .bind(to: self.viewModel.websiteButton)
             .disposed(by: cell.disposeBag)
           
+          cell.share.button.rx.tap
+            .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+              self?.showShareCouponVC()
+            })
+            .disposed(by: cell.disposeBag)
+          
           return cell
           
         default:
@@ -721,8 +739,7 @@ extension ShopViewController {
 // MARK: - Interaction
 extension ShopViewController {
   
-  func updateSnapshot(_ shop: ShopData) {
-    
+  private func updateSnapshot(_ shop: ShopData) {
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopData, PromoCodeData>()
     
@@ -736,7 +753,28 @@ extension ShopViewController {
     currentSnapshot.appendItems(shop.promoCodes)
     
     dataSource.apply(currentSnapshot, animatingDifferences: true)
-    
+  }
+  
+  private func showShareCouponVC() {
+    let firstActivityItem = " "
+    let secondActivityItem : NSURL = NSURL(string: "https://github.com/Kn1kt/GetCoupon")!
+    // If you want to put an image
+    let image : UIImage = UIImage(named: "GetCouponLogo")!
+
+    let activityViewController = UIActivityViewController(activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+
+    // This lines is for the popover you need to show in iPad
+    activityViewController.popoverPresentationController?.sourceView = (popupView.shareButton)
+
+    // This line remove the arrow of the popover to show in iPad
+    activityViewController.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.any
+    activityViewController.popoverPresentationController?.sourceRect = CGRect(x: 150, y: 150, width: 0, height: 0)
+
+    // Anything you want to exclude
+    activityViewController.excludedActivityTypes = [
+    ]
+
+    self.present(activityViewController, animated: true, completion: nil)
   }
 }
 

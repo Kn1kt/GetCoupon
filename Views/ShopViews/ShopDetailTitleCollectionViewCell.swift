@@ -43,6 +43,7 @@ extension ShopDetailTitleCollectionViewCell {
     website.imageDescription.text = "Website"
     
     share.imageView.image = UIImage(systemName: "square.and.arrow.up")
+    share.imageView.highlightedImage = UIImage(systemName: "square.and.arrow.up.fill")
     share.imageDescription.text = "Share"
     
     stackView.axis = .horizontal
