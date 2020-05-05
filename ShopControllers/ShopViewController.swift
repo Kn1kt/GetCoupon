@@ -103,31 +103,18 @@ class ShopViewController: UIViewController {
     overlayView.addGestureRecognizer(tapRecognizer)
     
     panRecognizer.addTarget(self, action: #selector(popupViewPanned(recognizer:)))
-//    panRecognizer.delegate = popupView
     panRecognizer.delegate = self
     popupView.addGestureRecognizer(panRecognizer)
     
-    let r = UIPanGestureRecognizer()
-    r.delegate = self
-//    overlayView.addGestureRecognizer(r)
-    view.addGestureRecognizer(r)
+    let recognizer = UIPanGestureRecognizer()
+    recognizer.delegate = self
+    view.addGestureRecognizer(recognizer)
     
     layoutNavBarPlaceholder()
     
     bindViewModel()
     bindUI()
   }
-  
-//  override func viewDidAppear(_ animated: Bool) {
-//    super.viewDidAppear(animated)
-//    if labelOnTop, label.layer.position.y > 10 {
-//      label.layer.position = CGPoint(x: label.layer.position.x,
-//                                          y: label.layer.position.y - label.bounds.height)
-//    } else if !labelOnTop, label.layer.position.y < 10 {
-//      label.layer.position = CGPoint(x: label.layer.position.x,
-//                                     y: label.layer.position.y + label.bounds.height)
-//    }
-//  }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
@@ -245,7 +232,7 @@ class ShopViewController: UIViewController {
 //                                   y: label.layer.position.y + label.bounds.height)
   }
   
-  // MARK: - Animations
+  // MARK: - Popup Animations
   
   private var bottomPopupView = NSLayoutConstraint()
   

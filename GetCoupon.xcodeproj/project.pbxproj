@@ -47,6 +47,7 @@
 		F371E480242640D200301D5E /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = F371E47F242640D200301D5E /* RxBlocking */; };
 		F371E4832426415100301D5E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4822426415100301D5E /* Realm */; };
 		F371E4852426415100301D5E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4842426415100301D5E /* RealmSwift */; };
+		F37612542461E646007EB465 /* PromocodeView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37612532461E646007EB465 /* PromocodeView+Animations.swift */; };
 		F3888C93244F6817002B6115 /* SettingsFeedbackScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3888C92244F6817002B6115 /* SettingsFeedbackScreen.storyboard */; };
 		F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C94244F7009002B6115 /* FeedbackViewController.swift */; };
 		F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C972454D88F002B6115 /* FeedbackViewModel.swift */; };
@@ -148,6 +149,7 @@
 		F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreSupplementaryView.swift; sourceTree = "<group>"; };
 		F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCaptionImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		F35EE48924576B5000430002 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		F37612532461E646007EB465 /* PromocodeView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromocodeView+Animations.swift"; sourceTree = "<group>"; };
 		F3888C92244F6817002B6115 /* SettingsFeedbackScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsFeedbackScreen.storyboard; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
@@ -479,6 +481,7 @@
 			children = (
 				F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */,
 				F3ED2D7B239B269E00726045 /* PromocodeView.swift */,
+				F37612532461E646007EB465 /* PromocodeView+Animations.swift */,
 				F34251E3239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift */,
 				F34251E5239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift */,
 				F34251E9239D7102008ABD8C /* LogoWithFavoritesButton.swift */,
@@ -733,6 +736,7 @@
 				F39DCB0C2435389100D1BA7E /* SetupDefaultImageOperation.swift in Sources */,
 				F34251EA239D7102008ABD8C /* LogoWithFavoritesButton.swift in Sources */,
 				F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */,
+				F37612542461E646007EB465 /* PromocodeView+Animations.swift in Sources */,
 				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */,
 				F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */,

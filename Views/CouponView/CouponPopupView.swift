@@ -7,19 +7,35 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CouponPopupView: UIView {
+  
+  let disposeBag = DisposeBag()
   
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
   let expirationDateLabel = UILabel()
-  let promocodeView = PromocodeView()
+  let promocodeView = AnimatedPromocodeView()
   let shareButton = UIButton()
   let exitButton = UIButton()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
+    
+    promocodeView.button.rx.tap
+      .throttle(RxTimeInterval.seconds(3), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.promocodeView.animateCopying()
+        UIPasteboard.general.string = self.promocodeView.promocodeLabel.text
+      })
+      .disposed(by: disposeBag)
+    
   }
   
   required init?(coder: NSCoder) {
