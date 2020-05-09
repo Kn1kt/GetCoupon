@@ -39,6 +39,7 @@ class HomeDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    navigationItem.title = viewModel.currentTitle
     
     segmentedSection.shops.append(segmentedCell)
     searchSection.shops.append(searchCell)
@@ -52,17 +53,7 @@ class HomeDetailViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    
     navigationController?.navigationBar.prefersLargeTitles = true
-    
-    viewModel.currentSection
-      .asObservable()
-      .take(1)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] section in
-        self?.navigationItem.title = section.categoryName
-      })
-      .disposed(by: disposeBag)
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -72,6 +63,15 @@ class HomeDetailViewController: UIViewController {
   }
   
   private func bindUI() {
+//    viewModel.currentSection
+//      .asObservable()
+//      .take(1)
+//      .observeOn(MainScheduler.instance)
+//      .subscribe(onNext: { [weak self] section in
+//        self?.navigationItem.title = section.categoryName
+//      })
+//      .disposed(by: disposeBag)
+    
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
         self?.updateSnapshot(section)

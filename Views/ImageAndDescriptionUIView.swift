@@ -13,7 +13,6 @@ import RxCocoa
 class ImageAndDescriptionUIView: UIView {
   
   private let disposeBag = DisposeBag()
-  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   
   let imageView = UIImageView()
   let button = UIButton()
@@ -30,8 +29,8 @@ class ImageAndDescriptionUIView: UIView {
       .disposed(by: disposeBag)
     
     button.rx.tap
-      .delay(RxTimeInterval.milliseconds(100), scheduler: defaultScheduler)
-      .subscribeOn(defaultScheduler)
+      .delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         self?.imageView.isHighlighted = false

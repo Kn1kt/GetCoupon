@@ -34,6 +34,7 @@ class HomeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+    navigationItem.title = "Home"
     
     configureCollectionView()
     configureDataSource()
@@ -48,7 +49,6 @@ class HomeViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.navigationBar.prefersLargeTitles = false
-    navigationItem.title = "Home"
   }
   
   private func bindViewModel() {

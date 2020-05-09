@@ -41,6 +41,10 @@ class HomeDetailViewModel {
 //      .asDriver()
 //  }
   
+  var currentTitle: String {
+    return _currentSection.value.categoryName
+  }
+  
   private let _favoritesUpdates =  PublishRelay<Void>()
   
   let favoritesUpdates: Signal<Void> //{

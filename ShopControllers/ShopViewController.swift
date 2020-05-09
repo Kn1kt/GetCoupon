@@ -158,7 +158,11 @@ class ShopViewController: UIViewController {
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] _ in
-        self.showShareCouponVC()
+        guard let promoCode = self.popupView.promocodeView.promocodeLabel.text,
+              let coupon = self.viewModel.currentShop.promoCodes.first(where: { $0.coupon == promoCode }) else {
+          return
+        }
+        self.showShareCouponVC(shop: self.viewModel.currentShop, coupon: coupon)
       })
       .disposed(by: disposeBag)
     
@@ -250,7 +254,13 @@ class ShopViewController: UIViewController {
   }
   
   /// The current state of the animation. This variable is changed only when an animation completes.
-  private var currentState: State = .closed
+  private var currentState: State = .closed {
+    willSet {
+      if newValue == .closed {
+        popupView.promocodeView.stopAnimating()
+      }
+    }
+  }
   
   /// All of the currently running animators.
   private var runningAnimators = [UIViewPropertyAnimator]()
@@ -692,8 +702,8 @@ extension ShopViewController {
             .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
             .subscribeOn(MainScheduler.instance)
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-              self?.showShareCouponVC()
+            .subscribe(onNext: { [unowned self] in
+              self.showShareCouponVC(shop: self.viewModel.currentShop, coupon: nil)
             })
             .disposed(by: cell.disposeBag)
           
@@ -755,13 +765,10 @@ extension ShopViewController {
     dataSource.apply(currentSnapshot, animatingDifferences: true)
   }
   
-  private func showShareCouponVC() {
-    let firstActivityItem = "Best App for Coupon Searching"
-    let secondActivityItem : NSURL = NSURL(string: "https://github.com/Kn1kt/GetCoupon")!
-    // If you want to put an image
-    let image : UIImage = UIImage(named: "GetCouponLogo")!
-
-    let activityViewController = UIActivityViewController(activityItems: [firstActivityItem, secondActivityItem, image], applicationActivities: nil)
+  private func showShareCouponVC(shop: ShopData, coupon: PromoCodeData?) {
+    let promoString = buildShareText(for: shop, coupon: coupon)
+    print(promoString)
+    let activityViewController = UIActivityViewController(activityItems: [promoString], applicationActivities: nil)
 
     // This lines is for the popover you need to show in iPad
     activityViewController.popoverPresentationController?.sourceView = (popupView.shareButton)
@@ -772,9 +779,46 @@ extension ShopViewController {
 
     // Anything you want to exclude
     activityViewController.excludedActivityTypes = [
+      .saveToCameraRoll
     ]
 
     self.present(activityViewController, animated: true, completion: nil)
+  }
+  
+  private func buildShareText(for shop: ShopData, coupon: PromoCodeData?) -> String {
+    var promoString = "👋 Привет!\n\nВ \(shop.name) "
+    
+    if let coupon = coupon {
+      if let date = coupon.estimatedDate {
+        promoString += "до \(dateFormatter.string(from: date)) "
+        
+      } else {
+        promoString += "ceйчас "
+      }
+      
+      promoString += "действует \(coupon.coupon)"
+      
+      if let description = coupon.description {
+        promoString += ": \(description)\n"
+      }
+    } else {
+      let coupons = shop.promoCodes
+        .prefix(3)
+        .map { coupon in
+          if let description = coupon.description {
+            return "🔥 \(coupon.coupon): \(description)"
+          }
+          
+          return "\(coupon.coupon)"
+        }
+        .joined(separator: "\n")
+      
+      promoString += "действуют:\n\(coupons)\n"
+    }
+    
+    promoString += "\n🚀 Подробности можешь узнать в GetCoupon"
+    
+    return promoString
   }
 }
 

@@ -9,8 +9,7 @@
 import UIKit
 
 class AnimatedPromocodeView: PromocodeView {
-  
-  private let copyLabel = UILabel()
+
   let button = UIButton()
   
   override init(frame: CGRect) {
@@ -52,51 +51,114 @@ class AnimatedPromocodeView: PromocodeView {
     super.updateConstraints()
   }
   
+  // MARK: - Animations
+  private let copyLabel = UILabel()
+  private var backgroundInAnimator: UIViewPropertyAnimator?
+  private var backgroundOutAnimator: UIViewPropertyAnimator?
+  
+  private var labelInAnimator: UIViewPropertyAnimator?
+  private var labelOutAnimator: UIViewPropertyAnimator?
+  
+  private var isAnimating: Bool {
+    return backgroundInAnimator != nil
+      || backgroundOutAnimator != nil
+      || labelInAnimator != nil
+      || labelOutAnimator != nil
+  }
+  
   func animateCopying() {
-    UIView.animate(withDuration: 1,
-                   delay: 0,
-                   options: [.curveEaseOut],
-                   animations: { [weak self] in
-                    guard let self = self else { return }
-                    self.backgroundColor = UIColor(named: "BlueTintColor")
-    },
-                   completion: { _ in
-                    UIView.animate(withDuration: 1,
-                                   delay: 0.5,
-                                   options: [.curveEaseIn],
-                                   animations: { [weak self] in
-                                    guard let self = self else { return }
-                                    self.backgroundColor = .clear
-                                    
-                    },
-                                   completion: nil)
+    guard !isAnimating else {
+      return
+    }
+    
+    backgroundInAnimator = UIViewPropertyAnimator(duration: 1,
+                                                curve: .easeOut,
+                                                animations: { [weak self] in
+                                                guard let self = self else { return }
+                                                self.backgroundColor = UIColor(named: "BlueTintColor")
     })
     
-    UIView.animate(withDuration: 1,
-                   delay: 0,
-                   usingSpringWithDamping: 0.7,
-                   initialSpringVelocity: 5,
-                   options: [],
-                   animations: { [weak self] in
-                    guard let self = self else { return }
-                    self.promocodeLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-                    self.promocodeLabel.alpha = 0
-                    self.copyLabel.transform = .identity
-                    self.copyLabel.alpha = 1
-    },
-                   completion: { _ in
-                    UIView.animate(withDuration: 1,
-                                   delay: 1,
-                                   usingSpringWithDamping: 0.7,
-                                   initialSpringVelocity: 5,
-                                   options: [],
-                                   animations: { [weak self] in
-                                    guard let self = self else { return }
-                                    self.promocodeLabel.transform = .identity
-                                    self.promocodeLabel.alpha = 1
-                                    self.copyLabel.transform = CGAffineTransform(scaleX: 2, y: 2)
-                                    self.copyLabel.alpha = 0
-                    }, completion: nil)
+    backgroundInAnimator?.addCompletion { [weak self] position in
+      guard position == .end else { return }
+      self?.backgroundInAnimator = nil
+      self?.backgroundOutAnimator = UIViewPropertyAnimator(duration: 1,
+                                                  curve: .easeIn,
+                                                  animations: { [weak self] in
+                                                    guard let self = self else { return }
+                                                    self.backgroundColor = .clear
+      })
+      self?.backgroundOutAnimator?.addCompletion { [weak self] position in
+        guard position == .end else { return }
+        self?.backgroundOutAnimator = nil
+      }
+      self?.backgroundOutAnimator?.startAnimation(afterDelay: 0.5)
+    }
+    
+    labelInAnimator = UIViewPropertyAnimator(duration: 1,
+                                           dampingRatio: 0.7,
+                                           animations: { [weak self] in
+                                           guard let self = self else { return }
+                                           self.promocodeLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+                                           self.promocodeLabel.alpha = 0
+                                           self.copyLabel.transform = .identity
+                                           self.copyLabel.alpha = 1
     })
+    
+    labelInAnimator?.addCompletion { [weak self] position in
+      guard position == .end else { return }
+      self?.labelInAnimator = nil
+      self?.labelOutAnimator = UIViewPropertyAnimator(duration: 1,
+                                                   dampingRatio: 0.7,
+                                                   animations: { [weak self] in
+                                                     guard let self = self else { return }
+                                                     self.promocodeLabel.transform = .identity
+                                                     self.promocodeLabel.alpha = 1
+                                                     self.copyLabel.transform = CGAffineTransform(scaleX: 2, y: 2)
+                                                     self.copyLabel.alpha = 0
+      })
+      
+      self?.labelOutAnimator?.addCompletion { [weak self] position in
+        guard position == .end else { return }
+        self?.labelOutAnimator = nil
+      }
+      self?.labelOutAnimator?.startAnimation(afterDelay: 1)
+    }
+    
+    backgroundInAnimator?.startAnimation()
+    labelInAnimator?.startAnimation()
+  }
+  
+  func stopAnimating() {
+    guard isAnimating else { return }
+    
+    if let backgroundIn = backgroundInAnimator {
+      backgroundIn.stopAnimation(true)
+      backgroundInAnimator = nil
+      print("STOP AT IN BACKGROUND")
+    } else if let backgroundOut = backgroundOutAnimator {
+      backgroundOut.stopAnimation(true)
+      backgroundOutAnimator = nil
+      print("STOP AT OUT BACKGROUND")
+    }
+    
+    if let labelIn = labelInAnimator {
+      labelIn.stopAnimation(true)
+      labelInAnimator = nil
+      print("STOP AT IN LABEL")
+    } else if let labelOut = labelOutAnimator {
+      labelOut.stopAnimation(true)
+      labelOutAnimator = nil
+      print("STOP AT OUT LABEL")
+    }
+    
+    setAnimatableViewToDefault()
+  }
+  
+  private func setAnimatableViewToDefault() {
+    backgroundColor = .clear
+    promocodeLabel.transform = .identity
+    promocodeLabel.alpha = 1
+    copyLabel.transform = CGAffineTransform(scaleX: 2, y: 2)
+    copyLabel.alpha = 0
   }
 }

@@ -98,6 +98,14 @@ class FavoritesViewModel {
       .bind(to: _currentSection)
       .disposed(by: disposeBag)
     
+    segmentIndex
+      .withLatestFrom(searchText)
+      .filter { !$0.isEmpty }
+      .subscribeOn(eventScheduler)
+      .observeOn(eventScheduler)
+      .bind(to: searchText)
+      .disposed(by: disposeBag)
+    
     searchText
       .skip(1)
       .map { [weak self] (text: String) -> [ShopCategoryData] in
@@ -185,11 +193,11 @@ class FavoritesViewModel {
       .disposed(by: disposeBag)
     
     showShopVC
-    .map { _ in }
-    .subscribeOn(defaultScheduler)
-    .observeOn(defaultScheduler)
-    .bind(to: commitChanges)
-    .disposed(by: disposeBag)
+      .map { _ in }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: commitChanges)
+      .disposed(by: disposeBag)
   }
 }
 

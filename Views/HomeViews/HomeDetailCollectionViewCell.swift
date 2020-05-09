@@ -51,9 +51,6 @@ extension HomeDetailCollectionViewCell {
     
     contentView.backgroundColor = .secondarySystemGroupedBackground
     
-//    selectedBackgroundView = UIView()
-//    selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
-    
     separatorView.backgroundColor = .systemGray4
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
