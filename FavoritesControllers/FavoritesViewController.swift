@@ -105,7 +105,7 @@ class FavoritesViewController: UIViewController {
   }
 }
 
-// MARK: - Layouts
+  // MARK: - Layouts
 extension FavoritesViewController {
   
   func createLayout() -> UICollectionViewLayout {
@@ -219,7 +219,7 @@ extension FavoritesViewController {
   }
 }
 
-// MARK: - Setup Collection View
+  // MARK: - Setup Collection View
 extension FavoritesViewController {
   
   func configureCollectionView() {
@@ -374,7 +374,7 @@ extension FavoritesViewController {
   }
 }
 
-// MARK: - Updating snapshot
+  // MARK: - Updating snapshot
 extension FavoritesViewController {
   
   func updateSnapshot(_ section: [ShopCategoryData]) {

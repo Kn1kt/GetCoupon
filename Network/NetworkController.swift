@@ -43,7 +43,7 @@ class NetworkController {
   }
 }
 
-// MARK: - Download database
+  // MARK: - Download database
 extension NetworkController {
   
   func downloadCollections() -> Observable<[NetworkShopCategoryData]> {

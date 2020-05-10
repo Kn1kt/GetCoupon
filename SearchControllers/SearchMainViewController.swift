@@ -38,7 +38,7 @@ class SearchMainViewController: SearchBaseViewController {
 }
 
 
-// MARK: - UISearchBarDelegate
+  // MARK: - UISearchBarDelegate
 extension SearchMainViewController: UISearchBarDelegate {
   
   func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -46,7 +46,7 @@ extension SearchMainViewController: UISearchBarDelegate {
   }
 }
 
-// MARK: - UISearchResultsUpdating
+  // MARK: - UISearchResultsUpdating
 extension SearchMainViewController: UISearchResultsUpdating {
   
   func updateSearchResults(for searchController: UISearchController) {

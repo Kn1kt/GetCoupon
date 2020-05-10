@@ -64,5 +64,5 @@ extension LogoWithFavoritesButton {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension LogoWithFavoritesButton: CellWithImage {}

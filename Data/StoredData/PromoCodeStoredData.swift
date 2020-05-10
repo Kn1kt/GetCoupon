@@ -31,7 +31,7 @@ class PromoCodeStoredData: Object {
   }
 }
 
-// MARK: - NetworkPromoCodeData Compatible
+  // MARK: - NetworkPromoCodeData Compatible
 extension PromoCodeStoredData {
   
   convenience init(_ networkPromoCode: NetworkPromoCodeData) {

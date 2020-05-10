@@ -290,7 +290,7 @@ extension SettingsTableViewController {
   }
 }
 
-// MARK: - Actions
+  // MARK: - Actions
 extension SettingsTableViewController {
   
   override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

@@ -31,8 +31,7 @@ class FavoritesPlainCollectionViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Layouts
-
+  // MARK: - Layouts
 extension FavoritesPlainCollectionViewCell {
   
   func setupLayouts() {
@@ -108,7 +107,7 @@ extension FavoritesPlainCollectionViewCell {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension FavoritesPlainCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

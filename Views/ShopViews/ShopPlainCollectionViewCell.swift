@@ -121,7 +121,7 @@ extension ShopPlainCollectionViewCell {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension ShopPlainCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

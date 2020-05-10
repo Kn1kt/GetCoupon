@@ -32,8 +32,7 @@ class HomeDetailSegmentedControlCollectionViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Layouts
-
+  // MARK: - Layouts
 extension HomeDetailSegmentedControlCollectionViewCell {
   
   func setupLayouts() {

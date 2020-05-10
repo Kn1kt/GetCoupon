@@ -236,7 +236,7 @@ extension FavoritesViewModel {
   }
 }
 
-  //MARK: - Performing Search
+  // MARK: - Performing Search
 extension FavoritesViewModel {
   
   private func filteredCategories(with filter: String) -> [ShopCategoryData] {

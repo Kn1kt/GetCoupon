@@ -29,8 +29,7 @@ class HomeCaptionImageCollectionViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Layouts
-
+  // MARK: - Layouts
 extension HomeCaptionImageCollectionViewCell {
   
   func setupLayouts() {
@@ -78,7 +77,7 @@ extension HomeCaptionImageCollectionViewCell {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension HomeCaptionImageCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

@@ -91,7 +91,7 @@ extension HomeCardCollectionViewCell {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension HomeCardCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

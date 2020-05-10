@@ -100,7 +100,7 @@ extension HomeDetailCollectionViewCell {
 }
 
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension HomeDetailCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

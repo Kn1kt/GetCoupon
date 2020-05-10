@@ -36,7 +36,7 @@ class ShopCategoryStoredData: Object {
   }
 }
 
-// MARK: - NetworkShopCategoryData Compatible
+  // MARK: - NetworkShopCategoryData Compatible
 extension ShopCategoryStoredData {
   
   convenience init(_ networkCategory: NetworkShopCategoryData) {

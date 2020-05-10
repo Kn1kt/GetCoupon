@@ -29,7 +29,7 @@ class SearchPlainCollectionViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Layouts
+  // MARK: - Layouts
 extension SearchPlainCollectionViewCell {
   
   func setupLayouts() {
@@ -88,7 +88,7 @@ extension SearchPlainCollectionViewCell {
   }
 }
 
-//MARK: - CellWithImageProtocol
+  //MARK: - CellWithImageProtocol
 extension SearchPlainCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {

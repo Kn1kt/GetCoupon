@@ -165,7 +165,7 @@ extension ShopViewModel {
   }
 }
 
-  //MARK: - openURL
+  // MARK: - openURL
 extension ShopViewModel {
   
   func openWebsite(shop: ShopData) {
@@ -173,5 +173,49 @@ extension ShopViewModel {
       return
     }
     UIApplication.shared.open(url)
+  }
+}
+
+  // MARK: - Building Share Text
+extension ShopViewModel {
+  
+  func buildShareText(for shop: ShopData, coupon: PromoCodeData?) -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .none
+    
+    var promoString = "👋 Привет!\n\nВ \(shop.name) "
+    
+    if let coupon = coupon {
+      if let date = coupon.estimatedDate {
+        promoString += "до \(dateFormatter.string(from: date)) "
+        
+      } else {
+        promoString += "ceйчас "
+      }
+      
+      promoString += "действует \(coupon.coupon)"
+      
+      if let description = coupon.description {
+        promoString += ": \(description)\n"
+      }
+    } else {
+      let coupons = shop.promoCodes
+        .prefix(3)
+        .map { coupon in
+          if let description = coupon.description {
+            return "🔥 \(coupon.coupon): \(description)"
+          }
+          
+          return "\(coupon.coupon)"
+        }
+        .joined(separator: "\n")
+      
+      promoString += "действуют:\n\(coupons)\n"
+    }
+    
+    promoString += "\n🚀 Подробности можешь узнать в GetCoupon"
+    
+    return promoString
   }
 }

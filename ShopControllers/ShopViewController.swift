@@ -27,7 +27,6 @@ class ShopViewController: UIViewController {
   private let popupView = CouponPopupView()
   
   private let label = UILabel()
-//  private var labelOnTop: Bool = false
   
   private lazy var pointOfFade: CGFloat = {
     switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
@@ -221,8 +220,6 @@ class ShopViewController: UIViewController {
     nc?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     nc?.navigationBar.shadowImage = UIImage()
     nc?.navigationBar.isTranslucent = true
-
-//    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: nil, action: nil)
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"),
                                                         style: .plain,
@@ -241,8 +238,6 @@ class ShopViewController: UIViewController {
     label.text = self.viewModel.currentShop.name
     label.alpha = 0
     navigationItem.titleView = label
-//    layer.position = CGPoint(x: label.layer.position.x,
-//                                   y: label.layer.position.y + label.bounds.height)
   }
   
   // MARK: - Popup Animations
@@ -399,7 +394,7 @@ class ShopViewController: UIViewController {
   
 }
 
-// MARK: - State
+  // MARK: - State
 private enum State {
     case closed
     case open
@@ -414,7 +409,7 @@ extension State {
     }
 }
 
-// MARK: - Popup Layouts
+  // MARK: - Popup Layouts
 extension ShopViewController {
   
   private func layoutPopupView() {
@@ -601,7 +596,7 @@ extension ShopViewController {
   }
 }
 
-// MARK: - Setup Collection View
+  // MARK: - Setup Collection View
 extension ShopViewController {
   
   func configureCollectionView() {
@@ -746,7 +741,7 @@ extension ShopViewController {
   
 }
 
-// MARK: - Interaction
+  // MARK: - Interaction
 extension ShopViewController {
   
   private func updateSnapshot(_ shop: ShopData) {
@@ -766,7 +761,7 @@ extension ShopViewController {
   }
   
   private func showShareCouponVC(shop: ShopData, coupon: PromoCodeData?) {
-    let promoString = buildShareText(for: shop, coupon: coupon)
+    let promoString = viewModel.buildShareText(for: shop, coupon: coupon)
     print(promoString)
     let activityViewController = UIActivityViewController(activityItems: [promoString], applicationActivities: nil)
 
@@ -784,45 +779,9 @@ extension ShopViewController {
 
     self.present(activityViewController, animated: true, completion: nil)
   }
-  
-  private func buildShareText(for shop: ShopData, coupon: PromoCodeData?) -> String {
-    var promoString = "👋 Привет!\n\nВ \(shop.name) "
-    
-    if let coupon = coupon {
-      if let date = coupon.estimatedDate {
-        promoString += "до \(dateFormatter.string(from: date)) "
-        
-      } else {
-        promoString += "ceйчас "
-      }
-      
-      promoString += "действует \(coupon.coupon)"
-      
-      if let description = coupon.description {
-        promoString += ": \(description)\n"
-      }
-    } else {
-      let coupons = shop.promoCodes
-        .prefix(3)
-        .map { coupon in
-          if let description = coupon.description {
-            return "🔥 \(coupon.coupon): \(description)"
-          }
-          
-          return "\(coupon.coupon)"
-        }
-        .joined(separator: "\n")
-      
-      promoString += "действуют:\n\(coupons)\n"
-    }
-    
-    promoString += "\n🚀 Подробности можешь узнать в GetCoupon"
-    
-    return promoString
-  }
 }
 
-//MARK: - Custom Header
+  //MARK: - Custom Header
 extension ShopViewController: UICollectionViewDelegate {
   
   func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
@@ -888,7 +847,7 @@ extension ShopViewController: UICollectionViewDelegate {
   }
 }
 
-// MARK: - Actions
+  // MARK: - Actions
 extension ShopViewController {
   
   func updateVisibleItems(shop: ShopData) {
@@ -904,7 +863,7 @@ extension ShopViewController {
   }
 }
 
-// MARK: - Setup Images
+  // MARK: - Setup Images
 extension ShopViewController {
   
   private func updateImages(shop: ShopData) {
@@ -941,7 +900,7 @@ extension ShopViewController {
   }
 }
 
-// MARK: - Setup Coupon Popup View
+  // MARK: - Setup Coupon Popup View
 extension ShopViewController {
   
   private func setupPopupView(shopName: String, promocode: PromoCodeData) {
@@ -956,7 +915,7 @@ extension ShopViewController {
   }
 }
 
-// MARK: - Tap To Close Coupon Ciew
+  // MARK: - Tap To Close Coupon Ciew
 extension ShopViewController: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

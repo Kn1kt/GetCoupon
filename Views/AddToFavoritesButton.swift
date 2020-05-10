@@ -23,7 +23,7 @@ class AddToFavoritesButton: UIButton {
   }
 }
 
-// MARK: - Layouts
+  // MARK: - Layouts
 extension AddToFavoritesButton {
   
   func setupLayouts() {

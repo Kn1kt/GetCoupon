@@ -125,14 +125,3 @@ extension CouponPopupView {
     
   }
 }
-
-extension CouponPopupView: UIGestureRecognizerDelegate {
-  
-  func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-    if touch.view == exitButton || touch.view == shareButton {
-      return false
-    }
-    
-    return true
-  }
-}

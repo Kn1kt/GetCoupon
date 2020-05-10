@@ -116,7 +116,7 @@ class HomeDetailViewController: UIViewController {
   }
 }
 
-// MARK: - Layouts
+  // MARK: - Layouts
 extension HomeDetailViewController {
   
   func createLayout() -> UICollectionViewLayout {
@@ -217,7 +217,7 @@ extension HomeDetailViewController {
   }
 }
 
-// MARK: - Setup Collection View
+  // MARK: - Setup Collection View
 extension HomeDetailViewController {
   
   func configureCollectionView() {

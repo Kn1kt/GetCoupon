@@ -28,8 +28,7 @@ class FavoritesSegmentedControlCollectionViewCell: UICollectionViewCell {
   
 }
 
-// MARK: - Layouts
-
+  // MARK: - Layouts
 extension FavoritesSegmentedControlCollectionViewCell {
   
   func setupLayouts() {
