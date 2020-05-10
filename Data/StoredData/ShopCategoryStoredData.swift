@@ -15,6 +15,7 @@ class ShopCategoryStoredData: Object {
   
   @objc dynamic var defaultImageURL: String?
   @objc dynamic var defaultImageLink: String = ""
+  @objc dynamic var priority: Int = 0
   
   let tags = List<String>()
   
@@ -22,11 +23,13 @@ class ShopCategoryStoredData: Object {
   
   convenience init(categoryName: String,
                    defaultImageLink: String = "",
+                   priority: Int = 0,
                    shops: [ShopStoredData] = [],
                    tags: [String] = []) {
     self.init()
     self.categoryName = categoryName
     self.defaultImageLink = defaultImageLink
+    self.priority = priority
     self.shops.append(objectsIn: shops)
     self.tags.append(objectsIn: tags)
   }
@@ -42,10 +45,12 @@ extension ShopCategoryStoredData {
   convenience init(_ networkCategory: NetworkShopCategoryData) {
     self.init(categoryName: networkCategory.categoryName,
               defaultImageLink: networkCategory.defaultImageLink,
-//              shops: networkCategory.shops.map(ShopStoredData.init),
+              priority: networkCategory.priority,
               shops: [],
               tags: networkCategory.tags)
     
-    self.shops.append(objectsIn: networkCategory.shops.map { ShopStoredData($0, category: self) })
+    self.shops.append(objectsIn: networkCategory.shops
+      .map { ShopStoredData($0, category: self) }
+      .sorted { $0.priority > $1.priority })
   }
 }

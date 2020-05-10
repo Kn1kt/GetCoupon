@@ -187,31 +187,20 @@ extension ShopViewModel {
     var promoString = "👋 Привет!\n\nВ \(shop.name) "
     
     if let coupon = coupon {
-      if let date = coupon.estimatedDate {
-        promoString += "до \(dateFormatter.string(from: date)) "
-        
-      } else {
-        promoString += "ceйчас "
-      }
+      promoString += "до \(dateFormatter.string(from: coupon.estimatedDate)) "
       
       promoString += "действует \(coupon.coupon)"
       
-      if let description = coupon.description {
-        promoString += ": \(description)\n"
-      }
+      promoString += ": \(coupon.description)\n"
     } else {
       let coupons = shop.promoCodes
         .prefix(3)
         .map { coupon in
-          if let description = coupon.description {
-            return "🔥 \(coupon.coupon): \(description)"
-          }
-          
-          return "\(coupon.coupon)"
+          return "🔥 \(coupon.coupon): \(coupon.description)"
         }
         .joined(separator: "\n")
       
-      promoString += "действуют:\n\(coupons)\n"
+      promoString += "сейчас действуют:\n\(coupons)\n"
     }
     
     promoString += "\n🚀 Подробности можешь узнать в GetCoupon"

@@ -12,6 +12,7 @@ class NetworkShopCategoryData: Codable {
   
   let categoryName: String
   let defaultImageLink: String
+  let priority: Int
   
   let tags: [String]
   
@@ -19,10 +20,12 @@ class NetworkShopCategoryData: Codable {
   
   init(categoryName: String,
        defaultImageLink: String,
+       priority: Int,
        tags: [String] = [],
        shops: [NetworkShopData] = []) {
     self.categoryName = categoryName
     self.defaultImageLink = defaultImageLink
+    self.priority = priority
     self.tags = tags
     self.shops = shops
   }

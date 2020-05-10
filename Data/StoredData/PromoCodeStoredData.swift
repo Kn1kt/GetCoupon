@@ -12,15 +12,15 @@ import RealmSwift
 class PromoCodeStoredData: Object {
   
   @objc dynamic var coupon: String = ""
-  @objc dynamic var addingDate: Date?
-  @objc dynamic var estimatedDate: Date?
-  @objc dynamic var promoCodeDescription: String?
+  @objc dynamic var addingDate: Date! = nil
+  @objc dynamic var estimatedDate: Date! = nil
+  @objc dynamic var promoCodeDescription: String! = nil
 //  @objc dynamic var websiteLink: String = ""
   
   convenience init(coupon: String,
-                   addingDate: Date? = nil,
-                   estimatedDate: Date? = nil,
-                   description: String? = nil) {
+                   addingDate: Date,
+                   estimatedDate: Date,
+                   description: String) {
 //                   websiteLink: String) {
     self.init()
     self.coupon = coupon

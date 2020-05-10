@@ -17,17 +17,14 @@ class ModelController {
   
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+  private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
   /// System Permission to Send Push Notifications
   let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
   
   private let _collections =  BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let collections: Observable<[ShopCategoryData]> //{
-//    return _collections
-//      .asObservable()
-//      .share(replay: 1)
-//  }
+  let collections: Observable<[ShopCategoryData]>
   
   /// Home Collections
   var homeDataController: HomeDataController!
@@ -37,20 +34,12 @@ class ModelController {
   
   private let _favoriteCollections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let favoriteCollections: Observable<[ShopCategoryData]> //{
-//    return _favoriteCollections
-//      .asObservable()
-//      .share(replay: 1)
-//  }
+  let favoriteCollections: Observable<[ShopCategoryData]>
   
   /// Search Collection
   private let _searchCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
   
-  let searchCollection: Observable<ShopCategoryData> //{
-//    return _searchCollection
-//      .asObservable()
-//      .share(replay: 1)
-//  }
+  let searchCollection: Observable<ShopCategoryData>
   
   var currentSearchCollection: ShopCategoryData {
     return _searchCollection.value
@@ -77,7 +66,7 @@ extension ModelController {
   
   func setupCollections() {
     NetworkController.shared.downloadCollections()
-      .observeOn(defaultScheduler)
+      .observeOn(updatesScheduler)
       .subscribe(onNext: { networkCollections in
         let cache = CacheController()
         cache.updateData(with: networkCollections)
@@ -94,13 +83,15 @@ extension ModelController {
           
           let category = ShopCategoryData(categoryName: cachedCategory.categoryName,
                                           tags: Array(cachedCategory.tags))
-          let shops = cachedCategory.shops.map { ShopData($0, category: category) }
+          let shops = cachedCategory.shops
+            .map { ShopData($0, category: category) }
+          
           category.shops = Array(shops)
           
           return category
         }
       }
-    .observeOn(defaultScheduler)
+    .observeOn(updatesScheduler)
     .bind(to: _collections)
     .disposed(by: disposeBag)
   }
@@ -248,15 +239,5 @@ extension ModelController {
     let cache = CacheController()
     
     cache.removeCollectionsFromStorage()
-//    do {
-//      cache.clearImageCache()
-//      try cache.realm.write {
-//        cache.realm.deleteAll()
-//      }
-//    } catch {
-//      debugPrint(error.localizedDescription)
-//    }
-//
-//    debugPrint("Deleted From Storage")
   }
 }

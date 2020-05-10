@@ -16,11 +16,7 @@ class HomeDataController {
   private let disposeBag = DisposeBag()
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let collections: Observable<[ShopCategoryData]> //= {
-//    return _collections
-//      .asObservable()
-//      .share()
-//  }()
+  let collections: Observable<[ShopCategoryData]>
   
   func section(for index: Int) -> Observable<ShopCategoryData>? {
     guard index >= 0, _collections.value.count > index else {
@@ -28,9 +24,6 @@ class HomeDataController {
     }
     
     let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
-//      guard index >= 0, categories.count > index else {
-//        fatalError("Index overbound")
-//      }
       return categories[index]
     }
     

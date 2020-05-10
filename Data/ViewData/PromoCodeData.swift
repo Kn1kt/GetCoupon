@@ -12,18 +12,18 @@ import Foundation
 class PromoCodeData {
   
   let coupon: String
-  let addingDate: Date?
-  let estimatedDate: Date?
-  let description: String?
+  let addingDate: Date
+  let estimatedDate: Date
+  let description: String
   
 //  let websiteLink: String
   
   let identifier = UUID()
   
   init(coupon: String,
-       addingDate: Date? = nil,
-       estimatedDate: Date? = nil,
-       description: String? = nil) {
+       addingDate: Date = Date(),
+       estimatedDate: Date = Date(),
+       description: String = "") {
 //       websiteLink: String = "") {
     
     self.coupon = coupon

@@ -715,12 +715,9 @@ extension ShopViewController {
           cell.subtitleLabel.text = cellData.description
           cell.promocodeView.promocodeLabel.text = cellData.coupon
           
-          if let addingDate = cellData.addingDate {
-            cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: addingDate)
-          }
-          if let estimatedDate = cellData.estimatedDate {
-            cell.estimatedDateLabel.text = "Expire: " + self.dateFormatter.string(from: estimatedDate)
-          }
+          cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
+          
+          cell.estimatedDateLabel.text = "Expire: " + self.dateFormatter.string(from: cellData.estimatedDate)
           
           return cell
         }
@@ -907,11 +904,8 @@ extension ShopViewController {
     popupView.titleLabel.text = shopName
     popupView.subtitleLabel.text = promocode.description
     popupView.promocodeView.promocodeLabel.text = promocode.coupon
-    if let date = promocode.estimatedDate {
-       popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: date)
-    } else {
-      popupView.expirationDateLabel.text = "Expire instantly"
-    }
+    
+    popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: promocode.estimatedDate)
   }
 }
 

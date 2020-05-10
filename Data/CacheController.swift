@@ -171,8 +171,9 @@ class CacheController {
   }
   
   /// All categories
-  func categories() -> [ShopCategoryStoredData] {
+  private func categories() -> [ShopCategoryStoredData] {
     let categories = realm.objects(ShopCategoryStoredData.self)
+//      .sorted { $0.priority > $1.priority }
     
     return Array(categories)
   }
@@ -180,6 +181,7 @@ class CacheController {
   /// All categories as Observable
   func categories() -> Observable<[ShopCategoryStoredData]> {
     let categories = realm.objects(ShopCategoryStoredData.self)
+      .sorted { $0.priority > $1.priority }
     
     return Observable.just(Array(categories))
   }
@@ -187,6 +189,7 @@ class CacheController {
   /// All shops
   func shops() -> [ShopStoredData] {
     let shops = realm.objects(ShopStoredData.self)
+      .sorted { $0.priority > $1.priority }
     
     return Array(shops)
   }
@@ -212,6 +215,7 @@ class CacheController {
         }
         
         checkValidity(validatedCategories)
+        
       }
     } catch {
       debugPrint("Unexpected Error: \(error)")
@@ -228,6 +232,10 @@ class CacheController {
       if category.defaultImageLink != storedCategory.defaultImageLink {
         storedCategory.defaultImageLink = category.defaultImageLink
         storedCategory.defaultImageURL = nil
+      }
+      
+      if category.priority != storedCategory.priority {
+        storedCategory.priority = category.priority
       }
       
       var existing = Set<String>()
@@ -267,6 +275,9 @@ class CacheController {
       if storedCategory.shops.isEmpty {
         deleteDefaultImage(from: storedCategory)
         realm.delete(storedCategory)
+      } else {
+        let sorted = storedCategory.shops.sorted { $0.priority > $1.priority }
+        storedCategory.shops.replaceSubrange((0..<sorted.count), with: sorted)
       }
       
     } else if !category.shops.isEmpty {

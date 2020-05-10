@@ -20,6 +20,7 @@ class NetworkController {
   
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+  private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
   /// Download or extract from cache preview image
   func setupPreviewImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
@@ -65,8 +66,8 @@ extension NetworkController {
           let decoder = JSONDecoder()
           return try decoder.decode([NetworkShopCategoryData].self, from: data)
       }
-      .subscribeOn(self.defaultScheduler)
-      .observeOn(self.defaultScheduler)
+      .subscribeOn(self.updatesScheduler)
+      .observeOn(self.updatesScheduler)
       .bind(to: subject)
       .disposed(by: self.disposeBag)
     }
