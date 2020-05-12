@@ -24,8 +24,9 @@ final class SetupDefaultImageOperation: AsyncOperation {
       return
     }
 
-    guard let url = URL(string: stringURL),
-      category.defaultImage == nil else {
+    guard let link = stringURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+          let url = URL(string: link),
+          category.defaultImage == nil else {
         state = .finished
         return
     }

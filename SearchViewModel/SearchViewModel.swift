@@ -26,17 +26,11 @@ class SearchViewModel {
   // MARK: - Output
   private let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
   
-  let currentCollection: Driver<ShopCategoryData> //{
-//    return _currentCollection
-//      .asDriver()
-//  }
+  let currentCollection: Driver<ShopCategoryData>
   
   private let _isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  let isRefreshing: Driver<Bool> //{
-//    return _isRefreshing
-//      .asDriver()
-//  }
+  let isRefreshing: Driver<Bool>
   
   // MARK: - Init
   init() {
@@ -58,9 +52,10 @@ class SearchViewModel {
         let searchText = self.searchText.value
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
+          
+        } else {
+          self._currentCollection.accept(collection)
         }
-
-        self._currentCollection.accept(collection)
       })
       .disposed(by: disposeBag)
     
@@ -95,8 +90,12 @@ extension SearchViewModel {
       if let _ = shop.previewImage {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.previewImage = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.previewImage = category.defaultImage
           subject.onCompleted()
         }
       }
@@ -111,6 +110,7 @@ extension SearchViewModel {
 
   //MARK: - Performing Search
 extension SearchViewModel {
+  
   private func filteredCategory(with filter: String) -> ShopCategoryData {
     let collection = ModelController.shared.currentSearchCollection
     
@@ -123,6 +123,7 @@ extension SearchViewModel {
     let filtered = collection.shops
         .filter { shop in
           return shop.name.lowercased().contains(lowercasedFilter)
+            || shop.category?.tags.contains(lowercasedFilter) ?? false
         }
         .sorted { $0.name < $1.name }
       
@@ -136,6 +137,7 @@ extension SearchViewModel {
 extension SearchViewModel {
   
   private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
+    guard let category = shop.category else { return }
+    navigator.showShopVC(sender: vc, section: category, shop: shop)
   }
 }

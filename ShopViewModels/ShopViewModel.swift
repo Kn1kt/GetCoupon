@@ -120,8 +120,12 @@ extension ShopViewModel {
       if let _ = shop.previewImage {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.previewImage = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.previewImage = category.defaultImage
           subject.onCompleted()
         }
       }
@@ -139,8 +143,12 @@ extension ShopViewModel {
       if let _ = shop.image {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.image = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.image = category.defaultImage
           subject.onCompleted()
         }
       }

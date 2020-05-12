@@ -126,8 +126,12 @@ extension HomeViewModel {
       if let _ = shop.previewImage {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.previewImage = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.previewImage = category.defaultImage
           subject.onCompleted()
         }
       }
@@ -156,6 +160,7 @@ extension HomeViewModel {
 extension HomeViewModel {
   
   private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
-    navigator.showShopVC(sender: vc, section: shop.category, shop: shop, favoritesButton: favoritesButton)
+    guard let category = shop.category else { return }
+    navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
 }

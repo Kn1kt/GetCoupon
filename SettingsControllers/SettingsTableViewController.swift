@@ -67,7 +67,7 @@ class SettingsTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return 5
+      return 4
     case 1:
       return 3
     default:
@@ -89,13 +89,13 @@ class SettingsTableViewController: UITableViewController {
       switch indexPath.row {
       case 0:
         return configurePushNotificationsCell(cell)
+//      case 1:
+//        return configureEmailNotificationsCell(cell)
       case 1:
-        return configureEmailNotificationsCell(cell)
-      case 2:
         return configureForceUpdatingCell(cell)
-      case 3:
+      case 2:
         return configureClearCacheCell(cell)
-      case 4:
+      case 3:
         return configureSharePromoCell(cell)
       default:
         fatalError("Overbound Rows")
@@ -122,9 +122,9 @@ class SettingsTableViewController: UITableViewController {
     switch indexPath.section {
     case 0:
       switch indexPath.row {
-      case 0, 1, 2:
+      case 0, 1:
         return SettingsDoubleTextAndSwitchTableViewCell.reuseIdentifier
-      case 4:
+      case 3:
         return SettingsDoubleTextAndAccessoryTableViewCell.reuseIdentifier
       default:
         return SettingsTextAndAccessoryTableViewCell.reuseIdentifier
@@ -179,35 +179,35 @@ extension SettingsTableViewController {
     return cell
   }
   
-    private func configureEmailNotificationsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
-      guard let cell = tableViewCell as? SettingsDoubleTextAndSwitchTableViewCell else {
-        return tableViewCell
-      }
-      
-      cell.titleLabel.text = "Receive Email Notifications"
-      cell.subtitleLabel.text = "Every week you will receive an email with new promotional codes"
-      
-      cell.switcher.isOn = viewModel.emailNotifications.value
-      cell.switcher.rx.isOn
-        .skip(1)
-        .filter { $0 }
-        .subscribeOn(eventScheduler)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onNext: { [weak self] _ in
-          self?.showEmailAlert(switcher: cell.switcher)
-        })
-        .disposed(by: cell.disposeBag)
-      
-      cell.switcher.rx.isOn
-        .skip(1)
-        .debounce(RxTimeInterval.milliseconds(500), scheduler: defaultSheduler)
-        .subscribeOn(defaultSheduler)
-        .observeOn(defaultSheduler)
-        .bind(to: viewModel.emailNotifications)
-        .disposed(by: cell.disposeBag)
-      
-      return cell
-    }
+//    private func configureEmailNotificationsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
+//      guard let cell = tableViewCell as? SettingsDoubleTextAndSwitchTableViewCell else {
+//        return tableViewCell
+//      }
+//
+//      cell.titleLabel.text = "Receive Email Notifications"
+//      cell.subtitleLabel.text = "Every week you will receive an email with new promotional codes"
+//
+//      cell.switcher.isOn = viewModel.emailNotifications.value
+//      cell.switcher.rx.isOn
+//        .skip(1)
+//        .filter { $0 }
+//        .subscribeOn(eventScheduler)
+//        .observeOn(MainScheduler.instance)
+//        .subscribe(onNext: { [weak self] _ in
+//          self?.showEmailAlert(switcher: cell.switcher)
+//        })
+//        .disposed(by: cell.disposeBag)
+//
+//      cell.switcher.rx.isOn
+//        .skip(1)
+//        .debounce(RxTimeInterval.milliseconds(500), scheduler: defaultSheduler)
+//        .subscribeOn(defaultSheduler)
+//        .observeOn(defaultSheduler)
+//        .bind(to: viewModel.emailNotifications)
+//        .disposed(by: cell.disposeBag)
+//
+//      return cell
+//    }
   
   private func configureForceUpdatingCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
     guard let cell = tableViewCell as? SettingsDoubleTextAndSwitchTableViewCell else {
@@ -313,9 +313,9 @@ extension SettingsTableViewController {
     switch indexPath.section {
     case 0:
       switch indexPath.row {
-      case 3:
+      case 2:
         showClearCacheAlert()
-      case 4:
+      case 3:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
       default:
         fatalError("Overbound Rows")
@@ -358,69 +358,69 @@ extension SettingsTableViewController {
   }
   
   // MARK: - Email Alert
-  private func showEmailAlert(switcher: UISwitch) {
-    var disposeBag: DisposeBag? = DisposeBag()
-    weak var textBox: UITextField?
-    
-    let title = NSLocalizedString("Email Notifications", comment: "")
-    let message = NSLocalizedString("Enter email address for weekly notifications", comment: "")
-    let cancelButtonTitle = NSLocalizedString("Cancel", comment: "")
-    let otherButtonTitle = NSLocalizedString("OK", comment: "")
-    
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    
-    let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { [weak self] _ in
-      print("The Email alert's cancel action occurred.")
-      self?.viewModel.emailNotifications.accept(false)
-      switcher.setOn(false, animated: true)
-      disposeBag = nil
-    }
-    
-    let acceptAction = UIAlertAction(title: otherButtonTitle, style: .default) { [weak self] _ in
-      print("The Email alert's other action occurred.")
-      
-      if let email = textBox?.text {
-        self?.viewModel.userEmail.accept(email)
-      }
-      disposeBag = nil
-    }
-    
-    alertController.addTextField { [weak self] textField in
-      guard let self = self else { return }
-      
-      textBox = textField
-      
-      textField.text = self.viewModel.userEmail.value
-      
-      textField.rx.text
-        .map {
-          guard let text = $0,
-            !text.isEmpty else { return false }
-          
-          if let index = text.firstIndex(of: "@") {
-            let suffix = text.suffix(from: index)
-            if let dotIndex = suffix.firstIndex(of: ".") {
-              let dotSuffix = suffix.suffix(from: dotIndex)
-              if dotSuffix.count > 2 {
-                return true
-              }
-            }
-          }
-          
-          return false
-        }
-        .subscribeOn(self.eventScheduler)
-        .observeOn(MainScheduler.instance)
-        .bind(to: acceptAction.rx.isEnabled)
-        .disposed(by: disposeBag!)
-        
-    }
-    
-    alertController.addAction(cancelAction)
-    alertController.addAction(acceptAction)
-    
-    present(alertController, animated: true, completion: nil)
-  }
+//  private func showEmailAlert(switcher: UISwitch) {
+//    var disposeBag: DisposeBag? = DisposeBag()
+//    weak var textBox: UITextField?
+//    
+//    let title = NSLocalizedString("Email Notifications", comment: "")
+//    let message = NSLocalizedString("Enter email address for weekly notifications", comment: "")
+//    let cancelButtonTitle = NSLocalizedString("Cancel", comment: "")
+//    let otherButtonTitle = NSLocalizedString("OK", comment: "")
+//    
+//    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+//    
+//    let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { [weak self] _ in
+//      print("The Email alert's cancel action occurred.")
+//      self?.viewModel.emailNotifications.accept(false)
+//      switcher.setOn(false, animated: true)
+//      disposeBag = nil
+//    }
+//    
+//    let acceptAction = UIAlertAction(title: otherButtonTitle, style: .default) { [weak self] _ in
+//      print("The Email alert's other action occurred.")
+//      
+//      if let email = textBox?.text {
+//        self?.viewModel.userEmail.accept(email)
+//      }
+//      disposeBag = nil
+//    }
+//    
+//    alertController.addTextField { [weak self] textField in
+//      guard let self = self else { return }
+//      
+//      textBox = textField
+//      
+//      textField.text = self.viewModel.userEmail.value
+//      
+//      textField.rx.text
+//        .map {
+//          guard let text = $0,
+//            !text.isEmpty else { return false }
+//          
+//          if let index = text.firstIndex(of: "@") {
+//            let suffix = text.suffix(from: index)
+//            if let dotIndex = suffix.firstIndex(of: ".") {
+//              let dotSuffix = suffix.suffix(from: dotIndex)
+//              if dotSuffix.count > 2 {
+//                return true
+//              }
+//            }
+//          }
+//          
+//          return false
+//        }
+//        .subscribeOn(self.eventScheduler)
+//        .observeOn(MainScheduler.instance)
+//        .bind(to: acceptAction.rx.isEnabled)
+//        .disposed(by: disposeBag!)
+//        
+//    }
+//    
+//    alertController.addAction(cancelAction)
+//    alertController.addAction(acceptAction)
+//    
+//    present(alertController, animated: true, completion: nil)
+//  }
   
   // MARK: - Cache Alert
   private func showClearCacheAlert() {

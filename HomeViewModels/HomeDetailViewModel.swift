@@ -36,10 +36,7 @@ class HomeDetailViewModel {
   // MARK: - Output
   private let _currentSection: BehaviorRelay<ShopCategoryData>!
   
-  let currentSection: Driver<ShopCategoryData> //{
-//    return _currentSection
-//      .asDriver()
-//  }
+  let currentSection: Driver<ShopCategoryData>
   
   var currentTitle: String {
     return _currentSection.value.categoryName
@@ -47,9 +44,7 @@ class HomeDetailViewModel {
   
   private let _favoritesUpdates =  PublishRelay<Void>()
   
-  let favoritesUpdates: Signal<Void> //{
-//    return _favoritesUpdates.asSignal()
-//  }
+  let favoritesUpdates: Signal<Void>
   
   // MARK: - Init
   init(navigator: Navigator,
@@ -98,7 +93,17 @@ class HomeDetailViewModel {
     section
       .map { category in
         return ShopCategoryData(categoryName: category.categoryName,
-                                shops: category.shops.shuffled(),
+                                shops: category.shops.sorted { lhs, rhs in
+                                  if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                    if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                      return lhsDate > rhsDate
+                                    }
+                                    
+                                    return true
+                                  }
+                                  
+                                  return false
+          },
                                 tags: category.tags)
       }
       .subscribeOn(defaultScheduler)
@@ -203,8 +208,12 @@ extension HomeDetailViewModel {
       if let _ = shop.previewImage {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.previewImage = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.previewImage = category.defaultImage
           subject.onCompleted()
         }
       }
@@ -243,6 +252,7 @@ extension HomeDetailViewModel {
     let filtered = section.value.shops
       .filter { shop in
         return shop.name.lowercased().contains(lowercasedFilter)
+          || shop.category?.tags.contains(lowercasedFilter) ?? false
       }
       .sorted { $0.name < $1.name }
     
@@ -256,6 +266,7 @@ extension HomeDetailViewModel {
 extension HomeDetailViewModel {
   
   private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
+    guard let category = shop.category else { return }
+    navigator.showShopVC(sender: vc, section: category, shop: shop)
   }
 }

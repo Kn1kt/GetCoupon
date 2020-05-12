@@ -286,10 +286,11 @@ extension HomeViewController {
   
   func configureDataSource() {
     dataSource = UICollectionViewDiffableDataSource
-      <ShopCategoryData, ShopData> (collectionView: collectionView) { [unowned self] (collectionView: UICollectionView,
+      <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
         indexPath: IndexPath,
         cellData: ShopData) -> UICollectionViewCell? in
         
+        guard let self = self else { return nil }
         switch indexPath.section {
         case 0:
           guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCardCollectionViewCell.reuseIdentifier,

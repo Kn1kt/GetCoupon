@@ -56,7 +56,7 @@ class ShopData {
   var promoCodes: [PromoCodeData]
   
   
-  unowned let category: ShopCategoryData!
+  weak var category: ShopCategoryData?
   let identifier = UUID()
   
   init(name: String,

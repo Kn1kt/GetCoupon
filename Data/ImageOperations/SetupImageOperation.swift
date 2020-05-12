@@ -24,8 +24,9 @@ final class SetupImageOperation: AsyncOperation {
       return
     }
     
-    guard let url = URL(string: stringURL),
-      shop.image == nil else {
+    guard let link = stringURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+          let url = URL(string: link),
+          shop.image == nil else {
         state = .finished
         return
     }

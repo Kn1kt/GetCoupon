@@ -11,7 +11,7 @@ import RealmSwift
 
 class ShopStoredData: Object {
   
-  @objc dynamic var category: ShopCategoryStoredData! = nil
+  @objc dynamic weak var category: ShopCategoryStoredData! = nil
   
   @objc dynamic var name: String = ""
   @objc dynamic var shopDescription: String?

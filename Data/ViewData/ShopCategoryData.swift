@@ -12,7 +12,7 @@ class ShopCategoryData {
   
   let categoryName: String
   
-  let tags: [String]
+  let tags: Set<String>
   
   var shops: [ShopData]
   
@@ -34,7 +34,7 @@ class ShopCategoryData {
     }
   }
   
-  init(categoryName: String, shops: [ShopData] = [], tags: [String] = []) {
+  init(categoryName: String, shops: [ShopData] = [], tags: Set<String> = []) {
     self.categoryName = categoryName
     self.shops = shops
     self.tags = tags
@@ -42,7 +42,7 @@ class ShopCategoryData {
   
   /// Bridge for stored data
   convenience init(_ category: ShopCategoryStoredData) {
-    let tags = Array(category.tags)
+    let tags = Set(category.tags)
     self.init(categoryName: category.categoryName,
               tags: tags)
     

@@ -210,8 +210,12 @@ extension FavoritesViewModel {
       if let _ = shop.previewImage {
         subject.onCompleted()
       } else {
-        NetworkController.shared.setupDefaultImage(in: shop.category) {
-          shop.previewImage = shop.category.defaultImage
+        guard let category = shop.category else {
+          subject.onCompleted()
+          return
+        }
+        NetworkController.shared.setupDefaultImage(in: category) {
+          shop.previewImage = category.defaultImage
           subject.onCompleted()
         }
       }
@@ -252,6 +256,7 @@ extension FavoritesViewModel {
       let shops = category.shops
         .filter { shop in
           return shop.name.lowercased().contains(lowercasedFilter)
+            || shop.category?.tags.contains(lowercasedFilter) ?? false
         }
         .sorted { $0.name < $1.name }
       
@@ -270,6 +275,7 @@ extension FavoritesViewModel {
 extension FavoritesViewModel {
   
   private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-    navigator.showShopVC(sender: vc, section: shop.category, shop: shop)
+    guard let category = shop.category else { return }
+    navigator.showShopVC(sender: vc, section: category, shop: shop)
   }
 }

@@ -33,7 +33,6 @@ class SearchMainViewController: SearchBaseViewController {
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationItem.title = "Search"
     navigationItem.hidesSearchBarWhenScrolling = false
-    
   }
 }
 

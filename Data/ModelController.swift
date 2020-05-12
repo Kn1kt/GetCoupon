@@ -79,17 +79,7 @@ extension ModelController {
     let cache = CacheController()
     cache.categories()
       .map { (cachedCategories: [ShopCategoryStoredData]) -> [ShopCategoryData] in
-        return cachedCategories.map { cachedCategory in
-          
-          let category = ShopCategoryData(categoryName: cachedCategory.categoryName,
-                                          tags: Array(cachedCategory.tags))
-          let shops = cachedCategory.shops
-            .map { ShopData($0, category: category) }
-          
-          category.shops = Array(shops)
-          
-          return category
-        }
+        return cachedCategories.map(ShopCategoryData.init)
       }
     .observeOn(updatesScheduler)
     .bind(to: _collections)

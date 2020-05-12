@@ -24,8 +24,9 @@ final class SetupPreviewImageOperation: AsyncOperation {
       return
     }
     
-    guard let url = URL(string: stringURL),
-      shop.previewImage == nil else {
+    guard let link = stringURL.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed),
+          let url = URL(string: link),
+          shop.previewImage == nil else {
         state = .finished
         return
     }

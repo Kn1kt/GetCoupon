@@ -238,6 +238,11 @@ class CacheController {
         storedCategory.priority = category.priority
       }
       
+      if category.tags.hashValue != storedCategory.tags.hashValue {
+        storedCategory.tags.removeAll()
+        storedCategory.tags.append(objectsIn: category.tags)
+      }
+      
       var existing = Set<String>()
       category.shops.forEach { shop in
         if let storedShop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: shop.name) {
