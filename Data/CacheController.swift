@@ -478,7 +478,9 @@ extension CacheController {
   func cacheImage(_ image: UIImage, for shop: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    let fileURL = URL(fileURLWithPath: "\(shop)-image", relativeTo: directoryURL).appendingPathExtension("png")
+    guard let path = "\(shop)-image".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+    
+    let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
       debugPrint("No Shop")
@@ -499,7 +501,9 @@ extension CacheController {
   func cachePreviewImage(_ image: UIImage, for shop: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    let fileURL = URL(fileURLWithPath: "\(shop)-previewImage", relativeTo: directoryURL).appendingPathExtension("png")
+    guard let path = "\(shop)-previewImage".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+
+    let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
       debugPrint("No Shop")
@@ -520,7 +524,9 @@ extension CacheController {
   func cacheDefaultImage(_ image: UIImage, for category: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    let fileURL = URL(fileURLWithPath: "\(category)-defaultImage", relativeTo: directoryURL).appendingPathExtension("png")
+    guard let path = "\(category)-defaultImage".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+    
+    let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
                                         forPrimaryKey: category) else {
       debugPrint("No Category")
