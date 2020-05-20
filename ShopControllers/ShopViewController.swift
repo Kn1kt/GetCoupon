@@ -285,12 +285,25 @@ class ShopViewController: UIViewController {
         self.bottomPopupView.constant = self.popupView.bounds.height
         self.popupView.layer.cornerRadius = 0
         self.overlayView.alpha = 0
+        
+        self.popupView.textSnapshot = self.popupView.textView.snapshotView(afterScreenUpdates: true)
+        self.popupView.snapshotPlace.addSubview(self.popupView.textSnapshot!)
+        self.popupView.textView.isHidden = true
       }
+      
       self.view.layoutIfNeeded()
+      self.popupView.textView.selectedRange = NSRange()
     })
+    
+//    self.popupView.textSnapshot = self.popupView.textView.snapshotView(afterScreenUpdates: true)
+//    self.popupView.snapshotPlace.addSubview(self.popupView.textSnapshot!)
+//    self.popupView.textView.alpha = 0
     
     // the transition completion block
     transitionAnimator.addCompletion { position in
+      self.popupView.textView.isHidden = false
+      self.popupView.textSnapshot?.removeFromSuperview()
+      self.popupView.textSnapshot = nil
       
       // update the state
       switch position {
@@ -902,9 +915,10 @@ extension ShopViewController {
   
   private func setupPopupView(shopName: String, promocode: PromoCodeData) {
     popupView.titleLabel.text = shopName
-    popupView.subtitleLabel.text = promocode.description
-    popupView.promocodeView.promocodeLabel.text = promocode.coupon
+//    popupView.textView.text = promocode.description
+    popupView.textView.text = "Последний день скидок до 50% на большой распродаже Л'Этуаль.\n\nВсего в распродаже учувствует более 6 500 товаров. Косметика, парфюмерия, средства по уходу и многое другое.\n\n⚡️Перейти в каталог — https://letu.ru"
     
+    popupView.promocodeView.promocodeLabel.text = promocode.coupon
     popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: promocode.estimatedDate)
   }
 }

@@ -16,7 +16,9 @@ class CouponPopupView: UIView {
   let disposeBag = DisposeBag()
   
   let titleLabel = UILabel()
-  let subtitleLabel = UILabel()
+  let textView =  UITextView()
+  var textSnapshot: UIView?
+  let snapshotPlace = UIView()
   let expirationDateLabel = UILabel()
   let promocodeView = AnimatedPromocodeView()
   let shareButton = UIButton()
@@ -32,12 +34,10 @@ class CouponPopupView: UIView {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        print("TAP")
         self.promocodeView.animateCopying()
         UIPasteboard.general.string = self.promocodeView.promocodeLabel.text
       })
       .disposed(by: disposeBag)
-    
   }
   
   required init?(coder: NSCoder) {
@@ -57,25 +57,40 @@ extension CouponPopupView {
     self.addSubview(titleLabel)
     self.addSubview(shareButton)
     self.addSubview(exitButton)
-    self.addSubview(subtitleLabel)
+    self.addSubview(textView)
     self.addSubview(promocodeView)
     self.addSubview(expirationDateLabel)
+    self.addSubview(snapshotPlace)
     
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     exitButton.translatesAutoresizingMaskIntoConstraints = false
-    subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+    textView.translatesAutoresizingMaskIntoConstraints = false
     expirationDateLabel.translatesAutoresizingMaskIntoConstraints = false
     promocodeView.translatesAutoresizingMaskIntoConstraints = false
     shareButton.translatesAutoresizingMaskIntoConstraints = false
+    snapshotPlace.translatesAutoresizingMaskIntoConstraints = false
+    
+    snapshotPlace.isUserInteractionEnabled = false
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
     titleLabel.adjustsFontForContentSizeCategory = true
+    titleLabel.numberOfLines = 2
     titleLabel.textAlignment = .left
     
-    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
-    subtitleLabel.adjustsFontForContentSizeCategory = true
-    subtitleLabel.numberOfLines = 0
-    subtitleLabel.textAlignment = .left
+    textView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    textView.textColor = .label
+    textView.adjustsFontForContentSizeCategory = true
+//    textView.numberOfLines = 0
+    textView.isUserInteractionEnabled = true
+    textView.textAlignment = .left
+    textView.isEditable = false
+    textView.isScrollEnabled = false
+    textView.bounces = false
+    textView.scrollsToTop = false
+    textView.showsVerticalScrollIndicator = false
+    textView.showsHorizontalScrollIndicator = false
+    textView.dataDetectorTypes = [.link]
+    textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 5)
     
     expirationDateLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     expirationDateLabel.adjustsFontForContentSizeCategory = true
@@ -99,22 +114,30 @@ extension CouponPopupView {
       titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 4.0),
       
       shareButton.trailingAnchor.constraint(lessThanOrEqualTo: exitButton.leadingAnchor, constant: -spacing),
-      shareButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+//      shareButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+      shareButton.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 5.0),
       shareButton.heightAnchor.constraint(equalToConstant: 25),
       shareButton.widthAnchor.constraint(equalTo: shareButton.heightAnchor, multiplier: 0.9),
       
       exitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
-      exitButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+//      exitButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+      exitButton.centerYAnchor.constraint(equalTo: shareButton.centerYAnchor),
       exitButton.heightAnchor.constraint(equalTo: shareButton.heightAnchor, multiplier: 1.0),
       exitButton.widthAnchor.constraint(equalTo: exitButton.heightAnchor, multiplier: 0.9),
       
-      subtitleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
-      subtitleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
-      subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 2.0),
+      textView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
+      textView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
+      textView.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 2.0),
+//      textView.heightAnchor.constraint(equalToConstant: 200),
+      
+      snapshotPlace.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
+      snapshotPlace.trailingAnchor.constraint(equalTo: textView.trailingAnchor),
+      snapshotPlace.topAnchor.constraint(equalTo: textView.topAnchor),
+      snapshotPlace.bottomAnchor.constraint(equalTo: textView.bottomAnchor),
       
       promocodeView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
       promocodeView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
-      promocodeView.topAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 2.0),
+      promocodeView.topAnchor.constraint(equalToSystemSpacingBelow: textView.bottomAnchor, multiplier: 2.0),
       promocodeView.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
       
       expirationDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),

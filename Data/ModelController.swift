@@ -46,12 +46,9 @@ class ModelController {
   }
   
   init() {
-    self.collections = _collections
-      .share(replay: 1)
-    self.favoriteCollections = _favoriteCollections
-      .share(replay: 1)
-    self.searchCollection = _searchCollection
-      .share(replay: 1)
+    self.collections = _collections.share(replay: 1)
+    self.favoriteCollections = _favoriteCollections.share(replay: 1)
+    self.searchCollection = _searchCollection.share(replay: 1)
     
     homeDataController = HomeDataController(collections: collections)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
