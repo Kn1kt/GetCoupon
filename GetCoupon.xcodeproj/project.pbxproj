@@ -74,6 +74,10 @@
 		F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEBA238C69350063E2C8 /* ModelController.swift */; };
 		F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEBD238C6A0E0063E2C8 /* FavoritesDataController.swift */; };
 		F3E0AEC0238C868C0063E2C8 /* AddToFavoritesButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0AEBF238C868C0063E2C8 /* AddToFavoritesButton.swift */; };
+		F3E69DA9247C518B00CE7799 /* SearchResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E69DA8247C518B00CE7799 /* SearchResultsViewModel.swift */; };
+		F3E69DAB247C6DB700CE7799 /* SuggestedSearchCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E69DAA247C6DB700CE7799 /* SuggestedSearchCellData.swift */; };
+		F3E69DAD247C71E200CE7799 /* SuggestedSearchCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E69DAC247C71E200CE7799 /* SuggestedSearchCategoryData.swift */; };
+		F3E69DAF247C7E8900CE7799 /* SuggestedSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E69DAE247C7E8900CE7799 /* SuggestedSearchView.swift */; };
 		F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D6323983E7B00726045 /* SettingsTableViewController.swift */; };
 		F3ED2D672398430900726045 /* SearchBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D662398430900726045 /* SearchBaseViewController.swift */; };
 		F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */; };
@@ -176,6 +180,10 @@
 		F3E0AEBA238C69350063E2C8 /* ModelController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelController.swift; sourceTree = "<group>"; };
 		F3E0AEBD238C6A0E0063E2C8 /* FavoritesDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesDataController.swift; sourceTree = "<group>"; };
 		F3E0AEBF238C868C0063E2C8 /* AddToFavoritesButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToFavoritesButton.swift; sourceTree = "<group>"; };
+		F3E69DA8247C518B00CE7799 /* SearchResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultsViewModel.swift; sourceTree = "<group>"; };
+		F3E69DAA247C6DB700CE7799 /* SuggestedSearchCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedSearchCellData.swift; sourceTree = "<group>"; };
+		F3E69DAC247C71E200CE7799 /* SuggestedSearchCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedSearchCategoryData.swift; sourceTree = "<group>"; };
+		F3E69DAE247C7E8900CE7799 /* SuggestedSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedSearchView.swift; sourceTree = "<group>"; };
 		F3ED2D6323983E7B00726045 /* SettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		F3ED2D662398430900726045 /* SearchBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBaseViewController.swift; sourceTree = "<group>"; };
 		F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlainCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -291,6 +299,8 @@
 				F3ED2D772399B33400726045 /* PromoCodeData.swift */,
 				F3ED2D752399B31000726045 /* ShopData.swift */,
 				F34251EB239DA83E008ABD8C /* ShopCategoryData.swift */,
+				F3E69DAA247C6DB700CE7799 /* SuggestedSearchCellData.swift */,
+				F3E69DAC247C71E200CE7799 /* SuggestedSearchCategoryData.swift */,
 			);
 			path = ViewData;
 			sourceTree = "<group>";
@@ -464,6 +474,7 @@
 				F3ED2D662398430900726045 /* SearchBaseViewController.swift */,
 				F3ED2D6B23984C9500726045 /* SearchMainViewController.swift */,
 				F3ED2D6D23984CB700726045 /* SearchResultsViewController.swift */,
+				F3E69DAE247C7E8900CE7799 /* SuggestedSearchView.swift */,
 			);
 			path = SearchControllers;
 			sourceTree = "<group>";
@@ -534,6 +545,7 @@
 			isa = PBXGroup;
 			children = (
 				F3F34468241FF57F005EF34C /* SearchViewModel.swift */,
+				F3E69DA8247C518B00CE7799 /* SearchResultsViewModel.swift */,
 			);
 			path = SearchViewModel;
 			sourceTree = "<group>";
@@ -697,6 +709,7 @@
 				F3ED2D7A239AF8ED00726045 /* ShopPlainCollectionViewCell.swift in Sources */,
 				F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */,
 				F38F7A4A23CA564200AAC409 /* ShopStoredData.swift in Sources */,
+				F3E69DAD247C71E200CE7799 /* SuggestedSearchCategoryData.swift in Sources */,
 				F3E0AEB9238A0B060063E2C8 /* LikeImageView.swift in Sources */,
 				F3F34466241E84DA005EF34C /* FavoritesViewModel.swift in Sources */,
 				F3E0AEB1238804A10063E2C8 /* HomeDetailViewController.swift in Sources */,
@@ -709,10 +722,12 @@
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
 				F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
+				F3E69DAF247C7E8900CE7799 /* SuggestedSearchView.swift in Sources */,
 				F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
 				F35B3D28235BAC25000F7ED0 /* AppDelegate.swift in Sources */,
 				F348667523CBFB93004682B3 /* SetupImageOperation.swift in Sources */,
+				F3E69DA9247C518B00CE7799 /* SearchResultsViewModel.swift in Sources */,
 				F3F34462241A6660005EF34C /* ShopViewModel.swift in Sources */,
 				F3F3445F2415896D005EF34C /* HomeDetailViewModel.swift in Sources */,
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
@@ -731,6 +746,7 @@
 				F3D9DC8B2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift in Sources */,
 				F3B80405238063A100481152 /* HomeViewController.swift in Sources */,
 				F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */,
+				F3E69DAB247C6DB700CE7799 /* SuggestedSearchCellData.swift in Sources */,
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
 				F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */,
 				F39DCB0C2435389100D1BA7E /* SetupDefaultImageOperation.swift in Sources */,

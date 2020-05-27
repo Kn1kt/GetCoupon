@@ -12,19 +12,19 @@ import RxCocoa
 
 class SearchViewModel {
   
-  private let disposeBag = DisposeBag()
-  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
-  private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
+  let disposeBag = DisposeBag()
+  let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+  let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   private var navigator: Navigator!
   
   // MARK: - Input
-  let searchText = BehaviorRelay<String>(value: "")
+//  let searchText = BehaviorRelay<String>(value: "")
   
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
   // MARK: - Output
-  private let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
+  let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
   
   let currentCollection: Driver<ShopCategoryData>
   
@@ -43,35 +43,36 @@ class SearchViewModel {
     bindActions()
   }
   
-  private func bindOutput() {
+  func bindOutput() {
     ModelController.shared.searchCollection
       .observeOn(defaultScheduler)
-      .subscribe(onNext: { [weak self] collection in
-        guard  let self = self else { return }
-        
-        let searchText = self.searchText.value
-        if !searchText.isEmpty {
-          self.searchText.accept(searchText)
-          
-        } else {
-          self._currentCollection.accept(collection)
-        }
-      })
-      .disposed(by: disposeBag)
-    
-    searchText
-      .skip(1)
-      .map { [weak self] (text: String) -> ShopCategoryData in
-        guard let self = self else { fatalError("searchText") }
-        return self.filteredCategory(with: text)
-      }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
+//      .subscribe(onNext: { [weak self] collection in
+//        guard  let self = self else { return }
+//
+//        let searchText = self.searchText.value
+//        if !searchText.isEmpty {
+//          self.searchText.accept(searchText)
+//
+//        } else {
+//          self._currentCollection.accept(collection)
+//        }
+//      })
       .bind(to: _currentCollection)
       .disposed(by: disposeBag)
+    
+//    searchText
+//      .skip(1)
+//      .map { [weak self] (text: String) -> ShopCategoryData in
+//        guard let self = self else { fatalError("searchText") }
+//        return self.filteredCategory(with: text)
+//      }
+//      .subscribeOn(eventScheduler)
+//      .observeOn(eventScheduler)
+//      .bind(to: _currentCollection)
+//      .disposed(by: disposeBag)
   }
   
-  private func bindActions() {
+  func bindActions() {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
@@ -108,30 +109,30 @@ extension SearchViewModel {
   }
 }
 
-  //MARK: - Performing Search
-extension SearchViewModel {
-  
-  private func filteredCategory(with filter: String) -> ShopCategoryData {
-    let collection = ModelController.shared.currentSearchCollection
-    
-    if filter.isEmpty {
-      return ShopCategoryData(categoryName: "")
-    }
-    
-    let lowercasedFilter = filter.lowercased()
-    
-    let filtered = collection.shops
-        .filter { shop in
-          return shop.name.lowercased().contains(lowercasedFilter)
-            || shop.category?.tags.contains(lowercasedFilter) ?? false
-        }
-        .sorted { $0.name < $1.name }
-      
-      return ShopCategoryData(categoryName: collection.categoryName,
-                              shops: filtered,
-                              tags: collection.tags)
-  }
-}
+//  //MARK: - Performing Search
+//extension SearchViewModel {
+//  
+//  private func filteredCategory(with filter: String) -> ShopCategoryData {
+//    let collection = ModelController.shared.currentSearchCollection
+//    
+//    if filter.isEmpty {
+//      return ShopCategoryData(categoryName: "")
+//    }
+//    
+//    let lowercasedFilter = filter.lowercased()
+//    
+//    let filtered = collection.shops
+//        .filter { shop in
+//          return shop.name.lowercased().contains(lowercasedFilter)
+//            || shop.category?.tags.contains(lowercasedFilter) ?? false
+//        }
+//        .sorted { $0.name < $1.name }
+//      
+//      return ShopCategoryData(categoryName: collection.categoryName,
+//                              shops: filtered,
+//                              tags: collection.tags)
+//  }
+//}
 
   // MARK: - Show Shop View Controller
 extension SearchViewModel {

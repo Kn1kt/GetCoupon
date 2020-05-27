@@ -128,7 +128,7 @@ class ShopData {
   }
 }
 
-// MARK: - Hashable
+  // MARK: - Hashable
 extension ShopData: Hashable {
   
   func hash(into hasher: inout Hasher) {
