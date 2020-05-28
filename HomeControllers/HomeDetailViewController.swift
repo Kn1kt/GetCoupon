@@ -87,7 +87,8 @@ class HomeDetailViewController: UIViewController {
   
   private func bindViewModel() {
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
@@ -359,17 +360,17 @@ extension HomeDetailViewController {
   
   private func updateBorder(for cell: HomeDetailCollectionViewCell, at indexPath: IndexPath) {
     if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 3 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.layer.cornerRadius = 15
       cell.separatorView.isHidden = true
       
     } else if indexPath.row == 0 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+      cell.layer.cornerRadius = 15
       
     } else if indexPath.row == self.currentSnapshot.numberOfItems - 3 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.layer.cornerRadius = 15
       cell.separatorView.isHidden = true
     }
   }

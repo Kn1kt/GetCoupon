@@ -10,49 +10,25 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-//class SearchMainViewController: SearchBaseViewController {
-//
-//  private var resultsViewController: SearchResultsViewController!
-//
-//  private var searchController: UISearchController!
-//
-//  override func viewDidLoad() {
-//    super.viewDidLoad()
-//
-//    resultsViewController = SearchResultsViewController()
-//
-//    searchController = UISearchController(searchResultsController: resultsViewController)
-//    searchController.searchResultsUpdater = self
-//    searchController.searchBar.autocapitalizationType = .none
-//
-//    searchController.searchBar.delegate = self
-//
-//    definesPresentationContext = true
-//
-//    navigationItem.searchController = searchController
-//    navigationController?.navigationBar.prefersLargeTitles = true
-//    navigationItem.title = "Search"
-//    navigationItem.hidesSearchBarWhenScrolling = false
-//  }
-//}
-
 class SearchMainViewController: UIViewController {
+  
+  static let titleElementKind = "title-element-kind"
   
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   private let viewModel = SearchViewModel()
-
+  
   private var resultsViewController: SearchResultsViewController!
   
   private var searchController: UISearchController!
   
   private var collectionView: UICollectionView! = nil
   private var dataSource: UICollectionViewDiffableDataSource
-    <ShopCategoryData, ShopData>! = nil
+    <SuggestedSearchCategoryData, SuggestedSearchCellData>! = nil
   private var currentSnapshot: NSDiffableDataSourceSnapshot
-    <ShopCategoryData, ShopData>! = nil
+    <SuggestedSearchCategoryData, SuggestedSearchCellData>! = nil
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -64,7 +40,11 @@ class SearchMainViewController: UIViewController {
     searchController.delegate = self
     searchController.searchResultsUpdater = self
     searchController.searchBar.autocapitalizationType = .none
+    searchController.searchBar.searchTextField.tokenBackgroundColor = UIColor(named: "BlueTintColor")
     searchController.searchBar.delegate = self
+    searchController.automaticallyShowsSearchResultsController = false
+    
+    resultsViewController.searchController = searchController
     
     definesPresentationContext = true
     
@@ -82,7 +62,8 @@ class SearchMainViewController: UIViewController {
   
   private func bindViewModel() {
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
@@ -93,19 +74,30 @@ class SearchMainViewController: UIViewController {
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .map { [unowned self] indexPath in
-        let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-        return (self, selectedShop)
+        let selectedToken = self.currentSnapshot
+          .sectionIdentifiers[indexPath.section]
+          .tokens[indexPath.row]
+          .tokenText
+        return selectedToken
       }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: viewModel.showShopVC)
+      .bind(to: viewModel.selectedToken)
       .disposed(by: disposeBag)
   }
   
   private func bindUI() {
-    viewModel.currentCollection
+    viewModel.suggestedSearchesList
       .drive(onNext: { [weak self] collection in
         self?.updateSnapshot(collection)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.insertToken
+      .drive(onNext: { [weak self] token in
+        guard let self = self else { return }
+        self.searchController.isActive = true
+        self.searchController.searchBar.searchTextField.insertToken(token, at: 0)
       })
       .disposed(by: disposeBag)
   }
@@ -137,25 +129,25 @@ extension SearchMainViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     
     var groupFractionHeigh: CGFloat! = nil
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
-      groupFractionHeigh = CGFloat(0.12)
+      groupFractionHeigh = CGFloat(0.06)
       
     case (.compact, .compact):
-      groupFractionHeigh = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.1)
       
     case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.12)
+      groupFractionHeigh = CGFloat(0.06)
       
     case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.12)
+      groupFractionHeigh = CGFloat(0.06)
       
     default:
-      groupFractionHeigh = CGFloat(0.12)
+      groupFractionHeigh = CGFloat(0.06)
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -165,7 +157,7 @@ extension SearchMainViewController {
     
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
     
     return section
   }
@@ -181,6 +173,7 @@ extension SearchMainViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.keyboardDismissMode = .onDrag
+    collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
     view.addSubview(collectionView)
     
     NSLayoutConstraint.activate([
@@ -192,67 +185,37 @@ extension SearchMainViewController {
       
     ])
     
-    collectionView.register(SearchPlainCollectionViewCell.self,
-                            forCellWithReuseIdentifier: SearchPlainCollectionViewCell.reuseIdentifier)
-    
+    collectionView.register(SearchSuggestionCollectionViewCell.self,
+                            forCellWithReuseIdentifier: SearchSuggestionCollectionViewCell.reuseIdentifier)
   }
   
   func configureDataSource() {
     dataSource = UICollectionViewDiffableDataSource
-      <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
+      <SuggestedSearchCategoryData, SuggestedSearchCellData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
         indexPath: IndexPath,
-        cellData: ShopData) -> UICollectionViewCell? in
+        cellData: SuggestedSearchCellData) -> UICollectionViewCell? in
         
         guard let self = self else {
           return nil
         }
         
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchPlainCollectionViewCell.reuseIdentifier,
-                                                            for: indexPath) as? SearchPlainCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchSuggestionCollectionViewCell.reuseIdentifier,
+                                                            for: indexPath) as? SearchSuggestionCollectionViewCell else {
                                                               fatalError("Can't create new cell")
         }
         
-        if let image = cellData.previewImage {
-          cell.imageView.image = image
-        } else {
-          cell.imageView.backgroundColor = cellData.placeholderColor
-          self.viewModel.setupImage(for: cellData)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onCompleted: {
-              cell.imageView.image = cellData.previewImage
-            })
-            .disposed(by: cell.disposeBag)
-        }
-        
-        cell.titleLabel.text = cellData.name
-        cell.subtitleLabel.text = cellData.shortDescription
+        cell.titleLabel.text = cellData.tokenText
         
         self.updateBorder(for: cell, at: indexPath)
         
         return cell
         
     }
-    
-    currentSnapshot = NSDiffableDataSourceSnapshot
-      <ShopCategoryData, ShopData>()
-    
-    dataSource.apply(currentSnapshot, animatingDifferences: false)
   }
   
-  private func updateBorder(for cell: SearchPlainCollectionViewCell, at indexPath: IndexPath) {
-    if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 1 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
-      cell.separatorView.isHidden = true
-      
-    } else if indexPath.row == 0 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-      cell.contentView.layer.cornerRadius = 15
-      
-    } else if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
+  private func updateBorder(for cell: SearchSuggestionCollectionViewCell, at indexPath: IndexPath) {
+    if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
       cell.separatorView.isHidden = true
     }
   }
@@ -261,12 +224,12 @@ extension SearchMainViewController {
 // MARK: - Update Snapshot
 extension SearchMainViewController {
   
-  func updateSnapshot(_ collection: ShopCategoryData) {
+  func updateSnapshot(_ collection: SuggestedSearchCategoryData) {
     currentSnapshot = NSDiffableDataSourceSnapshot
-      <ShopCategoryData, ShopData>()
+      <SuggestedSearchCategoryData, SuggestedSearchCellData>()
     
     currentSnapshot.appendSections([collection])
-    currentSnapshot.appendItems(collection.shops)
+    currentSnapshot.appendItems(collection.tokens)
     
     dataSource.apply(currentSnapshot, animatingDifferences: true)
   }
@@ -283,26 +246,20 @@ extension SearchMainViewController: UISearchBarDelegate {
   // MARK: - UISearchControllerDelegate
 extension SearchMainViewController: UISearchControllerDelegate {
   
-//  func presentSearchController(_ searchController: UISearchController) {
-//    searchController.showsSearchResultsController = true
-//  }
 }
 
   // MARK: - UISearchResultsUpdating
 extension SearchMainViewController: UISearchResultsUpdating {
   
   func updateSearchResults(for searchController: UISearchController) {
-    guard let resultsController = searchController.searchResultsController as? SearchResultsViewController,
-      let filter = searchController.searchBar.text?.trimmingCharacters(in: CharacterSet.whitespaces) else {
+    guard let resultsController = searchController.searchResultsController as? SearchResultsViewController else {
         return
     }
     
-    if filter.isEmpty {
-      resultsController.viewModel.showSuggestedSearches.accept(true)
-    } else {
-      resultsController.viewModel.showSuggestedSearches.accept(false)
+    if !viewModel.replacedTokens(searchController.searchBar.searchTextField) {
+      let text = searchController.searchBar.searchTextField.text
+      let tokens = searchController.searchBar.searchTextField.tokens
+      resultsController.viewModel.searchAtrr.accept((text, tokens))
     }
-    
-    resultsController.viewModel.searchText.accept(filter)
   }
 }

@@ -12,7 +12,7 @@ import RxSwift
 class SearchPlainCollectionViewCell: UICollectionViewCell {
   
   var disposeBag = DisposeBag()
-  static let reuseIdentifier = "home-detail-cell-reuse-identifier"
+  static let reuseIdentifier = "search-plain-cell-reuse-identifier"
   
   let imageView = UIImageView()
   let titleLabel = UILabel()
@@ -44,10 +44,11 @@ extension SearchPlainCollectionViewCell {
     contentView.addSubview(separatorView)
     contentView.clipsToBounds = true
     
-    contentView.backgroundColor = .secondarySystemGroupedBackground
+    backgroundColor = .secondarySystemGroupedBackground
     
-//    selectedBackgroundView = UIView()
-//    selectedBackgroundView?.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+    clipsToBounds = true
     
     separatorView.backgroundColor = .systemGray4
     
@@ -94,8 +95,8 @@ extension SearchPlainCollectionViewCell: CellWithImage {
   override func prepareForReuse() {
     imageView.image = nil
     imageView.backgroundColor = .systemGray3
-    contentView.layer.maskedCorners = []
-    contentView.layer.cornerRadius = 0
+    layer.maskedCorners = []
+    layer.cornerRadius = 0
     separatorView.isHidden = false
     disposeBag = DisposeBag()
   }

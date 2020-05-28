@@ -47,10 +47,11 @@ extension HomeDetailCollectionViewCell {
     contentView.addSubview(subtitleLabel)
     contentView.addSubview(separatorView)
     contentView.addSubview(addToFavoritesButton)
-    contentView.clipsToBounds = true
     
-    contentView.backgroundColor = .secondarySystemGroupedBackground
-    
+    backgroundColor = .secondarySystemGroupedBackground
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+    clipsToBounds = true
     separatorView.backgroundColor = .systemGray4
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
@@ -109,7 +110,7 @@ extension HomeDetailCollectionViewCell: CellWithImage {
     imageView.backgroundColor = .systemGray3
     separatorView.isHidden = false
     
-    contentView.layer.maskedCorners = []
-    contentView.layer.cornerRadius = 0
+    layer.maskedCorners = []
+    layer.cornerRadius = 0
   }
 }

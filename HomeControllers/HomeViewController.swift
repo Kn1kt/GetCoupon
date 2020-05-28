@@ -10,20 +10,16 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-protocol CellWithImage {
-  var imageView: UIImageView { get }
-}
-
 class HomeViewController: UIViewController {
+  
+  static let titleElementKind = "title-element-kind"
+  static let showMoreElementKind = "show-more-element-kind"
   
   private let disposeBag = DisposeBag()
   private let defaultSheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   private let viewModel = HomeViewModel()
-  
-  static let titleElementKind = "title-element-kind"
-  static let showMoreElementKind = "show-more-element-kind"
   
   var collectionView: UICollectionView! = nil
   var dataSource: UICollectionViewDiffableDataSource
@@ -62,7 +58,8 @@ class HomeViewController: UIViewController {
     }
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in

@@ -70,7 +70,8 @@ class FavoritesViewController: UIViewController {
     }
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in

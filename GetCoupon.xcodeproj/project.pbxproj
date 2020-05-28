@@ -61,6 +61,8 @@
 		F3B80405238063A100481152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B80404238063A100481152 /* HomeViewController.swift */; };
 		F3B804072380647000481152 /* HomeDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804062380647000481152 /* HomeDataController.swift */; };
 		F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */; };
+		F3BF6B9E247EF127003C184B /* CellWithImageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BF6B9D247EF126003C184B /* CellWithImageProtocol.swift */; };
+		F3BF6BA0247EF73C003C184B /* SearchSuggestionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BF6B9F247EF73C003C184B /* SearchSuggestionCollectionViewCell.swift */; };
 		F3D9DC8B2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */; };
 		F3D9DC8D24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */; };
 		F3D9DC8F2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */; };
@@ -167,6 +169,8 @@
 		F3B80404238063A100481152 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		F3B804062380647000481152 /* HomeDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataController.swift; sourceTree = "<group>"; };
 		F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
+		F3BF6B9D247EF126003C184B /* CellWithImageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellWithImageProtocol.swift; sourceTree = "<group>"; };
+		F3BF6B9F247EF73C003C184B /* SearchSuggestionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextAndAccessoryTableViewCell.swift; sourceTree = "<group>"; };
 		F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTextAndSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDoubleTextAndAccessoryTableViewCell.swift; sourceTree = "<group>"; };
@@ -454,6 +458,7 @@
 				F3E0AEBF238C868C0063E2C8 /* AddToFavoritesButton.swift */,
 				F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */,
 				F34251E7239C7D84008ABD8C /* ImageAndDescriptionUIView.swift */,
+				F3BF6B9D247EF126003C184B /* CellWithImageProtocol.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -483,6 +488,7 @@
 			isa = PBXGroup;
 			children = (
 				F3ED2D68239846DD00726045 /* SearchPlainCollectionViewCell.swift */,
+				F3BF6B9F247EF73C003C184B /* SearchSuggestionCollectionViewCell.swift */,
 			);
 			path = SearchViews;
 			sourceTree = "<group>";
@@ -769,7 +775,9 @@
 				F34251E8239C7D84008ABD8C /* ImageAndDescriptionUIView.swift in Sources */,
 				F348667323CBF6F2004682B3 /* AsyncOperation.swift in Sources */,
 				F3D9DC952447970A00EAEDE1 /* TermsOfSeviceViewController.swift in Sources */,
+				F3BF6B9E247EF127003C184B /* CellWithImageProtocol.swift in Sources */,
 				F3ED2D6E23984CB700726045 /* SearchResultsViewController.swift in Sources */,
+				F3BF6BA0247EF73C003C184B /* SearchSuggestionCollectionViewCell.swift in Sources */,
 				F3888C9C2454E521002B6115 /* SettingsViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1126,8 +1134,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 4.4.0;
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

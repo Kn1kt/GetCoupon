@@ -36,16 +36,16 @@ extension HomeCardCollectionViewCell {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-//    backView.translatesAutoresizingMaskIntoConstraints = false
-    
-//    contentView.addSubview(backView)
-    contentView.clipsToBounds = true
-    contentView.layer.cornerRadius = 7
     
     contentView.addSubview(imageView)
     contentView.addSubview(titleLabel)
     contentView.addSubview(subtitleLabel)
-    contentView.backgroundColor = .secondarySystemGroupedBackground
+    
+    backgroundColor = .secondarySystemGroupedBackground
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+    clipsToBounds = true
+    layer.cornerRadius = 7
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true

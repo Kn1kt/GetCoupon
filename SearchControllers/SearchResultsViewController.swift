@@ -17,9 +17,10 @@ class SearchResultsViewController: UIViewController {
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
 
   let viewModel = SearchResultsViewModel()
-
+  
+  weak var searchController: UISearchController?
+  
   private var collectionView: UICollectionView! = nil
-  private var suggestedSearchView: SuggestedSearchView!
   
   private var dataSource: UICollectionViewDiffableDataSource
     <ShopCategoryData, ShopData>! = nil
@@ -33,15 +34,14 @@ class SearchResultsViewController: UIViewController {
     configureCollectionView()
     configureDataSource()
     
-//    configureSuggestedSearchView()
-    
     bindViewModel()
     bindUI()
   }
 
   private func bindViewModel() {
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
@@ -68,16 +68,12 @@ class SearchResultsViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
-//    viewModel.showSuggestedSearches
-//      .distinctUntilChanged()
-//      .subscribeOn(MainScheduler.instance)
-//      .observeOn(MainScheduler.instance)
-//      .subscribe(onNext: { [weak self] isOn in
-//        guard let self = self else { return }
-//        self.suggestedSearchView.isHidden = !isOn
-//        print(isOn)
-//      })
-//      .disposed(by: disposeBag)
+    viewModel.currentCollection
+      .map { !$0.shops.isEmpty }
+      .drive(onNext: { [weak self] isOn in
+        self?.searchController?.showsSearchResultsController = isOn
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -165,20 +161,6 @@ extension SearchResultsViewController {
 
   }
   
-//  func configureSuggestedSearchView() {
-//    suggestedSearchView = SuggestedSearchView(frame: view.frame, viewModel: viewModel)
-//
-//    suggestedSearchView.translatesAutoresizingMaskIntoConstraints = false
-//    view.addSubview(suggestedSearchView)
-//
-//    NSLayoutConstraint.activate([
-//      suggestedSearchView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-//      suggestedSearchView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-//      suggestedSearchView.topAnchor.constraint(equalTo: view.topAnchor),
-//      suggestedSearchView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//    ])
-//  }
-  
   private func configureDataSource() {
     dataSource = UICollectionViewDiffableDataSource
       <ShopCategoryData, ShopData> (collectionView: collectionView) { [weak self] (collectionView: UICollectionView,
@@ -224,17 +206,17 @@ extension SearchResultsViewController {
 
   private func updateBorder(for cell: SearchPlainCollectionViewCell, at indexPath: IndexPath) {
     if indexPath.row == 0 && indexPath.row == self.currentSnapshot.numberOfItems - 1 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.layer.cornerRadius = 15
       cell.separatorView.isHidden = true
 
     } else if indexPath.row == 0 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+      cell.layer.cornerRadius = 15
 
     } else if indexPath.row == self.currentSnapshot.numberOfItems - 1 {
-      cell.contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-      cell.contentView.layer.cornerRadius = 15
+      cell.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+      cell.layer.cornerRadius = 15
       cell.separatorView.isHidden = true
     }
   }

@@ -39,18 +39,18 @@ extension FavoritesPlainCollectionViewCell {
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
     favoritesButton.translatesAutoresizingMaskIntoConstraints = false
-//    backView.translatesAutoresizingMaskIntoConstraints = false
-    
-//    contentView.addSubview(backView)
-    contentView.clipsToBounds = true
-    contentView.layer.cornerRadius = 7
-    contentView.frame = contentView.frame
-    contentView.backgroundColor = .secondarySystemGroupedBackground
     
     contentView.addSubview(imageView)
     contentView.addSubview(titleLabel)
     contentView.addSubview(subtitleLabel)
     contentView.addSubview(favoritesButton)
+    
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+    
+    clipsToBounds = true
+    layer.cornerRadius = 7
+    backgroundColor = .secondarySystemGroupedBackground
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true

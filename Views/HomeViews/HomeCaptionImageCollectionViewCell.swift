@@ -40,14 +40,17 @@ extension HomeCaptionImageCollectionViewCell {
     contentView.addSubview(titleLabel)
     contentView.addSubview(subtitleLabel)
     
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
+    layer.cornerRadius = 7
+    clipsToBounds = true
+    
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
-    
-    contentView.clipsToBounds = true
     
     imageView.layer.cornerRadius = 7
     imageView.backgroundColor = .systemGray3

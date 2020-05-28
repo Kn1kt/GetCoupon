@@ -16,28 +16,20 @@ class SearchViewModel {
   let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
-  private var navigator: Navigator!
+  private let suggestedSearches = BehaviorRelay<[String : [ShopData]]>(value: [:])
   
   // MARK: - Input
-//  let searchText = BehaviorRelay<String>(value: "")
-  
-  let showShopVC = PublishRelay<(UIViewController, ShopData)>()
+  let selectedToken = PublishRelay<String>()
   
   // MARK: - Output
-  let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
+  var suggestedSearchesList: Driver<SuggestedSearchCategoryData>!
   
-  let currentCollection: Driver<ShopCategoryData>
+  private let _insertToken = PublishRelay<UISearchToken>()
   
-  private let _isRefreshing = BehaviorRelay<Bool>(value: true)
-  
-  let isRefreshing: Driver<Bool>
-  
+  var insertToken: Driver<UISearchToken>!
   // MARK: - Init
   init() {
-    self.navigator = Navigator()
-    
-    self.currentCollection = _currentCollection.asDriver()
-    self.isRefreshing = _isRefreshing.asDriver()
+    self.insertToken = _insertToken.asDriver(onErrorJustReturn: UISearchToken(icon: nil, text: ""))
     
     bindOutput()
     bindActions()
@@ -45,39 +37,39 @@ class SearchViewModel {
   
   func bindOutput() {
     ModelController.shared.searchCollection
+      .map { collection in
+        collection.shops.reduce(into: [String : [ShopData]]()) { result, shop in
+          guard let category = shop.category else { return }
+// TODO: Reduce count of tags
+          category.tags.forEach { tag in
+            result[tag, default: []].append(shop)
+          }
+        }
+      }
+      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
-//      .subscribe(onNext: { [weak self] collection in
-//        guard  let self = self else { return }
-//
-//        let searchText = self.searchText.value
-//        if !searchText.isEmpty {
-//          self.searchText.accept(searchText)
-//
-//        } else {
-//          self._currentCollection.accept(collection)
-//        }
-//      })
-      .bind(to: _currentCollection)
+      .bind(to: suggestedSearches)
       .disposed(by: disposeBag)
     
-//    searchText
-//      .skip(1)
-//      .map { [weak self] (text: String) -> ShopCategoryData in
-//        guard let self = self else { fatalError("searchText") }
-//        return self.filteredCategory(with: text)
-//      }
-//      .subscribeOn(eventScheduler)
-//      .observeOn(eventScheduler)
-//      .bind(to: _currentCollection)
-//      .disposed(by: disposeBag)
+    self.suggestedSearchesList = suggestedSearches
+      .map { dict in
+        SuggestedSearchCategoryData(title: "Trending",
+                                    tokens: dict.keys.map { SuggestedSearchCellData(tokenText: $0) })
+      }
+      .subscribeOn(defaultScheduler)
+      .asDriver(onErrorJustReturn: SuggestedSearchCategoryData(title: "Empty", tokens: []))
   }
   
   func bindActions() {
-    showShopVC
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [unowned self] (vc, shop) in
-        self.showShopVC(vc, shop: shop)
-      })
+    selectedToken
+      .map { tokenText in
+        let token = UISearchToken(icon: nil, text: tokenText)
+        token.representedObject = tokenText
+        return token
+      }
+      .subscribeOn(eventScheduler)
+      .observeOn(eventScheduler)
+      .bind(to: _insertToken)
       .disposed(by: disposeBag)
   }
 }
@@ -109,36 +101,23 @@ extension SearchViewModel {
   }
 }
 
-//  //MARK: - Performing Search
-//extension SearchViewModel {
-//  
-//  private func filteredCategory(with filter: String) -> ShopCategoryData {
-//    let collection = ModelController.shared.currentSearchCollection
-//    
-//    if filter.isEmpty {
-//      return ShopCategoryData(categoryName: "")
-//    }
-//    
-//    let lowercasedFilter = filter.lowercased()
-//    
-//    let filtered = collection.shops
-//        .filter { shop in
-//          return shop.name.lowercased().contains(lowercasedFilter)
-//            || shop.category?.tags.contains(lowercasedFilter) ?? false
-//        }
-//        .sorted { $0.name < $1.name }
-//      
-//      return ShopCategoryData(categoryName: collection.categoryName,
-//                              shops: filtered,
-//                              tags: collection.tags)
-//  }
-//}
-
-  // MARK: - Show Shop View Controller
+  // MARK: - Provide Search Tokens
 extension SearchViewModel {
+    func replacedTokens(_ textField: UISearchTextField?) -> Bool {
+      guard let textField = textField,
+            let filter = textField.text else {
+        return false
+      }
   
-  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-    guard let category = shop.category else { return }
-    navigator.showShopVC(sender: vc, section: category, shop: shop)
-  }
+      let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
+      if let _ = suggestedSearches.value[lowercasedFilter] {
+        let token = UISearchToken(icon: nil, text: lowercasedFilter)
+        token.representedObject = lowercasedFilter
+        textField.replaceTextualPortion(of: textField.textualRange, with: token, at: textField.tokens.count)
+  
+        return true
+      } else {
+        return false
+      }
+    }
 }
