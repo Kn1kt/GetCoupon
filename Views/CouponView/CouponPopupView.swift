@@ -78,9 +78,9 @@ extension CouponPopupView {
     titleLabel.textAlignment = .left
     
     textView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    textView.tintColor = UIColor(named: "BlueTintColor")
     textView.textColor = .label
     textView.adjustsFontForContentSizeCategory = true
-//    textView.numberOfLines = 0
     textView.isUserInteractionEnabled = true
     textView.textAlignment = .left
     textView.isEditable = false

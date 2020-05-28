@@ -19,7 +19,6 @@ class FavoritesPlainCollectionViewCell: UICollectionViewCell {
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
   let favoritesButton = AddToFavoritesButton()
-//  let backView = UIView()
   
   override init(frame: CGRect) {
     super.init(frame: frame)

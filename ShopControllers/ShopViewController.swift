@@ -123,7 +123,8 @@ class ShopViewController: UIViewController {
   
   private func bindUI() {
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
@@ -915,15 +916,15 @@ extension ShopViewController {
   
   private func setupPopupView(shopName: String, promocode: PromoCodeData) {
     popupView.titleLabel.text = shopName
-//    popupView.textView.text = promocode.description
-    popupView.textView.text = "Последний день скидок до 50% на большой распродаже Л'Этуаль.\n\nВсего в распродаже учувствует более 6 500 товаров. Косметика, парфюмерия, средства по уходу и многое другое.\n\n⚡️Перейти в каталог — https://letu.ru"
+    popupView.textView.text = promocode.description
+//    popupView.textView.text = "Последний день скидок до 50% на большой распродаже Л'Этуаль.\n\nВсего в распродаже учувствует более 6 500 товаров. Косметика, парфюмерия, средства по уходу и многое другое.\n\n⚡️Перейти в каталог — https://letu.ru"
     
     popupView.promocodeView.promocodeLabel.text = promocode.coupon
     popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: promocode.estimatedDate)
   }
 }
 
-  // MARK: - Tap To Close Coupon Ciew
+  // MARK: - Tap To Close Coupon View
 extension ShopViewController: UIGestureRecognizerDelegate {
   
   func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {

@@ -20,7 +20,6 @@ class ShopPlainCollectionViewCell: UICollectionViewCell {
   let promocodeView = PromocodeView()
   let addingDateLabel = UILabel()
   let estimatedDateLabel = UILabel()
-//  let backView = UIView()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -40,23 +39,21 @@ extension ShopPlainCollectionViewCell {
     promocodeView.translatesAutoresizingMaskIntoConstraints = false
     addingDateLabel.translatesAutoresizingMaskIntoConstraints = false
     estimatedDateLabel.translatesAutoresizingMaskIntoConstraints = false
-//    backView.translatesAutoresizingMaskIntoConstraints = false
     
-//    contentView.addSubview(backView)
-    
-    contentView.clipsToBounds = true
-    contentView.layer.cornerRadius = 10
+    clipsToBounds = true
+    layer.cornerRadius = 10
+    backgroundColor = .secondarySystemGroupedBackground
+    selectedBackgroundView = UIView()
+    selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
     
     contentView.addSubview(imageView)
     contentView.addSubview(subtitleLabel)
     contentView.addSubview(promocodeView)
     contentView.addSubview(addingDateLabel)
     contentView.addSubview(estimatedDateLabel)
-    contentView.backgroundColor = .secondarySystemGroupedBackground
     
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     subtitleLabel.adjustsFontForContentSizeCategory = true
-    //subtitleLabel.textColor = .secondaryLabel
     subtitleLabel.numberOfLines = 3
     
     addingDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -69,14 +66,6 @@ extension ShopPlainCollectionViewCell {
     
     promocodeView.layer.cornerRadius = 7
     
-    
-//    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-//    contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
-//    contentView.layer.shadowOpacity = 1
-//    contentView.layer.shadowRadius = 15
-//    contentView.layer.shouldRasterize = true
-//    contentView.layer.rasterizationScale = UIScreen.main.scale
-    
     imageView.backgroundColor = .systemGray3
     imageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
     imageView.layer.cornerRadius = 6
@@ -86,11 +75,6 @@ extension ShopPlainCollectionViewCell {
     let spacing = CGFloat(10)
     
     NSLayoutConstraint.activate([
-//      backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//      backView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//      backView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//      backView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-      
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
       imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.7),
@@ -108,13 +92,11 @@ extension ShopPlainCollectionViewCell {
       
       addingDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       addingDateLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor, constant: -spacing),
-//      addingDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
       addingDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
       addingDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       
       estimatedDateLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: spacing),
       estimatedDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-//      estimatedDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
       estimatedDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
       estimatedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
     ])
