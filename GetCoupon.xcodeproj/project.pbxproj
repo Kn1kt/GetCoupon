@@ -55,6 +55,9 @@
 		F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4723CA563100AAC409 /* ShopCategoryStoredData.swift */; };
 		F38F7A4A23CA564200AAC409 /* ShopStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4923CA564200AAC409 /* ShopStoredData.swift */; };
 		F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F38F7A4B23CA566200AAC409 /* PromoCodeStoredData.swift */; };
+		F39C02ED24803193005C2BDB /* AdverstingImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C02EC24803193005C2BDB /* AdverstingImageCollectionViewCell.swift */; };
+		F39C02F024804AA8005C2BDB /* AdvertisingCategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C02EF24804AA8005C2BDB /* AdvertisingCategoryData.swift */; };
+		F39C02F224804AB6005C2BDB /* AdvertisingCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39C02F124804AB6005C2BDB /* AdvertisingCellData.swift */; };
 		F39DCB0C2435389100D1BA7E /* SetupDefaultImageOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39DCB0B2435389100D1BA7E /* SetupDefaultImageOperation.swift */; };
 		F3A4B1A6239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3A4B1A5239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift */; };
 		F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */; };
@@ -162,6 +165,9 @@
 		F38F7A4723CA563100AAC409 /* ShopCategoryStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopCategoryStoredData.swift; sourceTree = "<group>"; };
 		F38F7A4923CA564200AAC409 /* ShopStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopStoredData.swift; sourceTree = "<group>"; };
 		F38F7A4B23CA566200AAC409 /* PromoCodeStoredData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoCodeStoredData.swift; sourceTree = "<group>"; };
+		F39C02EC24803193005C2BDB /* AdverstingImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdverstingImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		F39C02EF24804AA8005C2BDB /* AdvertisingCategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingCategoryData.swift; sourceTree = "<group>"; };
+		F39C02F124804AB6005C2BDB /* AdvertisingCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingCellData.swift; sourceTree = "<group>"; };
 		F39DCB0B2435389100D1BA7E /* SetupDefaultImageOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupDefaultImageOperation.swift; sourceTree = "<group>"; };
 		F3A4B1A5239709F400A47053 /* HomeDetailSegmentedControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailSegmentedControlCollectionViewCell.swift; sourceTree = "<group>"; };
 		F3B804022380578A00481152 /* HomeCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -403,6 +409,7 @@
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F35EE48924576B5000430002 /* UserDefaultKeys.swift */,
+				F39C02EE24804A83005C2BDB /* AdvertisingData */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
 				F353624C23CE06D2003D7BAB /* ImageOperations */,
@@ -440,9 +447,27 @@
 			path = StoredData;
 			sourceTree = "<group>";
 		};
+		F39C02EB248030B3005C2BDB /* AdvertisingView */ = {
+			isa = PBXGroup;
+			children = (
+				F39C02EC24803193005C2BDB /* AdverstingImageCollectionViewCell.swift */,
+			);
+			path = AdvertisingView;
+			sourceTree = "<group>";
+		};
+		F39C02EE24804A83005C2BDB /* AdvertisingData */ = {
+			isa = PBXGroup;
+			children = (
+				F39C02EF24804AA8005C2BDB /* AdvertisingCategoryData.swift */,
+				F39C02F124804AB6005C2BDB /* AdvertisingCellData.swift */,
+			);
+			path = AdvertisingData;
+			sourceTree = "<group>";
+		};
 		F3E0AEB3238881CE0063E2C8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F39C02EB248030B3005C2BDB /* AdvertisingView */,
 				F3888C91244F660F002B6115 /* SettingsView */,
 				F34C57582437A1F2004A03B3 /* CouponView */,
 				F3ED2D712399AD8100726045 /* ShopViews */,
@@ -737,6 +762,7 @@
 				F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */,
 				F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */,
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
+				F39C02F024804AA8005C2BDB /* AdvertisingCategoryData.swift in Sources */,
 				F3ED2D6C23984C9500726045 /* SearchMainViewController.swift in Sources */,
 				F3F344582415754A005EF34C /* HomeViewModel.swift in Sources */,
 				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
@@ -750,7 +776,9 @@
 				F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */,
 				F3E69DAB247C6DB700CE7799 /* SuggestedSearchCellData.swift in Sources */,
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
+				F39C02ED24803193005C2BDB /* AdverstingImageCollectionViewCell.swift in Sources */,
 				F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */,
+				F39C02F224804AB6005C2BDB /* AdvertisingCellData.swift in Sources */,
 				F39DCB0C2435389100D1BA7E /* SetupDefaultImageOperation.swift in Sources */,
 				F34251EA239D7102008ABD8C /* LogoWithFavoritesButton.swift in Sources */,
 				F353625123CE09D8003D7BAB /* NetworkPromoCodeData.swift in Sources */,

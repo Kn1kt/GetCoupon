@@ -15,6 +15,9 @@ class NetworkController {
   
   static let shared = NetworkController()
   
+  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
+  private let advLink = ""
+  
   /// Image processing queue
   private let queue = OperationQueue()
   
@@ -55,7 +58,7 @@ extension NetworkController {
     monitor.start(queue: queue)
     monitor.pathUpdateHandler = { [unowned self] currentPath in
       guard currentPath.status == .satisfied,
-        let url = URL(string: "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1") else {
+        let url = URL(string: self.serverLink) else {
           return
       }
       
@@ -74,4 +77,12 @@ extension NetworkController {
     
     return subject.asObservable()
   }
+}
+
+  // MARK: - Download Promotional Offer
+extension NetworkController {
+  
+//  func donloadAdvOffer() -> Observable<[Any]> {
+//    
+//  }
 }
