@@ -15,19 +15,16 @@ class PromoCodeStoredData: Object {
   @objc dynamic var addingDate: Date! = nil
   @objc dynamic var estimatedDate: Date! = nil
   @objc dynamic var promoCodeDescription: String! = nil
-//  @objc dynamic var websiteLink: String = ""
   
   convenience init(coupon: String,
                    addingDate: Date,
                    estimatedDate: Date,
                    description: String) {
-//                   websiteLink: String) {
     self.init()
     self.coupon = coupon
     self.addingDate = addingDate
     self.estimatedDate = estimatedDate
     self.promoCodeDescription = description
-//    self.websiteLink = websiteLink
   }
 }
 
@@ -39,6 +36,5 @@ extension PromoCodeStoredData {
               addingDate: networkPromoCode.addingDate,
               estimatedDate: networkPromoCode.estimatedDate,
               description: networkPromoCode.promoCodeDescription)
-//              websiteLink: networkPromoCode.websiteLink)
   }
 }

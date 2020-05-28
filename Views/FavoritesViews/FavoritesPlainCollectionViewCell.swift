@@ -58,13 +58,6 @@ extension FavoritesPlainCollectionViewCell {
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     
-//    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-//    contentView.layer.shadowOffset = CGSize(width: 0, height: 10)
-//    contentView.layer.shadowOpacity = 1
-//    contentView.layer.shadowRadius = 15
-//    contentView.layer.shouldRasterize = true
-//    contentView.layer.rasterizationScale = UIScreen.main.scale
-    
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
@@ -73,11 +66,6 @@ extension FavoritesPlainCollectionViewCell {
     
     // iPad constrains need update
     NSLayoutConstraint.activate([
-//      backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//      backView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//      backView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//      backView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-      
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -92,7 +80,6 @@ extension FavoritesPlainCollectionViewCell {
       
       favoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       favoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-//      favoritesButton.heightAnchor.constraint(equalTo: titleLabel.heightAnchor, multiplier: 2.0),
       favoritesButton.heightAnchor.constraint(equalTo: favoritesButton.widthAnchor, multiplier: 1.0),
       favoritesButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.232),
       
@@ -100,7 +87,6 @@ extension FavoritesPlainCollectionViewCell {
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.bottomAnchor, multiplier: 1.0)
-      
     ])
     
   }

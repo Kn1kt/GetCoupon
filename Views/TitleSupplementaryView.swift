@@ -33,7 +33,6 @@ extension TitleSupplementaryView {
     showMoreButton.translatesAutoresizingMaskIntoConstraints = false
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true
-//    label.font = UIFont.preferredFont(forTextStyle: .title1)
     label.font = UIFont.boldSystemFont(ofSize: 26)
     
     addSubview(label)

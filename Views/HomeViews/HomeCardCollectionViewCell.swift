@@ -18,7 +18,6 @@ class HomeCardCollectionViewCell: UICollectionViewCell {
   let imageView = UIImageView()
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
-//  let backView = UIView()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -54,13 +53,6 @@ extension HomeCardCollectionViewCell {
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     
-//    contentView.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-//    contentView.layer.shadowOffset = CGSize(width: 0, height: 4)
-//    contentView.layer.shadowOpacity = 1
-//    contentView.layer.shadowRadius = 5
-//    contentView.layer.shouldRasterize = true
-//    contentView.layer.rasterizationScale = UIScreen.main.scale
-    
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
@@ -68,11 +60,6 @@ extension HomeCardCollectionViewCell {
     let spacing = CGFloat(10)
     
     NSLayoutConstraint.activate([
-//      backView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-//      backView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//      backView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//      backView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-      
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),

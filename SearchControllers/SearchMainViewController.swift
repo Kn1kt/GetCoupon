@@ -62,7 +62,6 @@ class SearchMainViewController: UIViewController {
   
   private func bindViewModel() {
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -163,7 +162,7 @@ extension SearchMainViewController {
   }
 }
 
-// MARK: - Setup Collection View
+  // MARK: - Setup Collection View
 extension SearchMainViewController {
   
   func configureCollectionView() {

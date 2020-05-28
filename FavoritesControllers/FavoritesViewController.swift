@@ -46,9 +46,6 @@ class FavoritesViewController: UIViewController {
     configureCollectionView()
     configureDataSource()
     
-//    let refresh = UIRefreshControl()
-//    collectionView?.refreshControl = refresh
-    
     bindViewModel()
     bindUI()
   }
@@ -70,7 +67,6 @@ class FavoritesViewController: UIViewController {
     }
     
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -100,6 +96,9 @@ class FavoritesViewController: UIViewController {
     
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
+        if let selected = self?.collectionView.indexPathsForSelectedItems {
+          selected.forEach { self?.collectionView.deselectItem(at: $0, animated: false)}
+        }
         self?.updateSnapshot(section)
       })
       .disposed(by: disposeBag)
@@ -230,7 +229,6 @@ extension FavoritesViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.keyboardDismissMode = .onDrag
     collectionView.alwaysBounceVertical = true
-//    collectionView.showsVerticalScrollIndicator = false
     view.addSubview(collectionView)
     
     collectionView.delegate = self

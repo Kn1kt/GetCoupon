@@ -123,7 +123,6 @@ class ShopViewController: UIViewController {
   
   private func bindUI() {
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -242,7 +241,6 @@ class ShopViewController: UIViewController {
   }
   
   // MARK: - Popup Animations
-  
   private var bottomPopupView = NSLayoutConstraint()
   
   private var popupOffset: CGFloat {
@@ -295,10 +293,6 @@ class ShopViewController: UIViewController {
       self.view.layoutIfNeeded()
       self.popupView.textView.selectedRange = NSRange()
     })
-    
-//    self.popupView.textSnapshot = self.popupView.textView.snapshotView(afterScreenUpdates: true)
-//    self.popupView.snapshotPlace.addSubview(self.popupView.textSnapshot!)
-//    self.popupView.textView.alpha = 0
     
     // the transition completion block
     transitionAnimator.addCompletion { position in
@@ -917,7 +911,6 @@ extension ShopViewController {
   private func setupPopupView(shopName: String, promocode: PromoCodeData) {
     popupView.titleLabel.text = shopName
     popupView.textView.text = promocode.description
-//    popupView.textView.text = "Последний день скидок до 50% на большой распродаже Л'Этуаль.\n\nВсего в распродаже учувствует более 6 500 товаров. Косметика, парфюмерия, средства по уходу и многое другое.\n\n⚡️Перейти в каталог — https://letu.ru"
     
     popupView.promocodeView.promocodeLabel.text = promocode.coupon
     popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: promocode.estimatedDate)

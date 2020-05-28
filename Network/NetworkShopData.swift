@@ -13,7 +13,6 @@ class NetworkShopData: Codable {
   let name: String
   let shopDescription: String?
   let shopShortDescription: String
-  //  let isHot: Bool
   let priority: Int
   
   let websiteLink: String
@@ -37,7 +36,6 @@ class NetworkShopData: Codable {
     self.name = name
     self.shopDescription = shopDescription
     self.shopShortDescription = shopShortDescription
-    //    self.isHot = isHot
     self.priority = priority
     self.websiteLink = websiteLink
     self.imageLink = imageLink

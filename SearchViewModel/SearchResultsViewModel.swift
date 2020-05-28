@@ -18,10 +18,6 @@ class SearchResultsViewModel {
   
   private var navigator: Navigator!
   
-//  private let suggestedSearches = BehaviorRelay<[String : [ShopData]]>(value: [:])
-  
-//  private let performSearch = PublishRelay<(String?, [UISearchToken]?)>()
-  
   // MARK: - Input
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
@@ -52,21 +48,6 @@ class SearchResultsViewModel {
       })
       .disposed(by: disposeBag)
     
-//    ModelController.shared.searchCollection
-//      .map { collection in
-//        collection.shops.reduce(into: [String : [ShopData]]()) { result, shop in
-//          guard let category = shop.category else { return }
-//// TODO: Reduce count of tags
-//          category.tags.forEach { tag in
-//            result[tag, default: []].append(shop)
-//          }
-//        }
-//      }
-//      .subscribeOn(defaultScheduler)
-//      .observeOn(defaultScheduler)
-//      .bind(to: suggestedSearches)
-//      .disposed(by: disposeBag)
-    
     searchAtrr
       .skip(1)
       .map { [weak self] (attr: (String?, [UISearchToken]?)) -> ShopCategoryData in
@@ -77,22 +58,6 @@ class SearchResultsViewModel {
       .observeOn(eventScheduler)
       .bind(to: _currentCollection)
       .disposed(by: disposeBag)
-    
-//    searchText
-//      .skip(1)
-//      .filter { [weak self] textField in
-//        guard let self = self else { return false }
-//        return !self.replacedTokens(textField)
-//      }
-//      .map { textField in
-//        let text = textField?.text
-//        let tokens = textField?.tokens
-//        return (text, tokens)
-//      }
-//      .subscribeOn(MainScheduler.instance)
-//      .observeOn(eventScheduler)
-//      .bind(to: performSearch)
-//      .disposed(by: disposeBag)
   }
   
   func bindActions() {
@@ -143,24 +108,6 @@ extension SearchResultsViewModel {
 
   //MARK: - Performing Search
 extension SearchResultsViewModel {
-  
-//  func replacedTokens(_ textField: UISearchTextField?) -> Bool {
-//    guard let textField = textField,
-//          let filter = textField.text else {
-//      return false
-//    }
-//
-//    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
-//    if let _ = suggestedSearches.value[lowercasedFilter] {
-//      let token = UISearchToken(icon: nil, text: lowercasedFilter)
-//      token.representedObject = lowercasedFilter
-//      textField.replaceTextualPortion(of: textField.textualRange, with: token, at: textField.tokens.count)
-//
-//      return true
-//    } else {
-//      return false
-//    }
-//  }
   
   private func filteredCategory(with atrr: (String?, [UISearchToken]?)) -> ShopCategoryData {
     let collection = ModelController.shared.currentSearchCollection

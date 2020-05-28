@@ -11,6 +11,4 @@ import Foundation
 enum UserDefaultKeys: String {
   case forceCatalogUpdating = "Force-Catalog-Updating-Key"
   case pushNotifications = "Push-Notifications-Key"
-//  case emailNotifications = "Email-Notifications-Key"
-//  case userEmail = "User-Email-Key"
 }

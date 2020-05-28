@@ -30,11 +30,7 @@ class HomeViewModel {
   // MARK: - Output
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let collections: Observable<[ShopCategoryData]> //{
-//    return _collections
-//      .asObservable()
-//      .share()
-//  }
+  let collections: Observable<[ShopCategoryData]>
   
   /// Current status of refresh controller
   private let isRefreshing = BehaviorRelay<Bool>(value: true)
@@ -42,10 +38,7 @@ class HomeViewModel {
   /// Send to refresh controller terminating events
   private let _endRefreshing: BehaviorRelay<Bool>!
   
-  let endRefreshing: Driver<Bool>// {
-//    return _endRefreshing
-//      .asDriver()
-//  }
+  let endRefreshing: Driver<Bool>
   
   // MARK: - Init
   init() {

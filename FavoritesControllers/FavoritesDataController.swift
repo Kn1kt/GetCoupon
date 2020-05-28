@@ -17,11 +17,7 @@ class FavoritesDataController {
   
   private let _collectionsBySections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let collectionsBySections: Observable<[ShopCategoryData]> //{
-//    return _collectionsBySections
-//      .asObservable()
-//      .share(replay: 1)
-//  }
+  let collectionsBySections: Observable<[ShopCategoryData]>
   
   var currentCollectionsBySections: [ShopCategoryData] {
     return _collectionsBySections.value
@@ -29,11 +25,7 @@ class FavoritesDataController {
 
   private let _collectionsByDates = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let collectionsByDates: Observable<[ShopCategoryData]> //{
-//    return _collectionsByDates
-//      .asObservable()
-//      .share(replay: 1)
-//  }
+  let collectionsByDates: Observable<[ShopCategoryData]>
   
   var currentCollectionsByDates: [ShopCategoryData] {
     return _collectionsByDates.value

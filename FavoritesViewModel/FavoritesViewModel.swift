@@ -35,17 +35,11 @@ class FavoritesViewModel {
   // MARK: - Output
   private let _currentSection = BehaviorRelay<[ShopCategoryData]>(value: [])
   
-  let currentSection: Driver<[ShopCategoryData]> //{
-//    return _currentSection
-//      .asDriver()
-//  }
+  let currentSection: Driver<[ShopCategoryData]>
   
   private let _isRefreshing = BehaviorRelay<Bool>(value: false)
   
-  let isRefreshing: Driver<Bool> //{
-//    return _isRefreshing
-//      .asDriver()
-//  }
+  let isRefreshing: Driver<Bool>
   
   // MARK: - Init
   init() {

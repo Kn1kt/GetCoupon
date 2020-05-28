@@ -15,22 +15,18 @@ class PromoCodeData {
   let addingDate: Date
   let estimatedDate: Date
   let description: String
-  
-//  let websiteLink: String
-  
+    
   let identifier = UUID()
   
   init(coupon: String,
        addingDate: Date = Date(),
        estimatedDate: Date = Date(),
        description: String = "") {
-//       websiteLink: String = "") {
     
     self.coupon = coupon
     self.addingDate = addingDate
     self.estimatedDate = estimatedDate
     self.description = description
-//    self.websiteLink = websiteLink
   }
   
   /// Bridge for stored data
@@ -39,7 +35,6 @@ class PromoCodeData {
               addingDate: promoCode.addingDate,
               estimatedDate: promoCode.estimatedDate,
               description: promoCode.promoCodeDescription)
-//              websiteLink: promoCode.websiteLink)
   }
 }
 

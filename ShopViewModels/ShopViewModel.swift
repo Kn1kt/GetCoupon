@@ -31,17 +31,11 @@ class ShopViewModel {
   
   private let _favoriteButtonEnabled: BehaviorRelay<Bool>!
   
-  let favoriteButtonEnabled: Driver<Bool>// {
-//    return _favoriteButtonEnabled
-//      .asDriver()
-//  }
+  let favoriteButtonEnabled: Driver<Bool>
   
   private let _shop: BehaviorRelay<ShopData>!
   
-  let shop: Driver<ShopData> //{
-//    return _shop
-//      .asDriver()
-//  }
+  let shop: Driver<ShopData>
   
   var currentShop: ShopData {
     return _shop.value

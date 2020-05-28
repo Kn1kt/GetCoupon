@@ -84,7 +84,6 @@ class CacheController {
       guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
                                               forPrimaryKey: category.categoryName) else {
         debugPrint("No Category")
-//        fatalError()
         return
       }
       
@@ -338,9 +337,6 @@ class CacheController {
       storedShop.shopShortDescription = shop.shopShortDescription
     }
     
-//    if shop.isHot != storedShop.isHot {
-//      storedShop.isHot = shop.isHot
-//    }
     if shop.priority != storedShop.priority {
       storedShop.priority = shop.priority
     }
@@ -351,13 +347,11 @@ class CacheController {
     
     if shop.previewImageLink != storedShop.previewImageLink {
       storedShop.previewImageLink = shop.previewImageLink
-      //deletePreviewImage(from: storedShop)
       storedShop.previewImageURL = nil
     }
     
     if shop.imageLink != storedShop.imageLink {
       storedShop.imageLink = shop.imageLink
-      //deleteImage(from: storedShop)
       storedShop.imageURL = nil
     }
     
@@ -395,7 +389,6 @@ class CacheController {
     guard let shop = realm.object(ofType: ShopStoredData.self,
                                   forPrimaryKey: name) else {
       debugPrint("No Shop")
-//      fatalError()
       return
     }
     do {
@@ -417,7 +410,6 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop.name) else {
       debugPrint("No Shop")
-//      fatalError()
       return nil
     }
     
@@ -438,7 +430,6 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop.name) else {
       debugPrint("No Shop")
-//      fatalError()
       return nil
     }
     
@@ -459,7 +450,6 @@ extension CacheController {
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
                                             forPrimaryKey: category.categoryName) else {
       debugPrint("No Category")
-//      fatalError()
       return nil
     }
     
@@ -484,7 +474,6 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
       debugPrint("No Shop")
-//      fatalError()
       return
     }
     
@@ -507,7 +496,6 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
       debugPrint("No Shop")
-//      fatalError()
       return
     }
     
@@ -530,7 +518,6 @@ extension CacheController {
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
                                         forPrimaryKey: category) else {
       debugPrint("No Category")
-//      fatalError()
       return
     }
     

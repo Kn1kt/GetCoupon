@@ -49,16 +49,13 @@ class Navigator {
     let nc = FeedbackViewController.createWith(viewModel: vm)
     
     sender.present(nc, animated: true)
-//    showFeedback(target: vc, sender: sender)
   }
   
   // Need test this implementation
   private func show(target: UIViewController, sender: UIViewController) {
     if let nav = sender.navigationController {
-      //add controller to navigation stack
       nav.show(target, sender: sender)
     } else {
-      //present modally
       sender.present(target, animated: true, completion: nil)
     }
     
@@ -70,8 +67,6 @@ class Navigator {
   }
   
   private func showFeedback(target: FeedbackViewController, sender: UIViewController) {
-//    let navController = UINavigationController(rootViewController: target)
-//    navController.modalPresentationStyle = .fullScreen
     let navController = target.navigationController!
     sender.present(navController, animated: true)
   }

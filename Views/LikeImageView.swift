@@ -14,7 +14,6 @@ class LikeImageView: UIImageView {
     willSet {
       if newValue {
         tintColor = .systemRed
-        //tintColor = .secondaryLabel
       } else {
         tintColor = .systemGray4
       }

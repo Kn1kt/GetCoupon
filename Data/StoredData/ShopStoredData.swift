@@ -16,7 +16,6 @@ class ShopStoredData: Object {
   @objc dynamic var name: String = ""
   @objc dynamic var shopDescription: String?
   @objc dynamic var shopShortDescription: String = ""
-  //  @objc dynamic var isHot: Bool = false
   @objc dynamic var priority: Int = 0
   
   @objc dynamic var websiteLink: String = ""
@@ -48,7 +47,6 @@ class ShopStoredData: Object {
     self.name = name
     self.shopDescription = description
     self.shopShortDescription = shortDescription
-    //        self.isHot = isHot
     self.priority = priority
     self.websiteLink = websiteLink
     self.imageLink = imageLink

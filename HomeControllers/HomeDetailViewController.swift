@@ -63,15 +63,6 @@ class HomeDetailViewController: UIViewController {
   }
   
   private func bindUI() {
-//    viewModel.currentSection
-//      .asObservable()
-//      .take(1)
-//      .observeOn(MainScheduler.instance)
-//      .subscribe(onNext: { [weak self] section in
-//        self?.navigationItem.title = section.categoryName
-//      })
-//      .disposed(by: disposeBag)
-    
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
         self?.updateSnapshot(section)
@@ -87,7 +78,6 @@ class HomeDetailViewController: UIViewController {
   
   private func bindViewModel() {
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -121,7 +111,6 @@ class HomeDetailViewController: UIViewController {
 extension HomeDetailViewController {
   
   func createLayout() -> UICollectionViewLayout {
-    
     let sectionProvider = { [weak self] (sectionIndex: Int,
       layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
       guard let self = self else { return nil }
@@ -146,7 +135,6 @@ extension HomeDetailViewController {
   }
   
   func createSearchSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-    
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -163,7 +151,6 @@ extension HomeDetailViewController {
   }
   
   func createSegmentedControlSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-    
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)

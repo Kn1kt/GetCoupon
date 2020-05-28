@@ -40,7 +40,6 @@ class SearchResultsViewController: UIViewController {
 
   private func bindViewModel() {
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -137,7 +136,7 @@ extension SearchResultsViewController {
   }
 }
 
-// MARK: - Setup Collection View
+  // MARK: - Setup Collection View
 extension SearchResultsViewController {
 
   func configureCollectionView() {
@@ -222,7 +221,7 @@ extension SearchResultsViewController {
   }
 }
 
-// MARK: - Update Snapshot
+  // MARK: - Update Snapshot
 extension SearchResultsViewController {
 
   func updateSnapshot(_ collection: ShopCategoryData) {

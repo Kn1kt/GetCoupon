@@ -31,8 +31,7 @@ class HomeDetailCollectionViewCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Layouts
-
+  // MARK: - Layouts
 extension HomeDetailCollectionViewCell {
   
   func setupLayouts() {
@@ -76,9 +75,7 @@ extension HomeDetailCollectionViewCell {
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.3),
       
       addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-//      addToFavoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
       addToFavoritesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
-//      addToFavoritesButton.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.32),
       addToFavoritesButton.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.113),
       addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
       
@@ -87,7 +84,6 @@ extension HomeDetailCollectionViewCell {
       titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
       titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
       
-//      subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: addToFavoritesButton.bottomAnchor, multiplier: 1.0),
       subtitleLabel.topAnchor.constraint(equalTo: addToFavoritesButton.bottomAnchor, constant: spacing),
       subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),

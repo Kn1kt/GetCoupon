@@ -58,7 +58,6 @@ class HomeViewController: UIViewController {
     }
     
     collectionView.rx.itemSelected
-//      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
@@ -228,18 +227,11 @@ extension HomeViewController {
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                            heightDimension: .estimated(53))
-//    let footerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-//                                            heightDimension: .estimated(32))
     
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
                                                                          alignment: .top)
-    
-//    let footerSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: footerSize,
-//                                                                          elementKind: HomeViewController.showMoreElementKind,
-//                                                                          alignment: .bottom)
-    
-    section.boundarySupplementaryItems = [titleSupplementary]//, footerSupplementary]
+    section.boundarySupplementaryItems = [titleSupplementary]
     
     return section
   }
@@ -275,10 +267,6 @@ extension HomeViewController {
     collectionView.register(TitleSupplementaryView.self,
                             forSupplementaryViewOfKind: HomeViewController.titleElementKind,
                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier)
-    
-//    collectionView.register(ShowMoreSupplementaryView.self,
-//                            forSupplementaryViewOfKind: HomeViewController.showMoreElementKind,
-//                            withReuseIdentifier: ShowMoreSupplementaryView.reuseIdentifier)
   }
   
   func configureDataSource() {
@@ -335,62 +323,36 @@ extension HomeViewController {
           
           return cell
         }
-        
     }
     
     dataSource.supplementaryViewProvider = { [weak self] (collectionView: UICollectionView, kind: String, indexPath: IndexPath) -> UICollectionReusableView? in
       
       guard let self = self,
-        let snapshot = self.currentSnapshot else {
+        let snapshot = self.currentSnapshot,
+        let titleSupplementary = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                                 withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
+                                                                                 for: indexPath) as? TitleSupplementaryView else {
           return nil
       }
       
-      switch kind {
-      case HomeViewController.titleElementKind:
-        if let titleSupplementary = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                                    withReuseIdentifier: TitleSupplementaryView.reuseIdentifier,
-                                                                                    for: indexPath) as? TitleSupplementaryView {
-          let section = snapshot.sectionIdentifiers[indexPath.section]
-          titleSupplementary.label.text = section.categoryName
-          
-          titleSupplementary.showMoreButton.sectionIndex = indexPath.section
-          
-          if indexPath.section != 0 {
-            titleSupplementary.showMoreButton.isHidden = false
-            titleSupplementary.showMoreButton.isEnabled = true
-            
-            titleSupplementary.showMoreButton.rx.tap
-              .map { _ in (titleSupplementary.showMoreButton, self) }
-              .subscribeOn(self.eventScheduler)
-              .observeOn(self.eventScheduler)
-              .bind(to: self.viewModel.showDetailVC)
-              .disposed(by: titleSupplementary.disposeBag)
-          }
-          return titleSupplementary
-        } else {
-          fatalError("Can't create new supplementary")
-        }
-      case HomeViewController.showMoreElementKind:
-        if let footerSupplementary = collectionView.dequeueReusableSupplementaryView( ofKind: kind,
-                                                                                      withReuseIdentifier: ShowMoreSupplementaryView.reuseIdentifier,
-                                                                                      for: indexPath) as? ShowMoreSupplementaryView {
-          
-          footerSupplementary.showMoreButton.sectionIndex = indexPath.section
-          
-          footerSupplementary.showMoreButton.rx.tap
-            .map { _ in (footerSupplementary.showMoreButton, self) }
-            .subscribeOn(self.eventScheduler)
-            .observeOn(self.eventScheduler)
-            .bind(to: self.viewModel.showDetailVC)
-            .disposed(by: footerSupplementary.disposeBag)
-          
-          return footerSupplementary
-        } else {
-          fatalError("Can't create new supplementary")
-        }
-      default:
-        fatalError("Can't find new supplementary")
+      let section = snapshot.sectionIdentifiers[indexPath.section]
+      titleSupplementary.label.text = section.categoryName
+      
+      titleSupplementary.showMoreButton.sectionIndex = indexPath.section
+      
+      if indexPath.section != 0 {
+        titleSupplementary.showMoreButton.isHidden = false
+        titleSupplementary.showMoreButton.isEnabled = true
+        
+        titleSupplementary.showMoreButton.rx.tap
+          .map { _ in (titleSupplementary.showMoreButton, self) }
+          .subscribeOn(self.eventScheduler)
+          .observeOn(self.eventScheduler)
+          .bind(to: self.viewModel.showDetailVC)
+          .disposed(by: titleSupplementary.disposeBag)
       }
+      
+      return titleSupplementary
     }
     
     currentSnapshot = NSDiffableDataSourceSnapshot

@@ -19,7 +19,6 @@ class ShowMoreUIButton: UIButton {
     titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
     setTitle("See All", for: .normal)
     setTitleColor(UIColor(named: "BlueTintColor"), for: .normal)
-//    setTitleColor(.systemBlue, for: .normal)
     setTitleColor(.systemGray, for: .highlighted)
     titleLabel?.textAlignment = .right
   }

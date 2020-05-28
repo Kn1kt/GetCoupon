@@ -27,17 +27,10 @@ class SettingsViewModel {
   
   let pushNotifications: BehaviorRelay<Bool>!
   
-//  let emailNotifications: BehaviorRelay<Bool>!
-  
-//  let userEmail: BehaviorRelay<String>!
-  
   // MARK: - Output
   private let _pushNotificationsSwitherShould = PublishRelay<Bool>()
   
-  let pushNotificationsSwitherShould: Driver<Bool>// {
-//    return _pushNotificationsSwitherShould
-//      .asDriver(onErrorJustReturn: false)
-//  }
+  let pushNotificationsSwitherShould: Driver<Bool>
   
   // MARK: - Init
   init() {
@@ -50,12 +43,6 @@ class SettingsViewModel {
     
     let pushIsOn = UserDefaults.standard.bool(forKey: UserDefaultKeys.pushNotifications.rawValue)
     pushNotifications = BehaviorRelay<Bool>(value: pushIsOn)
-    
-//    let emailIsOn = UserDefaults.standard.bool(forKey: UserDefaultKeys.emailNotifications.rawValue)
-//    emailNotifications = BehaviorRelay<Bool>(value: emailIsOn)
-    
-//    let email = UserDefaults.standard.string(forKey: UserDefaultKeys.userEmail.rawValue) ?? ""
-//    userEmail = BehaviorRelay<String>(value: email)
     
     bindOutput()
     bindActions()
@@ -97,28 +84,6 @@ class SettingsViewModel {
         self._pushNotificationsSwitherShould.accept(false)
       })
       .disposed(by: disposeBag)
-    
-//    emailNotifications
-//      .skip(1)
-//      .distinctUntilChanged()
-//      .subscribeOn(defaultScheduler)
-//      .observeOn(defaultScheduler)
-//      .subscribe(onNext: { emailIsOn in
-//        debugPrint("Set email notifications to: \(emailIsOn)")
-//        UserDefaults.standard.set(emailIsOn, forKey: UserDefaultKeys.emailNotifications.rawValue)
-//      })
-//      .disposed(by: disposeBag)
-    
-//    userEmail
-//      .distinctUntilChanged()
-//      .skip(1)
-//      .subscribeOn(defaultScheduler)
-//      .observeOn(defaultScheduler)
-//      .subscribe(onNext: { email in
-//        debugPrint("Set user email to: \(email)")
-//        UserDefaults.standard.set(email, forKey: UserDefaultKeys.userEmail.rawValue)
-//      })
-//      .disposed(by: disposeBag)
     
     forceCatalogUpdating
       .skip(1)
