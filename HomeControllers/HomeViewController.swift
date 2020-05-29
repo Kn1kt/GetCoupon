@@ -80,7 +80,7 @@ class HomeViewController: UIViewController {
   
   private func bindUI() {
     if let refresh = collectionView.refreshControl {
-      viewModel.endRefreshing
+      viewModel.updateRefreshingStatus
         .drive(refresh.rx.isRefreshing)
         .disposed(by: disposeBag)
     }

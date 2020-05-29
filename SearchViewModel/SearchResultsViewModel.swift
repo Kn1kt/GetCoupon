@@ -21,7 +21,7 @@ class SearchResultsViewModel {
   // MARK: - Input
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
-  let searchAtrr = BehaviorRelay<(String?, [UISearchToken]?)>(value: (nil, nil))
+  let searchAttr = BehaviorRelay<(String?, [UISearchToken]?)>(value: (nil, nil))
   
   // MARK: - Output
   private let _currentCollection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
@@ -43,12 +43,12 @@ class SearchResultsViewModel {
       .subscribe(onNext: { [weak self] collection in
         guard  let self = self else { return }
 
-        let atrr = self.searchAtrr.value
-        self.searchAtrr.accept(atrr)
+        let attr = self.searchAttr.value
+        self.searchAttr.accept(attr)
       })
       .disposed(by: disposeBag)
     
-    searchAtrr
+    searchAttr
       .skip(1)
       .map { [weak self] (attr: (String?, [UISearchToken]?)) -> ShopCategoryData in
         guard let self = self else { fatalError("searchText") }

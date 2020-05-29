@@ -258,7 +258,7 @@ extension SearchMainViewController: UISearchResultsUpdating {
     if !viewModel.replacedTokens(searchController.searchBar.searchTextField) {
       let text = searchController.searchBar.searchTextField.text
       let tokens = searchController.searchBar.searchTextField.tokens
-      resultsController.viewModel.searchAtrr.accept((text, tokens))
+      resultsController.viewModel.searchAttr.accept((text, tokens))
     }
   }
 }

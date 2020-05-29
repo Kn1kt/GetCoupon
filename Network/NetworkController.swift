@@ -15,8 +15,8 @@ class NetworkController {
   
   static let shared = NetworkController()
   
-//  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
-  private let serverLink = "http://docker176003-env-4250910.jelastic.regruhosting.ru/ios-collections.json"
+  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
+//  private let serverLink = "http://docker176003-env-4250910.jelastic.regruhosting.ru/ios-collections.json"
   private let advLink = ""
   
   /// Image processing queue
@@ -54,27 +54,41 @@ extension NetworkController {
   func downloadCollections() -> Observable<[NetworkShopCategoryData]> {
     let subject = PublishSubject<[NetworkShopCategoryData]>()
     
-    let queue = DispatchQueue(label: "monitor")
-    let monitor = NWPathMonitor()
-    monitor.start(queue: queue)
-    monitor.pathUpdateHandler = { [unowned self] currentPath in
-      guard currentPath.status == .satisfied,
+//    let queue = DispatchQueue(label: "monitor")
+//    let monitor = NWPathMonitor()
+//    monitor.start(queue: queue)
+//    monitor.pathUpdateHandler = { [unowned self] currentPath in
+      guard //currentPath.status == .satisfied,
         let url = URL(string: self.serverLink) else {
-          return
+          subject.onCompleted()
+          return subject.asObservable()
       }
       
-      monitor.cancel()
+//      monitor.cancel()
       
+    let maxAttemps = 4
+    
       URLSession.shared.rx.data(request: URLRequest(url: url))
+        .retryWhen { e in
+          return e.enumerated().flatMap { attempt, error -> Observable<Int> in
+            if attempt >= maxAttemps - 1 {
+              return Observable.error(error)
+            } else {
+              return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 1 + attempt * maxAttemps), scheduler: MainScheduler.instance)
+                .take(1)
+            }
+          }
+        }
+        .timeout(RxTimeInterval.seconds(15), scheduler: MainScheduler.instance)
         .map { data in
           let decoder = JSONDecoder()
           return try decoder.decode([NetworkShopCategoryData].self, from: data)
-      }
-      .subscribeOn(self.updatesScheduler)
-      .observeOn(self.updatesScheduler)
-      .bind(to: subject)
-      .disposed(by: self.disposeBag)
-    }
+        }
+        .subscribeOn(self.updatesScheduler)
+        .observeOn(self.updatesScheduler)
+        .bind(to: subject)
+        .disposed(by: self.disposeBag)
+//    }
     
     return subject.asObservable()
   }
@@ -83,7 +97,7 @@ extension NetworkController {
   // MARK: - Download Promotional Offer
 extension NetworkController {
   
-//  func donloadAdvOffer() -> Observable<[Any]> {
+//  func downloadAdvOffer() -> Observable<[Any]> {
 //    
 //  }
 }

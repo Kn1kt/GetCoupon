@@ -231,6 +231,7 @@ class CacheController {
       if category.defaultImageLink != storedCategory.defaultImageLink {
         storedCategory.defaultImageLink = category.defaultImageLink
         storedCategory.defaultImageURL = nil
+//        deleteDefaultImage(from: storedCategory)
       }
       
       if category.priority != storedCategory.priority {
@@ -244,18 +245,7 @@ class CacheController {
       
       var existing = Set<String>()
       category.shops.forEach { shop in
-        if let storedShop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: shop.name) {
-          update(storedShop: storedShop, with: shop, in: storedCategory)
-        } else {
-          let newStoredShop = ShopStoredData(shop, category: storedCategory)
-          if let favoriteAttributes = invalidatedShops[newStoredShop.name] {
-            newStoredShop.isFavorite = favoriteAttributes.0
-            newStoredShop.favoriteAddingDate = favoriteAttributes.1
-            invalidatedShops[newStoredShop.name] = nil
-          }
-          realm.add(newStoredShop)
-          storedCategory.shops.append(newStoredShop)
-        }
+        process(shop: shop, in: storedCategory, invalidatedShops: &invalidatedShops)
         existing.insert(shop.name)
       }
       
@@ -285,8 +275,14 @@ class CacheController {
       }
       
     } else if !category.shops.isEmpty {
-      let newStoredCategory = ShopCategoryStoredData(category)
+      let newStoredCategory = ShopCategoryStoredData(category, copyShops: false)
       realm.add(newStoredCategory)
+      category.shops.forEach { shop in
+        process(shop: shop, in: newStoredCategory, invalidatedShops: &invalidatedShops)
+      }
+      
+      let sorted = newStoredCategory.shops.sorted { $0.priority > $1.priority }
+      newStoredCategory.shops.replaceSubrange((0..<sorted.count), with: sorted)
     }
     
     validatedCategories.insert(category.categoryName)
@@ -309,6 +305,33 @@ class CacheController {
           realm.delete(category)
         }
       }
+    }
+  }
+  
+  /// WARNING: Use only from realm.write
+  /**
+   *  Update existing or create new `shop`.
+   *
+   *  - Parameters:
+   *    - shop: shop that need to process
+   *    - storedCategory: category there shop gonna be
+   *    - invalidatedShops: recently deleted shops
+   *
+   */
+  private func process(shop: NetworkShopData,
+                       in storedCategory: ShopCategoryStoredData,
+                       invalidatedShops: inout [String : (Bool, Date?)]) {
+    if let storedShop = realm.object(ofType: ShopStoredData.self, forPrimaryKey: shop.name) {
+      update(storedShop: storedShop, with: shop, in: storedCategory)
+    } else {
+      let newStoredShop = ShopStoredData(shop, category: storedCategory)
+      if let favoriteAttributes = invalidatedShops[newStoredShop.name] {
+        newStoredShop.isFavorite = favoriteAttributes.0
+        newStoredShop.favoriteAddingDate = favoriteAttributes.1
+        invalidatedShops[newStoredShop.name] = nil
+      }
+      realm.add(newStoredShop)
+      storedCategory.shops.append(newStoredShop)
     }
   }
   
@@ -348,11 +371,13 @@ class CacheController {
     if shop.previewImageLink != storedShop.previewImageLink {
       storedShop.previewImageLink = shop.previewImageLink
       storedShop.previewImageURL = nil
+//      deletePreviewImage(from: storedShop)
     }
     
     if shop.imageLink != storedShop.imageLink {
       storedShop.imageLink = shop.imageLink
       storedShop.imageURL = nil
+//      deleteImage(from: storedShop)
     }
     
     if shop.placeholderColor != Array(storedShop.placeholderColor) {
@@ -388,7 +413,7 @@ class CacheController {
   func shop(with name: String, isFavorite: Bool, date: Date?) {
     guard let shop = realm.object(ofType: ShopStoredData.self,
                                   forPrimaryKey: name) else {
-      debugPrint("No Shop")
+      debugPrint("No Shop with name: \(name)")
       return
     }
     do {
@@ -409,7 +434,7 @@ extension CacheController {
     guard shop.image == nil else { return nil }
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop.name) else {
-      debugPrint("No Shop")
+      debugPrint("No Shop with name: \(shop.name)")
       return nil
     }
     
@@ -429,7 +454,7 @@ extension CacheController {
     guard shop.previewImage == nil else { return nil }
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop.name) else {
-      debugPrint("No Shop")
+      debugPrint("No Shop with name: \(shop.name)")
       return nil
     }
     
@@ -468,12 +493,12 @@ extension CacheController {
   func cacheImage(_ image: UIImage, for shop: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    guard let path = "\(shop)-image".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+    guard let path = "\(shop)-image".lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
     
     let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
-      debugPrint("No Shop")
+      debugPrint("No Shop with name: \(shop)")
       return
     }
     
@@ -490,12 +515,12 @@ extension CacheController {
   func cachePreviewImage(_ image: UIImage, for shop: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    guard let path = "\(shop)-previewImage".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+    guard let path = "\(shop)-previewImage".lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
 
     let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shop) else {
-      debugPrint("No Shop")
+      debugPrint("No Shop with name: \(shop)")
       return
     }
     
@@ -512,11 +537,11 @@ extension CacheController {
   func cacheDefaultImage(_ image: UIImage, for category: String) {
     let directoryURL = FileManager.default.urls(for: .cachesDirectory,
                                                 in: .userDomainMask).first
-    guard let path = "\(category)-defaultImage".addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
+    guard let path = "\(category)-defaultImage".lowercased().addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) else { return }
     
     let fileURL = URL(fileURLWithPath: path, relativeTo: directoryURL).appendingPathExtension("png")
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
-                                        forPrimaryKey: category) else {
+                                            forPrimaryKey: category) else {
       debugPrint("No Category")
       return
     }
@@ -532,7 +557,6 @@ extension CacheController {
   }
   
   private func deleteImages(from shop: ShopStoredData) {
-    
     do {
       if let previewPath = shop.previewImageURL {
         let url = URL(fileURLWithPath: previewPath)

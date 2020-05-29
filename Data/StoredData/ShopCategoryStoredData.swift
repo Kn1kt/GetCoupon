@@ -42,15 +42,17 @@ class ShopCategoryStoredData: Object {
   // MARK: - NetworkShopCategoryData Compatible
 extension ShopCategoryStoredData {
   
-  convenience init(_ networkCategory: NetworkShopCategoryData) {
+  convenience init(_ networkCategory: NetworkShopCategoryData, copyShops: Bool = true) {
     self.init(categoryName: networkCategory.categoryName,
               defaultImageLink: networkCategory.defaultImageLink,
               priority: networkCategory.priority,
               shops: [],
               tags: networkCategory.tags)
     
-    self.shops.append(objectsIn: networkCategory.shops
-      .map { ShopStoredData($0, category: self) }
-      .sorted { $0.priority > $1.priority })
+    if copyShops {
+      self.shops.append(objectsIn: networkCategory.shops
+        .map { ShopStoredData($0, category: self) }
+        .sorted { $0.priority > $1.priority })
+    }
   }
 }

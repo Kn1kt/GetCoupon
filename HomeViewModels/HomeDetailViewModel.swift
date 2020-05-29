@@ -135,6 +135,7 @@ class HomeDetailViewModel {
       .skip(1)
       .map { [weak self] (text: String) -> ShopCategoryData in
         guard let self = self else { fatalError("searchText") }
+        print(Thread.current)
         return self.filteredCategory(with: text)
       }
       .subscribeOn(eventScheduler)

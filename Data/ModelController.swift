@@ -22,7 +22,9 @@ class ModelController {
   /// System Permission to Send Push Notifications
   let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
   
-  private let _collections =  BehaviorRelay<[ShopCategoryData]>(value: [])
+  let isUpdatingData = BehaviorRelay<Bool>(value: false)
+  
+  private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
   let collections: Observable<[ShopCategoryData]>
   
@@ -62,12 +64,19 @@ class ModelController {
 extension ModelController {
   
   func setupCollections() {
+    isUpdatingData.accept(true)
     NetworkController.shared.downloadCollections()
       .observeOn(updatesScheduler)
       .subscribe(onNext: { networkCollections in
         let cache = CacheController()
         cache.updateData(with: networkCollections)
         self.loadCollectionsFromStorage()
+      },
+                 onError: { _ in
+        self.isUpdatingData.accept(false)
+      },
+                 onCompleted: {
+        self.isUpdatingData.accept(false)
       })
       .disposed(by: disposeBag)
   }

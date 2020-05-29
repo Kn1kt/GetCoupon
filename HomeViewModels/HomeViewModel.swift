@@ -33,12 +33,12 @@ class HomeViewModel {
   let collections: Observable<[ShopCategoryData]>
   
   /// Current status of refresh controller
-  private let isRefreshing = BehaviorRelay<Bool>(value: true)
+  let isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  /// Send to refresh controller terminating events
-  private let _endRefreshing: BehaviorRelay<Bool>!
+  /// Send to refresh controller update events
+//  private let _updateRefreshingStatus: BehaviorRelay<Bool>!
   
-  let endRefreshing: Driver<Bool>
+  let updateRefreshingStatus: Driver<Bool>
   
   // MARK: - Init
   init() {
@@ -47,10 +47,11 @@ class HomeViewModel {
     
     self.collections = _collections.share(replay: 1)
     
-    let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
-    _endRefreshing = BehaviorRelay<Bool>(value: forceUpdating)
+//    let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
+//    _updateRefreshingStatus = BehaviorRelay<Bool>(value: forceUpdating)
     
-    self.endRefreshing = _endRefreshing.asDriver()
+//    self.updateRefreshingStatus = _updateRefreshingStatus.asDriver()
+    self.updateRefreshingStatus = isRefreshing.asDriver()
     
     bindOutput()
     bindActions()
@@ -62,16 +63,17 @@ class HomeViewModel {
       .bind(to: _collections)
       .disposed(by: disposeBag)
     
-    model.collections
-      .skip(1)
-      .map { _ in false }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
-      .bind(to: _endRefreshing)
-      .disposed(by: disposeBag)
+//    model.collections
+//      .skip(1)
+//      .map { _ in false }
+//      .subscribeOn(defaultScheduler)
+//      .observeOn(defaultScheduler)
+//      .bind(to: _endRefreshing)
+//      .disposed(by: disposeBag)
     
-    Observable
-      .merge([refresh.asObservable(), _endRefreshing.asObservable()])
+//    Observable
+//      .merge([refresh.asObservable(), _endRefreshing.asObservable()])
+    ModelController.shared.isUpdatingData
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: isRefreshing)
@@ -83,9 +85,7 @@ class HomeViewModel {
       .filter { $0 }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .subscribe(onNext: { isRefreshing in
-        guard isRefreshing else { fatalError("HomeViewModelRefrsh")}
-        
+      .subscribe(onNext: { _ in
         /* TODO:
          should fix this query
         */
