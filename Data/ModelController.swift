@@ -13,6 +13,11 @@ import RxCocoa
 
 class ModelController {
   
+  enum DataStatus {
+    case updating, updated, unknown
+    case error(Error)
+  }
+  
   static let shared = ModelController()
   
   private let disposeBag = DisposeBag()
@@ -22,7 +27,11 @@ class ModelController {
   /// System Permission to Send Push Notifications
   let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
   
-  let isUpdatingData = BehaviorRelay<Bool>(value: false)
+  let _isUpdatingData = BehaviorRelay<Bool>(value: false)
+  let isUpdatingData: Observable<Bool>
+  
+  let _dataUpdatingStatus = BehaviorRelay<DataStatus>(value: .unknown)
+  let dataUpdatingStatus: Observable<DataStatus>
   
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
@@ -51,6 +60,8 @@ class ModelController {
     self.collections = _collections.share(replay: 1)
     self.favoriteCollections = _favoriteCollections.share(replay: 1)
     self.searchCollection = _searchCollection.share(replay: 1)
+    self.isUpdatingData = _isUpdatingData.share(replay: 1)
+    self.dataUpdatingStatus = _dataUpdatingStatus.share(replay: 1)
     
     homeDataController = HomeDataController(collections: collections)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
@@ -64,7 +75,8 @@ class ModelController {
 extension ModelController {
   
   func setupCollections() {
-    isUpdatingData.accept(true)
+    self._dataUpdatingStatus.accept(.updating)
+    self._isUpdatingData.accept(true)
     NetworkController.shared.downloadCollections()
       .observeOn(updatesScheduler)
       .subscribe(onNext: { networkCollections in
@@ -72,11 +84,13 @@ extension ModelController {
         cache.updateData(with: networkCollections)
         self.loadCollectionsFromStorage()
       },
-                 onError: { _ in
-        self.isUpdatingData.accept(false)
+                 onError: { error in
+        self._dataUpdatingStatus.accept(.error(error))
+        self._isUpdatingData.accept(false)
       },
                  onCompleted: {
-        self.isUpdatingData.accept(false)
+        self._dataUpdatingStatus.accept(.updated)
+        self._isUpdatingData.accept(false)
       })
       .disposed(by: disposeBag)
   }

@@ -12,6 +12,13 @@ import RxCocoa
 
 class HomeViewModel {
   
+  enum TitleTypes {
+    case `default`(String)
+    case dowloading(String)
+    case downloaded(String)
+    case error(String, String)
+  }
+  
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
@@ -35,10 +42,10 @@ class HomeViewModel {
   /// Current status of refresh controller
   let isRefreshing = BehaviorRelay<Bool>(value: true)
   
-  /// Send to refresh controller update events
-//  private let _updateRefreshingStatus: BehaviorRelay<Bool>!
-  
+  /// Send stopRefreshing to refresh
   let updateRefreshingStatus: Driver<Bool>
+  
+  let updatingTitle = BehaviorRelay<TitleTypes>(value: .default("Home"))
   
   // MARK: - Init
   init() {
@@ -47,11 +54,10 @@ class HomeViewModel {
     
     self.collections = _collections.share(replay: 1)
     
-//    let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
-//    _updateRefreshingStatus = BehaviorRelay<Bool>(value: forceUpdating)
-    
-//    self.updateRefreshingStatus = _updateRefreshingStatus.asDriver()
-    self.updateRefreshingStatus = isRefreshing.asDriver()
+    self.updateRefreshingStatus = isRefreshing
+      .filter { !$0 }
+      .delay(.seconds(1), scheduler: MainScheduler.instance)
+      .asDriver(onErrorJustReturn: false)
     
     bindOutput()
     bindActions()
@@ -63,20 +69,68 @@ class HomeViewModel {
       .bind(to: _collections)
       .disposed(by: disposeBag)
     
-//    model.collections
-//      .skip(1)
-//      .map { _ in false }
-//      .subscribeOn(defaultScheduler)
-//      .observeOn(defaultScheduler)
-//      .bind(to: _endRefreshing)
-//      .disposed(by: disposeBag)
-    
-//    Observable
-//      .merge([refresh.asObservable(), _endRefreshing.asObservable()])
     ModelController.shared.isUpdatingData
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: isRefreshing)
+      .disposed(by: disposeBag)
+    
+    ModelController.shared.dataUpdatingStatus
+      .map { status in
+        switch status {
+        case .unknown:
+          return .default("Home")
+        case .updating:
+          return .dowloading("Updating...")
+        case .updated:
+          return .downloaded("Successfully Updated")
+        case .error(let e):
+          return .error(e.localizedDescription, "Update Error")
+        }
+      }
+    .subscribeOn(defaultScheduler)
+    .observeOn(defaultScheduler)
+    .bind(to: updatingTitle)
+    .disposed(by: disposeBag)
+    
+    ModelController.shared.dataUpdatingStatus
+      .delay(.seconds(2), scheduler: MainScheduler.instance)
+      .filter { [weak self] status in
+        guard let self = self,
+          self.isRefreshing.value == false else {
+            return false
+        }
+        switch status {
+        case .updated:
+          return true
+        default:
+          return false
+        }
+      }
+      .map { _ in .default("Home") }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: updatingTitle)
+      .disposed(by: disposeBag)
+    
+    ModelController.shared.dataUpdatingStatus
+      .delay(.seconds(4), scheduler: MainScheduler.instance)
+      .filter { [weak self] status in
+        guard let self = self,
+          self.isRefreshing.value == false else {
+            return false
+        }
+        switch status {
+        case .error(_):
+          return true
+        default:
+          return false
+        }
+      }
+      .map { _ in .default("Home") }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: updatingTitle)
       .disposed(by: disposeBag)
   }
   

@@ -21,6 +21,10 @@ class HomeViewController: UIViewController {
   
   private let viewModel = HomeViewModel()
   
+  private let navBarTitleView = HomeAnimatingTitleView()
+  private let navBarSubtitleView = HomeAnimatingSubtitleView()
+  private var navBarSubtitleViewHeightConstraint: NSLayoutConstraint!
+  
   var collectionView: UICollectionView! = nil
   var dataSource: UICollectionViewDiffableDataSource
     <ShopCategoryData, ShopData>! = nil
@@ -31,9 +35,11 @@ class HomeViewController: UIViewController {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     navigationItem.title = "Home"
+    navigationItem.titleView = navBarTitleView
     
     configureCollectionView()
     configureDataSource()
+    configureNavBarSubtitleView()
     
     let refresh = UIRefreshControl()
     collectionView?.refreshControl = refresh
@@ -45,6 +51,17 @@ class HomeViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.navigationBar.prefersLargeTitles = false
+    if let refresh = collectionView.refreshControl,
+      viewModel.isRefreshing.value {
+        refresh.beginRefreshing()
+    }
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    if let refresh = collectionView.refreshControl {
+        refresh.endRefreshing()
+    }
   }
   
   private func bindViewModel() {
@@ -90,6 +107,36 @@ class HomeViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] collections in
         self?.updateSnapshot(collections)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.updatingTitle
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] event in
+        switch event {
+        case .default(let text):
+          self?.navBarTitleView.setDefaultTitle(to: text)
+          
+        case .dowloading(let text):
+          self?.navBarTitleView.setDownloadingTitle(to: text)
+          
+        case .downloaded(let text):
+          self?.navBarTitleView.setDownloadedTitle(to: text)
+          
+        case .error(let description, let text):
+          self?.navBarTitleView.setErrorTitle(to: text)
+          self?.navBarSubtitleView.promt.text = description
+          UIView.animate(withDuration: 0.5) { [weak self] in
+            self?.navBarSubtitleViewHeightConstraint.constant = 40
+            self?.view.layoutIfNeeded()
+          }
+          return
+        }
+        
+        UIView.animate(withDuration: 0.5) { [weak self] in
+          self?.navBarSubtitleViewHeightConstraint.constant = 0
+          self?.view.layoutIfNeeded()
+        }
       })
       .disposed(by: disposeBag)
   }
@@ -251,13 +298,12 @@ extension HomeViewController {
     view.addSubview(collectionView)
     
     NSLayoutConstraint.activate([
-      
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       collectionView.topAnchor.constraint(equalTo: view.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-      
     ])
+    
     collectionView.register(HomeCardCollectionViewCell.self,
                             forCellWithReuseIdentifier: HomeCardCollectionViewCell.reuseIdentifier)
     
@@ -378,5 +424,21 @@ extension HomeViewController {
     }
       
     dataSource.apply(currentSnapshot, animatingDifferences: true)
+  }
+}
+
+  // MARK: - Animatable View Setup
+extension HomeViewController {
+  
+  private func configureNavBarSubtitleView() {
+    navBarSubtitleView.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(navBarSubtitleView)
+    
+    navBarSubtitleView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+    navBarSubtitleView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+    navBarSubtitleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+    
+    navBarSubtitleViewHeightConstraint = navBarSubtitleView.heightAnchor.constraint(equalToConstant: 0)
+    navBarSubtitleViewHeightConstraint.isActive = true
   }
 }
