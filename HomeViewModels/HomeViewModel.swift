@@ -76,7 +76,7 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
-      .map { status in
+      .map { (status: ModelController.DataStatus) -> TitleTypes in
         switch status {
         case .unknown:
           return .default("Home")
@@ -88,13 +88,21 @@ class HomeViewModel {
           return .error(e.localizedDescription, "Update Error")
         }
       }
+    .filter { status in
+      switch status {
+      case .downloaded(_):
+        return false
+      default:
+        return true
+      }
+    }
     .subscribeOn(defaultScheduler)
     .observeOn(defaultScheduler)
     .bind(to: updatingTitle)
     .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
-      .delay(.seconds(2), scheduler: MainScheduler.instance)
+      .delay(.seconds(1), scheduler: MainScheduler.instance)
       .filter { [weak self] status in
         guard let self = self,
           self.isRefreshing.value == false else {

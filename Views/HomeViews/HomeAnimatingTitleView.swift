@@ -93,8 +93,8 @@ extension HomeAnimatingTitleView {
   
   func setDefaultTitle(to text: String) {
     defaultTitle.text = text
-    defaultTitle.alpha = 0
-    defaultTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+//    defaultTitle.alpha = 0
+//    defaultTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     
     UIView.animate(withDuration: 0.3, animations: { [weak self] in
       self?.defaultTitle.transform = .identity
@@ -111,8 +111,8 @@ extension HomeAnimatingTitleView {
   
   func setDownloadingTitle(to text: String) {
     downloadingTitle.text = text
-    downloadingTitle.alpha = 0
-    downloadingTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+//    downloadingTitle.alpha = 0
+//    downloadingTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     
     UIView.animate(withDuration: 0.3, animations: { [weak self] in
       self?.downloadingTitle.transform = .identity
@@ -129,8 +129,8 @@ extension HomeAnimatingTitleView {
   
   func setDownloadedTitle(to text: String) {
     downloadedTitle.text = text
-    downloadedTitle.alpha = 0
-    downloadedTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+//    downloadedTitle.alpha = 0
+//    downloadedTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     
     UIView.animate(withDuration: 0.3, animations: { [weak self] in
       self?.downloadedTitle.transform = .identity
@@ -147,8 +147,8 @@ extension HomeAnimatingTitleView {
   
   func setErrorTitle(to text: String) {
     errorTitle.text = text
-    errorTitle.alpha = 0
-    errorTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+//    errorTitle.alpha = 0
+//    errorTitle.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
     
     UIView.animate(withDuration: 0.3, animations: { [weak self] in
       self?.errorTitle.transform = .identity

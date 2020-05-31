@@ -394,7 +394,20 @@ class CacheController {
     }
     storedShop.promoCodes.indices.reversed().forEach { index in
       let storedPromoCode = storedShop.promoCodes[index]
-      if let _ = promoCodes[storedPromoCode.coupon] {
+      if let newPromoCode = promoCodes[storedPromoCode.coupon] {
+        
+        if newPromoCode.addingDate != storedPromoCode.addingDate {
+          storedPromoCode.addingDate = newPromoCode.addingDate
+        }
+        
+        if newPromoCode.estimatedDate != storedPromoCode.estimatedDate {
+          storedPromoCode.estimatedDate = newPromoCode.estimatedDate
+        }
+        
+        if newPromoCode.promoCodeDescription != storedPromoCode.promoCodeDescription {
+          storedPromoCode.promoCodeDescription = newPromoCode.promoCodeDescription
+        }
+        
         promoCodes.removeValue(forKey: storedPromoCode.coupon)
       } else {
         storedShop.promoCodes.remove(at: index)

@@ -28,7 +28,7 @@ extension HomeAnimatingSubtitleView {
     promt.translatesAutoresizingMaskIntoConstraints = false
     self.addSubview(promt)
     
-    self.backgroundColor = UIColor.systemRed.withAlphaComponent(0.7)
+    self.backgroundColor = UIColor.systemRed.withAlphaComponent(0.9)
     
     promt.font = UIFont.preferredFont(forTextStyle: .subheadline)
     promt.adjustsFontForContentSizeCategory = true
