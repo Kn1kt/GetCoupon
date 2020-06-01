@@ -75,7 +75,9 @@ extension ShopStoredData {
               imageLink: networkShop.imageLink,
               previewImageLink: networkShop.previewImageLink,
               placeholderColor: networkShop.placeholderColor,
-              promoCodes: networkShop.promoCodes.map(PromoCodeStoredData.init),
+              promoCodes: networkShop.promoCodes
+                .map(PromoCodeStoredData.init)
+                .sorted(by: { $0.addingDate > $1.addingDate }),
               category: category)
   }
 }

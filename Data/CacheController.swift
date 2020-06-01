@@ -172,7 +172,7 @@ class CacheController {
   /// All categories
   private func categories() -> [ShopCategoryStoredData] {
     let categories = realm.objects(ShopCategoryStoredData.self)
-//      .sorted { $0.priority > $1.priority }
+      .sorted { $0.priority > $1.priority }
     
     return Array(categories)
   }
@@ -420,6 +420,9 @@ class CacheController {
       realm.add(newPromoCodes)
       storedShop.promoCodes.append(objectsIn: newPromoCodes)
     }
+    
+    let sorted = storedShop.promoCodes.sorted { $0.addingDate > $1.addingDate }
+    storedShop.promoCodes.replaceSubrange((0..<sorted.count), with: sorted)
   }
   
   // MARK: - Update Favorites

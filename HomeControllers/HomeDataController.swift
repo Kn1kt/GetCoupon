@@ -19,15 +19,16 @@ class HomeDataController {
   let collections: Observable<[ShopCategoryData]>
   
   func section(for index: Int) -> Observable<ShopCategoryData>? {
-    guard index >= 0, _collections.value.count > index else {
-      return nil
-    }
-    
-    let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
-      return categories[index]
-    }
-    
-    return section
+    return ModelController.shared.section(for: index)
+//    guard index >= 0, _collections.value.count > index else {
+//      return nil
+//    }
+//
+//    let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
+//      return categories[index]
+//    }
+//
+//    return section
   }
   
   func category(for shop: ShopData) -> ShopCategoryData {
@@ -44,7 +45,21 @@ class HomeDataController {
     collections.map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
       return collections.map { category in
         return ShopCategoryData(categoryName: category.categoryName,
-                                shops: Array(category.shops.prefix(10)),
+                                shops: Array(category.shops
+                                  .prefix(10)
+                                  .sorted(by: { lhs, rhs in
+                                    if lhs.priority == rhs.priority {
+                                      if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                        if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                          return lhsDate > rhsDate
+                                        }
+                                        return true
+                                      }
+                                      return false
+                                    } else {
+                                      return lhs.priority > rhs.priority
+                                    }
+                                  })),
                                 tags: category.tags)
       }
     }

@@ -14,6 +14,8 @@ class ShopData {
   let description: String?
   let shortDescription: String
   
+  let priority: Int
+  
   let websiteLink: String
   
   private var _image: UIImage? = nil
@@ -62,6 +64,7 @@ class ShopData {
   init(name: String,
        description: String? = nil,
        shortDescription: String,
+       priority: Int = 0,
        websiteLink: String,
        placeholderColor: UIColor = .systemGray3,
        image: UIImage? = nil,
@@ -73,6 +76,7 @@ class ShopData {
     self.name = name
     self.description = description
     self.shortDescription = shortDescription
+    self.priority = priority
     self.websiteLink = websiteLink
     self.placeholderColor = placeholderColor
     self._image = image
@@ -117,6 +121,7 @@ class ShopData {
     self.init(name: shop.name,
               description: shop.shopDescription,
               shortDescription: shop.shopShortDescription,
+              priority: shop.priority,
               websiteLink: shop.websiteLink,
               placeholderColor: UIColor.init(cgColor: color!),
               image: nil,

@@ -107,6 +107,22 @@ extension ModelController {
   }
 }
 
+  // MARK: - Home Data Controller
+extension ModelController {
+  
+  func section(for index: Int) -> Observable<ShopCategoryData>? {
+    guard index >= 0, _collections.value.count > index else {
+      return nil
+    }
+    
+    let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
+      return categories[index]
+    }
+    
+    return section
+  }
+}
+
   // MARK: - Favorites Section Data Controller
 extension ModelController {
   
