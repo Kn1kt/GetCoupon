@@ -493,30 +493,13 @@ extension ShopViewController {
   func createTitleSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
     
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                          heightDimension: .fractionalHeight(1.0))
+                                          heightDimension: .estimated(100))
+    
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    var groupFractionHeigh: CGFloat! = nil
-    
-    switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
-    case (.compact, .regular):
-      groupFractionHeigh = CGFloat(0.12)
-      
-    case (.compact, .compact):
-      groupFractionHeigh = CGFloat(0.25)
-      
-    case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.10)
-      
-    case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.10)
-      
-    default:
-      groupFractionHeigh = CGFloat(0.12)
-    }
-    
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .fractionalHeight(groupFractionHeigh))
+                                           heightDimension: .estimated(100))
+    
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                    subitems: [item])
     
@@ -723,8 +706,13 @@ extension ShopViewController {
           cell.subtitleLabel.text = cellData.description
           cell.promocodeView.promocodeLabel.text = cellData.coupon
           
-          cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
+          if cellData.addingDate > Date(timeIntervalSinceNow: 0) {
+            cell.addingDateLabel.text = "PINNED"
+          } else {
+            cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
+          }
           
+//          cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
           cell.estimatedDateLabel.text = "Expire: " + self.dateFormatter.string(from: cellData.estimatedDate)
           
           return cell

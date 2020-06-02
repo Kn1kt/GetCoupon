@@ -58,7 +58,7 @@ extension HomeDetailCollectionViewCell {
     titleLabel.adjustsFontForContentSizeCategory = true
     
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
-    subtitleLabel.numberOfLines = 2
+    subtitleLabel.numberOfLines = 3
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     
@@ -82,11 +82,13 @@ extension HomeDetailCollectionViewCell {
       titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing),
       titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
-      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
+//      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
+      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       
-      subtitleLabel.topAnchor.constraint(equalTo: addToFavoritesButton.bottomAnchor, constant: spacing),
+      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
       subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      subtitleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 0),
       
       separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

@@ -190,7 +190,7 @@ extension HomeViewController {
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
       groupFractionalWidth = CGFloat(0.44)
-      groupFractionHeigh = CGFloat(0.4)
+      groupFractionHeigh = CGFloat(0.42)
       
     case (.compact, .compact):
       groupFractionalWidth = CGFloat(0.25)
@@ -202,11 +202,11 @@ extension HomeViewController {
       
     case (.regular, .regular):
       groupFractionalWidth = CGFloat(0.35)
-      groupFractionHeigh = CGFloat(0.4)
+      groupFractionHeigh = CGFloat(0.42)
       
     default:
       groupFractionalWidth = CGFloat(0.45)
-      groupFractionHeigh = CGFloat(0.4)
+      groupFractionHeigh = CGFloat(0.42)
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),

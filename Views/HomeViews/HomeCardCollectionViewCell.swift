@@ -52,6 +52,7 @@ extension HomeCardCollectionViewCell {
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
+    subtitleLabel.numberOfLines = 2
     
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
@@ -63,17 +64,22 @@ extension HomeCardCollectionViewCell {
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
+//      imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
+
       
       titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing / 2),
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
+//      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
+      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
+
       
       subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      subtitleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.1)
+      subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing / 2),
+      subtitleLabel.heightAnchor.constraint(equalToConstant: subtitleLabel.font.lineHeight * 2.5)
+//      subtitleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
     ])
   }
 }

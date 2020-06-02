@@ -41,20 +41,23 @@ extension ShopTitleCollectionViewCell {
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
-    subtitleLabel.numberOfLines = 2
+    subtitleLabel.numberOfLines = 4
     subtitleLabel.textAlignment = .center
     
     let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
+      titleLabel.firstBaselineAnchor.constraint(equalToSystemSpacingBelow: contentView.topAnchor, multiplier: 0.7),
+//      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+//      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.4),
       
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2),
-      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
+//      subtitleLabel.firstBaselineAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing * 2),
+      subtitleLabel.firstBaselineAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1),
+      contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.lastBaselineAnchor, multiplier: 1)
+//      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
     ])
   }
 }

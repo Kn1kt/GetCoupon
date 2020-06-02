@@ -77,13 +77,14 @@ extension SearchPlainCollectionViewCell {
       titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
       titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
       
-      subtitleLabel.topAnchor.constraint(equalToSystemSpacingBelow: titleLabel.bottomAnchor, multiplier: 1.0),
+      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
       subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing / 2),
       
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
-      separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])
   }
