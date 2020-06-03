@@ -614,6 +614,7 @@ extension ShopViewController {
     cornedTopView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     cornedTopView.layer.cornerRadius = 15
     cornedTopView.backgroundColor = .systemGroupedBackground
+    cornedTopView.isUserInteractionEnabled = false
     
     view.addSubview(cornedTopView)
     
