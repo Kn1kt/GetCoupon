@@ -162,7 +162,7 @@ extension HomeViewController {
     }
     
     let config = UICollectionViewCompositionalLayoutConfiguration()
-    config.interSectionSpacing = 10
+    config.interSectionSpacing = 20
     
     let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                      configuration: config)
@@ -184,8 +184,8 @@ extension HomeViewController {
                                                          subitem: item,
                                                          count: 2)
     
-    var groupFractionalWidth: CGFloat! = nil
-    var groupFractionHeigh: CGFloat! = nil
+    let groupFractionalWidth: CGFloat
+    let groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -237,13 +237,13 @@ extension HomeViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    var groupFractionalWidth: CGFloat! = nil
-    var groupFractionHeigh: CGFloat! = nil
+    let groupFractionalWidth: CGFloat
+    let groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
       groupFractionalWidth = CGFloat(0.36)
-      groupFractionHeigh = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.21)
       
     case (.compact, .compact):
       groupFractionalWidth = CGFloat(0.2)
@@ -255,11 +255,11 @@ extension HomeViewController {
       
     case (.regular, .regular):
       groupFractionalWidth = CGFloat(0.25)
-      groupFractionHeigh = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.21)
       
     default:
       groupFractionalWidth = CGFloat(0.36)
-      groupFractionHeigh = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.21)
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),

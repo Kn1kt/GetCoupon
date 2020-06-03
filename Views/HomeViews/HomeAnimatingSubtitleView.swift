@@ -35,9 +35,10 @@ extension HomeAnimatingSubtitleView {
     promt.textAlignment = .center
     promt.textColor = .white
     
+    let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
-      promt.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-      promt.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+      promt.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
+      promt.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
       promt.topAnchor.constraint(equalTo: self.topAnchor),
       promt.bottomAnchor.constraint(equalTo: self.bottomAnchor)
     ])
