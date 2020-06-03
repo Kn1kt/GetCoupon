@@ -52,9 +52,16 @@ class SearchViewModel {
       .disposed(by: disposeBag)
     
     self.suggestedSearchesList = suggestedSearches
+      .asObservable()
       .map { dict in
-        SuggestedSearchCategoryData(title: "Trending",
-                                    tokens: dict.keys.map { SuggestedSearchCellData(tokenText: $0) })
+        let popularTags = dict.keys
+          .sorted { lhs, rhs in
+          return dict[lhs]!.count > dict[rhs]!.count
+          }
+          .prefix(10)
+          .map { SuggestedSearchCellData(tokenText: $0) }
+        
+        return SuggestedSearchCategoryData(title: "Trending", tokens: popularTags)
       }
       .subscribeOn(defaultScheduler)
       .asDriver(onErrorJustReturn: SuggestedSearchCategoryData(title: "Empty", tokens: []))

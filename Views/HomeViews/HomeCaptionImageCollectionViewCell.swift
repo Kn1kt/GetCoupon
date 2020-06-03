@@ -64,7 +64,8 @@ extension HomeCaptionImageCollectionViewCell {
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
+//      imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.625),
+      imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
       
       titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
