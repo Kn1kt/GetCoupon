@@ -23,23 +23,12 @@ class ShopViewController: UIViewController {
   private let logoView = LogoWithFavoritesButton()
   private let cornedTopView = UIView()
   
+  private let navBarIsHidden = BehaviorRelay<Bool>(value: true)
+  
   private let overlayView = UIView()
   private let popupView = CouponPopupView()
   
   private let label = UILabel()
-  
-  private lazy var pointOfFade: CGFloat = {
-    switch (traitCollection.horizontalSizeClass, traitCollection.verticalSizeClass) {
-    case (.compact, .regular):
-      return CGFloat(-35)
-      
-    case (.compact, .compact):
-     return CGFloat(-55)
-      
-    default:
-      return CGFloat(-35)
-    }
-  }()
   
   private lazy var navBarPlaceholder: UIVisualEffectView = {
     let blurEffect = UIBlurEffect(style: .systemChromeMaterial)
@@ -221,23 +210,21 @@ class ShopViewController: UIViewController {
     nc?.navigationBar.shadowImage = UIImage()
     nc?.navigationBar.isTranslucent = true
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark.circle.fill"),
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "xmark-gray"),
                                                         style: .plain,
-                                                        target: nil,
-                                                        action: nil)
-    navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "BlueTintColor")
+                                                        target: self,
+                                                        action: #selector(dismissVC))
     
-    navigationItem.rightBarButtonItem?.rx.tap
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] in
-        self?.dismiss(animated: true)
-      })
-      .disposed(by: disposeBag)
+    navigationItem.rightBarButtonItem?.tintColor = UIColor(named: "BlueTintColor")
     
     label.font = UIFont.preferredFont(forTextStyle: .headline)
     label.text = self.viewModel.currentShop.name
     label.alpha = 0
     navigationItem.titleView = label
+  }
+  
+  @objc private func dismissVC() {
+    self.dismiss(animated: true)
   }
   
   // MARK: - Popup Animations
@@ -624,6 +611,7 @@ extension ShopViewController {
                             height: 140)
     
     logoView.imageView.backgroundColor = viewModel.currentShop.placeholderColor
+    logoView.imageView.isUserInteractionEnabled = false
     view.addSubview(logoView)
     
     // Setup delegate
@@ -664,6 +652,19 @@ extension ShopViewController {
                                                                 fatalError("Can't create new cell")
           }
           cell.titleLabel.text = self.viewModel.currentShop.name
+          self.navBarIsHidden
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { isHidden in
+              UIView.animate(withDuration: 0.3) {
+                if isHidden {
+                  cell.titleLabel.alpha = 1
+                } else {
+                  cell.titleLabel.alpha = 0
+                }
+              }
+            })
+            .disposed(by: cell.disposeBag)
+          
           cell.subtitleLabel.text = self.viewModel.currentShop.description
           
           return cell
@@ -790,12 +791,12 @@ extension ShopViewController: UICollectionViewDelegate {
   }
   
   func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let y = 200 - (scrollView.contentOffset.y + 200)
+    let y = -scrollView.contentOffset.y
     let height = min(max(y, 0), UIScreen.main.bounds.size.height)
     
     if let navBar = navigationController?.navigationBar {
       // Point Of Fade is negative, so need to subtract this
-      let alpha = 1 - max(min(y - pointOfFade, 250), 0) / 250
+      let alpha = 1 - max(min(y, 250), 0) / 250
       
       // Update placeholder
       if navBar.backgroundImage(for: .default) != nil {
@@ -804,33 +805,37 @@ extension ShopViewController: UICollectionViewDelegate {
       }
       
       // Swap placeholder to navigation bar or vice versa
-      if navBar.backgroundImage(for: .default) != nil && y < pointOfFade {
+      if self.label.alpha == 0 && y < 0 {
+        navBarIsHidden.accept(false)
+        
         if label.frame.minY == 0 {
           label.layer.position = CGPoint(x: label.layer.position.x,
-                                         y: label.layer.position.y + label.bounds.height)
+                                         y: label.layer.position.y + label.bounds.height / 2)
         }
         
-        navBar.setBackgroundImage(nil, for: .default)
-        navBar.shadowImage = nil
+//        navBar.setBackgroundImage(nil, for: .default)
+//        navBar.shadowImage = nil
+        
         UIView.animate(withDuration: 0.3) {
-          self.navBarPlaceholder.alpha = 0
-          self.navBarShadow.alpha = 0
+//          self.navBarPlaceholder.alpha = 0
+//          self.navBarShadow.alpha = 0
           self.label.alpha = 1
           self.label.layer.position = CGPoint(x: self.label.layer.position.x,
-                                                y: self.label.layer.position.y - self.label.bounds.height)
+                                                y: self.label.layer.position.y - self.label.bounds.height / 2)
         }
         
-      } else if navBar.backgroundImage(for: .default) == nil
-        && y > pointOfFade {
-        navBarPlaceholder.alpha = alpha
-        navBarShadow.alpha = alpha
-        navBar.setBackgroundImage(UIImage(), for: .default)
-        navBar.shadowImage = UIImage()
+      } else if self.label.alpha == 1 && y > 0 {
+        navBarIsHidden.accept(true)
+        
+//        navBarPlaceholder.alpha = alpha
+//        navBarShadow.alpha = alpha
+//        navBar.setBackgroundImage(UIImage(), for: .default)
+//        navBar.shadowImage = UIImage()
         
         UIView.animate(withDuration: 0.3) {
           self.label.alpha = 0
           self.label.layer.position = CGPoint(x: self.label.layer.position.x,
-                                              y: self.label.layer.position.y + self.label.bounds.height)
+                                              y: self.label.layer.position.y + self.label.bounds.height / 2)
         }
       }
     }

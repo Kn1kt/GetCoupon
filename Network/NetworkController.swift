@@ -16,7 +16,7 @@ class NetworkController {
   static let shared = NetworkController()
   
 //  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
-  private let serverLink = "http://docker176113-env-7860493.jelastic.regruhosting.ru/ios-collections.json"
+  private let serverLink = "http://newtestnginx.jelastic.regruhosting.ru/ios-collections.json"
   private let advLink = ""
   
   /// Image processing queue

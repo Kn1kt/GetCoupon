@@ -44,7 +44,7 @@ extension SearchSuggestionCollectionViewCell {
     
     separatorView.backgroundColor = .systemGray4
     
-    titleLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+    titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
     titleLabel.textColor = UIColor(named: "BlueTintColor")
     titleLabel.adjustsFontForContentSizeCategory = true
     
@@ -52,9 +52,9 @@ extension SearchSuggestionCollectionViewCell {
     NSLayoutConstraint.activate([
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
 //      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
-      titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),

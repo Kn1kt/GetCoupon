@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class ShopTitleCollectionViewCell: UICollectionViewCell {
   
   static let reuseIdentifier = "shop-title-cell-reuse-identifier"
+  
+  var disposeBag = DisposeBag()
   
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
@@ -59,5 +62,13 @@ extension ShopTitleCollectionViewCell {
       contentView.bottomAnchor.constraint(equalToSystemSpacingBelow: subtitleLabel.lastBaselineAnchor, multiplier: 1)
 //      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor)
     ])
+  }
+}
+
+  //MARK: - CellWithImageProtocol
+extension ShopTitleCollectionViewCell {
+  
+  override func prepareForReuse() {
+    disposeBag = DisposeBag()
   }
 }

@@ -125,32 +125,13 @@ extension SearchMainViewController {
   func createPlainSection(layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
     
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                          heightDimension: .fractionalHeight(1.0))
+                                          heightDimension: .estimated(45))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
     
-    var groupFractionHeigh: CGFloat! = nil
-    
-    switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
-    case (.compact, .regular):
-      groupFractionHeigh = CGFloat(0.06)
-      
-    case (.compact, .compact):
-      groupFractionHeigh = CGFloat(0.1)
-      
-    case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.06)
-      
-    case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.06)
-      
-    default:
-      groupFractionHeigh = CGFloat(0.06)
-    }
-    
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                           heightDimension: .fractionalHeight(groupFractionHeigh))
+                                           heightDimension: .estimated(45))
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                    subitems: [item])
     

@@ -65,6 +65,14 @@ class HomeViewModel {
   
   private func bindOutput() {
     model.collections
+      .take(1)
+      .observeOn(defaultScheduler)
+      .bind(to: _collections)
+      .disposed(by: disposeBag)
+    
+    model.collections
+      .skip(1)
+      .delay(.seconds(1), scheduler: MainScheduler.instance)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
       .disposed(by: disposeBag)
