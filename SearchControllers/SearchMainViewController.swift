@@ -71,7 +71,7 @@ class SearchMainViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
       .map { [unowned self] indexPath in
         let selectedToken = self.currentSnapshot
           .sectionIdentifiers[indexPath.section]

@@ -87,7 +87,7 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
       .map { _ in () }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
@@ -95,7 +95,7 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
       .map { [unowned self] indexPath in
         let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         return (self, selectedShop)
@@ -275,13 +275,13 @@ extension HomeDetailViewController {
           cell.segmentedControl.selectedSegmentIndex = self.viewModel.segmentIndex.value
           
             cell.segmentedControl.rx.controlEvent(.valueChanged)
-            .throttle(RxTimeInterval.milliseconds(500),
-                      scheduler: MainScheduler.instance)
-            .map { cell.segmentedControl.selectedSegmentIndex }
-            .subscribeOn(self.eventScheduler)
-            .observeOn(self.eventScheduler)
-            .bind(to: self.viewModel.segmentIndex)
-            .disposed(by: cell.disposeBag)
+              .throttle(RxTimeInterval.milliseconds(500),
+                        scheduler: MainScheduler.instance)
+              .map { cell.segmentedControl.selectedSegmentIndex }
+              .subscribeOn(MainScheduler.instance)
+              .observeOn(self.eventScheduler)
+              .bind(to: self.viewModel.segmentIndex)
+              .disposed(by: cell.disposeBag)
           
           return cell
           
@@ -322,7 +322,7 @@ extension HomeDetailViewController {
           cell.addToFavoritesButton.rx.tap
             .map { cellData }
             .throttle(RxTimeInterval.milliseconds(500),
-                      scheduler: MainScheduler.instance)
+                      scheduler: self.eventScheduler)
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.editedShops)

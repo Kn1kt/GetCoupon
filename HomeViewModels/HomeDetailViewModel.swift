@@ -72,13 +72,14 @@ class HomeDetailViewModel {
   }
   
   private func bindOutput() {
+    let section = self.section.share(replay: 1)
+    
     section
       .map { _ in }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        
         let searchText = self.searchText.value
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
@@ -111,6 +112,8 @@ class HomeDetailViewModel {
       .bind(to: sectionByDates)
       .disposed(by: disposeBag)
     
+    let segmentIndex = self.segmentIndex.share(replay: 1)
+    
     segmentIndex
       .filter { [weak self] _ in
         guard let self = self else { fatalError("SegmentIndexFilter") }
@@ -133,14 +136,11 @@ class HomeDetailViewModel {
     
     searchText
       .skip(1)
-      .map { [weak self] (text: String) -> ShopCategoryData in
-        guard let self = self else { fatalError("searchText") }
-        print(Thread.current)
-        return self.filteredCategory(with: text)
-      }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: _currentSection)
+      .subscribe(onNext: { [weak self] text in
+        guard let self = self else { return }
+        self._currentSection.accept(self.filteredCategory(with: text))
+      })
       .disposed(by: disposeBag)
     
     ModelController.shared.favoriteCollections
@@ -163,6 +163,8 @@ class HomeDetailViewModel {
         unicEditedShops.accept(set)
       })
       .disposed(by: disposeBag)
+    
+    let controllerWillDisappear = self.controllerWillDisappear.share(replay: 1)
     
     controllerWillDisappear
       .withLatestFrom(unicEditedShops)

@@ -40,7 +40,6 @@ class SearchViewModel {
       .map { collection in
         collection.shops.reduce(into: [String : [ShopData]]()) { result, shop in
           guard let category = shop.category else { return }
-// TODO: Reduce count of tags
           category.tags.forEach { tag in
             result[tag, default: []].append(shop)
           }

@@ -680,7 +680,7 @@ extension ShopViewController {
           cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
           
           cell.website.button.rx.tap
-            .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+            .throttle(RxTimeInterval.milliseconds(500), scheduler: self.eventScheduler)
             .subscribeOn(self.eventScheduler)
             .observeOn(self.eventScheduler)
             .bind(to: self.viewModel.websiteButton)

@@ -60,7 +60,6 @@ class FavoritesViewModel {
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
-        
         let searchText = self.searchText.value
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
@@ -71,6 +70,8 @@ class FavoritesViewModel {
         self.segmentIndex.accept(segmentIndex)
       })
       .disposed(by: disposeBag)
+    
+    let segmentIndex = self.segmentIndex.share(replay: 1)
     
     segmentIndex
       .filter { [weak self] _ in
@@ -102,13 +103,11 @@ class FavoritesViewModel {
     
     searchText
       .skip(1)
-      .map { [weak self] (text: String) -> [ShopCategoryData] in
-        guard let self = self else { fatalError("searchText") }
-        return self.filteredCategories(with: text)
-      }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: _currentSection)
+      .subscribe(onNext: { [weak self] text in
+        guard let self = self else { return }
+        self._currentSection.accept(self.filteredCategories(with: text))
+      })
       .disposed(by: disposeBag)
     
     model.collectionsBySections
@@ -130,6 +129,8 @@ class FavoritesViewModel {
         unicEditedShops.accept(set)
       })
       .disposed(by: disposeBag)
+    
+    let commitChanges = self.commitChanges.share()
     
     commitChanges
       .withLatestFrom(unicEditedShops)
@@ -162,22 +163,26 @@ class FavoritesViewModel {
       })
       .disposed(by: disposeBag)
     
+    let refresh = self.refresh.share(replay: 1)
+    
     refresh
       .filter { $0 }
       .map { _ in }
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: commitChanges)
+      .bind(to: self.commitChanges)
       .disposed(by: disposeBag)
     
     refresh
       .filter { $0 }
       .map { _ in false }
-      .delay(RxTimeInterval.seconds(1), scheduler: MainScheduler.instance)
+      .delay(RxTimeInterval.seconds(1), scheduler: defaultScheduler)
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _isRefreshing)
       .disposed(by: disposeBag)
+    
+    let showShopVC = self.showShopVC.share()
     
     showShopVC
       .observeOn(MainScheduler.instance)
@@ -190,7 +195,7 @@ class FavoritesViewModel {
       .map { _ in }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
-      .bind(to: commitChanges)
+      .bind(to: self.commitChanges)
       .disposed(by: disposeBag)
   }
 }

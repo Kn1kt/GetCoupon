@@ -42,21 +42,30 @@ class SearchResultsViewModel {
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] collection in
         guard  let self = self else { return }
-
         let attr = self.searchAttr.value
         self.searchAttr.accept(attr)
       })
       .disposed(by: disposeBag)
     
+//    searchAttr
+//      .skip(1)
+//      .map { [weak self] (attr: (String?, [UISearchToken]?)) -> ShopCategoryData in
+//        print(Thread.current)
+//        guard let self = self else { fatalError("searchText") }
+//        return self.filteredCategory(with: attr)
+//      }
+//      .subscribeOn(eventScheduler)
+//      .observeOn(eventScheduler)
+//      .bind(to: _currentCollection)
+//      .disposed(by: disposeBag)
+    
     searchAttr
       .skip(1)
-      .map { [weak self] (attr: (String?, [UISearchToken]?)) -> ShopCategoryData in
-        guard let self = self else { fatalError("searchText") }
-        return self.filteredCategory(with: attr)
-      }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: _currentCollection)
+      .subscribe(onNext: { [weak self] attr in
+        guard let self = self else { return }
+        self._currentCollection.accept(self.filteredCategory(with: attr))
+      })
       .disposed(by: disposeBag)
   }
   

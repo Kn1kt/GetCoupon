@@ -56,7 +56,7 @@ class HomeViewModel {
     
     self.updateRefreshingStatus = isRefreshing
       .filter { !$0 }
-      .delay(.seconds(1), scheduler: MainScheduler.instance)
+      .delay(.seconds(1), scheduler: eventScheduler)
       .asDriver(onErrorJustReturn: false)
     
     bindOutput()
@@ -72,7 +72,7 @@ class HomeViewModel {
     
     model.collections
       .skip(1)
-      .delay(.seconds(1), scheduler: MainScheduler.instance)
+      .delay(.seconds(1), scheduler: eventScheduler)
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
@@ -94,7 +94,7 @@ class HomeViewModel {
         case .updated:
           return .downloaded("Successfully Updated")
         case .error(let e):
-          return .error(e.localizedDescription, "Update Error")
+          return .error(String(e.localizedDescription.prefix(while: { $0 != "." })), "Update Error")
         }
       }
       .filter { status in
@@ -111,7 +111,7 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
-      .delay(.seconds(1), scheduler: MainScheduler.instance)
+      .delay(.seconds(1), scheduler: eventScheduler)
       .filter { [weak self] status in
         guard let self = self,
           self.isRefreshing.value == false else {
@@ -131,7 +131,7 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
-      .delay(.seconds(4), scheduler: MainScheduler.instance)
+      .delay(.seconds(4), scheduler: eventScheduler)
       .filter { [weak self] status in
         guard let self = self,
           self.isRefreshing.value == false else {

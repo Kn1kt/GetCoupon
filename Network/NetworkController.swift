@@ -70,17 +70,20 @@ extension NetworkController {
       
       URLSession.shared.rx.data(request: URLRequest(url: url))
         .retryWhen { e in
-          return e.enumerated().flatMap { attempt, error -> Observable<Int> in
+          return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
+            guard let self = self else {
+              return Observable.just(1)
+            }
             if attempt >= maxAttemps - 1 {
               return Observable.error(error)
             } else {
               print("Retry after \(attempt + 2 + attempt * maxAttemps)")
-              return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: MainScheduler.instance)
+              return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: self.updatesScheduler)
                 .take(1)
             }
           }
         }
-        .timeout(RxTimeInterval.seconds(20), scheduler: MainScheduler.instance)
+        .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
         .map { data in
           let decoder = JSONDecoder()
           return try decoder.decode([NetworkShopCategoryData].self, from: data)
