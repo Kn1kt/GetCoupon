@@ -104,7 +104,7 @@ extension SearchResultsViewController {
 
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
 
-    var groupFractionHeigh: CGFloat! = nil
+    let groupFractionHeigh: CGFloat
 
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):

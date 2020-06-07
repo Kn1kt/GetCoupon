@@ -45,11 +45,11 @@
                                     <outlet property="titleLabel" destination="0Fh-Pc-xfZ" id="kDa-zJ-fWy"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsDoubleTextAndAccessoryTableViewCellReuseIdentifier" rowHeight="79" id="7Cn-tG-82v" userLabel="SettingsDoubleTextAndAccessoryTableViewCell" customClass="SettingsDoubleTextAndAccessoryTableViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="106.5" width="374" height="79"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsDoubleTextAndAccessoryTableViewCellReuseIdentifier" rowHeight="72" id="7Cn-tG-82v" userLabel="SettingsDoubleTextAndAccessoryTableViewCell" customClass="SettingsDoubleTextAndAccessoryTableViewCell" customModule="GetCoupon" customModuleProvider="target">
+                                <rect key="frame" x="20" y="106.5" width="374" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7Cn-tG-82v" id="M6J-W7-erf">
-                                    <rect key="frame" x="0.0" y="0.0" width="343" height="79"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="343" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SomeText" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4o-tb-Dfd" userLabel="titleLabel">
@@ -59,20 +59,20 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OtherText" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Kj-BI-CFL" userLabel="subtitleLabel">
-                                            <rect key="frame" x="20" y="46" width="315" height="18"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <rect key="frame" x="20" y="41" width="315" height="16"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                             <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="2Kj-BI-CFL" firstAttribute="top" secondItem="X4o-tb-Dfd" secondAttribute="bottom" constant="10.5" id="8d8-4l-DV1"/>
                                         <constraint firstAttribute="bottom" secondItem="2Kj-BI-CFL" secondAttribute="bottom" constant="15" id="D1N-fq-mFW"/>
                                         <constraint firstAttribute="trailing" secondItem="X4o-tb-Dfd" secondAttribute="trailing" constant="8" id="Fl2-pb-4jH"/>
                                         <constraint firstAttribute="trailing" secondItem="2Kj-BI-CFL" secondAttribute="trailing" constant="8" id="HmC-eN-9P0"/>
                                         <constraint firstItem="X4o-tb-Dfd" firstAttribute="leading" secondItem="M6J-W7-erf" secondAttribute="leading" constant="20" id="Ypj-Pt-BVp"/>
                                         <constraint firstItem="X4o-tb-Dfd" firstAttribute="top" secondItem="M6J-W7-erf" secondAttribute="top" constant="15" id="aEr-ee-rjv"/>
                                         <constraint firstItem="2Kj-BI-CFL" firstAttribute="leading" secondItem="M6J-W7-erf" secondAttribute="leading" constant="20" id="tNF-OL-UON"/>
+                                        <constraint firstItem="2Kj-BI-CFL" firstAttribute="top" secondItem="X4o-tb-Dfd" secondAttribute="bottom" constant="5.5" id="tPQ-Jx-q9b"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="tintColor" name="BlueTintColor"/>
@@ -82,7 +82,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsTextAndSwitchTableViewCellReuseIdentifier" id="2Co-7Z-BH4" userLabel="SettingsTextAndSwitchTableViewCell" customClass="SettingsTextAndSwitchTableViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="185.5" width="374" height="51"/>
+                                <rect key="frame" x="20" y="178.5" width="374" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2Co-7Z-BH4" id="JNm-qM-dDw">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="51"/>
@@ -115,11 +115,11 @@
                                     <outlet property="titleLabel" destination="r1C-aD-Ljv" id="TC2-Vy-gfb"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsDoubleTextAndSwitchTableViewCellReuseIdentifier" rowHeight="79" id="8qJ-55-yX6" userLabel="SettingsDoubleTextAndSwitchTableViewCell" customClass="SettingsDoubleTextAndSwitchTableViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="236.5" width="374" height="79"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="SettingsDoubleTextAndSwitchTableViewCellReuseIdentifier" rowHeight="72" id="8qJ-55-yX6" userLabel="SettingsDoubleTextAndSwitchTableViewCell" customClass="SettingsDoubleTextAndSwitchTableViewCell" customModule="GetCoupon" customModuleProvider="target">
+                                <rect key="frame" x="20" y="229.5" width="374" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8qJ-55-yX6" id="Lej-k9-jbd">
-                                    <rect key="frame" x="0.0" y="0.0" width="374" height="79"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="72"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SomeText" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BQo-O6-O7o" userLabel="titleLabel">
@@ -129,8 +129,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OtherText" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZH1-6Y-erS" userLabel="subtitleLabel">
-                                            <rect key="frame" x="20" y="46" width="275" height="18"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <rect key="frame" x="20" y="41" width="275" height="16"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                             <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -145,9 +145,9 @@
                                         <constraint firstAttribute="trailing" secondItem="nRC-pm-hMZ" secondAttribute="trailing" constant="20" id="L6m-eQ-NK4"/>
                                         <constraint firstItem="nRC-pm-hMZ" firstAttribute="leading" secondItem="BQo-O6-O7o" secondAttribute="trailing" constant="10" id="M6o-sJ-w82"/>
                                         <constraint firstItem="BQo-O6-O7o" firstAttribute="top" secondItem="Lej-k9-jbd" secondAttribute="top" constant="15" id="MkL-Ms-zUR"/>
+                                        <constraint firstItem="ZH1-6Y-erS" firstAttribute="top" secondItem="BQo-O6-O7o" secondAttribute="bottom" constant="5.5" id="NgD-NF-Xsz"/>
                                         <constraint firstAttribute="trailing" secondItem="ZH1-6Y-erS" secondAttribute="trailing" constant="79" id="TX1-RX-j5W"/>
                                         <constraint firstItem="nRC-pm-hMZ" firstAttribute="top" secondItem="Lej-k9-jbd" secondAttribute="top" constant="9" id="YK9-mf-L3l"/>
-                                        <constraint firstItem="ZH1-6Y-erS" firstAttribute="top" secondItem="BQo-O6-O7o" secondAttribute="bottom" constant="10.5" id="aVH-IK-Oes"/>
                                         <constraint firstItem="BQo-O6-O7o" firstAttribute="leading" secondItem="Lej-k9-jbd" secondAttribute="leading" constant="20" id="eOr-Ho-LtQ"/>
                                         <constraint firstAttribute="bottom" secondItem="ZH1-6Y-erS" secondAttribute="bottom" constant="15" id="fHf-IM-T9D"/>
                                     </constraints>

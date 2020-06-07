@@ -20,15 +20,6 @@ class HomeDataController {
   
   func section(for index: Int) -> Observable<ShopCategoryData>? {
     return ModelController.shared.section(for: index)
-//    guard index >= 0, _collections.value.count > index else {
-//      return nil
-//    }
-//
-//    let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
-//      return categories[index]
-//    }
-//
-//    return section
   }
   
   func category(for shop: ShopData) -> ShopCategoryData {

@@ -21,6 +21,8 @@ class HomeDetailCollectionViewCell: UICollectionViewCell {
   let separatorView = UIView()
   let addToFavoritesButton = AddToFavoritesButton()
   
+  private var titleHeight: NSLayoutConstraint!
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
@@ -51,7 +53,6 @@ extension HomeDetailCollectionViewCell {
     selectedBackgroundView = UIView()
     selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
     clipsToBounds = true
-    separatorView.backgroundColor = .systemGray4
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.numberOfLines = 2
@@ -67,7 +68,13 @@ extension HomeDetailCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
+    separatorView.backgroundColor = .systemGray4
+    
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight.isActive = true
+    
     let spacing = CGFloat(10)
+    
     NSLayoutConstraint.activate([
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing * 1.5),
@@ -79,22 +86,34 @@ extension HomeDetailCollectionViewCell {
       addToFavoritesButton.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.113),
       addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
       
-      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-      titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing),
+      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
+      titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing * 2),
       titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
 //      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
-      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
+//      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       
-      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 0),
-      subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-      subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      subtitleLabel.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 0),
+      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing / 2),
+      subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
+      subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
+      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: -spacing / 2),
       
-      separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
+      separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])
+  }
+  
+  override func layoutSubviews() {
+    let titleSize = titleLabel.font.lineHeight * 1.3
+    let subtitleSize = contentView.bounds.height - titleSize - 48
+    titleHeight.constant = titleSize
+    
+    if subtitleSize < subtitleLabel.font.lineHeight {
+      subtitleLabel.isHidden = true
+    } else {
+      subtitleLabel.isHidden = false
+    }
   }
 }
 

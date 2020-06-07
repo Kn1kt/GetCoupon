@@ -24,6 +24,9 @@ class CouponPopupView: UIView {
   let shareButton = UIButton()
   let exitButton = UIButton()
   
+  private var titleHeight: NSLayoutConstraint!
+  private var dateHeight: NSLayoutConstraint!
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
@@ -105,7 +108,14 @@ extension CouponPopupView {
     exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .highlighted)
     exitButton.tintColor = .secondaryLabel
     
+    titleHeight = titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.intrinsicContentSize.height)
+    titleHeight.isActive = true
+    
+    dateHeight = expirationDateLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: expirationDateLabel.intrinsicContentSize.height)
+    dateHeight.isActive = true
+    
     let spacing = CGFloat(20)
+    
     NSLayoutConstraint.activate([
       titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor, constant: -spacing),
@@ -140,6 +150,10 @@ extension CouponPopupView {
       expirationDateLabel.topAnchor.constraint(equalToSystemSpacingBelow: promocodeView.bottomAnchor, multiplier: 1.5),
       self.bottomAnchor.constraint(equalToSystemSpacingBelow: expirationDateLabel.bottomAnchor, multiplier: 4.0)
     ])
-    
+  }
+  
+  override func layoutSubviews() {
+    titleHeight.constant = titleLabel.intrinsicContentSize.height
+    dateHeight.constant = expirationDateLabel.intrinsicContentSize.height
   }
 }

@@ -19,6 +19,8 @@ class SearchPlainCollectionViewCell: UICollectionViewCell {
   let subtitleLabel = UILabel()
   let separatorView = UIView()
   
+  private var titleHeight: NSLayoutConstraint!
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
@@ -50,12 +52,10 @@ extension SearchPlainCollectionViewCell {
     selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
     clipsToBounds = true
     
-    separatorView.backgroundColor = .systemGray4
-    
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     
-    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     subtitleLabel.numberOfLines = 2
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
@@ -65,6 +65,11 @@ extension SearchPlainCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
+    separatorView.backgroundColor = .systemGray4
+
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight.isActive = true
+    
     let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
@@ -72,21 +77,33 @@ extension SearchPlainCollectionViewCell {
       imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0),
       
-      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
-      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
+      titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
+      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
+      titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing / 2),
+//      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       
-      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
-      subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing),
-      subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -spacing / 2),
+      subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing / 2),
+      subtitleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
+      subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
+      subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: -spacing / 2),
       
       separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])
+  }
+  
+  override func layoutSubviews() {
+    let titleSize = titleLabel.font.lineHeight * 1.3
+    let subtitleSize = contentView.bounds.height - titleSize - 35
+    titleHeight.constant = titleSize
+    
+    if subtitleSize < subtitleLabel.font.lineHeight {
+      subtitleLabel.isHidden = true
+    } else {
+      subtitleLabel.isHidden = false
+    }
   }
 }
 

@@ -77,6 +77,7 @@ extension ModelController {
   func setupCollections() {
     self._dataUpdatingStatus.accept(.updating)
     self._isUpdatingData.accept(true)
+    
     NetworkController.shared.downloadCollections()
       .observeOn(updatesScheduler)
       .subscribe(onNext: { networkCollections in
@@ -129,7 +130,7 @@ extension ModelController {
   private func bindFavorites() {
     collections
     .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
-      collections.reduce(into: [ShopCategoryData]()) { result, category in
+      return collections.reduce(into: [ShopCategoryData]()) { result, category in
         let shops = category.shops.filter { $0.isFavorite }
         if !shops.isEmpty {
           result.append(ShopCategoryData(categoryName: category.categoryName,
@@ -213,7 +214,6 @@ extension ModelController {
     collections
     .map { (collections: [ShopCategoryData]) -> ShopCategoryData in
       let shops = collections.flatMap { $0.shops }
-      
       return ShopCategoryData(categoryName: "Search",
                               shops: shops,
                               tags: [])

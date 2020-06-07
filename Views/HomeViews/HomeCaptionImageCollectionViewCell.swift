@@ -19,6 +19,8 @@ class HomeCaptionImageCollectionViewCell: UICollectionViewCell {
   let titleLabel = UILabel()
   let subtitleLabel = UILabel()
   
+  private var titleHeight: NSLayoutConstraint!
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupLayouts()
@@ -58,6 +60,9 @@ extension HomeCaptionImageCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight.isActive = true
+    
     let spacing = CGFloat(5)
     
     NSLayoutConstraint.activate([
@@ -71,7 +76,7 @@ extension HomeCaptionImageCollectionViewCell {
       titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
 //      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
-      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
+//      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       
       subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
@@ -80,7 +85,18 @@ extension HomeCaptionImageCollectionViewCell {
 //      subtitleLabel.heightAnchor.constraint(equalToConstant: subtitleLabel.font.lineHeight * 2.5)
 //      subtitleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.2)
     ])
+  }
+  
+  override func layoutSubviews() {
+    let titleSize = titleLabel.font.lineHeight * 1.3
+    let subtitleSize = contentView.bounds.height * 0.4 - titleSize - 10
+    titleHeight.constant = titleSize
     
+    if subtitleSize < subtitleLabel.font.lineHeight {
+      subtitleLabel.isHidden = true
+    } else {
+      subtitleLabel.isHidden = false
+    }
   }
 }
 

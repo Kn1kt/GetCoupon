@@ -73,6 +73,7 @@ class HomeViewModel {
     model.collections
       .skip(1)
       .delay(.seconds(1), scheduler: MainScheduler.instance)
+      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
       .disposed(by: disposeBag)
@@ -96,18 +97,18 @@ class HomeViewModel {
           return .error(e.localizedDescription, "Update Error")
         }
       }
-    .filter { status in
-      switch status {
-      case .downloaded(_):
-        return false
-      default:
-        return true
+      .filter { status in
+        switch status {
+        case .downloaded(_):
+          return false
+        default:
+          return true
+        }
       }
-    }
-    .subscribeOn(defaultScheduler)
-    .observeOn(defaultScheduler)
-    .bind(to: updatingTitle)
-    .disposed(by: disposeBag)
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .bind(to: updatingTitle)
+      .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
       .delay(.seconds(1), scheduler: MainScheduler.instance)
