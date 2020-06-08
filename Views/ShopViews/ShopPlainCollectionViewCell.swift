@@ -92,13 +92,13 @@ extension ShopPlainCollectionViewCell {
       
       addingDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       addingDateLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.centerXAnchor, constant: -spacing),
-      addingDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
-      addingDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
+      addingDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing / 2),
+      addingDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing / 2),
       
       estimatedDateLabel.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.centerXAnchor, constant: spacing),
       estimatedDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      estimatedDateLabel.topAnchor.constraint(greaterThanOrEqualTo: imageView.bottomAnchor),
-      estimatedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
+      estimatedDateLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing / 2),
+      estimatedDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing / 2)
     ])
   }
 }
