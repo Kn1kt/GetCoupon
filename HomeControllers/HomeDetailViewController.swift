@@ -87,10 +87,10 @@ class HomeDetailViewController: UIViewController {
       .disposed(by: disposeBag)
     
     collectionView.rx.itemSelected
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: defaultScheduler)
       .map { _ in () }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
       .bind(to: viewModel.controllerWillDisappear)
       .disposed(by: disposeBag)
     
@@ -322,9 +322,9 @@ extension HomeDetailViewController {
           cell.addToFavoritesButton.rx.tap
             .map { cellData }
             .throttle(RxTimeInterval.milliseconds(500),
-                      scheduler: self.eventScheduler)
-            .subscribeOn(self.eventScheduler)
-            .observeOn(self.eventScheduler)
+                      scheduler: self.defaultScheduler)
+            .subscribeOn(self.defaultScheduler)
+            .observeOn(self.defaultScheduler)
             .bind(to: self.viewModel.editedShops)
             .disposed(by: cell.disposeBag)
           

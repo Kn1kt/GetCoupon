@@ -130,14 +130,28 @@ extension ModelController {
   private func bindFavorites() {
     collections
     .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
-      return collections.reduce(into: [ShopCategoryData]()) { result, category in
-        let shops = category.shops.filter { $0.isFavorite }
-        if !shops.isEmpty {
-          result.append(ShopCategoryData(categoryName: category.categoryName,
-                                         shops: shops,
-                                         tags: category.tags))
+      return collections
+        .reduce(into: [ShopCategoryData]()) { result, category in
+          let shops = category.shops.filter { $0.isFavorite }
+          if !shops.isEmpty {
+            result.append(ShopCategoryData(categoryName: category.categoryName,
+                                           shops: shops.sorted(by: { lhs, rhs in
+                                            if lhs.priority == rhs.priority {
+                                              if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                                if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                                  return lhsDate > rhsDate
+                                                }
+                                                return true
+                                              }
+                                              return false
+                                            } else {
+                                              return lhs.priority > rhs.priority
+                                            }
+                                           }),
+                                           tags: category.tags))
+          }
         }
-      }
+        .sorted { $0.categoryName < $1.categoryName }
     }
     .subscribeOn(defaultScheduler)
     .observeOn(defaultScheduler)
@@ -153,7 +167,7 @@ extension ModelController {
     var favoriteCategories = _favoriteCollections.value
     
     if let updatingCategoryIndex = favoriteCategories.firstIndex(where: { $0.categoryName == category.categoryName }) {
-      let newShops = favoriteCategories[updatingCategoryIndex].shops.filter { shop in
+      let newShops = shops + favoriteCategories[updatingCategoryIndex].shops.filter { shop in
         guard shop.isFavorite,
           !shops.contains(shop) else {
           return false
@@ -161,20 +175,45 @@ extension ModelController {
         
         return true
       }
-        + shops
+//        + shops
       
       if newShops.isEmpty {
         favoriteCategories.remove(at: updatingCategoryIndex)
       } else {
-        favoriteCategories[updatingCategoryIndex].shops = newShops
+        favoriteCategories[updatingCategoryIndex].shops = newShops.sorted(by: { lhs, rhs in
+          if lhs.priority == rhs.priority {
+            if let lhsDate = lhs.promoCodes.first?.addingDate {
+              if let rhsDate = rhs.promoCodes.first?.addingDate {
+                return lhsDate > rhsDate
+              }
+              return true
+            }
+            return false
+          } else {
+            return lhs.priority > rhs.priority
+          }
+        })
       }
     } else if !shops.isEmpty {
       let newCategory = ShopCategoryData(categoryName: category.categoryName,
-                                         shops: Array(shops),
+                                         shops: Array(shops.sorted(by: { lhs, rhs in
+                                          if lhs.priority == rhs.priority {
+                                            if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                              if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                                return lhsDate > rhsDate
+                                              }
+                                              return true
+                                            }
+                                            return false
+                                          } else {
+                                            return lhs.priority > rhs.priority
+                                          }
+                                         })),
                                          tags: category.tags)
       favoriteCategories.append(newCategory)
+      favoriteCategories.sort(by: { $0.categoryName < $1.categoryName })
     }
-
+    
     _favoriteCollections.accept(favoriteCategories)
   }
   
@@ -186,6 +225,20 @@ extension ModelController {
       
       if shop.isFavorite {
         updatingCategory.shops.append(shop)
+        updatingCategory.shops.sort { lhs, rhs in
+          if lhs.priority == rhs.priority {
+            if let lhsDate = lhs.promoCodes.first?.addingDate {
+              if let rhsDate = rhs.promoCodes.first?.addingDate {
+                return lhsDate > rhsDate
+              }
+              return true
+            }
+            return false
+          } else {
+            return lhs.priority > rhs.priority
+          }
+        }
+        
       } else if let index = updatingCategory.shops.firstIndex(of: shop) {
         updatingCategory.shops.remove(at: index)
       }
@@ -201,6 +254,7 @@ extension ModelController {
                                          tags: category.tags)
       
       favoriteCategories.append(newCategory)
+      favoriteCategories.sort(by: { $0.categoryName < $1.categoryName })
     }
     
     _favoriteCollections.accept(favoriteCategories)

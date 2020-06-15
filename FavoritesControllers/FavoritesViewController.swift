@@ -140,7 +140,7 @@ extension FavoritesViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(56))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(40))
     
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     
@@ -152,7 +152,6 @@ extension FavoritesViewController {
   }
   
   func createSegmentedControlSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
-    
     let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -329,9 +328,9 @@ extension FavoritesViewController {
           cell.favoritesButton.rx.tap
             .map { cellData }
             .throttle(RxTimeInterval.milliseconds(500),
-                      scheduler: self.eventScheduler)
-            .subscribeOn(self.eventScheduler)
-            .observeOn(self.eventScheduler)
+                      scheduler: self.defaultScheduler)
+            .subscribeOn(self.defaultScheduler)
+            .observeOn(self.defaultScheduler)
             .bind(to: self.viewModel.editedShops)
             .disposed(by: cell.disposeBag)
           
