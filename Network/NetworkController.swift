@@ -6,17 +6,22 @@
 //  Copyright © 2020 Nikita Konashenko. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import Network
 import RxSwift
 import RxCocoa
 
 class NetworkController {
   
+  enum NetworkError: Error {
+    case URLNotCorrect
+    case loadingError
+  }
+  
   static let shared = NetworkController()
   
 //  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
-  private let serverLink = "http://newtestnginx.jelastic.regruhosting.ru/ios-collections.json"
+  private let serverLink = "http://closeyoureyes.jelastic.regruhosting.ru/ios-collections.json"
   private let advLink = ""
   
   /// Image processing queue
@@ -26,25 +31,37 @@ class NetworkController {
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
-  /// Download or extract from cache preview image
-  func setupPreviewImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
-    let op = SetupPreviewImageOperation(shop: shop)
-    op.completionBlock = completionHandler
-    queue.addOperation(op)
-  }
-  
-  /// Download or extract from cache image
-  func setupImage(in shop: ShopData, completionHandler: (() -> Void)? = nil) {
-    let op = SetupImageOperation(shop: shop)
-    op.completionBlock = completionHandler
-    queue.addOperation(op)
-  }
-  
-  /// Download or extract from cache image
-  func setupDefaultImage(in category: ShopCategoryData, completionHandler: (() -> Void)? = nil) {
-    let op = SetupDefaultImageOperation(category: category)
-    op.completionBlock = completionHandler
-    queue.addOperation(op)
+  /// Download Image
+  func downloadImage(for urlString: String) -> Observable<UIImage> {
+    guard let link = urlString
+      .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+      let url = URL(string: link) else {
+        return Observable.error(NetworkError.URLNotCorrect)
+    }
+    
+    return URLSession.shared.rx.data(request: URLRequest(url: url))
+      .retryWhen { e in
+        return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
+          guard let self = self else {
+            return Observable.just(1)
+          }
+          if attempt >= 1 {
+            return Observable.error(error)
+          } else {
+            print("Retry after \(attempt + 2 + attempt * 2)")
+            return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * 2), scheduler: self.updatesScheduler)
+              .take(1)
+          }
+        }
+      }
+      .timeout(RxTimeInterval.seconds(10), scheduler: updatesScheduler)
+      .map { data in
+        guard let image = UIImage(data: data) else {
+          throw NetworkError.loadingError
+        }
+        
+        return image
+      }
   }
 }
 

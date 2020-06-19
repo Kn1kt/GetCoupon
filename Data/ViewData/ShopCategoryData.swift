@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ShopCategoryData {
+  
+  private let disposeBag = DisposeBag()
+  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   
   let categoryName: String
   
@@ -18,32 +23,55 @@ class ShopCategoryData {
   
   let identifier = UUID()
   
-  private var _defaultImage: UIImage? = nil
-  private let defaultImageQueue = DispatchQueue(label: "defaultImageQueue", attributes: .concurrent)
-  var defaultImage: UIImage? {
-    get {
-      defaultImageQueue.sync {
-        return _defaultImage
-      }
-    }
-    
-    set {
-      defaultImageQueue.async(flags: .barrier) { [weak self] in
-        self?._defaultImage = newValue
-      }
-    }
-  }
+  private let defaultImageLink: String
+  var defaultImage: Observable<UIImage>!
   
-  init(categoryName: String, shops: [ShopData] = [], tags: Set<String> = []) {
+  init(categoryName: String,
+       defaultImageLink: String = "",
+       shops: [ShopData] = [],
+       tags: Set<String> = []) {
     self.categoryName = categoryName
+    self.defaultImageLink = defaultImageLink
     self.shops = shops
     self.tags = tags
+    
+    self.defaultImage = Observable
+      .create { [weak self] observer in
+        guard let self = self else {
+          observer.onCompleted()
+          return Disposables.create()
+        }
+        
+        print("DEFAULT IMAGE: Subscribe on \(Thread.current)")
+        
+        let cache = CacheController()
+        if let image = cache.defaultImage(for: categoryName) {
+          observer.onNext(image)
+          observer.onCompleted()
+          
+        } else {
+          NetworkController.shared.downloadImage(for: defaultImageLink)
+            .take(1)
+            .subscribe(onNext: { image in
+              observer.onNext(image)
+              observer.onCompleted()
+              
+              let cache = CacheController()
+              cache.cacheDefaultImage(image, for: categoryName)
+            })
+            .disposed(by: self.disposeBag)
+        }
+        
+        return Disposables.create()
+      }
+      .share(replay: 1, scope: .forever)
   }
   
   /// Bridge for stored data
   convenience init(_ category: ShopCategoryStoredData) {
     let tags = Set(category.tags)
     self.init(categoryName: category.categoryName,
+              defaultImageLink: category.defaultImageLink,
               tags: tags)
     
     let shops = Array(category.shops).map { ShopData($0, category: self) }

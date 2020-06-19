@@ -529,7 +529,7 @@ extension ShopViewController {
     
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 20, trailing: 10)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 10, trailing: 10)
     
     return section
   }
@@ -680,10 +680,13 @@ extension ShopViewController {
           cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
           
           cell.website.button.rx.tap
-            .throttle(RxTimeInterval.milliseconds(500), scheduler: self.eventScheduler)
-            .subscribeOn(self.eventScheduler)
-            .observeOn(self.eventScheduler)
-            .bind(to: self.viewModel.websiteButton)
+            .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+            .subscribeOn(MainScheduler.instance)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+              self?.showWebsiteAlert()
+            })
+//            .bind(to: self.viewModel.websiteButton)
             .disposed(by: cell.disposeBag)
           
           cell.share.button.rx.tap
@@ -704,7 +707,18 @@ extension ShopViewController {
           }
           
           cell.imageView.backgroundColor = self.viewModel.currentShop.placeholderColor
-          cell.imageView.image = self.viewModel.currentShop.previewImage
+//          cell.imageView.image = self.viewModel.currentShop.previewImage
+          
+          self.viewModel.currentShop.previewImage
+            .take(1)
+            .timeout(.seconds(20), scheduler: self.defaultScheduler)
+            .subscribeOn(self.defaultScheduler)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { image in
+              cell.imageView.image = image
+            })
+            .disposed(by: cell.disposeBag)
+          
           cell.subtitleLabel.text = cellData.description
           cell.promocodeView.promocodeLabel.text = cellData.coupon
           
@@ -773,6 +787,30 @@ extension ShopViewController {
     ]
 
     self.present(activityViewController, animated: true, completion: nil)
+  }
+  
+  private func showWebsiteAlert() {
+    let title = "Shop Website"
+    let message = "Are u actually wanna open website of this shop?"
+    let cancelButtonTitle = "Cancel"
+    let okButtonTitle = "Open"
+    
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+    
+    let cancelAction = UIAlertAction(title: cancelButtonTitle, style: .cancel) { _ in
+      debugPrint("The cancel action occurred.")
+    }
+    
+    let openAction = UIAlertAction(title: okButtonTitle, style: .default) { [weak self] _ in
+      guard let self = self else { return }
+      
+      self.viewModel.websiteButton.accept(())
+    }
+    
+    alertController.addAction(cancelAction)
+    alertController.addAction(openAction)
+    
+    present(alertController, animated: true, completion: nil)
   }
 }
 
@@ -849,53 +887,56 @@ extension ShopViewController: UICollectionViewDelegate {
   // MARK: - Actions
 extension ShopViewController {
   
-  func updateVisibleItems(shop: ShopData) {
-    let indexPaths = collectionView.indexPathsForVisibleItems
-    
-    indexPaths.forEach { indexPath in
-      guard let cell = collectionView.cellForItem(at: indexPath) as? ShopPlainCollectionViewCell else {
-        return
-      }
-      
-      cell.imageView.image = shop.previewImage
-    }
-  }
+//  func updateVisibleItems(shop: ShopData) {
+//    let indexPaths = collectionView.indexPathsForVisibleItems
+//
+//    indexPaths.forEach { indexPath in
+//      guard let cell = collectionView.cellForItem(at: indexPath) as? ShopPlainCollectionViewCell else {
+//        return
+//      }
+//
+//      cell.imageView.image = shop.previewImage
+//    }
+//  }
 }
 
   // MARK: - Setup Images
 extension ShopViewController {
   
   private func updateImages(shop: ShopData) {
-    if let headerImage = shop.image {
-      headerImageView.image = headerImage
-    } else {
-      headerImageView.image = shop.previewImage
-      headerImageView.alpha = 0.3
-      viewModel.setupImage(for: shop)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onCompleted: {
+    shop.image
+      .take(1)
+      .timeout(.seconds(20), scheduler: defaultScheduler)
+      .subscribeOn(defaultScheduler)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] image in
+        if let _ = self?.headerImageView.image {
           UIView.animate(withDuration: 1) {
-            if let image = shop.image {
-              self.headerImageView.alpha = 0.1
-              self.headerImageView.image = image
-              self.headerImageView.alpha = 1
-            }
+            self?.headerImageView.alpha = 0.1
+            self?.headerImageView.image = image
+            self?.headerImageView.alpha = 1
           }
+        } else {
+          self?.headerImageView.image = image
+        }
         })
-        .disposed(by: disposeBag)
-    }
+      .disposed(by: disposeBag)
     
-    if let logoImage = shop.previewImage {
-      logoView.imageView.image = logoImage
-    } else {
-      viewModel.setupPreviewImage(for: shop)
-        .observeOn(MainScheduler.instance)
-        .subscribe(onCompleted: {
-          self.logoView.imageView.image = shop.previewImage
-          self.updateVisibleItems(shop: shop)
-        })
-        .disposed(by: disposeBag)
-    }
+    shop.previewImage
+      .take(1)
+      .timeout(.seconds(20), scheduler: defaultScheduler)
+      .delay(.microseconds(500), scheduler: defaultScheduler)
+      .subscribeOn(defaultScheduler)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] image in
+        if self?.headerImageView.image == nil {
+          self?.headerImageView.alpha = 0.3
+          self?.headerImageView.image = image
+        }
+        
+        self?.logoView.imageView.image = image
+      })
+      .disposed(by: disposeBag)
   }
 }
 

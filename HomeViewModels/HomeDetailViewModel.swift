@@ -38,6 +38,8 @@ class HomeDetailViewModel {
   
   let currentSection: Driver<ShopCategoryData>
   
+  let isUpdatingData: Driver<Bool>
+  
   var currentTitle: String {
     return _currentSection.value.categoryName
   }
@@ -59,6 +61,8 @@ class HomeDetailViewModel {
     self._currentSection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
     
     self.currentSection = _currentSection.asDriver()
+    
+    self.isUpdatingData = ModelController.shared.isUpdatingData.asDriver(onErrorJustReturn: false)
     
     self.favoritesUpdates = _favoritesUpdates.asSignal()
     
@@ -196,7 +200,8 @@ class HomeDetailViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        self.showShopVC(vc, shop: shop)
+        let isEnabled = !ModelController.shared._isUpdatingData.value
+        self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
   }
@@ -205,28 +210,28 @@ class HomeDetailViewModel {
   // MARK: - Setup Image
 extension HomeDetailViewModel {
   
-  func setupImage(for shop: ShopData) -> Completable {
-    let subject = PublishSubject<Void>()
-    NetworkController.shared.setupPreviewImage(in: shop) {
-      if let _ = shop.previewImage {
-        subject.onCompleted()
-      } else {
-        guard let category = shop.category else {
-          subject.onCompleted()
-          return
-        }
-        NetworkController.shared.setupDefaultImage(in: category) {
-          shop.previewImage = category.defaultImage
-          subject.onCompleted()
-        }
-      }
-    }
-    
-    return subject
-      .asObservable()
-      .take(1)
-      .ignoreElements()
-  }
+//  func setupImage(for shop: ShopData) -> Completable {
+//    let subject = PublishSubject<Void>()
+//    NetworkController.shared.setupPreviewImage(in: shop) {
+//      if let _ = shop.previewImage {
+//        subject.onCompleted()
+//      } else {
+//        guard let category = shop.category else {
+//          subject.onCompleted()
+//          return
+//        }
+//        NetworkController.shared.setupDefaultImage(in: category) {
+//          shop.previewImage = category.defaultImage
+//          subject.onCompleted()
+//        }
+//      }
+//    }
+//    
+//    return subject
+//      .asObservable()
+//      .take(1)
+//      .ignoreElements()
+//  }
 }
 
   // MARK: - Update Shop isFavorite property
@@ -268,8 +273,13 @@ extension HomeDetailViewModel {
   // MARK: - Show Shop View Controller
 extension HomeDetailViewModel {
   
-  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+//    guard let category = shop.category else { return }
+//    navigator.showShopVC(sender: vc, section: category, shop: shop)
+//  }
+  
+  private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
     guard let category = shop.category else { return }
-    navigator.showShopVC(sender: vc, section: category, shop: shop)
+    navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
 }

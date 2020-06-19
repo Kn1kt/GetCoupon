@@ -31,7 +31,7 @@ class PromocodeView: UIView {
     
     layer.borderWidth = 1
     layer.borderColor = UIColor(named: "BlueTintColor")?.cgColor
-    layer.cornerRadius = 10
+    layer.cornerRadius = 6
     clipsToBounds = true
     
     NSLayoutConstraint.activate([
@@ -42,5 +42,9 @@ class PromocodeView: UIView {
     ])
     
     super.updateConstraints()
+  }
+  
+  override func layoutSubviews() {
+    layer.borderColor = UIColor(named: "BlueTintColor")?.cgColor
   }
 }

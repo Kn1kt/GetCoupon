@@ -327,7 +327,7 @@ extension SettingsTableViewController {
   // MARK: - Cache Alert
   private func showClearCacheAlert() {
     let title = "Deleting Cached Images"
-    let message = "Are u actually wanna delete all cached images"
+    let message = "Are u actually wanna delete all cached images?"
     let cancelButtonTile = "Cancel"
     let destructiveButtonTitle = "Clear Cache"
     

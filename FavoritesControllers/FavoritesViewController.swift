@@ -57,14 +57,6 @@ class FavoritesViewController: UIViewController {
   }
   
   private func bindViewModel() {
-    if let refresh = collectionView.refreshControl {
-      refresh.rx.controlEvent(.valueChanged)
-        .map { _ in refresh.isRefreshing }
-        .subscribeOn(eventScheduler)
-        .observeOn(eventScheduler)
-        .bind(to: viewModel.refresh)
-        .disposed(by: disposeBag)
-    }
     
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
@@ -88,12 +80,6 @@ class FavoritesViewController: UIViewController {
   }
   
   private func bindUI() {
-    if let refresh = collectionView.refreshControl {
-      viewModel.isRefreshing
-        .drive(refresh.rx.isRefreshing)
-        .disposed(by: disposeBag)
-    }
-    
     viewModel.currentSection
       .drive(onNext: { [weak self] section in
         if let selected = self?.collectionView.indexPathsForSelectedItems {
@@ -146,7 +132,7 @@ extension FavoritesViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 5, bottom: 0, trailing: 5)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     
     return section
   }
@@ -162,7 +148,7 @@ extension FavoritesViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 30, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 15, trailing: 15)
     
     return section
   }
@@ -298,22 +284,45 @@ extension FavoritesViewController {
                                                                 fatalError("Can't create new cell")
           }
           
-          if let image = cellData.previewImage {
-            cell.imageView.image = image
-          } else {
-            cell.imageView.backgroundColor = cellData.placeholderColor
-            self.viewModel.setupImage(for: cellData)
-              .observeOn(MainScheduler.instance)
-              .subscribe(onCompleted: {
-                cell.imageView.image = cellData.previewImage
-              })
-              .disposed(by: cell.disposeBag)
-          }
+//          if let image = cellData.previewImage {
+//            cell.imageView.image = image
+//          } else {
+//            cell.imageView.backgroundColor = cellData.placeholderColor
+//            self.viewModel.setupImage(for: cellData)
+//              .observeOn(MainScheduler.instance)
+//              .subscribe(onCompleted: {
+//                cell.imageView.image = cellData.previewImage
+//              })
+//              .disposed(by: cell.disposeBag)
+//          }
+          
+          cell.imageView.backgroundColor = cellData.placeholderColor
+          cellData.previewImage
+            .take(1)
+            .timeout(.seconds(20), scheduler: self.defaultScheduler)
+            .subscribeOn(self.defaultScheduler)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { image in
+              cell.imageView.image = image
+            })
+            .disposed(by: cell.disposeBag)
           
           cell.titleLabel.text = cellData.name
           cell.subtitleLabel.text = cellData.shortDescription
           cell.favoritesButton.checkbox.isHighlighted = cellData.isFavorite
           cell.favoritesButton.cell = cellData
+          
+          self.viewModel.isUpdatingData
+            .drive(onNext: { isUpdating in
+              if isUpdating {
+                cell.favoritesButton.checkbox.alpha = 0.5
+                cell.favoritesButton.isEnabled = false
+              } else {
+                cell.favoritesButton.checkbox.alpha = 1
+                cell.favoritesButton.isEnabled = true
+              }
+            })
+            .disposed(by: cell.disposeBag)
           
           cell.favoritesButton.rx.tap
             .observeOn(MainScheduler.instance)

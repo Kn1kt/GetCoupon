@@ -145,7 +145,7 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 5, bottom: 0, trailing: 5)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     
     return section
   }
@@ -161,7 +161,7 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 30, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 15, trailing: 15)
     
     return section
   }
@@ -291,19 +291,44 @@ extension HomeDetailViewController {
                                                                 fatalError("Can't create new cell")
           }
           
-          if let image = cellData.previewImage {
-            cell.imageView.image = image
-          } else {
-            cell.imageView.backgroundColor = cellData.placeholderColor
-            self.viewModel.setupImage(for: cellData)
-              .observeOn(MainScheduler.instance)
-              .subscribe(onCompleted: {
-                cell.imageView.image = cellData.previewImage
-              })
-              .disposed(by: cell.disposeBag)
-          }
+//          if let image = cellData.previewImage {
+//            cell.imageView.image = image
+//          } else {
+//            cell.imageView.backgroundColor = cellData.placeholderColor
+//            self.viewModel.setupImage(for: cellData)
+//              .observeOn(MainScheduler.instance)
+//              .subscribe(onCompleted: {
+//                cell.imageView.image = cellData.previewImage
+//              })
+//              .disposed(by: cell.disposeBag)
+//          }
+          
+          cell.imageView.backgroundColor = cellData.placeholderColor
+          cellData.previewImage
+            .take(1)
+            .timeout(.seconds(20), scheduler: self.defaultScheduler)
+            .subscribeOn(self.defaultScheduler)
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { image in
+              cell.imageView.image = image
+            })
+            .disposed(by: cell.disposeBag)
+          
           cell.titleLabel.text = cellData.name
           cell.subtitleLabel.text = cellData.shortDescription
+          
+          self.viewModel.isUpdatingData
+            .drive(onNext: { isUpdating in
+              if isUpdating {
+                cell.addToFavoritesButton.checkbox.alpha = 0.5
+                cell.addToFavoritesButton.isEnabled = false
+              } else {
+                cell.addToFavoritesButton.checkbox.alpha = 1
+                cell.addToFavoritesButton.isEnabled = true
+              }
+            })
+            .disposed(by: cell.disposeBag)
+          
           cell.addToFavoritesButton.checkbox.isHighlighted = cellData.isFavorite
           cell.addToFavoritesButton.cell = cellData
           

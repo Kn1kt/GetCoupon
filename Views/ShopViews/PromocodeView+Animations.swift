@@ -49,6 +49,11 @@ class AnimatedPromocodeView: PromocodeView {
     ])
     
     super.updateConstraints()
+    layer.cornerRadius = 10
+  }
+  
+  override func layoutSubviews() {
+    layer.borderColor = UIColor(named: "BlueTintColor")?.cgColor
   }
   
   // MARK: - Animations

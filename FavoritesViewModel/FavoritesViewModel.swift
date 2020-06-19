@@ -22,8 +22,6 @@ class FavoritesViewModel {
   // MARK: - Input
   let segmentIndex = BehaviorRelay<Int>(value: 0)
   
-  let refresh = BehaviorRelay<Bool>(value: false)
-  
   let searchText = BehaviorRelay<String>(value: "")
   
   let editedShops = PublishRelay<ShopData>()
@@ -37,9 +35,7 @@ class FavoritesViewModel {
   
   let currentSection: Driver<[ShopCategoryData]>
   
-  private let _isRefreshing = BehaviorRelay<Bool>(value: false)
-  
-  let isRefreshing: Driver<Bool>
+  let isUpdatingData: Driver<Bool>
   
   // MARK: - Init
   init() {
@@ -47,7 +43,7 @@ class FavoritesViewModel {
     self.model = ModelController.shared.favoritesDataController
     
     self.currentSection = _currentSection.asDriver()
-    self.isRefreshing = _isRefreshing.asDriver()
+    self.isUpdatingData = ModelController.shared.isUpdatingData.asDriver(onErrorJustReturn: false)
     
     bindOutput()
     bindActions()
@@ -109,13 +105,6 @@ class FavoritesViewModel {
         self._currentSection.accept(self.filteredCategories(with: text))
       })
       .disposed(by: disposeBag)
-    
-    model.collectionsBySections
-      .map { _ in false }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
-      .bind(to: _isRefreshing)
-      .disposed(by: disposeBag)
   }
   
   private func bindActions() {
@@ -163,31 +152,13 @@ class FavoritesViewModel {
       })
       .disposed(by: disposeBag)
     
-    let refresh = self.refresh.share(replay: 1)
-    
-    refresh
-      .filter { $0 }
-      .map { _ in }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
-      .bind(to: self.commitChanges)
-      .disposed(by: disposeBag)
-    
-    refresh
-      .filter { $0 }
-      .map { _ in false }
-      .delay(RxTimeInterval.seconds(1), scheduler: defaultScheduler)
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
-      .bind(to: _isRefreshing)
-      .disposed(by: disposeBag)
-    
     let showShopVC = self.showShopVC.share()
     
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        self.showShopVC(vc, shop: shop)
+        let isEnabled = !ModelController.shared._isUpdatingData.value
+        self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
     
@@ -203,28 +174,28 @@ class FavoritesViewModel {
   // MARK: - Setup Image
 extension FavoritesViewModel {
   
-  func setupImage(for shop: ShopData) -> Completable {
-    let subject = PublishSubject<Void>()
-    NetworkController.shared.setupPreviewImage(in: shop) {
-      if let _ = shop.previewImage {
-        subject.onCompleted()
-      } else {
-        guard let category = shop.category else {
-          subject.onCompleted()
-          return
-        }
-        NetworkController.shared.setupDefaultImage(in: category) {
-          shop.previewImage = category.defaultImage
-          subject.onCompleted()
-        }
-      }
-    }
-    
-    return subject
-      .asObservable()
-      .take(1)
-      .ignoreElements()
-  }
+//  func setupImage(for shop: ShopData) -> Completable {
+//    let subject = PublishSubject<Void>()
+//    NetworkController.shared.setupPreviewImage(in: shop) {
+//      if let _ = shop.previewImage {
+//        subject.onCompleted()
+//      } else {
+//        guard let category = shop.category else {
+//          subject.onCompleted()
+//          return
+//        }
+//        NetworkController.shared.setupDefaultImage(in: category) {
+//          shop.previewImage = category.defaultImage
+//          subject.onCompleted()
+//        }
+//      }
+//    }
+//    
+//    return subject
+//      .asObservable()
+//      .take(1)
+//      .ignoreElements()
+//  }
 }
 
   // MARK: - Update Shop isFavorite property
@@ -272,9 +243,14 @@ extension FavoritesViewModel {
 
   // MARK: - Show Shop View Controller
 extension FavoritesViewModel {
-  
-  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+ 
+  private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
     guard let category = shop.category else { return }
-    navigator.showShopVC(sender: vc, section: category, shop: shop)
+    navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
+  
+//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+//    guard let category = shop.category else { return }
+//    navigator.showShopVC(sender: vc, section: category, shop: shop)
+//  }
 }

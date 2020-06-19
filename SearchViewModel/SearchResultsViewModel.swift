@@ -73,7 +73,8 @@ class SearchResultsViewModel {
     showShopVC
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] (vc, shop) in
-        self.showShopVC(vc, shop: shop)
+        let isEnabled = !ModelController.shared._isUpdatingData.value
+        self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
   }
@@ -82,37 +83,42 @@ class SearchResultsViewModel {
   // MARK: - Setup Image
 extension SearchResultsViewModel {
   
-  func setupImage(for shop: ShopData) -> Completable {
-    let subject = PublishSubject<Void>()
-    NetworkController.shared.setupPreviewImage(in: shop) {
-      if let _ = shop.previewImage {
-        subject.onCompleted()
-      } else {
-        guard let category = shop.category else {
-          subject.onCompleted()
-          return
-        }
-        NetworkController.shared.setupDefaultImage(in: category) {
-          shop.previewImage = category.defaultImage
-          subject.onCompleted()
-        }
-      }
-    }
-    
-    return subject
-      .asObservable()
-      .take(1)
-      .ignoreElements()
-  }
+//  func setupImage(for shop: ShopData) -> Completable {
+//    let subject = PublishSubject<Void>()
+//    NetworkController.shared.setupPreviewImage(in: shop) {
+//      if let _ = shop.previewImage {
+//        subject.onCompleted()
+//      } else {
+//        guard let category = shop.category else {
+//          subject.onCompleted()
+//          return
+//        }
+//        NetworkController.shared.setupDefaultImage(in: category) {
+//          shop.previewImage = category.defaultImage
+//          subject.onCompleted()
+//        }
+//      }
+//    }
+//    
+//    return subject
+//      .asObservable()
+//      .take(1)
+//      .ignoreElements()
+//  }
 }
 
   // MARK: - Show Shop View Controller
 extension SearchResultsViewModel {
   
-  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+  private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
     guard let category = shop.category else { return }
-    navigator.showShopVC(sender: vc, section: category, shop: shop)
+    navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
+  
+//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
+//    guard let category = shop.category else { return }
+//    navigator.showShopVC(sender: vc, section: category, shop: shop)
+//  }
 }
 
   //MARK: - Performing Search

@@ -446,64 +446,37 @@ class CacheController {
   // MARK: - Images
 extension CacheController {
   
-  func setImage(for shop: ShopData) -> String? {
-    guard shop.image == nil else { return nil }
+  func image(for shopName: String) -> UIImage? {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
-                                        forPrimaryKey: shop.name) else {
-      debugPrint("No Shop with name: \(shop.name)")
+                                        forPrimaryKey: shopName),
+          let url = storedShop.imageURL else {
+      debugPrint("No Shop with name: \(shopName)")
       return nil
     }
     
-    if let url = storedShop.imageURL,
-      let image = UIImage(contentsOfFile: url) {
-      if shop.image == nil {
-        shop.image = image
-      }
-      return nil
-      
-    } else {
-      return storedShop.imageLink
-    }
+    return UIImage(contentsOfFile: url)
   }
   
-  func setPreviewImage(for shop: ShopData) -> String? {
-    guard shop.previewImage == nil else { return nil }
+  func previewImage(for shopName: String) -> UIImage? {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
-                                        forPrimaryKey: shop.name) else {
-      debugPrint("No Shop with name: \(shop.name)")
+                                        forPrimaryKey: shopName),
+          let url = storedShop.previewImageURL else {
+      debugPrint("No Shop with name: \(shopName)")
       return nil
     }
     
-    if let url = storedShop.previewImageURL,
-      let image = UIImage(contentsOfFile: url) {
-      if shop.previewImage == nil {
-        shop.previewImage = image
-      }
-      return nil
-      
-    } else {
-      return storedShop.previewImageLink
-    }
+    return UIImage(contentsOfFile: url)
   }
   
-  func setDefaultImage(for category: ShopCategoryData) -> String? {
-    guard category.defaultImage == nil else { return nil }
+  func defaultImage(for categoryName: String) -> UIImage? {
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
-                                            forPrimaryKey: category.categoryName) else {
-      debugPrint("No Category")
+                                        forPrimaryKey: categoryName),
+          let url = storedCategory.defaultImageURL else {
+      debugPrint("No Category with name: \(categoryName)")
       return nil
     }
     
-    if let url = storedCategory.defaultImageURL,
-      let image = UIImage(contentsOfFile: url) {
-      if category.defaultImage == nil {
-        category.defaultImage = image
-      }
-      return nil
-      
-    } else {
-      return storedCategory.defaultImageLink
-    }
+    return UIImage(contentsOfFile: url)
   }
   
   func cacheImage(_ image: UIImage, for shop: String) {

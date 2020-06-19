@@ -37,7 +37,6 @@ class HomeDataController {
       return collections.map { category in
         return ShopCategoryData(categoryName: category.categoryName,
                                 shops: Array(category.shops
-                                  .prefix(10)
                                   .sorted(by: { lhs, rhs in
                                     if lhs.priority == rhs.priority {
                                       if let lhsDate = lhs.promoCodes.first?.addingDate {
@@ -50,7 +49,8 @@ class HomeDataController {
                                     } else {
                                       return lhs.priority > rhs.priority
                                     }
-                                  })),
+                                  })
+                                  .prefix(10)),
                                 tags: category.tags)
       }
     }

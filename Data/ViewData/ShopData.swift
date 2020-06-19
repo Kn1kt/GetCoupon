@@ -7,8 +7,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ShopData {
+  
+  private let disposeBag = DisposeBag()
+  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   
   let name: String
   let description: String?
@@ -18,37 +23,11 @@ class ShopData {
   
   let websiteLink: String
   
-  private var _image: UIImage? = nil
-  private let imageQueue = DispatchQueue(label: "imageQueue", attributes: .concurrent)
-  var image: UIImage? {
-    get {
-      imageQueue.sync {
-        return _image
-      }
-    }
-    
-    set {
-      imageQueue.async(flags: .barrier) { [weak self] in
-        self?._image = newValue
-      }
-    }
-  }
+  private let imageLink: String
+  var image: Observable<UIImage>!
   
-  private var _previewImage: UIImage? = nil
-  private let previewImageQueue = DispatchQueue(label: "previewImageQueue", attributes: .concurrent)
-  var previewImage: UIImage? {
-    get {
-      previewImageQueue.sync {
-        return _previewImage
-      }
-    }
-    
-    set {
-      previewImageQueue.async(flags: .barrier) { [weak self] in
-        self?._previewImage = newValue
-      }
-    }
-  }
+  private let previewImageLink: String
+  var previewImage: Observable<UIImage>!
   
   let placeholderColor: UIColor
   
@@ -67,8 +46,8 @@ class ShopData {
        priority: Int = 0,
        websiteLink: String,
        placeholderColor: UIColor = .systemGray3,
-       image: UIImage? = nil,
-       previewImage: UIImage? = nil,
+       imageLink: String = "",
+       previewImageLink: String = "",
        isFavorite: Bool = false,
        favoriteAddingDate: Date? = nil,
        promoCodes: [PromoCodeData] = [],
@@ -79,25 +58,85 @@ class ShopData {
     self.priority = priority
     self.websiteLink = websiteLink
     self.placeholderColor = placeholderColor
-    self._image = image
-    self._previewImage = previewImage
+    self.imageLink = imageLink
+    self.previewImageLink = previewImageLink
     self.promoCodes = promoCodes
     self.isFavorite = isFavorite
     self.favoriteAddingDate = favoriteAddingDate
     self.category = category
-  }
-  
-  convenience init(image: UIImage?, name: String, shortDescription: String, placeholderColor: UIColor) {
-    self.init(name: name,
-              description: nil,
-              shortDescription: shortDescription,
-              websiteLink: "",
-              placeholderColor: placeholderColor,
-              image: image,
-              previewImage: image,
-              isFavorite: false,
-              promoCodes: [],
-              category: ShopCategoryData(categoryName: "STUB"))
+    
+    self.image = Observable
+      .create { [weak self] observer in
+        guard let self = self else {
+          observer.onCompleted()
+          return Disposables.create()
+        }
+        
+        print("IMAGE: Subscribe on \(Thread.current)")
+        
+        let cache = CacheController()
+        if let image = cache.image(for: name) {
+          observer.onNext(image)
+          observer.onCompleted()
+          
+        } else {
+          NetworkController.shared.downloadImage(for: imageLink)
+            .take(1)
+            .subscribe(onNext: { image in
+              observer.onNext(image)
+              observer.onCompleted()
+              
+              let cache = CacheController()
+              cache.cacheImage(image, for: name)
+            }, onError: { error in
+              observer.onError(error)
+            })
+            .disposed(by: self.disposeBag)
+          
+        }
+        
+        return Disposables.create()
+      }
+      .share(replay: 1, scope: .forever)
+    
+    self.previewImage = Observable
+      .create { [weak self] observer in
+        guard let self = self else {
+          observer.onCompleted()
+          return Disposables.create()
+        }
+
+        print("\(name) PREVIEW IMAGE: Subscribe on \(Thread.current)")
+        
+        let cache = CacheController()
+        if let image = cache.previewImage(for: name) {
+          observer.onNext(image)
+          observer.onCompleted()
+          
+        } else {
+          NetworkController.shared.downloadImage(for: previewImageLink)
+            .take(1)
+            .subscribe(onNext: { image in
+              observer.onNext(image)
+              observer.onCompleted()
+              
+              let cache = CacheController()
+              cache.cachePreviewImage(image, for: name)
+            }, onError: { _ in
+              category.defaultImage
+                .take(1)
+                .subscribe(onNext: { image in
+                  observer.onNext(image)
+                  observer.onCompleted()
+                })
+                .disposed(by: self.disposeBag)
+            })
+            .disposed(by: self.disposeBag)
+        }
+        
+        return Disposables.create()
+      }
+      .share(replay: 1, scope: .forever)
   }
   
   convenience init(name: String, shortDescription: String) {
@@ -105,8 +144,6 @@ class ShopData {
               description: nil,
               shortDescription: shortDescription,
               websiteLink: "",
-              image: nil,
-              previewImage: nil,
               isFavorite: false,
               promoCodes: [],
               category: ShopCategoryData(categoryName: "STUB"))
@@ -124,8 +161,8 @@ class ShopData {
               priority: shop.priority,
               websiteLink: shop.websiteLink,
               placeholderColor: UIColor.init(cgColor: color!),
-              image: nil,
-              previewImage: nil,
+              imageLink: shop.imageLink,
+              previewImageLink: shop.previewImageLink,
               isFavorite: shop.isFavorite,
               favoriteAddingDate: shop.favoriteAddingDate,
               promoCodes: promoCodes,
