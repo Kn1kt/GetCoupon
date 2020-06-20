@@ -23,8 +23,8 @@ class ShopCategoryData {
   
   let identifier = UUID()
   
-  private let defaultImageLink: String
-  var defaultImage: Observable<UIImage>!
+  let defaultImageLink: String
+  let defaultImage = BehaviorRelay<UIImage?>(value: nil)
   
   init(categoryName: String,
        defaultImageLink: String = "",
@@ -35,36 +35,38 @@ class ShopCategoryData {
     self.shops = shops
     self.tags = tags
     
-    self.defaultImage = Observable
-      .create { [weak self] observer in
-        guard let self = self else {
-          observer.onCompleted()
-          return Disposables.create()
-        }
-        
-        print("DEFAULT IMAGE: Subscribe on \(Thread.current)")
-        
-        let cache = CacheController()
-        if let image = cache.defaultImage(for: categoryName) {
-          observer.onNext(image)
-          observer.onCompleted()
-          
-        } else {
-          NetworkController.shared.downloadImage(for: defaultImageLink)
-            .take(1)
-            .subscribe(onNext: { image in
-              observer.onNext(image)
-              observer.onCompleted()
-              
-              let cache = CacheController()
-              cache.cacheDefaultImage(image, for: categoryName)
-            })
-            .disposed(by: self.disposeBag)
-        }
-        
-        return Disposables.create()
-      }
-      .share(replay: 1, scope: .forever)
+//    Observable<UIImage>
+//      .create { [weak self] observer in
+//        guard let self = self else {
+//          observer.onCompleted()
+//          return Disposables.create()
+//        }
+//        
+//        print("DEFAULT IMAGE: Subscribe on \(Thread.current)")
+//        
+//        let cache = CacheController()
+//        if let image = cache.defaultImage(for: categoryName) {
+//          observer.onNext(image)
+//          observer.onCompleted()
+//          
+//        } else {
+//          NetworkController.shared.downloadImage(for: defaultImageLink)
+//            .take(1)
+//            .subscribe(onNext: { image in
+//              observer.onNext(image)
+//              observer.onCompleted()
+//              
+//              let cache = CacheController()
+//              cache.cacheDefaultImage(image, for: categoryName)
+//            }, onError: { error in
+//              observer.onCompleted()
+//            })
+//            .disposed(by: self.disposeBag)
+//        }
+//        
+//        return Disposables.create()
+//      }
+//      .share(replay: 1, scope: .forever)
   }
   
   /// Bridge for stored data

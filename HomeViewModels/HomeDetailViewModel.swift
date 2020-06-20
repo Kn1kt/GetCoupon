@@ -210,28 +210,9 @@ class HomeDetailViewModel {
   // MARK: - Setup Image
 extension HomeDetailViewModel {
   
-//  func setupImage(for shop: ShopData) -> Completable {
-//    let subject = PublishSubject<Void>()
-//    NetworkController.shared.setupPreviewImage(in: shop) {
-//      if let _ = shop.previewImage {
-//        subject.onCompleted()
-//      } else {
-//        guard let category = shop.category else {
-//          subject.onCompleted()
-//          return
-//        }
-//        NetworkController.shared.setupDefaultImage(in: category) {
-//          shop.previewImage = category.defaultImage
-//          subject.onCompleted()
-//        }
-//      }
-//    }
-//    
-//    return subject
-//      .asObservable()
-//      .take(1)
-//      .ignoreElements()
-//  }
+  func setupPreviewImage(for shop: ShopData) -> Completable {
+    return ModelController.shared.setupPreviewImage(for: shop)
+  }
 }
 
   // MARK: - Update Shop isFavorite property

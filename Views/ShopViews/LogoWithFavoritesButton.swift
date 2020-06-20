@@ -24,7 +24,6 @@ class LogoWithFavoritesButton: UIView {
   override func layoutSubviews() {
     setupLayouts()
   }
-  
 }
 
 extension LogoWithFavoritesButton {

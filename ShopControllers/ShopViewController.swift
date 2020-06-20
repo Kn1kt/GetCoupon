@@ -611,7 +611,6 @@ extension ShopViewController {
                             height: 140)
     
     logoView.imageView.backgroundColor = viewModel.currentShop.placeholderColor
-    logoView.imageView.isUserInteractionEnabled = false
     view.addSubview(logoView)
     
     // Setup delegate
@@ -707,17 +706,7 @@ extension ShopViewController {
           }
           
           cell.imageView.backgroundColor = self.viewModel.currentShop.placeholderColor
-//          cell.imageView.image = self.viewModel.currentShop.previewImage
-          
-          self.viewModel.currentShop.previewImage
-            .take(1)
-            .timeout(.seconds(20), scheduler: self.defaultScheduler)
-            .subscribeOn(self.defaultScheduler)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { image in
-              cell.imageView.image = image
-            })
-            .disposed(by: cell.disposeBag)
+          cell.imageView.image =  self.viewModel.currentShop.previewImage.value
           
           cell.subtitleLabel.text = cellData.description
           cell.promocodeView.promocodeLabel.text = cellData.coupon
@@ -887,56 +876,53 @@ extension ShopViewController: UICollectionViewDelegate {
   // MARK: - Actions
 extension ShopViewController {
   
-//  func updateVisibleItems(shop: ShopData) {
-//    let indexPaths = collectionView.indexPathsForVisibleItems
-//
-//    indexPaths.forEach { indexPath in
-//      guard let cell = collectionView.cellForItem(at: indexPath) as? ShopPlainCollectionViewCell else {
-//        return
-//      }
-//
-//      cell.imageView.image = shop.previewImage
-//    }
-//  }
+  func updateVisibleItems(shop: ShopData) {
+    let indexPaths = collectionView.indexPathsForVisibleItems
+
+    indexPaths.forEach { indexPath in
+      guard let cell = collectionView.cellForItem(at: indexPath) as? ShopPlainCollectionViewCell else {
+        return
+      }
+
+      cell.imageView.image = shop.previewImage.value
+    }
+  }
 }
 
   // MARK: - Setup Images
 extension ShopViewController {
   
   private func updateImages(shop: ShopData) {
-    shop.image
-      .take(1)
-      .timeout(.seconds(20), scheduler: defaultScheduler)
-      .subscribeOn(defaultScheduler)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] image in
-        if let _ = self?.headerImageView.image {
+    if let headerImage = shop.image.value {
+      headerImageView.image = headerImage
+    } else {
+      headerImageView.image = shop.previewImage.value
+      headerImageView.alpha = 0.3
+      viewModel.setupImage(for: shop)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onCompleted: {
           UIView.animate(withDuration: 1) {
-            self?.headerImageView.alpha = 0.1
-            self?.headerImageView.image = image
-            self?.headerImageView.alpha = 1
+            if let image = shop.image.value {
+              self.headerImageView.alpha = 0.1
+              self.headerImageView.image = image
+              self.headerImageView.alpha = 1
+            }
           }
-        } else {
-          self?.headerImageView.image = image
-        }
         })
-      .disposed(by: disposeBag)
+        .disposed(by: disposeBag)
+    }
     
-    shop.previewImage
-      .take(1)
-      .timeout(.seconds(20), scheduler: defaultScheduler)
-      .delay(.microseconds(500), scheduler: defaultScheduler)
-      .subscribeOn(defaultScheduler)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] image in
-        if self?.headerImageView.image == nil {
-          self?.headerImageView.alpha = 0.3
-          self?.headerImageView.image = image
-        }
-        
-        self?.logoView.imageView.image = image
-      })
-      .disposed(by: disposeBag)
+    if let logoImage = shop.previewImage.value {
+      logoView.imageView.image = logoImage
+    } else {
+      viewModel.setupPreviewImage(for: shop)
+        .observeOn(MainScheduler.instance)
+        .subscribe(onCompleted: {
+          self.logoView.imageView.image = shop.previewImage.value
+          self.updateVisibleItems(shop: shop)
+        })
+        .disposed(by: disposeBag)
+    }
   }
 }
 

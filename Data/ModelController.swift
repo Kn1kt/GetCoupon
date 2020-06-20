@@ -106,6 +106,149 @@ extension ModelController {
     .bind(to: _collections)
     .disposed(by: disposeBag)
   }
+  
+  func setupDefaultImage(for category: ShopCategoryData) -> Completable {
+    let subject = PublishSubject<Void>()
+    
+    DispatchQueue.global(qos: .default).async { [weak self] in
+      guard let self = self else { return }
+      
+      let cache = CacheController()
+      if let image = cache.defaultImage(for: category.categoryName) {
+        if category.defaultImage.value == nil {
+          category.defaultImage.accept(image)
+        }
+        
+        subject.onCompleted()
+        
+      } else {
+        NetworkController.shared.downloadImage(for: category.defaultImageLink)
+          .take(1)
+          .observeOn(self.defaultScheduler)
+          .subscribe(onNext: { image in
+            if category.defaultImage.value == nil {
+              category.defaultImage.accept(image)
+              subject.onCompleted()
+              
+              let cache = CacheController()
+              cache.cacheDefaultImage(image, for: category.categoryName)
+            }
+            
+            subject.onCompleted()
+          }, onError: { error in
+            subject.onCompleted()
+          })
+          .disposed(by: self.disposeBag)
+      }
+    }
+    
+    
+    return subject
+    .asObservable()
+    .take(1)
+    .ignoreElements()
+  }
+  
+  func setupPreviewImage(for shop: ShopData) -> Completable {
+    let subject = PublishSubject<Void>()
+    
+    DispatchQueue.global(qos: .default).async { [weak self] in
+      guard let self = self else { return }
+      
+      let cache = CacheController()
+      if let image = cache.previewImage(for: shop.name) {
+        if shop.previewImage.value == nil {
+          shop.previewImage.accept(image)
+        }
+        
+        subject.onCompleted()
+        
+      } else {
+        NetworkController.shared.downloadImage(for: shop.previewImageLink)
+          .take(1)
+          .observeOn(self.defaultScheduler)
+          .subscribe(onNext: { image in
+            if shop.previewImage.value == nil {
+              shop.previewImage.accept(image)
+              subject.onCompleted()
+              
+              let cache = CacheController()
+              cache.cachePreviewImage(image, for: shop.name)
+            }
+            
+            subject.onCompleted()
+          }, onError: { [weak self] _ in
+            guard let self = self,
+              let category = shop.category else {
+                subject.onCompleted()
+                return
+            }
+            
+            if let image = category.defaultImage.value {
+              shop.previewImage.accept(image)
+              subject.onCompleted()
+              
+            } else {
+              self.setupDefaultImage(for: category)
+                .subscribe(onCompleted: {
+                  if shop.previewImage.value == nil,
+                    let image = category.defaultImage.value {
+                    shop.previewImage.accept(image)
+                  }
+                  
+                  subject.onCompleted()
+                })
+                .disposed(by: self.disposeBag)
+            }
+          })
+          .disposed(by: self.disposeBag)
+      }
+    }
+    
+    return subject
+      .asObservable()
+      .take(1)
+      .ignoreElements()
+  }
+  
+  func setupImage(for shop: ShopData) -> Completable {
+    let subject = PublishSubject<Void>()
+    
+    DispatchQueue.global(qos: .default).async { [weak self] in
+      guard let self = self else { return }
+      
+      let cache = CacheController()
+      if let image = cache.image(for: shop.name) {
+        if shop.image.value == nil {
+          shop.image.accept(image)
+        }
+        
+        subject.onCompleted()
+        
+      } else {
+        NetworkController.shared.downloadImage(for: shop.imageLink)
+          .take(1)
+          .observeOn(self.defaultScheduler)
+          .subscribe(onNext: { image in
+            if shop.image.value == nil {
+              shop.image.accept(image)
+              
+              let cache = CacheController()
+              cache.cacheImage(image, for: shop.name)
+            }
+            subject.onCompleted()
+          }, onError: { _ in
+            subject.onCompleted()
+          })
+          .disposed(by: self.disposeBag)
+      }
+    }
+    
+    return subject
+      .asObservable()
+      .take(1)
+      .ignoreElements()
+  }
 }
 
   // MARK: - Home Data Controller

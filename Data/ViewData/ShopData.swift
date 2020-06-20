@@ -23,11 +23,11 @@ class ShopData {
   
   let websiteLink: String
   
-  private let imageLink: String
-  var image: Observable<UIImage>!
+  let imageLink: String
+  let image = BehaviorRelay<UIImage?>(value: nil)
   
-  private let previewImageLink: String
-  var previewImage: Observable<UIImage>!
+  let previewImageLink: String
+  let previewImage = BehaviorRelay<UIImage?>(value: nil)
   
   let placeholderColor: UIColor
   
@@ -35,7 +35,6 @@ class ShopData {
   var favoriteAddingDate: Date?
   
   var promoCodes: [PromoCodeData]
-  
   
   weak var category: ShopCategoryData?
   let identifier = UUID()
@@ -64,79 +63,92 @@ class ShopData {
     self.isFavorite = isFavorite
     self.favoriteAddingDate = favoriteAddingDate
     self.category = category
-    
-    self.image = Observable
-      .create { [weak self] observer in
-        guard let self = self else {
-          observer.onCompleted()
-          return Disposables.create()
-        }
-        
-        print("IMAGE: Subscribe on \(Thread.current)")
-        
-        let cache = CacheController()
-        if let image = cache.image(for: name) {
-          observer.onNext(image)
-          observer.onCompleted()
-          
-        } else {
-          NetworkController.shared.downloadImage(for: imageLink)
-            .take(1)
-            .subscribe(onNext: { image in
-              observer.onNext(image)
-              observer.onCompleted()
-              
-              let cache = CacheController()
-              cache.cacheImage(image, for: name)
-            }, onError: { error in
-              observer.onError(error)
-            })
-            .disposed(by: self.disposeBag)
-          
-        }
-        
-        return Disposables.create()
-      }
-      .share(replay: 1, scope: .forever)
-    
-    self.previewImage = Observable
-      .create { [weak self] observer in
-        guard let self = self else {
-          observer.onCompleted()
-          return Disposables.create()
-        }
-
-        print("\(name) PREVIEW IMAGE: Subscribe on \(Thread.current)")
-        
-        let cache = CacheController()
-        if let image = cache.previewImage(for: name) {
-          observer.onNext(image)
-          observer.onCompleted()
-          
-        } else {
-          NetworkController.shared.downloadImage(for: previewImageLink)
-            .take(1)
-            .subscribe(onNext: { image in
-              observer.onNext(image)
-              observer.onCompleted()
-              
-              let cache = CacheController()
-              cache.cachePreviewImage(image, for: name)
-            }, onError: { _ in
-              category.defaultImage
-                .take(1)
-                .subscribe(onNext: { image in
-                  observer.onNext(image)
-                  observer.onCompleted()
-                })
-                .disposed(by: self.disposeBag)
-            })
-            .disposed(by: self.disposeBag)
-        }
-        
-        return Disposables.create()
-      }
-      .share(replay: 1, scope: .forever)
+//    
+//    Observable<UIImage>
+//      .create { [weak self] observer in
+//        guard let self = self else {
+//          observer.onCompleted()
+//          return Disposables.create()
+//        }
+//        
+//        print("IMAGE: Subscribe on \(Thread.current)")
+//        
+//        let cache = CacheController()
+//        if let image = cache.image(for: name) {
+//          observer.onNext(image)
+//          observer.onCompleted()
+//          
+//        } else {
+//          NetworkController.shared.downloadImage(for: imageLink)
+//            .take(1)
+//            .subscribe(onNext: { image in
+//              observer.onNext(image)
+//              observer.onCompleted()
+//              
+//              let cache = CacheController()
+//              cache.cacheImage(image, for: name)
+//            }, onError: { _ in
+//              observer.onCompleted()
+//            })
+//            .disposed(by: self.disposeBag)
+//          
+//        }
+//        
+//        return Disposables.create()
+//      }
+//      .share(replay: 1, scope: .forever)
+//    
+//    Observable<UIImage>
+//      .create { [weak self] observer in
+//        guard let self = self else {
+//          observer.onCompleted()
+//          return Disposables.create()
+//        }
+//
+//        print("\nstart------\(name) PREVIEW IMAGE: Subscribe on \(Thread.current)")
+//        
+//        let cache = CacheController()
+//        if let image = cache.previewImage(for: name) {
+//          print("FROM CACHE \(name)")
+//          observer.onNext(image)
+//          observer.onCompleted()
+//          
+//        } else {
+//          print("FROM NETWORK \(name)")
+//          NetworkController.shared.downloadImage(for: previewImageLink)
+//            .take(1)
+//            .subscribe(onNext: { image in
+//              observer.onNext(image)
+//              observer.onCompleted()
+//              print("\nend------\(name) PREVIEW IMAGE: Subscribe on \(Thread.current)")
+//              let cache = CacheController()
+//              cache.cachePreviewImage(image, for: name)
+//            }, onError: { [weak self] _ in
+//              guard let self = self,
+//                let category = self.category else {
+//                  observer.onCompleted()
+//                  return
+//              }
+//              
+//              print("ERROR ON PREVIEW \(name)")
+//              category.defaultImage
+//                .take(1)
+//                .subscribe(onNext: { image in
+//                  print("NEXT ON DEFAULT \(name)")
+//                  observer.onNext(image)
+//                  observer.onCompleted()
+//                }, onError: { _ in
+//                  print("ERROR ON DEFAULT \(name)")
+//                  observer.onCompleted()
+//                })
+//                .disposed(by: self.disposeBag)
+//            })
+//            .disposed(by: self.disposeBag)
+//        }
+//        
+//        return Disposables.create()
+//      }
+//      .share(replay: 1, scope: .forever)
   }
   
   convenience init(name: String, shortDescription: String) {

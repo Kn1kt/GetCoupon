@@ -108,7 +108,13 @@ class ShopViewModel {
   // MARK: - Setup Images
 extension ShopViewModel {
   
-//  Setup Images
+  func setupPreviewImage(for shop: ShopData) -> Completable {
+    return ModelController.shared.setupPreviewImage(for: shop)
+  }
+  
+  func setupImage(for shop: ShopData) -> Completable {
+    return ModelController.shared.setupImage(for: shop)
+  }
 }
 
   // MARK: - Update Shop isFavorite property

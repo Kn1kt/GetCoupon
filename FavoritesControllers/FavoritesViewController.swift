@@ -284,28 +284,17 @@ extension FavoritesViewController {
                                                                 fatalError("Can't create new cell")
           }
           
-//          if let image = cellData.previewImage {
-//            cell.imageView.image = image
-//          } else {
-//            cell.imageView.backgroundColor = cellData.placeholderColor
-//            self.viewModel.setupImage(for: cellData)
-//              .observeOn(MainScheduler.instance)
-//              .subscribe(onCompleted: {
-//                cell.imageView.image = cellData.previewImage
-//              })
-//              .disposed(by: cell.disposeBag)
-//          }
-          
-          cell.imageView.backgroundColor = cellData.placeholderColor
-          cellData.previewImage
-            .take(1)
-            .timeout(.seconds(20), scheduler: self.defaultScheduler)
-            .subscribeOn(self.defaultScheduler)
-            .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { image in
-              cell.imageView.image = image
-            })
-            .disposed(by: cell.disposeBag)
+          if let image = cellData.previewImage.value {
+            cell.imageView.image = image
+          } else {
+            cell.imageView.backgroundColor = cellData.placeholderColor
+            self.viewModel.setupPreviewImage(for: cellData)
+              .observeOn(MainScheduler.instance)
+              .subscribe(onCompleted: {
+                cell.imageView.image = cellData.previewImage.value
+              })
+              .disposed(by: cell.disposeBag)
+          }
           
           cell.titleLabel.text = cellData.name
           cell.subtitleLabel.text = cellData.shortDescription

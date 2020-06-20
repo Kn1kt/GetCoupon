@@ -450,7 +450,7 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shopName),
           let url = storedShop.imageURL else {
-      debugPrint("No Shop with name: \(shopName)")
+      debugPrint("IMAGE: No Shop with name: \(shopName)")
       return nil
     }
     
@@ -461,7 +461,7 @@ extension CacheController {
     guard let storedShop = realm.object(ofType: ShopStoredData.self,
                                         forPrimaryKey: shopName),
           let url = storedShop.previewImageURL else {
-      debugPrint("No Shop with name: \(shopName)")
+      debugPrint("PREVIEW: No Shop with name: \(shopName)")
       return nil
     }
     
@@ -472,7 +472,7 @@ extension CacheController {
     guard let storedCategory = realm.object(ofType: ShopCategoryStoredData.self,
                                         forPrimaryKey: categoryName),
           let url = storedCategory.defaultImageURL else {
-      debugPrint("No Category with name: \(categoryName)")
+      debugPrint("DEFAULT: No Category with name: \(categoryName)")
       return nil
     }
     
