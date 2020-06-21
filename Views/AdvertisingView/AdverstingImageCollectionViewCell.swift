@@ -42,7 +42,6 @@ extension AdverstingImageCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
-    // iPad constrains need update
     NSLayoutConstraint.activate([
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

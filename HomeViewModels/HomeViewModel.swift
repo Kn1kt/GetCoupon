@@ -47,12 +47,17 @@ class HomeViewModel {
   
   let updatingTitle = BehaviorRelay<TitleTypes>(value: .default("Home"))
   
+  let _advEnabled = BehaviorRelay<Bool>(value: false)
+  
+  let advEnabled: Driver<Bool>
+  
   // MARK: - Init
   init() {
     self.model = ModelController.shared.homeDataController
     self.navigator = Navigator()
     
     self.collections = _collections.share(replay: 1)
+    self.advEnabled = _advEnabled.asDriver()
     
     self.updateRefreshingStatus = isRefreshing
       .filter { !$0 }

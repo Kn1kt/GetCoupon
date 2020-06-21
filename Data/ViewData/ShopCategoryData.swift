@@ -17,6 +17,8 @@ class ShopCategoryData {
   
   let categoryName: String
   
+  let priority: Int
+  
   let tags: Set<String>
   
   var shops: [ShopData]
@@ -27,10 +29,12 @@ class ShopCategoryData {
   let defaultImage = BehaviorRelay<UIImage?>(value: nil)
   
   init(categoryName: String,
+       priority: Int = 0,
        defaultImageLink: String = "",
        shops: [ShopData] = [],
        tags: Set<String> = []) {
     self.categoryName = categoryName
+    self.priority = priority
     self.defaultImageLink = defaultImageLink
     self.shops = shops
     self.tags = tags
@@ -40,6 +44,7 @@ class ShopCategoryData {
   convenience init(_ category: ShopCategoryStoredData) {
     let tags = Set(category.tags)
     self.init(categoryName: category.categoryName,
+              priority: category.priority,
               defaultImageLink: category.defaultImageLink,
               tags: tags)
     

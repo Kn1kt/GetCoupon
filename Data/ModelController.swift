@@ -111,7 +111,10 @@ extension ModelController {
     let subject = PublishSubject<Void>()
     
     DispatchQueue.global(qos: .default).async { [weak self] in
-      guard let self = self else { return }
+      guard let self = self else {
+        subject.onCompleted()
+        return
+      }
       
       let cache = CacheController()
       if let image = cache.defaultImage(for: category.categoryName) {
@@ -153,7 +156,10 @@ extension ModelController {
     let subject = PublishSubject<Void>()
     
     DispatchQueue.global(qos: .default).async { [weak self] in
-      guard let self = self else { return }
+      guard let self = self else {
+        subject.onCompleted()
+        return
+      }
       
       let cache = CacheController()
       if let image = cache.previewImage(for: shop.name) {
@@ -215,7 +221,10 @@ extension ModelController {
     let subject = PublishSubject<Void>()
     
     DispatchQueue.global(qos: .default).async { [weak self] in
-      guard let self = self else { return }
+      guard let self = self else {
+        subject.onCompleted()
+        return
+      }
       
       let cache = CacheController()
       if let image = cache.image(for: shop.name) {
@@ -242,6 +251,35 @@ extension ModelController {
           })
           .disposed(by: self.disposeBag)
       }
+    }
+    
+    return subject
+      .asObservable()
+      .take(1)
+      .ignoreElements()
+  }
+  
+  func setupImage(for cell: AdvertisingCellData) -> Completable {
+    let subject = PublishSubject<Void>()
+    
+    DispatchQueue.global(qos: .default).async { [weak self] in
+      guard let self = self else {
+        subject.onCompleted()
+        return
+      }
+      
+      NetworkController.shared.downloadImage(for: cell.imageLink)
+        .take(1)
+        .observeOn(self.defaultScheduler)
+        .subscribe(onNext: { image in
+          if cell.image.value == nil {
+            cell.image.accept(image)
+          }
+          subject.onCompleted()
+        }, onError: { _ in
+          subject.onCompleted()
+        })
+        .disposed(by: self.disposeBag)
     }
     
     return subject
@@ -294,7 +332,7 @@ extension ModelController {
                                            tags: category.tags))
           }
         }
-        .sorted { $0.categoryName < $1.categoryName }
+        .sorted { $0.priority < $1.priority }
     }
     .subscribeOn(defaultScheduler)
     .observeOn(defaultScheduler)

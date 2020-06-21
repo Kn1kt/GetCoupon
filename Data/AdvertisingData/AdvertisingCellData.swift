@@ -17,8 +17,7 @@ class AdvertisingCellData {
   /// Define ads place
   let priority: Int
   
-  let _image = PublishRelay<UIImage>()
-  let image: Observable<UIImage>
+  let image = BehaviorRelay<UIImage?>(value: nil)
   
   init(imageLink: String,
        websiteLink: String,
@@ -26,11 +25,5 @@ class AdvertisingCellData {
     self.imageLink = imageLink
     self.websiteLink = websiteLink
     self.priority = priority
-    
-    self.image = _image
-      .do(onSubscribe: {
-        print("Subscribe")
-      })
-      .share(replay: 1)
   }
 }
