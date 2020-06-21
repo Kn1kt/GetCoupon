@@ -153,6 +153,11 @@ extension HomeViewController {
       
       guard let self = self else { return nil }
       
+      if self.viewModel.advEnabled.value,
+        self.viewModel.advSections.value.contains(sectionIndex) {
+        return self.createAdvSection(layoutEnvironment)
+      }
+      
       switch sectionIndex {
       case 0:
         return self.createCardSection(layoutEnvironment)
@@ -282,6 +287,50 @@ extension HomeViewController {
     
     return section
   }
+  
+  func createAdvSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+    
+    let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                          heightDimension: .fractionalHeight(1.0))
+    let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    
+    let groupFractionalWidth: CGFloat
+    let groupFractionHeigh: CGFloat
+    
+    switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
+    case (.compact, .regular):
+      groupFractionalWidth = CGFloat(0.8)
+      groupFractionHeigh = CGFloat(0.11)
+      
+    case (.compact, .compact):
+      groupFractionalWidth = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.35)
+      
+    case (.regular, .compact):
+      groupFractionalWidth = CGFloat(0.2)
+      groupFractionHeigh = CGFloat(0.35)
+      
+    case (.regular, .regular):
+      groupFractionalWidth = CGFloat(0.25)
+      groupFractionHeigh = CGFloat(0.21)
+      
+    default:
+      groupFractionalWidth = CGFloat(0.8)
+      groupFractionHeigh = CGFloat(0.11)
+    }
+    
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
+                                           heightDimension: .fractionalHeight(groupFractionHeigh))
+    
+    let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+    
+    let section = NSCollectionLayoutSection(group: group)
+    section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+    section.interGroupSpacing = 10
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+    
+    return section
+  }
 }
 
   // MARK: - Setup Collection View
@@ -310,6 +359,9 @@ extension HomeViewController {
     collectionView.register(HomeCaptionImageCollectionViewCell.self,
                             forCellWithReuseIdentifier: HomeCaptionImageCollectionViewCell.reuseIdentifier)
     
+    collectionView.register(AdverstingImageCollectionViewCell.self,
+                            forCellWithReuseIdentifier: AdverstingImageCollectionViewCell.reuseIdentifier)
+    
     collectionView.register(TitleSupplementaryView.self,
                             forSupplementaryViewOfKind: HomeViewController.titleElementKind,
                             withReuseIdentifier: TitleSupplementaryView.reuseIdentifier)
@@ -322,6 +374,29 @@ extension HomeViewController {
         cellData: ShopData) -> UICollectionViewCell? in
         
         guard let self = self else { return nil }
+        
+        if self.viewModel.advEnabled.value,
+          self.viewModel.advSections.value.contains(indexPath.section) {
+          guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AdverstingImageCollectionViewCell.reuseIdentifier,
+                                                              for: indexPath) as? AdverstingImageCollectionViewCell else {
+                                                                fatalError("Can't create new adv cell")
+          }
+          
+          if let image = cellData.previewImage.value {
+            cell.imageView.image = image
+          } else {
+            cell.imageView.backgroundColor = cellData.placeholderColor
+            self.viewModel.setupPreviewImage(for: cellData)
+              .observeOn(MainScheduler.instance)
+              .subscribe(onCompleted: {
+                cell.imageView.image = cellData.previewImage.value
+              })
+              .disposed(by: cell.disposeBag)
+          }
+          
+          return cell
+        }
+        
         switch indexPath.section {
         case 0:
           guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCardCollectionViewCell.reuseIdentifier,

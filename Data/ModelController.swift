@@ -37,6 +37,9 @@ class ModelController {
   
   let collections: Observable<[ShopCategoryData]>
   
+  private let _advData = BehaviorRelay<[AdvertisingCategoryData]>(value: [])
+  let advData: Observable<[AdvertisingCategoryData]>
+  
   /// Home Collections
   var homeDataController: HomeDataController!
   
@@ -62,12 +65,14 @@ class ModelController {
     self.searchCollection = _searchCollection.share(replay: 1)
     self.isUpdatingData = _isUpdatingData.share(replay: 1)
     self.dataUpdatingStatus = _dataUpdatingStatus.share(replay: 1)
+    self.advData = _advData.share(replay: 1)
     
-    homeDataController = HomeDataController(collections: collections)
+    homeDataController = HomeDataController(collections: collections, advData: advData)
     favoritesDataController = FavoritesDataController(collections: favoriteCollections)
     
     bindFavorites()
     bindSearch()
+    bindAdvData()
   }
 }
 
@@ -500,5 +505,28 @@ extension ModelController {
     let cache = CacheController()
     
     cache.removeCollectionsFromStorage()
+  }
+}
+  // MARK: - Advertising Data
+extension ModelController {
+  
+  func bindAdvData() {
+    collections
+      .skip(1)
+      .debounce(.seconds(2), scheduler: defaultScheduler)
+      .map { _ in }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        NetworkController.shared.downloadAdvOffer()
+          .map { (networkData: [NetworkAdvertisingCategoryData]) -> [AdvertisingCategoryData] in
+            return networkData.map(AdvertisingCategoryData.init)
+          }
+          .subscribeOn(self.defaultScheduler)
+          .bind(to: self._advData)
+          .disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
 }

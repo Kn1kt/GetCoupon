@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class AdverstingImageCollectionViewCell: UICollectionViewCell {
 
   static let reuseIdentifier = "adversting-image-cell-reuse-identifier"
+  
+  var disposeBag = DisposeBag()
   
   let imageView = UIImageView()
   
@@ -56,6 +59,7 @@ extension AdverstingImageCollectionViewCell {
 extension AdverstingImageCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {
+    disposeBag = DisposeBag()
     imageView.image = nil
     imageView.backgroundColor = .systemGray3
   }

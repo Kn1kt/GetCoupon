@@ -20,4 +20,10 @@ class AdvertisingCategoryData {
     self.linkedSection = linkedSection
     self.adsList = adsList
   }
+  
+  /// Bridge for network data
+  convenience init(_ categoryData: NetworkAdvertisingCategoryData) {
+    self.init(linkedSection: categoryData.linkedSection,
+              adsList: categoryData.adsList.map(AdvertisingCellData.init))
+  }
 }

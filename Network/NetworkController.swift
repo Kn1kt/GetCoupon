@@ -22,7 +22,7 @@ class NetworkController {
   
 //  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
   private let serverLink = "http://closeyoureyes.jelastic.regruhosting.ru/ios-collections.json"
-  private let advLink = ""
+  private let advLink = "http://closeyoureyes.jelastic.regruhosting.ru/adspromo/ads.json"
   
   /// Image processing queue
   private let queue = OperationQueue()
@@ -118,7 +118,40 @@ extension NetworkController {
   // MARK: - Download Promotional Offer
 extension NetworkController {
   
-//  func downloadAdvOffer() -> Observable<[Any]> {
-//    
-//  }
+  func downloadAdvOffer() -> Observable<[NetworkAdvertisingCategoryData]> {
+    let subject = PublishSubject<[NetworkAdvertisingCategoryData]>()
+    guard let url = URL(string: self.advLink) else {
+        subject.onCompleted()
+        return subject.asObservable()
+    }
+    
+    let maxAttemps = 3
+    
+    URLSession.shared.rx.data(request: URLRequest(url: url))
+      .retryWhen { e in
+        return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
+          guard let self = self else {
+            return Observable.just(1)
+          }
+          if attempt >= maxAttemps - 1 {
+            return Observable.error(error)
+          } else {
+            print("Retry after \(attempt + 2 + attempt * maxAttemps)")
+            return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: self.updatesScheduler)
+              .take(1)
+          }
+        }
+      }
+      .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
+      .map { data in
+        let decoder = JSONDecoder()
+        return try decoder.decode([NetworkAdvertisingCategoryData].self, from: data)
+      }
+      .subscribeOn(self.updatesScheduler)
+      .observeOn(self.updatesScheduler)
+      .bind(to: subject)
+      .disposed(by: self.disposeBag)
+    
+    return subject.asObservable()
+  }
 }

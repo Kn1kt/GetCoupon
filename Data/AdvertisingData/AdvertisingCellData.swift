@@ -26,4 +26,12 @@ class AdvertisingCellData {
     self.websiteLink = websiteLink
     self.priority = priority
   }
+  
+  /// Bridge for network data
+  
+  convenience init(_ cellData: NetworkAdvertisingCellData) {
+    self.init(imageLink: cellData.imageLink,
+              websiteLink: cellData.websiteLink,
+              priority: cellData.priority)
+  }
 }

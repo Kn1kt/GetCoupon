@@ -47,9 +47,9 @@ class HomeViewModel {
   
   let updatingTitle = BehaviorRelay<TitleTypes>(value: .default("Home"))
   
-  let _advEnabled = BehaviorRelay<Bool>(value: false)
+  let advEnabled = BehaviorRelay<Bool>(value: false)
   
-  let advEnabled: Driver<Bool>
+  let advSections = BehaviorRelay<Set<Int>>(value: Set<Int>())
   
   // MARK: - Init
   init() {
@@ -57,7 +57,6 @@ class HomeViewModel {
     self.navigator = Navigator()
     
     self.collections = _collections.share(replay: 1)
-    self.advEnabled = _advEnabled.asDriver()
     
     self.updateRefreshingStatus = isRefreshing
       .filter { !$0 }
@@ -81,6 +80,16 @@ class HomeViewModel {
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
+      .disposed(by: disposeBag)
+    
+    model.advSections
+      .observeOn(defaultScheduler)
+      .bind(to: advSections)
+      .disposed(by: disposeBag)
+    
+    model.advEnabled
+      .observeOn(defaultScheduler)
+      .bind(to: advEnabled)
       .disposed(by: disposeBag)
     
     ModelController.shared.isUpdatingData

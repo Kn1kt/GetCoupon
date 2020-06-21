@@ -21,9 +21,9 @@ class ShopData {
   
   let priority: Int
   
-  let websiteLink: String
+  var websiteLink: String
   
-  let imageLink: String
+  var imageLink: String
   let image = BehaviorRelay<UIImage?>(value: nil)
   
   let previewImageLink: String
