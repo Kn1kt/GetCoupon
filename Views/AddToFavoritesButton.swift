@@ -10,7 +10,7 @@ import UIKit
 
 class AddToFavoritesButton: UIButton {
   
-  var cell: ShopData?
+  weak var cell: ShopData?
   let checkbox = LikeImageView()
   
   override init(frame: CGRect) {
@@ -37,10 +37,10 @@ extension AddToFavoritesButton {
     addSubview(checkbox)
     
     NSLayoutConstraint.activate([
-      checkbox.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-      checkbox.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-      checkbox.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-      checkbox.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+      checkbox.leadingAnchor.constraint(equalTo: leadingAnchor, constant: layoutMargins.left),
+      checkbox.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -layoutMargins.right),
+      checkbox.topAnchor.constraint(equalTo: topAnchor, constant: layoutMargins.top),
+      checkbox.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -layoutMargins.bottom)
     ])
   }
 }

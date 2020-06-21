@@ -609,7 +609,7 @@ extension ShopViewController {
                             y: 110,
                             width: 140,
                             height: 140)
-    
+    logoView.layoutIfNeeded()
     logoView.imageView.backgroundColor = viewModel.currentShop.placeholderColor
     view.addSubview(logoView)
     

@@ -15,6 +15,7 @@ class LogoWithFavoritesButton: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    setupLayouts()
   }
   
   required init?(coder: NSCoder) {
@@ -22,13 +23,24 @@ class LogoWithFavoritesButton: UIView {
   }
   
   override func layoutSubviews() {
-    setupLayouts()
+    updateLayouts()
+  }
+  
+  override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+    if let view = super.hitTest(point, with: event),
+      view == favoritesButton {
+      return view
+    }
+    
+    return nil
   }
 }
 
 extension LogoWithFavoritesButton {
   
-  func setupLayouts() {
+  private func setupLayouts() {
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    favoritesButton.translatesAutoresizingMaskIntoConstraints = false
     
     addSubview(imageView)
     addSubview(favoritesButton)
@@ -39,24 +51,20 @@ extension LogoWithFavoritesButton {
     favoritesButton.backgroundColor = .secondarySystemGroupedBackground
     favoritesButton.clipsToBounds = true
     
-//    layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-//    layer.shadowOffset = CGSize(width: 0, height: 8)
-//    layer.shadowOpacity = 1
-//    layer.shadowRadius = 28
-//    layer.shouldRasterize = true
-//    layer.rasterizationScale = UIScreen.main.scale
-    
-//    favoritesButton.layer.shadowColor = UIColor.black.withAlphaComponent(0.1).cgColor
-//    favoritesButton.layer.shadowOffset = CGSize(width: 0, height: 8)
-//    favoritesButton.layer.shadowOpacity = 1
-//    favoritesButton.layer.shadowRadius = 28
-//    favoritesButton.layer.shouldRasterize = true
-//    favoritesButton.layer.rasterizationScale = UIScreen.main.scale
-    
-    imageView.frame = CGRect(x: 0, y: 0, width: bounds.size.width, height: bounds.size.height)
-    let side = frame.size.height * 0.3
-    favoritesButton.frame = CGRect(x: bounds.size.width - side, y: bounds.size.height - side, width: side, height: side)
-    
+    NSLayoutConstraint.activate([
+      imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      imageView.topAnchor.constraint(equalTo: topAnchor),
+      imageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      
+      favoritesButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+      favoritesButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+      favoritesButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
+      favoritesButton.widthAnchor.constraint(equalTo: favoritesButton.heightAnchor)
+    ])
+  }
+  
+  private func updateLayouts() {
     layer.cornerRadius = bounds.size.height * 0.5
     imageView.layer.cornerRadius = imageView.bounds.size.height * 0.5
     favoritesButton.layer.cornerRadius = favoritesButton.bounds.height * 0.5
