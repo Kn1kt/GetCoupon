@@ -100,17 +100,19 @@ extension HomeDataController {
         var collections = self._collections.value
         var advSections = Set<Int>()
         
-        advData.forEach { advSection in
-          advSections.insert(advSection.linkedSection + 1)
+        advData.enumerated().forEach { n, advSection in
+          advSections.insert(advSection.linkedSection + 1 + n)
           
           let castedSection = ShopCategoryData(categoryName: "AdvertisingCategoryData",
-                                               shops: advSection.adsList.map { advCell in
+                                               shops: advSection.adsList
+                                                .sorted { $0.priority > $1.priority }
+                                                .map { advCell in
                                                 return ShopData(name: "AdvertisingCell",
                                                                 shortDescription: "AdvertisingCell",
                                                                 websiteLink: advCell.websiteLink,
                                                                 previewImageLink: advCell.imageLink)
           })
-          collections.insert(castedSection, at: advSection.linkedSection + 1)
+          collections.insert(castedSection, at: advSection.linkedSection + 1 + n)
         }
         self._advSections.accept(advSections)
         self._advEnabled.accept(true)
