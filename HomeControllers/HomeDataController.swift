@@ -92,6 +92,8 @@ extension HomeDataController {
   private func embedAdv(_ advData: Observable<[AdvertisingCategoryData]>) {
     advData
 //      .delay(.seconds(2), scheduler: defaultScheduler)
+      .filter { !$0.isEmpty }
+      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] advData in
         guard let self = self,

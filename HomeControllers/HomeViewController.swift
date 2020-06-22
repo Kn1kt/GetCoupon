@@ -123,6 +123,9 @@ class HomeViewController: UIViewController {
         case .downloaded(let text):
           self?.navBarTitleView.setDownloadedTitle(to: text)
           
+        case .waitingForNetwork(let text):
+          self?.navBarTitleView.setDownloadedTitle(to: text)
+          
         case .error(let description, let text):
           self?.navBarTitleView.setErrorTitle(to: text)
           self?.navBarSubtitleView.promt.text = description
@@ -386,7 +389,7 @@ extension HomeViewController {
             cell.imageView.image = image
           } else {
             cell.imageView.backgroundColor = cellData.placeholderColor
-            self.viewModel.setupPreviewImage(for: cellData)
+            self.viewModel.setupAdvImage(for: cellData)
               .observeOn(MainScheduler.instance)
               .subscribe(onCompleted: {
                 cell.imageView.image = cellData.previewImage.value

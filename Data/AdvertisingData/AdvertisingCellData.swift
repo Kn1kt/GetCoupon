@@ -17,7 +17,7 @@ class AdvertisingCellData {
   /// Define ads place
   let priority: Int
   
-  let image = BehaviorRelay<UIImage?>(value: nil)
+//  let image = BehaviorRelay<UIImage?>(value: nil)
   
   init(imageLink: String,
        websiteLink: String,

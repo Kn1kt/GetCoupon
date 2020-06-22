@@ -16,6 +16,7 @@ class HomeViewModel {
     case `default`(String)
     case dowloading(String)
     case downloaded(String)
+    case waitingForNetwork(String)
     case error(String, String)
   }
   
@@ -107,13 +108,15 @@ class HomeViewModel {
           return .dowloading("Updating...")
         case .updated:
           return .downloaded("Successfully Updated")
+        case .waitingForNetwork:
+          return .waitingForNetwork("Waiting for Network...")
         case .error(let e):
           return .error(String(e.localizedDescription.prefix(while: { $0 != "." })), "Update Error")
         }
       }
       .filter { status in
         switch status {
-        case .downloaded(_):
+        case .downloaded(_), .waitingForNetwork(_):
           return false
         default:
           return true
@@ -152,13 +155,13 @@ class HomeViewModel {
             return false
         }
         switch status {
-        case .error(_):
+        case .waitingForNetwork:
           return true
         default:
           return false
         }
       }
-      .map { _ in .default("Home") }
+      .map { _ in .default("Waiting for Network...") }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
@@ -200,6 +203,10 @@ extension HomeViewModel {
   
   func setupPreviewImage(for shop: ShopData) -> Completable {
     return ModelController.shared.setupPreviewImage(for: shop)
+  }
+  
+  func setupAdvImage(for cell: ShopData) -> Completable {
+    return ModelController.shared.setupAdvImage(for: cell)
   }
 }
 

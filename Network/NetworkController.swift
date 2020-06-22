@@ -31,6 +31,25 @@ class NetworkController {
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
+  let connectionStatusSatisfied = Observable<Void>.create { observer in
+    debugPrint("Waiting for network...")
+    let queue = DispatchQueue(label: "NetwokMonitor", qos: .default)
+    let monitor = NWPathMonitor()
+    
+    monitor.pathUpdateHandler = { currentPath in
+      if currentPath.status == .satisfied {
+        observer.onNext(())
+        observer.onCompleted()
+      }
+    }
+    
+    monitor.start(queue: queue)
+    
+    return Disposables.create {
+      monitor.cancel()
+    }
+  }
+  
   /// Download Image
   func downloadImage(for urlString: String) -> Observable<UIImage> {
     guard let link = urlString
@@ -94,7 +113,7 @@ extension NetworkController {
             if attempt >= maxAttemps - 1 {
               return Observable.error(error)
             } else {
-              print("Retry after \(attempt + 2 + attempt * maxAttemps)")
+              debugPrint("Retry after \(attempt + 2 + attempt * maxAttemps)")
               return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: self.updatesScheduler)
                 .take(1)
             }
@@ -109,7 +128,6 @@ extension NetworkController {
         .observeOn(self.updatesScheduler)
         .bind(to: subject)
         .disposed(by: self.disposeBag)
-//    }
     
     return subject.asObservable()
   }

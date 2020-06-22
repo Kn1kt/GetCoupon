@@ -14,7 +14,7 @@ import RxCocoa
 class ModelController {
   
   enum DataStatus {
-    case updating, updated, unknown
+    case updating, updated, waitingForNetwork, unknown
     case error(Error)
   }
   
@@ -83,7 +83,9 @@ extension ModelController {
     self._dataUpdatingStatus.accept(.updating)
     self._isUpdatingData.accept(true)
     
-    NetworkController.shared.downloadCollections()
+    let networkData = NetworkController.shared.downloadCollections().share()
+    
+    networkData
       .observeOn(updatesScheduler)
       .subscribe(onNext: { networkCollections in
         let cache = CacheController()
@@ -97,6 +99,21 @@ extension ModelController {
                  onCompleted: {
         self._dataUpdatingStatus.accept(.updated)
         self._isUpdatingData.accept(false)
+      })
+      .disposed(by: disposeBag)
+    
+    networkData
+      .observeOn(updatesScheduler)
+      .subscribe(onError: { [weak self] error in
+        guard let self = self else { return }
+        self._dataUpdatingStatus.accept(.waitingForNetwork)
+        
+        NetworkController.shared.connectionStatusSatisfied
+          .subscribeOn(self.updatesScheduler)
+          .subscribe(onNext: {
+            self.setupCollections()
+          })
+          .disposed(by: self.disposeBag)
       })
       .disposed(by: disposeBag)
   }
@@ -264,7 +281,7 @@ extension ModelController {
       .ignoreElements()
   }
   
-  func setupImage(for cell: AdvertisingCellData) -> Completable {
+  func setupAdvImage(for cell: ShopData) -> Completable {
     let subject = PublishSubject<Void>()
     
     DispatchQueue.global(qos: .default).async { [weak self] in
@@ -273,12 +290,12 @@ extension ModelController {
         return
       }
       
-      NetworkController.shared.downloadImage(for: cell.imageLink)
+      NetworkController.shared.downloadImage(for: cell.previewImageLink)
         .take(1)
         .observeOn(self.defaultScheduler)
         .subscribe(onNext: { image in
-          if cell.image.value == nil {
-            cell.image.accept(image)
+          if cell.previewImage.value == nil {
+            cell.previewImage.accept(image)
           }
           subject.onCompleted()
         }, onError: { _ in
