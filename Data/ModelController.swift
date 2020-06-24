@@ -537,11 +537,11 @@ extension ModelController {
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         NetworkController.shared.downloadAdvOffer()
-          .map { (networkData: [NetworkAdvertisingCategoryData]) -> [AdvertisingCategoryData] in
-            return networkData.map(AdvertisingCategoryData.init)
-          }
-          .subscribeOn(self.defaultScheduler)
-          .bind(to: self._advData)
+          .observeOn(self.defaultScheduler)
+          .subscribe(onNext: { [weak self] networkData in
+            let data = networkData.map(AdvertisingCategoryData.init)
+            self?._advData.accept(data)
+          })
           .disposed(by: self.disposeBag)
       })
       .disposed(by: disposeBag)
