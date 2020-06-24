@@ -35,6 +35,8 @@ class HomeViewModel {
   
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
+  let showAdv = PublishRelay<ShopData>()
+  
   // MARK: - Output
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
   
@@ -77,7 +79,8 @@ class HomeViewModel {
     
     model.collections
       .skip(1)
-      .delay(.seconds(1), scheduler: eventScheduler)
+//      .delay(.seconds(1), scheduler: eventScheduler)
+      .debounce(.seconds(1), scheduler: eventScheduler)
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
@@ -195,6 +198,14 @@ class HomeViewModel {
         self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
       })
       .disposed(by: disposeBag)
+    
+    showAdv
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] cell in
+        print("OPEN ADV URL")
+        self.openWebsite(cell: cell)
+      })
+      .disposed(by: disposeBag)
   }
 }
 
@@ -214,8 +225,8 @@ extension HomeViewModel {
 extension HomeViewModel {
   
   private func showDetailVC(_ sender: ShowMoreUIButton, vc: UIViewController) {
-    guard let sectionIndex = sender.sectionIndex,
-          let section = model.section(for: sectionIndex) else { return }
+    guard let sectionTitle = sender.sectionTitle,
+          let section = model.section(for: sectionTitle) else { return }
     
     navigator.showHomeDetailVC(sender: vc,
                                model: model,
@@ -228,5 +239,16 @@ extension HomeViewModel {
   private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
     guard let category = shop.category else { return }
     navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
+  }
+}
+
+  // MARK: - openURL
+extension HomeViewModel {
+  
+  func openWebsite(cell: ShopData) {
+    guard let url = URL(string: cell.websiteLink) else {
+      return
+    }
+    UIApplication.shared.open(url)
   }
 }

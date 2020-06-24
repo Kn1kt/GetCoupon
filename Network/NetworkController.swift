@@ -90,44 +90,37 @@ extension NetworkController {
   func downloadCollections() -> Observable<[NetworkShopCategoryData]> {
     let subject = PublishSubject<[NetworkShopCategoryData]>()
     
-//    let queue = DispatchQueue(label: "monitor")
-//    let monitor = NWPathMonitor()
-//    monitor.start(queue: queue)
-//    monitor.pathUpdateHandler = { [unowned self] currentPath in
-      guard //currentPath.status == .satisfied,
-        let url = URL(string: self.serverLink) else {
-          subject.onCompleted()
-          return subject.asObservable()
-      }
-      
-//      monitor.cancel()
-      
-      let maxAttemps = 3
-      
-      URLSession.shared.rx.data(request: URLRequest(url: url))
-        .retryWhen { e in
-          return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
-            guard let self = self else {
-              return Observable.just(1)
-            }
-            if attempt >= maxAttemps - 1 {
-              return Observable.error(error)
-            } else {
-              debugPrint("Retry after \(attempt + 2 + attempt * maxAttemps)")
-              return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: self.updatesScheduler)
-                .take(1)
-            }
+    guard let url = URL(string: self.serverLink) else {
+      subject.onCompleted()
+      return subject.asObservable()
+    }
+    
+    let maxAttemps = 3
+    
+    URLSession.shared.rx.data(request: URLRequest(url: url))
+      .retryWhen { e in
+        return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
+          guard let self = self else {
+            return Observable.just(1)
+          }
+          if attempt >= maxAttemps - 1 {
+            return Observable.error(error)
+          } else {
+            debugPrint("Retry after \(attempt + 2 + attempt * maxAttemps)")
+            return Observable<Int>.timer(RxTimeInterval.seconds(attempt + 2 + attempt * maxAttemps), scheduler: self.updatesScheduler)
+              .take(1)
           }
         }
-        .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
-        .map { data in
-          let decoder = JSONDecoder()
-          return try decoder.decode([NetworkShopCategoryData].self, from: data)
-        }
-        .subscribeOn(self.updatesScheduler)
-        .observeOn(self.updatesScheduler)
-        .bind(to: subject)
-        .disposed(by: self.disposeBag)
+    }
+    .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
+    .map { data in
+      let decoder = JSONDecoder()
+      return try decoder.decode([NetworkShopCategoryData].self, from: data)
+    }
+    .subscribeOn(self.updatesScheduler)
+    .observeOn(self.updatesScheduler)
+    .bind(to: subject)
+    .disposed(by: self.disposeBag)
     
     return subject.asObservable()
   }

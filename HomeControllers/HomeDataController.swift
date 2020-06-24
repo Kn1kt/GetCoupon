@@ -24,16 +24,12 @@ class HomeDataController {
   private let _advSections = BehaviorRelay<Set<Int>>(value: Set<Int>())
   let advSections: Observable<Set<Int>>
   
-  func section(for index: Int) -> Observable<ShopCategoryData>? {
-    return ModelController.shared.section(for: index)
-  }
+  private let sectionWithTitles = BehaviorRelay<[String : Int]>(value: [:])
   
-  func category(for shop: ShopData) -> ShopCategoryData {
-    guard let category = _collections.value.first(where: { $0.shops.contains(shop) }) else {
-      fatalError("No category")
-    }
+  func section(for title: String) -> Observable<ShopCategoryData>? {
+    guard let sectionIndex = sectionWithTitles.value[title] else { return nil }
     
-    return category
+    return ModelController.shared.section(for: sectionIndex)
   }
   
   init(collections: Observable<[ShopCategoryData]>, advData: Observable<[AdvertisingCategoryData]>) {
@@ -46,6 +42,19 @@ class HomeDataController {
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _advEnabled)
+      .disposed(by: disposeBag)
+    
+    collections
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { [weak self] collections in
+        guard let self = self else { return }
+        let sectionWithTitles = collections.enumerated().reduce(into: [String : Int]()) { result, section in
+          guard section.element.categoryName != "AdvertisingCategoryData" else { return }
+          result[section.element.categoryName] = section.offset
+        }
+        
+        self.sectionWithTitles.accept(sectionWithTitles)
+      })
       .disposed(by: disposeBag)
     
     collections.map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
@@ -91,7 +100,6 @@ extension HomeDataController {
   
   private func embedAdv(_ advData: Observable<[AdvertisingCategoryData]>) {
     advData
-//      .delay(.seconds(2), scheduler: defaultScheduler)
       .filter { !$0.isEmpty }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
@@ -103,7 +111,10 @@ extension HomeDataController {
         var advSections = Set<Int>()
         
         advData.enumerated().forEach { n, advSection in
-          advSections.insert(advSection.linkedSection + 1 + n)
+          let index = advSection.linkedSection + 1 + n
+          let correctedIndex = index > collections.endIndex ? collections.endIndex : index
+          
+          advSections.insert(correctedIndex)
           
           let castedSection = ShopCategoryData(categoryName: "AdvertisingCategoryData",
                                                shops: advSection.adsList
@@ -114,7 +125,8 @@ extension HomeDataController {
                                                                 websiteLink: advCell.websiteLink,
                                                                 previewImageLink: advCell.imageLink)
           })
-          collections.insert(castedSection, at: advSection.linkedSection + 1 + n)
+          
+          collections.insert(castedSection, at: correctedIndex)
         }
         self._advSections.accept(advSections)
         self._advEnabled.accept(true)

@@ -55,10 +55,10 @@ class HomeDetailViewModel {
     self.navigator = navigator
     self.model = model
     
-    self.section = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
-    self.sectionByDates = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
+    self.section = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: ""))
+    self.sectionByDates = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: ""))
     
-    self._currentSection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: "Empty"))
+    self._currentSection = BehaviorRelay<ShopCategoryData>(value: ShopCategoryData(categoryName: ""))
     
     self.currentSection = _currentSection.asDriver()
     

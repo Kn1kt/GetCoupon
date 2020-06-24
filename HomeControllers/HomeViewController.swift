@@ -85,13 +85,21 @@ class HomeViewController: UIViewController {
     
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
-      .map { [unowned self] indexPath in
-        let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-        return (self, selectedShop)
-      }
-      .subscribeOn(eventScheduler)
+//      .map { [unowned self] indexPath in
+//        let selectedCell = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
+//        return (self, selectedCell)
+//      }
+//      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
-      .bind(to: viewModel.showShopVC)
+      .subscribe(onNext: { [unowned self] indexPath in
+        let selectedCell = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
+        if selectedCell.name == "AdvertisingCell" {
+          self.viewModel.showAdv.accept(selectedCell)
+        } else {
+          self.viewModel.showShopVC.accept((self, selectedCell))
+        }
+      })
+//      .bind(to: viewModel.showShopVC)
       .disposed(by: disposeBag)
   }
   
@@ -286,6 +294,7 @@ extension HomeViewController {
     let titleSupplementary = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: titleSize,
                                                                          elementKind: HomeViewController.titleElementKind,
                                                                          alignment: .top)
+    
     section.boundarySupplementaryItems = [titleSupplementary]
     
     return section
@@ -378,8 +387,7 @@ extension HomeViewController {
         
         guard let self = self else { return nil }
         
-        if self.viewModel.advEnabled.value,
-          self.viewModel.advSections.value.contains(indexPath.section) {
+        if cellData.name == "AdvertisingCell" {
           guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AdverstingImageCollectionViewCell.reuseIdentifier,
                                                               for: indexPath) as? AdverstingImageCollectionViewCell else {
                                                                 fatalError("Can't create new adv cell")
@@ -462,7 +470,7 @@ extension HomeViewController {
       let section = snapshot.sectionIdentifiers[indexPath.section]
       titleSupplementary.label.text = section.categoryName
       
-      titleSupplementary.showMoreButton.sectionIndex = indexPath.section
+      titleSupplementary.showMoreButton.sectionTitle = section.categoryName
       
       if indexPath.section != 0 {
         titleSupplementary.showMoreButton.isHidden = false

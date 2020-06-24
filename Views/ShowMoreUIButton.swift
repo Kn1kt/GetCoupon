@@ -10,7 +10,7 @@ import UIKit
 
 class ShowMoreUIButton: UIButton {
   
-  var sectionIndex: Int?
+  var sectionTitle: String?
   
   init() {
     super.init(frame: .zero)

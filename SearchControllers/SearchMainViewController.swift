@@ -12,8 +12,6 @@ import RxCocoa
 
 class SearchMainViewController: UIViewController {
   
-  static let titleElementKind = "title-element-kind"
-  
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
