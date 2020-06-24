@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SafariServices
 
 class HomeViewModel {
   
@@ -33,9 +34,10 @@ class HomeViewModel {
   
   let showDetailVC = PublishRelay<(ShowMoreUIButton, UIViewController)>()
   
-  let showShopVC = PublishRelay<(UIViewController, ShopData)>()
+  let selectedCell = PublishRelay<(UIViewController, ShopData)>()
+//  let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
-  let showAdv = PublishRelay<ShopData>()
+//  let showAdv = PublishRelay<ShopData>()
   
   // MARK: - Output
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
@@ -191,19 +193,15 @@ class HomeViewModel {
       })
       .disposed(by: disposeBag)
     
-    showShopVC
+    selectedCell
       .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [unowned self] (vc, shop) in
-        let isEnabled = !self.isRefreshing.value
-        self.showShopVC(vc, shop: shop, favoritesButton: isEnabled)
-      })
-      .disposed(by: disposeBag)
-    
-    showAdv
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [unowned self] cell in
-        print("OPEN ADV URL")
-        self.openWebsite(cell: cell)
+      .subscribe(onNext: { [unowned self] (vc, cell) in
+        if cell.name == "AdvertisingCell" {
+          self.openWebsite(vc, cell: cell)
+        } else {
+          let isEnabled = !self.isRefreshing.value
+          self.showShopVC(vc, shop: cell, favoritesButton: isEnabled)
+        }
       })
       .disposed(by: disposeBag)
   }
@@ -245,10 +243,13 @@ extension HomeViewModel {
   // MARK: - openURL
 extension HomeViewModel {
   
-  func openWebsite(cell: ShopData) {
-    guard let url = URL(string: cell.websiteLink) else {
+  func openWebsite(_ vc: UIViewController, cell: ShopData) {
+    let link = cell.websiteLink.hasPrefix("http") ? cell.websiteLink : "http://" + cell.websiteLink
+    guard let url = URL(string: link) else {
       return
     }
-    UIApplication.shared.open(url)
+    
+    let safariVC = SFSafariViewController(url: url)
+    vc.present(safariVC, animated: true, completion: nil)
   }
 }

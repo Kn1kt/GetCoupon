@@ -85,21 +85,11 @@ class HomeViewController: UIViewController {
     
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
-//      .map { [unowned self] indexPath in
-//        let selectedCell = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-//        return (self, selectedCell)
-//      }
-//      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .subscribe(onNext: { [unowned self] indexPath in
         let selectedCell = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
-        if selectedCell.name == "AdvertisingCell" {
-          self.viewModel.showAdv.accept(selectedCell)
-        } else {
-          self.viewModel.showShopVC.accept((self, selectedCell))
-        }
+        self.viewModel.selectedCell.accept((self, selectedCell))
       })
-//      .bind(to: viewModel.showShopVC)
       .disposed(by: disposeBag)
   }
   
