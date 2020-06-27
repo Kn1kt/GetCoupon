@@ -267,7 +267,7 @@ extension HomeDetailViewController {
           
           self.viewModel.currentSection
             .map { section in
-              return "\(section.shops.count) shops"
+              return "\(section.shops.count) " + NSLocalizedString("shops", comment: "Shops")
           }
           .drive(cell.countLabel.rx.text)
           .disposed(by: cell.disposeBag)

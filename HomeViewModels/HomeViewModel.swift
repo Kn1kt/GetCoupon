@@ -50,7 +50,7 @@ class HomeViewModel {
   /// Send stopRefreshing to refresh
   let updateRefreshingStatus: Driver<Bool>
   
-  let updatingTitle = BehaviorRelay<TitleTypes>(value: .default("Home"))
+  let updatingTitle = BehaviorRelay<TitleTypes>(value: .default(NSLocalizedString("default-status", comment: "Home")))
   
   let advEnabled = BehaviorRelay<Bool>(value: false)
   
@@ -108,15 +108,15 @@ class HomeViewModel {
       .map { (status: ModelController.DataStatus) -> TitleTypes in
         switch status {
         case .unknown:
-          return .default("Home")
+          return .default(NSLocalizedString("default-status", comment: "Home"))
         case .updating:
-          return .dowloading("Updating...")
+          return .dowloading(NSLocalizedString("updating-status", comment: "Updating..."))
         case .updated:
-          return .downloaded("Successfully Updated")
+          return .downloaded(NSLocalizedString("updated-status", comment: "Successfully Updated"))
         case .waitingForNetwork:
-          return .waitingForNetwork("Waiting for Network...")
+          return .waitingForNetwork(NSLocalizedString("waiting-for-nework-status", comment: "Waiting for Network..."))
         case .error(let e):
-          return .error(String(e.localizedDescription.prefix(while: { $0 != "." })), "Update Error")
+          return .error(String(e.localizedDescription.prefix(while: { $0 != "." })), NSLocalizedString("error-status", comment: "Udpate Error"))
         }
       }
       .filter { status in
@@ -146,7 +146,7 @@ class HomeViewModel {
           return false
         }
       }
-      .map { _ in .default("Home") }
+      .map { _ in .default(NSLocalizedString("default-status", comment: "Home")) }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
@@ -166,7 +166,7 @@ class HomeViewModel {
           return false
         }
       }
-      .map { _ in .default("Waiting for Network...") }
+      .map { _ in .default(NSLocalizedString("waiting-for-nework-status", comment: "Waiting for Network...")) }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
@@ -244,8 +244,7 @@ extension HomeViewModel {
 extension HomeViewModel {
   
   func openWebsite(_ vc: UIViewController, cell: ShopData) {
-    let link = cell.websiteLink.hasPrefix("http") ? cell.websiteLink : "http://" + cell.websiteLink
-    guard let url = URL(string: link) else {
+    guard let url = URL(string: cell.websiteLink) else {
       return
     }
     

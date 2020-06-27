@@ -57,7 +57,7 @@ class FavoritesDataController {
             }
             return lhsDate > rhsDate
           }
-        let name = shops.isEmpty ? "" : "Dates"
+        let name = shops.isEmpty ? "" : NSLocalizedString("sort-by-dates", comment: "Sort by Dates")
         return [ShopCategoryData(categoryName: name,
                                 shops: shops)]
       }

@@ -15,7 +15,7 @@ class HomeDetailSegmentedControlCollectionViewCell: UICollectionViewCell {
   
   static let reuseIdentifier = "home-detail-segmented-control-cell-reuse-identifier"
   
-  let segmentedControl = UISegmentedControl(items: ["By popularity", "By dates"])
+  let segmentedControl = UISegmentedControl(items: [NSLocalizedString("by-popularity", comment: "by Popularity"), NSLocalizedString("by-dates", comment: "by Dates")])
   let countLabel = UILabel()
   
   override init(frame: CGRect) {

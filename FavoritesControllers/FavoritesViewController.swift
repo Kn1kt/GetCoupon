@@ -36,7 +36,7 @@ class FavoritesViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    navigationItem.title = "Favorites"
+    navigationItem.title = NSLocalizedString("favorites", comment: "Favorites")
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     

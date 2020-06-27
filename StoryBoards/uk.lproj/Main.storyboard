@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="efY-YD-uVf">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="eRr-Ip-lsI">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="efY-YD-uVf" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="hKZ-hN-Xot">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="selectedImageTintColor" name="BlueTintColor"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="ijU-7M-CVb" kind="relationship" relationship="viewControllers" id="plD-ps-FYw"/>
+                        <segue destination="Gwi-XI-4Xv" kind="relationship" relationship="viewControllers" id="fNZ-tr-d8D"/>
+                        <segue destination="ngz-RQ-qRm" kind="relationship" relationship="viewControllers" id="1hb-4C-8CR"/>
+                        <segue destination="EGq-DW-IWJ" kind="relationship" relationship="viewControllers" id="neE-ak-BaV"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jma-DB-xhn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1180" y="130"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="Gad-uJ-ImV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Home" id="ijU-7M-CVb" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="House" image="house" catalog="system" badgeValue="1" selectedImage="house.fill" id="Ntk-Yo-h5h"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SbR-3D-4vB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1764" y="-161"/>
+        </scene>
+        <!--Favourites-->
+        <scene sceneID="0KB-Jh-NuR">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Favourites" id="Gwi-XI-4Xv" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Favourites" image="heart" catalog="system" selectedImage="heart.fill" id="qWQ-mC-og4"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GFZ-uz-jvl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2022" y="-27"/>
+        </scene>
+        <!--Search-->
+        <scene sceneID="1kA-pm-vnx">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Search" id="ngz-RQ-qRm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="JCm-IS-3A2"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jQe-wL-xOh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2007" y="271"/>
+        </scene>
+        <!--Settings-->
+        <scene sceneID="30J-rb-WIN">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" id="EGq-DW-IWJ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Settings" image="line.horizontal.3" catalog="system" selectedImage="line.horizontal.3" id="NBO-Et-vGZ"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EAF-0F-uYx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1775" y="421"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="heart" catalog="system" width="64" height="54"/>
+        <image name="heart.fill" catalog="system" width="64" height="54"/>
+        <image name="house" catalog="system" width="64" height="54"/>
+        <image name="house.fill" catalog="system" width="64" height="52"/>
+        <image name="line.horizontal.3" catalog="system" width="64" height="32"/>
+        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+        <namedColor name="BlueTintColor">
+            <color red="0.32300001382827759" green="0.53200000524520874" blue="0.85500001907348633" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+    </resources>
+</document>

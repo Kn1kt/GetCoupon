@@ -16,6 +16,7 @@ class AdvertisingImageCollectionViewCell: UICollectionViewCell {
   var disposeBag = DisposeBag()
   
   let imageView = UIImageView()
+  let adMark = AdvertisingMarkView()
   
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -33,7 +34,10 @@ extension AdvertisingImageCollectionViewCell {
   
   func setupLayouts() {
     imageView.translatesAutoresizingMaskIntoConstraints = false
+    adMark.translatesAutoresizingMaskIntoConstraints = false
+    
     contentView.addSubview(imageView)
+    contentView.addSubview(adMark)
     
     selectedBackgroundView = UIView()
     selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
@@ -45,11 +49,15 @@ extension AdvertisingImageCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
+    let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
       imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+      imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      
+      adMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      adMark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
     ])
     
   }

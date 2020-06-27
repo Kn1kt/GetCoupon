@@ -17,7 +17,7 @@ class ShowMoreUIButton: UIButton {
     
     titleLabel?.adjustsFontForContentSizeCategory = true
     titleLabel?.font = UIFont.preferredFont(forTextStyle: .body)
-    setTitle("See All", for: .normal)
+    setTitle(NSLocalizedString("see-all", comment: "See All"), for: .normal)
     setTitleColor(UIColor(named: "BlueTintColor"), for: .normal)
     setTitleColor(.systemGray, for: .highlighted)
     titleLabel?.textAlignment = .right

@@ -34,7 +34,7 @@ class HomeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
-    navigationItem.title = "Home"
+    navigationItem.title = NSLocalizedString("default-status", comment: "Home")
     navigationItem.titleView = navBarTitleView
     
     configureCollectionView()
@@ -361,8 +361,8 @@ extension HomeViewController {
     collectionView.register(HomeCaptionImageCollectionViewCell.self,
                             forCellWithReuseIdentifier: HomeCaptionImageCollectionViewCell.reuseIdentifier)
     
-    collectionView.register(AdverstingImageCollectionViewCell.self,
-                            forCellWithReuseIdentifier: AdverstingImageCollectionViewCell.reuseIdentifier)
+    collectionView.register(AdvertisingImageCollectionViewCell.self,
+                            forCellWithReuseIdentifier: AdvertisingImageCollectionViewCell.reuseIdentifier)
     
     collectionView.register(TitleSupplementaryView.self,
                             forSupplementaryViewOfKind: HomeViewController.titleElementKind,
@@ -378,8 +378,8 @@ extension HomeViewController {
         guard let self = self else { return nil }
         
         if cellData.name == "AdvertisingCell" {
-          guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AdverstingImageCollectionViewCell.reuseIdentifier,
-                                                              for: indexPath) as? AdverstingImageCollectionViewCell else {
+          guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AdvertisingImageCollectionViewCell.reuseIdentifier,
+                                                              for: indexPath) as? AdvertisingImageCollectionViewCell else {
                                                                 fatalError("Can't create new adv cell")
           }
           

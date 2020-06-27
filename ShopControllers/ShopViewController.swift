@@ -674,7 +674,7 @@ extension ShopViewController {
                                                                 fatalError("Can't create new cell")
           }
           
-          cell.couponsCount.imageDescription.text = "\(self.viewModel.currentShop.promoCodes.count) Coupons"
+          cell.couponsCount.imageDescription.text = "\(self.viewModel.currentShop.promoCodes.count) " + NSLocalizedString("coupons", comment: "Coupons")
           cell.couponsCount.imageView.tintColor = UIColor(named: "BlueTintColor")
           cell.couponsCount.imageDescription.textColor = UIColor(named: "BlueTintColor")
           
@@ -712,13 +712,13 @@ extension ShopViewController {
           cell.promocodeView.promocodeLabel.text = cellData.coupon
           
           if cellData.addingDate > Date(timeIntervalSinceNow: 0) {
-            cell.addingDateLabel.text = "PINNED"
+            cell.addingDateLabel.text = NSLocalizedString("pinned", comment: "PINNED")
           } else {
-            cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
+            cell.addingDateLabel.text = NSLocalizedString("posted", comment: "Posted") + ": " + self.dateFormatter.string(from: cellData.addingDate)
           }
           
 //          cell.addingDateLabel.text = "Posted: " + self.dateFormatter.string(from: cellData.addingDate)
-          cell.estimatedDateLabel.text = "Expire: " + self.dateFormatter.string(from: cellData.estimatedDate)
+          cell.estimatedDateLabel.text = NSLocalizedString("expire", comment: "Expire") + ": " + self.dateFormatter.string(from: cellData.estimatedDate)
           
           return cell
         }
@@ -779,10 +779,10 @@ extension ShopViewController {
   }
   
   private func showWebsiteAlert() {
-    let title = "Shop Website"
-    let message = "Are u actually wanna open website of this shop?"
-    let cancelButtonTitle = "Cancel"
-    let okButtonTitle = "Open"
+    let title = NSLocalizedString("shop-website-alert-title", comment: "Shop Website")
+    let message = NSLocalizedString("shop-website-alert-subtitle", comment: "This store’s website will open.")
+    let cancelButtonTitle = NSLocalizedString("cancel", comment: "Cancel")
+    let okButtonTitle = NSLocalizedString("open", comment: "Open")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
     
@@ -934,7 +934,7 @@ extension ShopViewController {
     popupView.textView.text = promocode.description
     
     popupView.promocodeView.promocodeLabel.text = promocode.coupon
-    popupView.expirationDateLabel.text = "Expire at " + dateFormatter.string(from: promocode.estimatedDate)
+    popupView.expirationDateLabel.text = NSLocalizedString("exprire-at", comment: "Expire at") + " " + dateFormatter.string(from: promocode.estimatedDate)
   }
 }
 

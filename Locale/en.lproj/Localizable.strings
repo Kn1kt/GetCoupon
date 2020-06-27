@@ -1,0 +1,91 @@
+/* 
+  Localizable.strings
+  GetCoupon
+
+  Created by Nikita Konashenko on 26.06.2020.
+  Copyright © 2020 Nikita Konashenko. All rights reserved.
+*/
+
+  // MARK: - Home Screen Update Statuses
+"default-status" = "Home";
+"updating-status" = "Updating...";
+"updated-status" = "Successfully Updated";
+"error-status" = "Udpate Error";
+"waiting-for-nework-status" = "Waiting for Network...";
+
+// MARK: - Home Screen
+"see-all" = "See All";
+
+// MARK: - Home Detail Screen
+
+
+// MARK: - Favorites Screen
+"favorites" = "Favorites";
+"sort-by-dates" = "Sort by Dates";
+
+// MARK: - Search Screen
+
+
+// MARK: - Settings Screen
+"settings" = "Settings";
+"basic-settings" = "Basic";
+"additional-settings" = "Additional";
+
+"push-notifications-title" = "Push Notifications";
+"push-notifications-subtitle" = "Receive push notifications of new promo codes";
+
+"catalog-updating-title" = "Force Catalog Updating";
+"catalog-updating-subtitle" = "Update promo codes automatically every time you open the application";
+
+"clear-cache-title" = "Clear Cache";
+
+"share-promocode-title" = "Share Your Promo Code";
+"share-promocode-subtitle" = "Found a new promo code?\nSend us and we will add it";
+"share-promocode-screen-bar" = "Share";
+"share-promocode-screen-title" = "Share Your Coupon";
+"share-promocode-screen-subtitle" = "Send us a link to the site where you found the coupon.";
+
+"rate-us-title" = "Rate Us";
+
+"terms-of-service-title" = "Terms of Service";
+
+"give-feedback-title" = "Give Feedback";
+"general-feedback-bar" = "Feedback";
+"general-feedback-title" = "General Feedback";
+"general-feedback-subtitle" = "Briefly explain what you love, or what could improve.";
+
+"contact-us-title" = "Contact Us";
+
+"notifications-alert-title" = "No Access to Notifications";
+"notifications-alert-subtitle" = "Please, allow notifications for GetCoupon app in settings.";
+
+"deleting-images-alert-title" = "Deleting Cached Images";
+"deleting-images-alert-subtitle" = "All cached images will be deleted.";
+"deleting-images-alert-done" = "Clear Cache";
+
+"review-alert-title" = "Rate Our App";
+"review-alert-subtitle" = "Please leave a review about the application.\n(just placeholder)";
+
+
+ // MARK: - Shop Screen
+"coupons" = "Coupons";
+"website" = "Website";
+"share" = "Share";
+"pinned" = "PINNED";
+"posted" = "Posted";
+"expire" = "Expire";
+"exprire-at" = "Expire at";
+"shop-website-alert-title" = "Shop Website";
+"shop-website-alert-subtitle" = "This store’s website will open.";
+
+// MARK: - Common
+"copied-successfully" = "Copied Successfully";
+"by-sections" = "by Sections";
+"by-popularity" = "by Popularity";
+"by-dates" = "by Dates";
+"search" = "Search";
+"shops" = "Shops";
+"cancel" = "Cancel";
+"send" = "Send";
+"open" = "Open";
+"ok" = "OK";

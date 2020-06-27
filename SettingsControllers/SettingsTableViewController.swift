@@ -21,6 +21,7 @@ class SettingsTableViewController: UITableViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    navigationItem.title = NSLocalizedString("settings", comment: "Settings")
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     
     bindViewModel()
@@ -138,9 +139,9 @@ class SettingsTableViewController: UITableViewController {
   private func sectionHeader(for section: Int) -> String {
     switch section {
     case 0:
-      return "Basic"
+      return NSLocalizedString("basic-settings", comment: "Basic")
     case 1:
-      return "Additional"
+      return NSLocalizedString("additional-settings", comment: "Additional")
     default:
       fatalError("Overbound Sections")
     }
@@ -155,8 +156,8 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Push Notifications"
-    cell.subtitleLabel.text = "Receive push notifications of new promo codes"
+    cell.titleLabel.text = NSLocalizedString("push-notifications-title", comment: "Push Notifications")
+    cell.subtitleLabel.text = NSLocalizedString("push-notifications-subtitle", comment: "Receive push notifications of new promo codes")
     
     viewModel.pushNotificationsSwitherShould
       .drive(onNext: { [weak self] isOn in
@@ -181,8 +182,8 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Force Catalog Updating"
-    cell.subtitleLabel.text = "Update promo codes automatically every time you open the application"
+    cell.titleLabel.text = NSLocalizedString("catalog-updating-title", comment: "Force Catalog Updating")
+    cell.subtitleLabel.text = NSLocalizedString("catalog-updating-subtitle", comment: "Update promo codes automatically every time you open the application")
     
     cell.switcher.isOn = viewModel.forceCatalogUpdating.value
     cell.switcher.rx.isOn
@@ -200,7 +201,7 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Clear Cache"
+    cell.titleLabel.text = NSLocalizedString("clear-cache-title", comment: "Clear Cache")
     
     return cell
   }
@@ -210,8 +211,8 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Share Your Promo Code"
-    cell.subtitleLabel.text = "Found a new promo code?\nSend us and we will add it"
+    cell.titleLabel.text = NSLocalizedString("share-promocode-title", comment: "Share Your Promo Code")
+    cell.subtitleLabel.text = NSLocalizedString("share-promocode-subtitle", comment: "Found a new promo code?\nSend us and we will add it")
     
     return cell
   }
@@ -221,7 +222,7 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Rate Us"
+    cell.titleLabel.text = NSLocalizedString("rate-us-title", comment: "Rate Us")
     
     return cell
   }
@@ -231,7 +232,7 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Terms of Service"
+    cell.titleLabel.text = NSLocalizedString("terms-of-service-title", comment: "Terms of Service")
     
     return cell
   }
@@ -241,7 +242,7 @@ extension SettingsTableViewController {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "Give Feedback"
+    cell.titleLabel.text = NSLocalizedString("give-feedback-title", comment: "Give Feedback")
     
     return cell
   }
@@ -315,10 +316,10 @@ extension SettingsTableViewController {
   
   // MARK: - Push Alert
   private func showPushDisabledAlert() {
-    let alertController = UIAlertController(title: "No Access to Notifications",
-                                            message: "Please, allow notifications for GetCoupon app in settings.",
+    let alertController = UIAlertController(title: NSLocalizedString("notifications-alert-title", comment: "No Access to Notifications"),
+                                            message: NSLocalizedString("notifications-alert-subtitle", comment: "Please, allow notifications for GetCoupon app in settings."),
                                             preferredStyle: .alert)
-    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+    let action = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
     alertController.addAction(action)
     
     present(alertController, animated: true, completion: nil)
@@ -326,10 +327,10 @@ extension SettingsTableViewController {
   
   // MARK: - Cache Alert
   private func showClearCacheAlert() {
-    let title = "Deleting Cached Images"
-    let message = "Are u actually wanna delete all cached images?"
-    let cancelButtonTile = "Cancel"
-    let destructiveButtonTitle = "Clear Cache"
+    let title = NSLocalizedString("deleting-images-alert-title", comment: "Deleting Cached Images")
+    let message = NSLocalizedString("deleting-images-alert-subtitle", comment: "All cached images will be deleted.")
+    let cancelButtonTile = NSLocalizedString("cancel", comment: "Cancel")
+    let destructiveButtonTitle = NSLocalizedString("deleting-images-alert-done", comment: "Clear Cache")
     
     let alertController = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
     
@@ -351,10 +352,10 @@ extension SettingsTableViewController {
   
   // MARK: - Rate Us Alert
   private func showRateUsAlert() {
-    let alertController = UIAlertController(title: "Rate Our App",
-                                            message: "Please leave a review about the application.\n(just placeholder)",
+    let alertController = UIAlertController(title: NSLocalizedString("review-alert-title", comment: "Rate Our App"),
+                                            message: NSLocalizedString("review-alert-subtitle", comment: "Please leave a review about the application."),
                                             preferredStyle: .alert)
-    let action = UIAlertAction(title: "OK", style: .default, handler: nil)
+    let action = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
     alertController.addAction(action)
     
     present(alertController, animated: true, completion: nil)

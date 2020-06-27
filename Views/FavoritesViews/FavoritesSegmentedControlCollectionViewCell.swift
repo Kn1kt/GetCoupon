@@ -15,7 +15,7 @@ class FavoritesSegmentedControlCollectionViewCell: UICollectionViewCell {
   
   static let reuseIdentifier = "favorites-segmented-control-cell-reuse-identifier"
   
-  let segmentedControl = UISegmentedControl(items: ["By sections", "By dates"])
+  let segmentedControl = UISegmentedControl(items: [NSLocalizedString("by-sections", comment: "by Sections"), NSLocalizedString("by-dates", comment: "by Dates")])
   
   override init(frame: CGRect) {
     super.init(frame: frame)

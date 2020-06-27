@@ -57,13 +57,13 @@ class FeedbackViewModel {
   private func updateLabels() {
     switch feedbackType {
     case .general:
-      navBarTitleText = "Feedback"
-      titleText = "General Feedback"
-      subtitleText = "Briefly explain what you love, or what could improve."
+      navBarTitleText = NSLocalizedString("general-feedback-bar", comment: "Feedback")
+      titleText = NSLocalizedString("general-feedback-title", comment: "General Feedback")
+      subtitleText = NSLocalizedString("general-feedback-subtitle", comment: "Briefly explain what you love, or what could improve.")
     case .coupon:
-      navBarTitleText = "Share"
-      titleText = "Share Your Coupon"
-      subtitleText = "Send us a link to the site where you found the coupon."
+      navBarTitleText = NSLocalizedString("share-promocode-screen-bar", comment: "Share")
+      titleText = NSLocalizedString("share-promocode-screen-title", comment: "Share Your Coupon")
+      subtitleText = NSLocalizedString("share-promocode-screen-subtitle", comment: "Send us a link to the site where you found the coupon.")
     }
   }
 }

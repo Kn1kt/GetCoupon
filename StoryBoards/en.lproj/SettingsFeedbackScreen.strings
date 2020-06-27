@@ -1,0 +1,15 @@
+
+/* Class = "UIBarButtonItem"; title = "Cancel"; ObjectID = "EoH-c2-P63"; */
+"EoH-c2-P63.title" = "Cancel";
+
+/* Class = "UINavigationItem"; title = "Feedback"; ObjectID = "Uu9-ky-lvy"; */
+"Uu9-ky-lvy.title" = "Feedback";
+
+/* Class = "UILabel"; text = "General Feedback"; ObjectID = "Xh6-s1-njZ"; */
+"Xh6-s1-njZ.text" = "General Feedback";
+
+/* Class = "UILabel"; text = "Briefly explain what you love, or what could improve."; ObjectID = "eCz-e5-aW9"; */
+"eCz-e5-aW9.text" = "Briefly explain what you love, or what could improve.";
+
+/* Class = "UIBarButtonItem"; title = "Send"; ObjectID = "vJk-SN-7Co"; */
+"vJk-SN-7Co.title" = "Send";

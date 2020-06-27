@@ -34,7 +34,7 @@ extension SearchCollectionViewCell {
     
     searchBar.translatesAutoresizingMaskIntoConstraints = false
     searchBar.searchBarStyle = .minimal
-    searchBar.placeholder = "Search"
+    searchBar.placeholder = NSLocalizedString("search", comment: "Search")
     
     contentView.addSubview(searchBar)
     

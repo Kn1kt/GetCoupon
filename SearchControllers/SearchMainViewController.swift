@@ -48,7 +48,7 @@ class SearchMainViewController: UIViewController {
     
     navigationItem.searchController = searchController
     navigationController?.navigationBar.prefersLargeTitles = true
-    navigationItem.title = "Search"
+    navigationItem.title = NSLocalizedString("search", comment: "Search")
     navigationItem.hidesSearchBarWhenScrolling = false
     
     configureCollectionView()
