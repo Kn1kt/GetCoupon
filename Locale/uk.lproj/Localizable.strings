@@ -34,9 +34,6 @@
 "push-notifications-title" = "Push-Уведомления";
 "push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах";
 
-"catalog-updating-title" = "Принудительное Обновление Каталога";
-"catalog-updating-subtitle" = "Обновлять промо-коды автоматически при каждом открытии приложения";
-
 "clear-cache-title" = "Очистить Кэш";
 
 "share-promocode-title" = "Поделиться Своим Промо-кодом";
@@ -54,7 +51,7 @@
 "general-feedback-title" = "Общий Отзыв";
 "general-feedback-subtitle" = "Кратко объясните, что вы любите, или что можно улучшить.";
 
-"contact-us-title" = "Связаться с Нами";
+"contact-us-title" = "По Вопросам Сотрудничества";
 
 "notifications-alert-title" = "Нет Доступа к Уведомлениям";
 "notifications-alert-subtitle" = "Пожалуйста, включите уведомления для приложения GetCoupon в настройках.";

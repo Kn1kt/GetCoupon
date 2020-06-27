@@ -34,36 +34,33 @@
 "push-notifications-title" = "Push-Уведомления";
 "push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах";
 
-"catalog-updating-title" = "Принудительное Обновление Каталога";
-"catalog-updating-subtitle" = "Обновлять промо-коды автоматически при каждом открытии приложения";
+"clear-cache-title" = "Очистить кэш";
 
-"clear-cache-title" = "Очистить Кэш";
-
-"share-promocode-title" = "Поделиться Своим Промо-кодом";
-"share-promocode-subtitle" = "Нашли новый промо-код?\nОтправьте нам, и мы добавим его";
+"share-promocode-title" = "Поделиться своим промокодом";
+"share-promocode-subtitle" = "Нашли новый промокод?\nОтправьте нам, и мы добавим его";
 "share-promocode-screen-bar" = "Поделиться";
-"share-promocode-screen-title" = "Поделитесь Своим Промо-кодом";
+"share-promocode-screen-title" = "Поделитесь своим промокодом";
 "share-promocode-screen-subtitle" = "Отправьте нам ссылку на сайт, где вы нашли купон.";
 
-"rate-us-title" = "Оценить Нас";
+"rate-us-title" = "Оценить нас";
 
-"terms-of-service-title" = "Условия Использования";
+"terms-of-service-title" = "Условия использования";
 
-"give-feedback-title" = "Оставить Отзыв";
-"general-feedback-bar" = "Обратная Связь";
-"general-feedback-title" = "Общий Отзыв";
+"give-feedback-title" = "Оставить отзыв";
+"general-feedback-bar" = "Обратная связь";
+"general-feedback-title" = "Общий отзыв";
 "general-feedback-subtitle" = "Кратко объясните, что вы любите, или что можно улучшить.";
 
-"contact-us-title" = "Связаться с Нами";
+"contact-us-title" = "По вопросам сотрудничества";
 
-"notifications-alert-title" = "Нет Доступа к Уведомлениям";
+"notifications-alert-title" = "Нет доступа к уведомлениям";
 "notifications-alert-subtitle" = "Пожалуйста, включите уведомления для приложения GetCoupon в настройках.";
 
-"deleting-images-alert-title" = "Удаление Кэшированных Изображений";
+"deleting-images-alert-title" = "Удаление кэшированных изображений";
 "deleting-images-alert-subtitle" = "Все кэшированные изображения будут удалены.";
-"deleting-images-alert-done" = "Очистить Кэш";
+"deleting-images-alert-done" = "Очистить кэш";
 
-"review-alert-title" = "Поставить Оценку Приложению";
+"review-alert-title" = "Поставить оценку приложению";
 "review-alert-subtitle" = "Пожалуйста, оставьте отзыв о приложении.\n(just placeholder)";
 
 
@@ -79,10 +76,10 @@
 "shop-website-alert-subtitle" = "Откроется сайт этого магазина.";
 
 // MARK: - Common
-"copied-successfully" = "Успешно Скопировано";
-"by-sections" = "по Категориям";
-"by-popularity" = "по Рейтингу";
-"by-dates" = "по Дате";
+"copied-successfully" = "Успешно скопировано";
+"by-sections" = "По категориям";
+"by-popularity" = "По рейтингу";
+"by-dates" = "По дате";
 "search" = "Поиск";
 "shops" = "Магазины";
 "cancel" = "Отмена";

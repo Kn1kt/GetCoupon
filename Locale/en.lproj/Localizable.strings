@@ -21,7 +21,7 @@
 
 // MARK: - Favorites Screen
 "favorites" = "Favorites";
-"sort-by-dates" = "Sort by Dates";
+"sort-by-dates" = "Sorted by Dates";
 
 // MARK: - Search Screen
 
@@ -33,9 +33,6 @@
 
 "push-notifications-title" = "Push Notifications";
 "push-notifications-subtitle" = "Receive push notifications of new promo codes";
-
-"catalog-updating-title" = "Force Catalog Updating";
-"catalog-updating-subtitle" = "Update promo codes automatically every time you open the application";
 
 "clear-cache-title" = "Clear Cache";
 
@@ -54,7 +51,7 @@
 "general-feedback-title" = "General Feedback";
 "general-feedback-subtitle" = "Briefly explain what you love, or what could improve.";
 
-"contact-us-title" = "Contact Us";
+"contact-us-title" = "For Commercial Use";
 
 "notifications-alert-title" = "No Access to Notifications";
 "notifications-alert-subtitle" = "Please, allow notifications for GetCoupon app in settings.";

@@ -30,7 +30,7 @@ class AnimatedPromocodeView: PromocodeView {
     copyLabel.adjustsFontForContentSizeCategory = true
     copyLabel.textAlignment = .center
     copyLabel.textColor = .white
-    copyLabel.text = "Copied Successfully"
+    copyLabel.text = NSLocalizedString("copied-successfully", comment: "Copied Successfully")
     copyLabel.alpha = 0
     copyLabel.transform = CGAffineTransform(scaleX: 2, y: 2)
     

@@ -9,6 +9,5 @@
 import Foundation
 
 enum UserDefaultKeys: String {
-  case forceCatalogUpdating = "Force-Catalog-Updating-Key"
   case pushNotifications = "Push-Notifications-Key"
 }

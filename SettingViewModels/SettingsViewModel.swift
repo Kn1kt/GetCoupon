@@ -23,8 +23,6 @@ class SettingsViewModel {
   
   let clearCache = PublishRelay<Void>()
   
-  let forceCatalogUpdating: BehaviorRelay<Bool>!
-  
   let pushNotifications: BehaviorRelay<Bool>!
   
   // MARK: - Output
@@ -37,9 +35,6 @@ class SettingsViewModel {
     self.navigator = Navigator()
     
     self.pushNotificationsSwitherShould = _pushNotificationsSwitherShould.asDriver(onErrorJustReturn: false)
-    
-    let forceUpdating = UserDefaults.standard.bool(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
-    forceCatalogUpdating = BehaviorRelay<Bool>(value: forceUpdating)
     
     let pushIsOn = UserDefaults.standard.bool(forKey: UserDefaultKeys.pushNotifications.rawValue)
     pushNotifications = BehaviorRelay<Bool>(value: pushIsOn)
@@ -82,18 +77,6 @@ class SettingsViewModel {
       .subscribe(onNext: { [unowned self] _ in
         self.pushNotifications.accept(false)
         self._pushNotificationsSwitherShould.accept(false)
-      })
-      .disposed(by: disposeBag)
-    
-    forceCatalogUpdating
-      .skip(1)
-      .debounce(RxTimeInterval.milliseconds(500), scheduler: defaultScheduler)
-      .distinctUntilChanged()
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
-      .subscribe(onNext: { forceUpdating in
-        debugPrint("Set force updating to: \(forceUpdating)")
-        UserDefaults.standard.set(forceUpdating, forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
       })
       .disposed(by: disposeBag)
     

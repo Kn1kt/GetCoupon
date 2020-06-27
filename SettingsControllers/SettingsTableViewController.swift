@@ -67,9 +67,9 @@ class SettingsTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return 4
-    case 1:
       return 3
+    case 1:
+      return 4
     default:
       fatalError("Overbound Sections")
     }
@@ -90,10 +90,8 @@ class SettingsTableViewController: UITableViewController {
       case 0:
         return configurePushNotificationsCell(cell)
       case 1:
-        return configureForceUpdatingCell(cell)
-      case 2:
         return configureClearCacheCell(cell)
-      case 3:
+      case 2:
         return configureSharePromoCell(cell)
       default:
         fatalError("Overbound Rows")
@@ -107,7 +105,7 @@ class SettingsTableViewController: UITableViewController {
       case 2:
         return configureFeedbackCell(cell)
       case 3:
-        return configureAboutCell(cell)
+        return configureContactUsCell(cell)
       default:
         fatalError("Overbound Rows")
       }
@@ -120,16 +118,21 @@ class SettingsTableViewController: UITableViewController {
     switch indexPath.section {
     case 0:
       switch indexPath.row {
-      case 0, 1:
+      case 0:
         return SettingsDoubleTextAndSwitchTableViewCell.reuseIdentifier
-      case 3:
+      case 2:
         return SettingsDoubleTextAndAccessoryTableViewCell.reuseIdentifier
       default:
         return SettingsTextAndAccessoryTableViewCell.reuseIdentifier
       }
       
     case 1:
-      return SettingsTextAndAccessoryTableViewCell.reuseIdentifier
+      switch indexPath.row {
+      case 3:
+        return SettingsDoubleTextAndAccessoryTableViewCell.reuseIdentifier
+      default:
+        return SettingsTextAndAccessoryTableViewCell.reuseIdentifier
+      }
       
     default:
       fatalError("Overbound Sections")
@@ -172,25 +175,6 @@ extension SettingsTableViewController {
       .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .bind(to: viewModel.pushNotifications)
-      .disposed(by: cell.disposeBag)
-    
-    return cell
-  }
-  
-  private func configureForceUpdatingCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
-    guard let cell = tableViewCell as? SettingsDoubleTextAndSwitchTableViewCell else {
-      return tableViewCell
-    }
-    
-    cell.titleLabel.text = NSLocalizedString("catalog-updating-title", comment: "Force Catalog Updating")
-    cell.subtitleLabel.text = NSLocalizedString("catalog-updating-subtitle", comment: "Update promo codes automatically every time you open the application")
-    
-    cell.switcher.isOn = viewModel.forceCatalogUpdating.value
-    cell.switcher.rx.isOn
-      .skip(1)
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
-      .bind(to: viewModel.forceCatalogUpdating)
       .disposed(by: cell.disposeBag)
     
     return cell
@@ -247,12 +231,14 @@ extension SettingsTableViewController {
     return cell
   }
   
-  private func configureAboutCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
-    guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
+  private func configureContactUsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
+    guard let cell = tableViewCell as? SettingsDoubleTextAndAccessoryTableViewCell else {
       return tableViewCell
     }
     
-    cell.titleLabel.text = "About"
+    cell.titleLabel.text = NSLocalizedString("contact-us-title", comment: "To Contact Us")
+    cell.subtitleLabel.text = "example@mail.com"
+    cell.subtitleLabel.textColor = UIColor(named: "BlueTintColor")
     
     return cell
   }
@@ -265,7 +251,15 @@ extension SettingsTableViewController {
     switch indexPath.section {
     case 0:
       switch indexPath.row {
-      case 0, 1:
+      case 0:
+        return nil
+      default:
+        return indexPath
+      }
+      
+    case 1:
+      switch indexPath.row {
+      case 3:
         return nil
       default:
         return indexPath

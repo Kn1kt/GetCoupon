@@ -17,15 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     configureSchema()
     
-    if let updatingKey = UserDefaults.standard.object(forKey: UserDefaultKeys.forceCatalogUpdating.rawValue) as? Bool,
-      updatingKey == false {
-      ModelController.shared.loadCollectionsFromStorage()
-      return true
-      
-    } else {
-      UserDefaults.standard.set(true, forKey: UserDefaultKeys.forceCatalogUpdating.rawValue)
-    }
-    
     ModelController.shared.loadCollectionsFromStorage()
     ModelController.shared.setupCollections()
     
