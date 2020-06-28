@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 import RxSwift
 import RxCocoa
 
@@ -258,12 +259,13 @@ extension SettingsTableViewController {
       }
       
     case 1:
-      switch indexPath.row {
-      case 3:
-        return nil
-      default:
-        return indexPath
-      }
+      return indexPath
+//      switch indexPath.row {
+//      case 3:
+//        return nil
+//      default:
+//        return indexPath
+//      }
       
     default:
       return indexPath
@@ -282,6 +284,7 @@ extension SettingsTableViewController {
       default:
         fatalError("Overbound Rows")
       }
+      
     case 1:
       switch indexPath.row {
       case 0:
@@ -290,6 +293,8 @@ extension SettingsTableViewController {
         showTermsOfServiceScreen()
       case 2:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
+      case 3:
+        showContactUsScreen()
       default:
         fatalError("Overbound Rows")
       }
@@ -302,6 +307,27 @@ extension SettingsTableViewController {
     let storyboard = UIStoryboard(name: "SettingsTermsOfService", bundle: nil)
     let vc = storyboard.instantiateViewController(identifier: "SettingsTermsOfService")
     show(vc, sender: self)
+  }
+  
+  private func showContactUsScreen() {
+    if MFMailComposeViewController.canSendMail() {
+      let email = "example@mail.com"
+      let composeVC = MFMailComposeViewController()
+      composeVC.mailComposeDelegate = self
+      composeVC.setToRecipients([email])
+      composeVC.setSubject(NSLocalizedString("contact-us-title", comment: "For Commercial Use"))
+      
+      self.present(composeVC, animated: true)
+    }
+  }
+}
+
+  // MARK: - Email Delegate
+extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
+  
+  func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+    
+    controller.dismiss(animated: true)
   }
 }
 

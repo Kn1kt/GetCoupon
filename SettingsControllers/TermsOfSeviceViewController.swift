@@ -28,207 +28,88 @@ class TermsOfSeviceViewController: UIViewController {
   }
   
   var termsOfServiceText = """
-  Apache License
-  Version 2.0, January 2004
-  http://www.apache.org/licenses/
+  1. Общие положения
 
-  TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+  1.1. Конашенко Никита Сергеевич (далее — «GetCoupon») предлагает пользователю сети Интернет (далее — «Пользователь») — использовать сервис «GetCoupon» (далее — «Сервис») на условиях, изложенных в настоящем пользовательском соглашении (далее — «Соглашение», «ПС»). Соглашение вступает в силу с момента выражения Пользователем согласия с его условиями в порядке, предусмотренном п. 1.6 Соглашения.
 
-  1. Definitions.
+  Сервис доступен на сайте в мобильном приложении «GetCoupon» для iOS (далее — «Приложение»).
 
-     "License" shall mean the terms and conditions for use, reproduction,
-     and distribution as defined by Sections 1 through 9 of this document.
+  1.2. В рамках сервиса GetCoupon предлагает Пользователям:
+  1.2.1. доступ к справочной информации об ассортименте, ценах, скидках, акциях и иной информации о товарах в магазинах (далее — «Данные», а в совокупности — «База Данных»);
+  1.2.2. функцию по формированию списка избранных магазинов;
+  1.2.3. иные функции, предусмотренные функциональными возможностями Сервиса.
 
-     "Licensor" shall mean the copyright owner or entity authorized by
-     the copyright owner that is granting the License.
+  1.3. Вся существующая в настоящий момент функциональность Сервиса, а также любое развитие и/или добавление новых функций является предметом настоящего Соглашения и дополнений к нему.
 
-     "Legal Entity" shall mean the union of the acting entity and all
-     other entities that control, are controlled by, or are under common
-     control with that entity. For the purposes of this definition,
-     "control" means (i) the power, direct or indirect, to cause the
-     direction or management of such entity, whether by contract or
-     otherwise, or (ii) ownership of fifty percent (50%) or more of the
-     outstanding shares, or (iii) beneficial ownership of such entity.
+  1.4. Использование Сервиса Пользователем на условиях настоящего Соглашения осуществляется в личных некоммерческих целях. Для использования Сервиса иными способами и для других целей Пользователю необходимо предварительно получить письменное согласие от GetCoupon на такое использование.
 
-     "You" (or "Your") shall mean an individual or Legal Entity
-     exercising permissions granted by this License.
+  1.5. Соглашение может быть изменено GetCoupon без какого-либо специального уведомления, новая редакция Соглашения вступает в силу с момента ее размещения в сети Интернет по указанному в настоящем абзаце адресу, если иное не предусмотрено новой редакцией Соглашения.
 
-     "Source" form shall mean the preferred form for making modifications,
-     including but not limited to software source code, documentation
-     source, and configuration files.
+  1.6. Начиная использовать Сервис/его отдельные функции, Пользователь считается принявшим условия Соглашения в полном объеме, без всяких оговорок и исключений. В случае несогласия Пользователя с какими-либо из положений Соглашения, Пользователь не вправе использовать Сервис/его отдельные функции. В случае если GetCoupon были внесены какие-либо изменения в Соглашение в порядке, предусмотренном пунктом 1.5 Соглашения, с которыми Пользователь не согласен, он обязан прекратить использование Сервиса.
 
-     "Object" form shall mean any form resulting from mechanical
-     transformation or translation of a Source form, including but
-     not limited to compiled object code, generated documentation,
-     and conversions to other media types.
 
-     "Work" shall mean the work of authorship, whether in Source or
-     Object form, made available under the License, as indicated by a
-     copyright notice that is included in or attached to the work
-     (an example is provided in the Appendix below).
+  2. Право на использование Сервиса, Данных/Базы данных
 
-     "Derivative Works" shall mean any work, whether in Source or Object
-     form, that is based on (or derived from) the Work and for which the
-     editorial revisions, annotations, elaborations, or other modifications
-     represent, as a whole, an original work of authorship. For the purposes
-     of this License, Derivative Works shall not include works that remain
-     separable from, or merely link (or bind by name) to the interfaces of,
-     the Work and Derivative Works thereof.
+  2.1. Правообладателями (в том числе на основании лицензии) на все объекты, доступные при помощи Сервиса, в том числе элементы дизайна, графические изображения, иллюстрации, программы для ЭВМ, Данные, Базы данных и другие объекты (далее — «Содержание Сервиса») являются GetCoupon и иные правообладатели.
 
-     "Contribution" shall mean any work of authorship, including
-     the original version of the Work and any modifications or additions
-     to that Work or Derivative Works thereof, that is intentionally
-     submitted to Licensor for inclusion in the Work by the copyright owner
-     or by an individual or Legal Entity authorized to submit on behalf of
-     the copyright owner. For the purposes of this definition, "submitted"
-     means any form of electronic, verbal, or written communication sent
-     to the Licensor or its representatives, including but not limited to
-     communication on electronic mailing lists, source code control systems,
-     and issue tracking systems that are managed by, or on behalf of, the
-     Licensor for the purpose of discussing and improving the Work, but
-     excluding communication that is conspicuously marked or otherwise
-     designated in writing by the copyright owner as "Not a Contribution."
+  2.2. Использование Содержания Сервиса, а также иного контента и иных элементов сервисов возможно только в рамках функционала, предлагаемого Сервисом.
 
-     "Contributor" shall mean Licensor and any individual or Legal Entity
-     on behalf of whom a Contribution has been received by Licensor and
-     subsequently incorporated within the Work.
+  Никакие элементы Содержания Сервиса, а также любой контент, размещенный на Сервисе, не могут быть использованы иным образом. Под использованием подразумеваются, в том числе: воспроизведение, копирование, переработка, распространение на любой основе, отображение во фрейме и т. д. Исключение составляют случаи, прямо предусмотренные законодательством РФ.
 
-  2. Grant of Copyright License. Subject to the terms and conditions of
-     this License, each Contributor hereby grants to You a perpetual,
-     worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-     copyright license to reproduce, prepare Derivative Works of,
-     publicly display, publicly perform, sublicense, and distribute the
-     Work and such Derivative Works in Source or Object form.
+  2.3. Пользователь не имеет права распространять Содержание Сервиса в виде, отличном от того, в котором он его получил, без письменного согласия GetCoupon.
 
-  3. Grant of Patent License. Subject to the terms and conditions of
-     this License, each Contributor hereby grants to You a perpetual,
-     worldwide, non-exclusive, no-charge, royalty-free, irrevocable
-     (except as stated in this section) patent license to make, have made,
-     use, offer to sell, sell, import, and otherwise transfer the Work,
-     where such license applies only to those patent claims licensable
-     by such Contributor that are necessarily infringed by their
-     Contribution(s) alone or by combination of their Contribution(s)
-     with the Work to which such Contribution(s) was submitted. If You
-     institute patent litigation against any entity (including a
-     cross-claim or counterclaim in a lawsuit) alleging that the Work
-     or a Contribution incorporated within the Work constitutes direct
-     or contributory patent infringement, then any patent licenses
-     granted to You under this License for that Work shall terminate
-     as of the date such litigation is filed.
+  2.4. Любое извлечение, копирование, воспроизведение, переработка Данных, Базы данных, Содержания Сервиса, распространение, доведение до всеобщего сведения в сети Интернет, любое использование в программах и сервисах третьих лиц, средствах массовой информации и/или в коммерческих целях без предварительного письменного разрешения GetCoupon или иного правообладателя запрещается.
 
-  4. Redistribution. You may reproduce and distribute copies of the
-     Work or Derivative Works thereof in any medium, with or without
-     modifications, and in Source or Object form, provided that You
-     meet the following conditions:
+  3. Условия использования отдельных функций Сервиса
 
-     (a) You must give any other recipients of the Work or
-         Derivative Works a copy of this License; and
+  3.1. Выполнение функций Сервиса возможно только при наличии доступа к сети Интернет. Пользователь самостоятельно получает и оплачивает такой доступ на условиях и по тарифам своего оператора связи или провайдера доступа к сети Интернет.
 
-     (b) You must cause any modified files to carry prominent notices
-         stating that You changed the files; and
+  3.2. GetCoupon оставляет за собой право на свое усмотрение ограничить доступ Пользователя к Сервису (или к определенному Содержанию Сервиса или функциям Сервиса, если это возможно технологически) при нарушении условий Соглашения, либо применить к Пользователю иные меры с целью соблюдения требований законодательства или прав и законных интересов третьих лиц.
 
-     (c) You must retain, in the Source form of any Derivative Works
-         that You distribute, all copyright, patent, trademark, and
-         attribution notices from the Source form of the Work,
-         excluding those notices that do not pertain to any part of
-         the Derivative Works; and
+  3.3. GetCoupon несет ответственность за рекламу, размещенную им на Сервисе, в пределах, установленным законодательством о рекламе.
 
-     (d) If the Work includes a "NOTICE" text file as part of its
-         distribution, then any Derivative Works that You distribute must
-         include a readable copy of the attribution notices contained
-         within such NOTICE file, excluding those notices that do not
-         pertain to any part of the Derivative Works, in at least one
-         of the following places: within a NOTICE text file distributed
-         as part of the Derivative Works; within the Source form or
-         documentation, if provided along with the Derivative Works; or,
-         within a display generated by the Derivative Works, if and
-         wherever such third-party notices normally appear. The contents
-         of the NOTICE file are for informational purposes only and
-         do not modify the License. You may add Your own attribution
-         notices within Derivative Works that You distribute, alongside
-         or as an addendum to the NOTICE text from the Work, provided
-         that such additional attribution notices cannot be construed
-         as modifying the License.
+  3.4. При использовании Сервиса для получения информации о скидках, Пользователь уведомлен о том, что Данные предоставляются их обладателями, партнерами GetCoupon или получаются из общедоступных источников. GetCoupon не обязуется осуществлять проверку их точности и достоверности, не несет ответственности за их актуальность и соответствие действительности. Данные, предоставляемые в Сервисе, носят справочный характер и не являются публичной офертой GetCoupon.
 
-     You may add Your own copyright statement to Your modifications and
-     may provide additional or different license terms and conditions
-     for use, reproduction, or distribution of Your modifications, or
-     for any such Derivative Works as a whole, provided Your use,
-     reproduction, and distribution of the Work otherwise complies with
-     the conditions stated in this License.
+  3.5. Среди источников данных могут быть Telegram-каналы «LowCoster», «Халява!!!», «ХаК – Халява акции купоны», «О, халява!», «Wow Sale», «Халява, приди!», «WSCOUPON - промокоды, купоны, скидки, акции на каждый день!», «BrainyMama - акции, промокоды, скидки» и другие открытые источники информации.
 
-  5. Submission of Contributions. Unless You explicitly state otherwise,
-     any Contribution intentionally submitted for inclusion in the Work
-     by You to the Licensor shall be under the terms and conditions of
-     this License, without any additional terms or conditions.
-     Notwithstanding the above, nothing herein shall supersede or modify
-     the terms of any separate license agreement you may have executed
-     with Licensor regarding such Contributions.
 
-  6. Trademarks. This License does not grant permission to use the trade
-     names, trademarks, service marks, or product names of the Licensor,
-     except as required for reasonable and customary use in describing the
-     origin of the Work and reproducing the content of the NOTICE file.
+  4. Ограничение ответственности GetCoupon
 
-  7. Disclaimer of Warranty. Unless required by applicable law or
-     agreed to in writing, Licensor provides the Work (and each
-     Contributor provides its Contributions) on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
-     implied, including, without limitation, any warranties or conditions
-     of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
-     PARTICULAR PURPOSE. You are solely responsible for determining the
-     appropriateness of using or redistributing the Work and assume any
-     risks associated with Your exercise of permissions under this License.
+  4.1. Сервис предоставляется на условиях «как есть» (as is). GetCoupon не предоставляет никаких гарантий в отношении безошибочной и бесперебойной работы Сервиса или отдельных его компонентов и/или функций, соответствия Сервиса и Данных конкретным целям и ожиданиям Пользователя, не гарантирует достоверность, точность, полноту и своевременность Данных, а также не предоставляет никаких иных гарантий, прямо не указанных в Соглашении.
 
-  8. Limitation of Liability. In no event and under no legal theory,
-     whether in tort (including negligence), contract, or otherwise,
-     unless required by applicable law (such as deliberate and grossly
-     negligent acts) or agreed to in writing, shall any Contributor be
-     liable to You for damages, including any direct, indirect, special,
-     incidental, or consequential damages of any character arising as a
-     result of this License or out of the use or inability to use the
-     Work (including but not limited to damages for loss of goodwill,
-     work stoppage, computer failure or malfunction, or any and all
-     other commercial damages or losses), even if such Contributor
-     has been advised of the possibility of such damages.
+  4.2. GetCoupon не несет ответственности за какие-либо прямые или косвенные последствия какого-либо использования или невозможности использования Сервиса и Данных и/или ущерб, причиненный Пользователю и/или третьим сторонам в результате какого-либо использования, неиспользования или невозможности использования Сервиса и Данных или отдельных его компонентов и/или функций, в том числе из-за возможных ошибок или сбоев в работе программно-аппаратных средств, за исключением случаев, прямо предусмотренных законодательством и соглашениями GetCoupon с Пользователями.
 
-  9. Accepting Warranty or Additional Liability. While redistributing
-     the Work or Derivative Works thereof, You may choose to offer,
-     and charge a fee for, acceptance of support, warranty, indemnity,
-     or other liability obligations and/or rights consistent with this
-     License. However, in accepting such obligations, You may act only
-     on Your own behalf and on Your sole responsibility, not on behalf
-     of any other Contributor, and only if You agree to indemnify,
-     defend, and hold each Contributor harmless for any liability
-     incurred by, or claims asserted against, such Contributor by reason
-     of your accepting any such warranty or additional liability.
+  4.3. Все вопросы и претензии, связанные с использованием/невозможностью использования Сервиса, недостоверностью Данных, а также возможным нарушением Сервисом или Данными законодательства и/или прав третьих лиц направляются через форму обратной связи в пункте «Настройки» Приложения, при необходимости с указанием контактных данных для обратной связи.
 
-  END OF TERMS AND CONDITIONS
 
-  APPENDIX: How to apply the Apache License to your work.
+  5. Информационные сообщения
 
-     To apply the Apache License to your work, attach the following
-     boilerplate notice, with the fields enclosed by brackets "[]"
-     replaced with your own identifying information. (Don't include
-     the brackets!)  The text should be enclosed in the appropriate
-     comment syntax for the file format. We also recommend that a
-     file or class name and description of purpose be included on the
-     same "printed page" as the copyright notice for easier
-     identification within third-party archives.
+  5.1. Пользователь путем акцепта Соглашения дает свое согласие на получение информационных рассылок от GetCoupon, рассылок с последними новостями, акциями, новыми предложениями посредством push-уведомлений в Приложении.
 
-  Copyright 2019 Nikita Konashenko
+  5.2. Пользователь может отказаться от push-уведомлений в Приложении путем изменения настроек используемого браузера и\\или мобильного телефона.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+  6. Сайты третьих лиц
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+  6.1. Сервис может содержать ссылки на другие сайты в сети Интернет (сайты третьих лиц). Указанные третьи лица и их контент не проверяются GetCoupon на соответствие тем или иным требованиям (достоверности, полноты, законности и т. п.). GetCoupon не несет ответственность за любую информацию, материалы, размещенные на сайтах третьих лиц, к которым Пользователь получает доступ с использованием сервисов, в том числе, за любые мнения или утверждения, выраженные на сайтах третьих лиц, рекламу и т. п., а также за доступность таких сайтов или контента и последствия их использования Пользователем.
+
+  6.2. Ссылка (в любой форме) на любой сайт, продукт, услугу, любую информацию коммерческого или некоммерческого характера, размещенная на Сервисе, не является одобрением или рекомендацией данных продуктов (услуг, деятельности) со стороны GetCoupon, за исключением случаев, когда на это прямо указывается на ресурсе.
+
+
+  7. Заключительные положения
+
+  7.1. К Соглашению и всем отношениям, связанным с использованием Сервиса, подлежит применению право Российской Федерации и любые претензии или иски, вытекающие из Соглашения и/или использования Сервиса должны быть поданы и рассмотрены в суде по месту нахождения GetCoupon.
+
+  7.2. Использование Сервиса регулируется Соглашением.
+
+  7.3. Если по тем или иным причинам одно или несколько положений Соглашения будут признаны недействительными или не имеющими юридической силы, это не оказывает влияния на действительность или применимость остальных положений Соглашения.
+
+  7.4. Соглашение представляет собой договор между Пользователем и GetCoupon относительно порядка использования Сервиса и заменяет собой все предыдущие соглашения между Пользователем и GetCoupon.
+
+  7.5. В отношении услуг, оказываемых в рамках Соглашения на безвозмездной основе, нормы законодательства о защите прав потребителей, предусмотренные законодательством Российской Федерации, не могут быть применимыми к отношениям между Пользователем и GetCoupon.
+
+
+  Опубликовано 28 июня 2020 г.
   """
   
   /*
