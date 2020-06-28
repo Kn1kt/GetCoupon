@@ -7,82 +7,82 @@
 */
 
   // MARK: - Home Screen Update Statuses
-"default-status" = "Домашняя";
-"updating-status" = "Обновление...";
-"updated-status" = "Успешно Обновлено";
-"error-status" = "Ошибка Обновления";
-"waiting-for-nework-status" = "Ожидание Соединения...";
+"default-status" = "Домашня";
+"updating-status" = "Оновлення...";
+"updated-status" = "Успішно оновлено";
+"error-status" = "Помилка оновлення";
+"waiting-for-nework-status" = "Очікування з’єднання...";
 
 // MARK: - Home Screen
-"see-all" = "Показать Всё";
+"see-all" = "Усе";
 
 // MARK: - Home Detail Screen
 
 
 // MARK: - Favorites Screen
-"favorites" = "Избранное";
-"sort-by-dates" = "Сортируем по Датам";
+"favorites" = "Обране";
+"sort-by-dates" = "Сортуємо по датах";
 
 // MARK: - Search Screen
 
 
 // MARK: - Settings Screen
-"settings" = "Настройки";
-"basic-settings" = "Основные";
-"additional-settings" = "Дополнительные";
+"settings" = "Налаштування";
+"basic-settings" = "Основні";
+"additional-settings" = "Додатково";
 
-"push-notifications-title" = "Push-Уведомления";
-"push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах";
+"push-notifications-title" = "Push-повідомлення";
+"push-notifications-subtitle" = "Отримувати push-повідомлення про нові промокоди";
 
-"clear-cache-title" = "Очистить Кэш";
+"clear-cache-title" = "Очистити кеш";
 
-"share-promocode-title" = "Поделиться Своим Промо-кодом";
-"share-promocode-subtitle" = "Нашли новый промо-код?\nОтправьте нам, и мы добавим его";
-"share-promocode-screen-bar" = "Поделиться";
-"share-promocode-screen-title" = "Поделитесь Своим Промо-кодом";
-"share-promocode-screen-subtitle" = "Отправьте нам ссылку на сайт, где вы нашли купон.";
+"share-promocode-title" = "Поділитися своїм промокодом";
+"share-promocode-subtitle" = "Знайшли новий промокод?\nНадішліть нам, і ми додамо його";
+"share-promocode-screen-bar" = "Поділитися";
+"share-promocode-screen-title" = "Поділіться своїм промокодом";
+"share-promocode-screen-subtitle" = "Надішліть нам посилання на сайт, де Ви знайшли купон.";
 
-"rate-us-title" = "Оценить Нас";
+"rate-us-title" = "Оцініть нас";
 
-"terms-of-service-title" = "Условия Использования";
+"terms-of-service-title" = "Умови використання";
 
-"give-feedback-title" = "Оставить Отзыв";
-"general-feedback-bar" = "Обратная Связь";
-"general-feedback-title" = "Общий Отзыв";
-"general-feedback-subtitle" = "Кратко объясните, что вы любите, или что можно улучшить.";
+"give-feedback-title" = "Залишити відгук";
+"general-feedback-bar" = "Зворотний зв'язок";
+"general-feedback-title" = "Загальний відгук";
+"general-feedback-subtitle" = "Коротко поясніть, що вам сподобалося, а що можна поліпшити.";
 
-"contact-us-title" = "По Вопросам Сотрудничества";
+"contact-us-title" = "З питань співробітництва";
 
-"notifications-alert-title" = "Нет Доступа к Уведомлениям";
-"notifications-alert-subtitle" = "Пожалуйста, включите уведомления для приложения GetCoupon в настройках.";
+"notifications-alert-title" = "Немає доступу до повідомлень";
+"notifications-alert-subtitle" = "Будь ласка, увімкніть повідомлення для додатку GetCoupon в Налаштуваннях.";
 
-"deleting-images-alert-title" = "Удаление Кэшированных Изображений";
-"deleting-images-alert-subtitle" = "Все кэшированные изображения будут удалены.";
-"deleting-images-alert-done" = "Очистить Кэш";
+"deleting-images-alert-title" = "Видалення кешованих зображень";
+"deleting-images-alert-subtitle" = "Всі кешовані зображення будуть видалені.";
+"deleting-images-alert-done" = "Очистити кеш";
 
-"review-alert-title" = "Поставить Оценку Приложению";
-"review-alert-subtitle" = "Пожалуйста, оставьте отзыв о приложении.\n(just placeholder)";
+"review-alert-title" = "Поставте оцінку додатку";
+"review-alert-subtitle" = "Будь ласка, залиште відгук про додаток\n(just placeholder)";
 
 
  // MARK: - Shop Screen
 "coupons" = "Купона";
 "website" = "Веб-сайт";
-"share" = "Поделиться";
-"pinned" = "Закреплено";
-"posted" = "Опубликовано";
-"expire" = "Истекает";
-"exprire-at" = "Истечет";
-"shop-website-alert-title" = "Сайт Магазина";
-"shop-website-alert-subtitle" = "Откроется сайт этого магазина.";
+"share" = "Поділитися";
+"pinned" = "Закріплено";
+"posted" = "Опубліковано";
+"expire" = "Закінчується";
+"exprire-at" = "Закінчується";
+"shop-website-alert-title" = "Сайт магазину";
+"shop-website-alert-subtitle" = "Відкриється сайт цього магазину.";
 
 // MARK: - Common
-"copied-successfully" = "Успешно Скопировано";
-"by-sections" = "по Категориям";
-"by-popularity" = "по Популятрности";
-"by-dates" = "по Датам";
-"search" = "Поиск";
-"shops" = "Магазины";
-"cancel" = "Отмена";
-"send" = "Отправить";
-"open" = "Открыть";
+"copied-successfully" = "Успішно скопійовано";
+"by-sections" = "По категоріям";
+"by-popularity" = "По популярності";
+"by-dates" = "По датам";
+"search" = "Пошук";
+"shops" = "Магазини";
+"cancel" = "Скасувати";
+"send" = "Відправити";
+"open" = "Відкрити";
 "ok" = "OK";
