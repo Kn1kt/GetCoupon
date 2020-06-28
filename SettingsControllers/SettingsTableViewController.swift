@@ -275,9 +275,9 @@ extension SettingsTableViewController {
     switch indexPath.section {
     case 0:
       switch indexPath.row {
-      case 2:
+      case 1:
         showClearCacheAlert()
-      case 3:
+      case 2:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
       default:
         fatalError("Overbound Rows")

@@ -91,7 +91,7 @@ class FeedbackViewController: UIViewController {
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in
         if let text = self.textView.text {
-          print("Recieved: " + text)
+          self.viewModel.feedbackText.accept(text)
         }
         self.dismiss(animated: true, completion: nil)
       })

@@ -9,9 +9,9 @@
   // MARK: - Home Screen Update Statuses
 "default-status" = "Главное";
 "updating-status" = "Обновление...";
-"updated-status" = "Успешно Обновлено";
-"error-status" = "Ошибка Обновления";
-"waiting-for-nework-status" = "Ожидание Соединения...";
+"updated-status" = "Успешно обновлено";
+"error-status" = "Ошибка обновления";
+"waiting-for-nework-status" = "Ожидание соединения...";
 
 // MARK: - Home Screen
 "see-all" = "См. все";
@@ -31,7 +31,7 @@
 "basic-settings" = "Основные";
 "additional-settings" = "Дополнительные";
 
-"push-notifications-title" = "Push-Уведомления";
+"push-notifications-title" = "Push-уведомления";
 "push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах";
 
 "clear-cache-title" = "Очистить кэш";

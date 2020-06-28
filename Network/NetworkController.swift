@@ -21,8 +21,11 @@ class NetworkController {
   static let shared = NetworkController()
   
 //  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
-  private let serverLink = "http://closeyoureyes.jelastic.regruhosting.ru/ios-collections.json"
-  private let advLink = "http://closeyoureyes.jelastic.regruhosting.ru/adspromo/ads.json"
+  let serverBaseLink = "http://closeyoureyes.jelastic.regruhosting.ru/"
+  let collectionsLink = "ios-collections.json"
+  let feedbackCouponLink = "add-promocode"
+  let feedbackGeneralLink = "add-feedback"
+  let advLink = "adspromo/ads.json"
   
   /// Image processing queue
   private let queue = OperationQueue()
@@ -90,7 +93,7 @@ extension NetworkController {
   func downloadCollections() -> Observable<[NetworkShopCategoryData]> {
     let subject = PublishSubject<[NetworkShopCategoryData]>()
     
-    guard let url = URL(string: self.serverLink) else {
+    guard let url = URL(string: self.serverBaseLink + self.collectionsLink) else {
       subject.onCompleted()
       return subject.asObservable()
     }
@@ -131,7 +134,7 @@ extension NetworkController {
   
   func downloadAdvOffer() -> Observable<[NetworkAdvertisingCategoryData]> {
     let subject = PublishSubject<[NetworkAdvertisingCategoryData]>()
-    guard let url = URL(string: self.advLink) else {
+    guard let url = URL(string: self.serverBaseLink + self.advLink) else {
         subject.onCompleted()
         return subject.asObservable()
     }

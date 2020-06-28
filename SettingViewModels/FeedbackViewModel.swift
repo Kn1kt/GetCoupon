@@ -47,9 +47,35 @@ class FeedbackViewModel {
   private func bindActions() {
     feedbackText
       .observeOn(defaultScheduler)
-      .subscribe(onNext: { feedback in
+      .subscribe(onNext: { [weak self] feedback in
+        guard let self = self else { return }
         // Send feedback to serever
         debugPrint("Recieved: ", feedback)
+        
+        let params: [String : String]
+        let type: String
+        if self.feedbackType == .general {
+          params = ["feedback" : feedback]
+          type = NetworkController.shared.feedbackGeneralLink
+        } else if self.feedbackType == .coupon {
+          params = ["promocode" : feedback]
+          type = NetworkController.shared.feedbackCouponLink
+        } else {
+          params = [:]
+          type = ""
+        }
+        
+        do {
+          let data = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
+          if let url = URL(string: NetworkController.shared.serverBaseLink + type) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            URLSession.shared.uploadTask(with: request, from: data).resume()
+          }
+        } catch {
+          debugPrint(error)
+        }
       })
       .disposed(by: disposeBag)
   }
