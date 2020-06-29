@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxSwift
 
 class SettingsDoubleTextAndAccessoryTableViewCell: UITableViewCell {
   
@@ -14,6 +15,7 @@ class SettingsDoubleTextAndAccessoryTableViewCell: UITableViewCell {
   @IBOutlet weak var subtitleLabel: UILabel!
   static let reuseIdentifier = "SettingsDoubleTextAndAccessoryTableViewCellReuseIdentifier"
 
+  var disposeBag = DisposeBag()
   
   override func awakeFromNib() {
     super.awakeFromNib()
@@ -27,6 +29,7 @@ class SettingsDoubleTextAndAccessoryTableViewCell: UITableViewCell {
   }
   
   override func prepareForReuse() {
+    disposeBag = DisposeBag()
     subtitleLabel.textColor = .secondaryLabel
   }
 }

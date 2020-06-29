@@ -294,7 +294,7 @@ extension SettingsTableViewController {
       case 2:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
       case 3:
-        showContactUsScreen()
+        showContactUsScreen(for: indexPath)
       default:
         fatalError("Overbound Rows")
       }
@@ -309,16 +309,57 @@ extension SettingsTableViewController {
     show(vc, sender: self)
   }
   
-  private func showContactUsScreen() {
+  private func showContactUsScreen(for indexPath: IndexPath) {
+    let email = "example@mail.com"
+    
     if MFMailComposeViewController.canSendMail() {
-      let email = "example@mail.com"
       let composeVC = MFMailComposeViewController()
       composeVC.mailComposeDelegate = self
       composeVC.setToRecipients([email])
-      composeVC.setSubject(NSLocalizedString("contact-us-title", comment: "For Commercial Use"))
       
       self.present(composeVC, animated: true)
+      
+    } else if let defaultMailURL = defaultMailURL(email: email) {
+      UIApplication.shared.open(defaultMailURL)
+      
+    } else {
+      UIPasteboard.general.string = email
+      if let cell = tableView.cellForRow(at: indexPath) as? SettingsDoubleTextAndAccessoryTableViewCell {
+        cell.subtitleLabel.text = NSLocalizedString("copied-successfully", comment: "Copied Successfully")
+        Observable<Int>
+          .timer(.seconds(4), scheduler: defaultSheduler)
+          .take(1)
+          .observeOn(MainScheduler.instance)
+          .subscribe(onNext: { _ in
+            cell.subtitleLabel.text = email
+          })
+          .disposed(by: cell.disposeBag)
+      }
     }
+  }
+  
+  private func defaultMailURL(email: String) -> URL? {
+    let gmailUrl = URL(string: "googlegmail://co?to=\(email)")
+    let outlookUrl = URL(string: "ms-outlook://compose?to=\(email)")
+    let yahooMail = URL(string: "ymail://mail/compose?to=\(email)")
+    let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(email)")
+//    let defaultUrl = URL(string: "mailto:\(email)")
+
+    if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
+        return gmailUrl
+    } else if let outlookUrl = outlookUrl, UIApplication.shared.canOpenURL(outlookUrl) {
+        return outlookUrl
+    } else if let yahooMail = yahooMail, UIApplication.shared.canOpenURL(yahooMail) {
+        return yahooMail
+    } else if let sparkUrl = sparkUrl, UIApplication.shared.canOpenURL(sparkUrl) {
+        return sparkUrl
+    }
+
+    return nil
+  }
+  
+  private func copyEmailInPasteBoard(email: String) {
+    
   }
 }
 
@@ -326,7 +367,6 @@ extension SettingsTableViewController {
 extension SettingsTableViewController: MFMailComposeViewControllerDelegate {
   
   func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-    
     controller.dismiss(animated: true)
   }
 }
