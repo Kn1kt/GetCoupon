@@ -148,7 +148,7 @@ extension FavoritesViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 15, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 10, trailing: 15)
     
     return section
   }
@@ -189,7 +189,7 @@ extension FavoritesViewController {
     let section = NSCollectionLayoutSection(group: group)
     
     section.interGroupSpacing = 10
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 30, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 10, trailing: 15)
     
     let titleSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                            heightDimension: .estimated(53))

@@ -75,12 +75,12 @@ extension CouponPopupView {
     
     snapshotPlace.isUserInteractionEnabled = false
     
-    titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+    titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
     titleLabel.adjustsFontForContentSizeCategory = true
     titleLabel.numberOfLines = 2
     titleLabel.textAlignment = .left
     
-    textView.font = UIFont.preferredFont(forTextStyle: .subheadline)
+    textView.font = UIFont.preferredFont(forTextStyle: .body)
     textView.tintColor = UIColor(named: "BlueTintColor")
     textView.textColor = .label
     textView.adjustsFontForContentSizeCategory = true
@@ -100,12 +100,12 @@ extension CouponPopupView {
     expirationDateLabel.textColor = .secondaryLabel
     expirationDateLabel.textAlignment = .left
     
-    shareButton.setBackgroundImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-    shareButton.setBackgroundImage(UIImage(systemName: "square.and.arrow.up.fill"), for: .highlighted)
+    shareButton.setBackgroundImage(UIImage(named: "Share-coupon"), for: .normal)
+    shareButton.setBackgroundImage(UIImage(named: "Share-coupon-highlighted"), for: .highlighted)
     shareButton.tintColor = .secondaryLabel
     
-    exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
-    exitButton.setBackgroundImage(UIImage(systemName: "xmark"), for: .highlighted)
+    exitButton.setBackgroundImage(UIImage(named: "Xmark"), for: .normal)
+    exitButton.setBackgroundImage(UIImage(named: "Xmark"), for: .highlighted)
     exitButton.tintColor = .secondaryLabel
     
     titleHeight = titleLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: titleLabel.intrinsicContentSize.height)
@@ -118,18 +118,19 @@ extension CouponPopupView {
     
     NSLayoutConstraint.activate([
       titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
-      titleLabel.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor, constant: -spacing),
+      titleLabel.trailingAnchor.constraint(equalTo: shareButton.leadingAnchor, constant: -spacing / 2),
       titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 4.0),
       
       shareButton.trailingAnchor.constraint(lessThanOrEqualTo: exitButton.leadingAnchor, constant: -spacing),
-      shareButton.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 5.0),
-      shareButton.heightAnchor.constraint(equalToConstant: 25),
-      shareButton.widthAnchor.constraint(equalTo: shareButton.heightAnchor, multiplier: 0.9),
+//      shareButton.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 5.0),
+      shareButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+      shareButton.heightAnchor.constraint(equalToConstant: 23),
+      shareButton.widthAnchor.constraint(equalTo: shareButton.heightAnchor),
       
       exitButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),
       exitButton.centerYAnchor.constraint(equalTo: shareButton.centerYAnchor),
-      exitButton.heightAnchor.constraint(equalTo: shareButton.heightAnchor, multiplier: 1.0),
-      exitButton.widthAnchor.constraint(equalTo: exitButton.heightAnchor, multiplier: 0.9),
+      exitButton.heightAnchor.constraint(equalToConstant: 20),
+      exitButton.widthAnchor.constraint(equalTo: exitButton.heightAnchor),
       
       textView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: spacing),
       textView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -spacing),

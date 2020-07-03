@@ -34,6 +34,9 @@ class HomeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+//    navigationController?.navigationBar.shadowImage = UIImage()
+//    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+//    navigationController?.navigationBar.backgroundColor = .systemBackground
     navigationItem.title = NSLocalizedString("default-status", comment: "Home")
     navigationItem.titleView = navBarTitleView
     
@@ -168,7 +171,7 @@ extension HomeViewController {
     }
     
     let config = UICollectionViewCompositionalLayoutConfiguration()
-    config.interSectionSpacing = 20
+    config.interSectionSpacing = 15
     
     let layout = UICollectionViewCompositionalLayout(sectionProvider: sectionProvider,
                                                      configuration: config)
@@ -345,7 +348,7 @@ extension HomeViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.showsVerticalScrollIndicator = false
-    collectionView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 10, right: 0)
     view.addSubview(collectionView)
     
     NSLayoutConstraint.activate([

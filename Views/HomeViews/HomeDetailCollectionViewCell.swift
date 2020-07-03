@@ -58,12 +58,12 @@ extension HomeDetailCollectionViewCell {
     titleLabel.numberOfLines = 2
     titleLabel.adjustsFontForContentSizeCategory = true
     
-    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     subtitleLabel.numberOfLines = 3
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     
-    imageView.layer.cornerRadius = 6
+    imageView.layer.cornerRadius = 8
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
@@ -82,13 +82,14 @@ extension HomeDetailCollectionViewCell {
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.3),
       
       addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
-      addToFavoritesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+//      addToFavoritesButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+      addToFavoritesButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
       addToFavoritesButton.heightAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.113),
       addToFavoritesButton.widthAnchor.constraint(equalTo: addToFavoritesButton.heightAnchor, multiplier: 1.0),
       
       titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
       titleLabel.trailingAnchor.constraint(equalTo: addToFavoritesButton.leadingAnchor, constant: -spacing * 2),
-      titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor, constant: spacing * 0.8),
+      titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
 //      titleLabel.heightAnchor.constraint(lessThanOrEqualTo: contentView.heightAnchor, multiplier: 0.3),
 //      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       

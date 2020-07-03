@@ -37,14 +37,14 @@ extension ShopTitleCollectionViewCell {
     contentView.addSubview(titleLabel)
     contentView.addSubview(subtitleLabel)
     
-    titleLabel.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+    titleLabel.font = UIFont.preferredFont(forTextStyle: .title1)
     titleLabel.adjustsFontForContentSizeCategory = true
     titleLabel.textAlignment = .center
     
     subtitleLabel.font = UIFont.preferredFont(forTextStyle: .subheadline)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
-    subtitleLabel.numberOfLines = 4
+    subtitleLabel.numberOfLines = 3
     subtitleLabel.textAlignment = .center
     
     let spacing = CGFloat(10)

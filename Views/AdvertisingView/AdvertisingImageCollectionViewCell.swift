@@ -41,7 +41,7 @@ extension AdvertisingImageCollectionViewCell {
     
     selectedBackgroundView = UIView()
     selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
-    layer.cornerRadius = 7
+    layer.cornerRadius = 10
     clipsToBounds = true
     
     imageView.layer.cornerRadius = 7

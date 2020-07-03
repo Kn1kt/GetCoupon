@@ -33,7 +33,7 @@ extension TitleSupplementaryView {
     showMoreButton.translatesAutoresizingMaskIntoConstraints = false
     label.translatesAutoresizingMaskIntoConstraints = false
     label.adjustsFontForContentSizeCategory = true
-    label.font = UIFont.boldSystemFont(ofSize: 26)
+    label.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
     
     addSubview(label)
     addSubview(showMoreButton)
@@ -43,7 +43,7 @@ extension TitleSupplementaryView {
     
     let inset = CGFloat(10)
     NSLayoutConstraint.activate([
-      label.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
+      label.leadingAnchor.constraint(equalTo: leadingAnchor),
       label.trailingAnchor.constraint(equalTo: showMoreButton.leadingAnchor, constant: -inset),
       label.topAnchor.constraint(equalTo: topAnchor, constant: inset),
       label.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),

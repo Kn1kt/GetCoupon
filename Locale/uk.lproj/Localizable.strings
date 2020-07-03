@@ -70,8 +70,9 @@
 "share" = "Поділитися";
 "pinned" = "Закріплено";
 "posted" = "Опубліковано";
-"expire" = "Закінчується";
-"exprire-at" = "Закінчується";
+"expire" = "Дата закінчення";
+"d" = "д";
+"exprire-at" = "Дата закінчення";
 "shop-website-alert-title" = "Сайт магазину";
 "shop-website-alert-subtitle" = "Відкриється сайт цього магазину.";
 

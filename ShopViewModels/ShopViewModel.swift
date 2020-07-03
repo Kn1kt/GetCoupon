@@ -155,7 +155,7 @@ extension ShopViewModel {
       
       promoString += "действует \(coupon.coupon)"
       
-      promoString += ": \(coupon.description)\n"
+      promoString += ":\n\(coupon.description)\n"
     } else {
       let coupons = shop.promoCodes
         .prefix(3)

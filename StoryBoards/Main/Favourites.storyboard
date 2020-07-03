@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nvu-ye-roG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nvu-ye-roG">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -27,7 +27,7 @@
         <scene sceneID="GTw-Es-YT8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="nvu-ye-roG" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="heart" catalog="system" selectedImage="heart.fill" id="plP-o1-v6Y"/>
+                    <tabBarItem key="tabBarItem" title="" image="Heart" selectedImage="Heart-filled" id="plP-o1-v6Y"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vpE-Fx-zlt">
@@ -45,7 +45,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="heart" catalog="system" width="64" height="54"/>
-        <image name="heart.fill" catalog="system" width="64" height="54"/>
+        <image name="Heart" width="25" height="25"/>
+        <image name="Heart-filled" width="25" height="25"/>
     </resources>
 </document>

@@ -51,13 +51,13 @@ extension FavoritesPlainCollectionViewCell {
     selectedBackgroundView?.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
     
     clipsToBounds = true
-    layer.cornerRadius = 7
+    layer.cornerRadius = 10
     backgroundColor = .secondarySystemGroupedBackground
     
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     
-    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     subtitleLabel.numberOfLines = 2
@@ -66,7 +66,7 @@ extension FavoritesPlainCollectionViewCell {
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
-    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.2)
     titleHeight.isActive = true
 
     subtitleHeight = subtitleLabel.heightAnchor.constraint(equalToConstant: subtitleLabel.font.lineHeight * 2.5)
@@ -105,7 +105,7 @@ extension FavoritesPlainCollectionViewCell {
   
   override func layoutSubviews() {
     let halfOfView = contentView.bounds.height / 2
-    let titleConst = titleLabel.font.lineHeight * 1.3
+    let titleConst = titleLabel.font.lineHeight * 1.2
     let subtitleConst = subtitleLabel.font.lineHeight * 2.5
     
     titleHeight.constant = titleConst < halfOfView ? titleConst : halfOfView

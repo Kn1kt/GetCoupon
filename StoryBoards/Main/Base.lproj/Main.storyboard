@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="efY-YD-uVf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="efY-YD-uVf">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -33,7 +33,7 @@
         <scene sceneID="Gad-uJ-ImV">
             <objects>
                 <viewControllerPlaceholder storyboardName="Home" id="ijU-7M-CVb" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="House" image="house" catalog="system" badgeValue="1" selectedImage="house.fill" id="Ntk-Yo-h5h"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="Home" badgeValue="1" id="Ntk-Yo-h5h"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SbR-3D-4vB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -43,7 +43,7 @@
         <scene sceneID="0KB-Jh-NuR">
             <objects>
                 <viewControllerPlaceholder storyboardName="Favourites" id="Gwi-XI-4Xv" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Favourites" image="heart" catalog="system" selectedImage="heart.fill" id="qWQ-mC-og4"/>
+                    <tabBarItem key="tabBarItem" title="Favourites" image="Heart" id="qWQ-mC-og4"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GFZ-uz-jvl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -53,7 +53,7 @@
         <scene sceneID="1kA-pm-vnx">
             <objects>
                 <viewControllerPlaceholder storyboardName="Search" id="ngz-RQ-qRm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Search" image="magnifyingglass" catalog="system" selectedImage="magnifyingglass" id="JCm-IS-3A2"/>
+                    <tabBarItem key="tabBarItem" title="Search" image="Magnifier" id="JCm-IS-3A2"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQe-wL-xOh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -63,7 +63,7 @@
         <scene sceneID="30J-rb-WIN">
             <objects>
                 <viewControllerPlaceholder storyboardName="Settings" id="EGq-DW-IWJ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Settings" image="line.horizontal.3" catalog="system" selectedImage="line.horizontal.3" id="NBO-Et-vGZ"/>
+                    <tabBarItem key="tabBarItem" title="Settings" image="Gear" id="NBO-Et-vGZ"/>
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EAF-0F-uYx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -71,14 +71,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="heart" catalog="system" width="64" height="54"/>
-        <image name="heart.fill" catalog="system" width="64" height="54"/>
-        <image name="house" catalog="system" width="64" height="54"/>
-        <image name="house.fill" catalog="system" width="64" height="52"/>
-        <image name="line.horizontal.3" catalog="system" width="64" height="32"/>
-        <image name="magnifyingglass" catalog="system" width="64" height="56"/>
+        <image name="Gear" width="25" height="25"/>
+        <image name="Heart" width="25" height="25"/>
+        <image name="Home" width="25" height="25"/>
+        <image name="Magnifier" width="25" height="25"/>
         <namedColor name="BlueTintColor">
-            <color red="0.32300001382827759" green="0.53200000524520874" blue="0.85500001907348633" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.20800000429153442" green="0.41200000047683716" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

@@ -70,8 +70,9 @@
 "share" = "Share";
 "pinned" = "PINNED";
 "posted" = "Posted";
-"expire" = "Expire";
-"exprire-at" = "Expire at";
+"expire" = "Expiration Date";
+"d" = "d";
+"exprire-at" = "Expiration Date";
 "shop-website-alert-title" = "Shop Website";
 "shop-website-alert-subtitle" = "This store’s website will open.";
 

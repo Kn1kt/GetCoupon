@@ -40,8 +40,9 @@ extension HomeDetailSegmentedControlCollectionViewCell {
     segmentedControl.translatesAutoresizingMaskIntoConstraints = false
     countLabel.translatesAutoresizingMaskIntoConstraints = false
     
-    countLabel.font = UIFont.preferredFont(forTextStyle: .body)
+    countLabel.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
     countLabel.adjustsFontForContentSizeCategory = true
+    countLabel.textColor = UIColor(named: "BlueTintColor")
     
     segmentedControl.selectedSegmentIndex = 0
     
@@ -59,7 +60,7 @@ extension HomeDetailSegmentedControlCollectionViewCell {
       
       countLabel.leadingAnchor.constraint(greaterThanOrEqualTo: segmentedControl.trailingAnchor, constant: spacing),
       countLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      countLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing)
+      countLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
     ])
   }
 }

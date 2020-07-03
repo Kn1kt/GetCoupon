@@ -26,7 +26,7 @@ class AnimatedPromocodeView: PromocodeView {
     copyLabel.translatesAutoresizingMaskIntoConstraints = false
     button.translatesAutoresizingMaskIntoConstraints = false
     
-    copyLabel.font = UIFont.preferredFont(forTextStyle: .title3)
+    copyLabel.font = UIFont.systemFont(ofSize: 22, weight: .regular)
     copyLabel.adjustsFontForContentSizeCategory = true
     copyLabel.textAlignment = .center
     copyLabel.textColor = .white
@@ -49,7 +49,8 @@ class AnimatedPromocodeView: PromocodeView {
     ])
     
     super.updateConstraints()
-    layer.cornerRadius = 10
+    layer.cornerRadius = 8
+    promocodeLabel.font = UIFont.systemFont(ofSize: 17, weight: .medium)
   }
   
   override func layoutSubviews() {

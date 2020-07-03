@@ -56,19 +56,21 @@ extension ShopPlainCollectionViewCell {
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.numberOfLines = 3
     
-    addingDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    addingDateLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     addingDateLabel.adjustsFontForContentSizeCategory = true
-    addingDateLabel.textColor = .tertiaryLabel
+    addingDateLabel.textColor = .secondaryLabel
+    addingDateLabel.lineBreakMode = .byTruncatingMiddle
     
-    estimatedDateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    estimatedDateLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     estimatedDateLabel.adjustsFontForContentSizeCategory = true
-    estimatedDateLabel.textColor = .tertiaryLabel
+    estimatedDateLabel.textColor = .secondaryLabel
+    estimatedDateLabel.lineBreakMode = .byTruncatingMiddle
     
     promocodeView.layer.cornerRadius = 7
     
     imageView.backgroundColor = .systemGray3
     imageView.layer.maskedCorners = [.layerMaxXMaxYCorner]
-    imageView.layer.cornerRadius = 6
+    imageView.layer.cornerRadius = 8
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     

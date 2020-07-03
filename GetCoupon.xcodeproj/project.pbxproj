@@ -50,6 +50,7 @@
 		F371E4832426415100301D5E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4822426415100301D5E /* Realm */; };
 		F371E4852426415100301D5E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4842426415100301D5E /* RealmSwift */; };
 		F37612542461E646007EB465 /* PromocodeView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37612532461E646007EB465 /* PromocodeView+Animations.swift */; };
+		F37A45F424AA2D3900569A92 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F37A45F324AA2D3900569A92 /* Onboarding.storyboard */; };
 		F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C94244F7009002B6115 /* FeedbackViewController.swift */; };
 		F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C972454D88F002B6115 /* FeedbackViewModel.swift */; };
 		F3888C9C2454E521002B6115 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C9B2454E521002B6115 /* SettingsViewModel.swift */; };
@@ -175,6 +176,7 @@
 		F364722B24A6C6EE0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F364722D24A6C6EF0078A286 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F37612532461E646007EB465 /* PromocodeView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromocodeView+Animations.swift"; sourceTree = "<group>"; };
+		F37A45F324AA2D3900569A92 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		F3888C9B2454E521002B6115 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -405,13 +407,9 @@
 			isa = PBXGroup;
 			children = (
 				F35B3D35235BAC2D000F7ED0 /* LaunchScreen.storyboard */,
-				F35B3D2D235BAC25000F7ED0 /* Main.storyboard */,
-				F35B3D61235BB2F5000F7ED0 /* Home.storyboard */,
-				F35B3D5F235BB2D4000F7ED0 /* Favourites.storyboard */,
-				F35B3D63235BB37B000F7ED0 /* Search.storyboard */,
-				F3508E7B24A6C48700A3586F /* Settings.storyboard */,
-				F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */,
-				F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */,
+				F37A45F224AA2CD600569A92 /* Onboarding */,
+				F37A45F024AA2C7200569A92 /* Main */,
+				F37A45F124AA2CA800569A92 /* Settings */,
 			);
 			path = StoryBoards;
 			sourceTree = "<group>";
@@ -428,6 +426,35 @@
 				F353624D23CE0700003D7BAB /* ViewData */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		F37A45F024AA2C7200569A92 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				F35B3D2D235BAC25000F7ED0 /* Main.storyboard */,
+				F35B3D61235BB2F5000F7ED0 /* Home.storyboard */,
+				F35B3D5F235BB2D4000F7ED0 /* Favourites.storyboard */,
+				F35B3D63235BB37B000F7ED0 /* Search.storyboard */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		F37A45F124AA2CA800569A92 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F3508E7B24A6C48700A3586F /* Settings.storyboard */,
+				F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */,
+				F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F37A45F224AA2CD600569A92 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F37A45F324AA2D3900569A92 /* Onboarding.storyboard */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		F3888C91244F660F002B6115 /* SettingsView */ = {
@@ -740,6 +767,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F37A45F424AA2D3900569A92 /* Onboarding.storyboard in Resources */,
 				F30C418924A6B92B005BFAA9 /* Localizable.strings in Resources */,
 				F35B3D60235BB2D4000F7ED0 /* Favourites.storyboard in Resources */,
 				F35B3D62235BB2F5000F7ED0 /* Home.storyboard in Resources */,

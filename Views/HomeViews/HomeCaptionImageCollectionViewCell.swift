@@ -50,17 +50,17 @@ extension HomeCaptionImageCollectionViewCell {
     titleLabel.font = UIFont.preferredFont(forTextStyle: .body)
     titleLabel.adjustsFontForContentSizeCategory = true
     
-    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+    subtitleLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     subtitleLabel.numberOfLines = 2
     
-    imageView.layer.cornerRadius = 7
+    imageView.layer.cornerRadius = 8
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
-    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.2)
     titleHeight.isActive = true
     
     let spacing = CGFloat(5)
@@ -73,13 +73,13 @@ extension HomeCaptionImageCollectionViewCell {
       imageView.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.6),
       
       titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: spacing),
-      titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
 //      titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.15),
 //      titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3),
       
       subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-      subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing)
 //      subtitleLabel.heightAnchor.constraint(equalToConstant: subtitleLabel.font.lineHeight * 2.5)
@@ -88,7 +88,7 @@ extension HomeCaptionImageCollectionViewCell {
   }
   
   override func layoutSubviews() {
-    let titleSize = titleLabel.font.lineHeight * 1.3
+    let titleSize = titleLabel.font.lineHeight * 1.2
     let subtitleSize = contentView.bounds.height * 0.4 - titleSize - 10
     titleHeight.constant = titleSize
     

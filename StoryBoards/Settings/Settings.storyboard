@@ -176,9 +176,7 @@
         <scene sceneID="9yL-m2-x8q">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="jo3-dT-1Ez" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="" image="list.bullet" catalog="system" id="Xm3-M9-qZE">
-                        <inset key="imageInsets" minX="0.0" minY="4" maxX="0.0" maxY="0.0"/>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="" image="Gear" selectedImage="Gear-filled" id="Xm3-M9-qZE"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="OFq-KU-Cgz">
@@ -196,9 +194,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="list.bullet" catalog="system" width="128" height="88"/>
+        <image name="Gear" width="25" height="25"/>
+        <image name="Gear-filled" width="25" height="25"/>
         <namedColor name="BlueTintColor">
-            <color red="0.32300001382827759" green="0.53200000524520874" blue="0.85500001907348633" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.20800000429153442" green="0.41200000047683716" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
     </resources>
 </document>

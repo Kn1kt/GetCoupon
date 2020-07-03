@@ -60,19 +60,19 @@ extension SearchPlainCollectionViewCell {
     subtitleLabel.adjustsFontForContentSizeCategory = true
     subtitleLabel.textColor = .secondaryLabel
     
-    imageView.layer.cornerRadius = 6
+    imageView.layer.cornerRadius = 8
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill
     
     separatorView.backgroundColor = .systemGray4
 
-    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.3)
+    titleHeight = titleLabel.heightAnchor.constraint(equalToConstant: titleLabel.font.lineHeight * 1.2)
     titleHeight.isActive = true
     
     let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
-      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
       imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0),
@@ -87,15 +87,15 @@ extension SearchPlainCollectionViewCell {
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
       subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: -spacing / 2),
       
-      separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
-      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
+      separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
+      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 1.5),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])
   }
   
   override func layoutSubviews() {
-    let titleSize = titleLabel.font.lineHeight * 1.3
+    let titleSize = titleLabel.font.lineHeight * 1.2
     let subtitleSize = contentView.bounds.height - titleSize - 35
     titleHeight.constant = titleSize
     

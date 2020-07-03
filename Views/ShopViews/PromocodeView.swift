@@ -24,7 +24,7 @@ class PromocodeView: UIView {
   override func updateConstraints() {
     promocodeLabel.translatesAutoresizingMaskIntoConstraints = false
     
-    promocodeLabel.font = UIFont.preferredFont(forTextStyle: .body)
+    promocodeLabel.font = UIFont.systemFont(ofSize: 15, weight: .medium)
     promocodeLabel.adjustsFontForContentSizeCategory = true
     promocodeLabel.textAlignment = .center
     promocodeLabel.textColor = UIColor(named: "BlueTintColor")

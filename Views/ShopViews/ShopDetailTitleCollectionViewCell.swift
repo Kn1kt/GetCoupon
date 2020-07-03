@@ -36,14 +36,16 @@ extension ShopDetailTitleCollectionViewCell {
     
     contentView.addSubview(stackView)
     
-    couponsCount.imageView.image = UIImage(systemName: "tag")
+    couponsCount.imageView.image = UIImage(named: "Percent")
+    couponsCount.imageView.highlightedImage = UIImage(named: "Percent-highlighted")
     couponsCount.imageDescription.text = NSLocalizedString("coupons", comment: "Coupons")
     
-    website.imageView.image = UIImage(systemName: "globe")
+    website.imageView.image = UIImage(named: "Globe")
+    website.imageView.highlightedImage = UIImage(named: "Globe-highlighted")
     website.imageDescription.text = NSLocalizedString("website", comment: "Website")
     
-    share.imageView.image = UIImage(systemName: "square.and.arrow.up")
-    share.imageView.highlightedImage = UIImage(systemName: "square.and.arrow.up.fill")
+    share.imageView.image = UIImage(named: "Share-shop")
+    share.imageView.highlightedImage = UIImage(named: "Share-shop-highlighted")
     share.imageDescription.text = NSLocalizedString("share", comment: "Share")
     
     stackView.axis = .horizontal

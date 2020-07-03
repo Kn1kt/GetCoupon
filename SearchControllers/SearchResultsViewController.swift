@@ -130,7 +130,7 @@ extension SearchResultsViewController {
 
 
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 0, bottom: 20, trailing: 0)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
 
     return section
   }

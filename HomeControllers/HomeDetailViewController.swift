@@ -161,7 +161,7 @@ extension HomeDetailViewController {
     
     let section = NSCollectionLayoutSection(group: group)
     
-    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 15, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 15, bottom: 10, trailing: 15)
     
     return section
   }
@@ -200,7 +200,7 @@ extension HomeDetailViewController {
     
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 20, trailing: 0)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 10, trailing: 0)
     return section
   }
 }

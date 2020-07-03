@@ -56,15 +56,14 @@ extension ImageAndDescriptionUIView {
     button.addSubview(imageView)
     addSubview(button)
     
-    imageView.backgroundColor = .clear
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFit
-    imageView.tintColor = .secondaryLabel
+    imageView.tintColor = UIColor(named: "BlueTintColor")
     
-    imageDescription.font = UIFont.preferredFont(forTextStyle: .body)
+    imageDescription.font = UIFont.systemFont(ofSize: 14, weight: .medium)
     imageDescription.adjustsFontForContentSizeCategory = true
-    imageDescription.textColor = .tertiaryLabel
     imageDescription.textAlignment = .center
+    imageDescription.textColor = UIColor(named: "BlueTintColor")
     
     let spacing = CGFloat(10)
     

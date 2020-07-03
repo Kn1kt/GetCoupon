@@ -69,9 +69,10 @@
 "website" = "Веб-сайт";
 "share" = "Поделиться";
 "pinned" = "ЗАКРЕПЛЕНО";
-"posted" = "Добавлено";
-"expire" = "Истекает";
-"exprire-at" = "Истечет";
+"posted" = "Опубликовано";
+"expire" = "Дата окончания";
+"d" = "д";
+"exprire-at" = "Дата окончания";
 "shop-website-alert-title" = "Сайт Магазина";
 "shop-website-alert-subtitle" = "Откроется сайт этого магазина.";
 
@@ -81,7 +82,7 @@
 "by-popularity" = "По рейтингу";
 "by-dates" = "По дате";
 "search" = "Поиск";
-"shops" = "Магазины";
+"shops" = "Магазинов";
 "cancel" = "Отмена";
 "send" = "Отправить";
 "open" = "Открыть";

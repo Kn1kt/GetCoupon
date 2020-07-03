@@ -151,7 +151,7 @@ extension SearchMainViewController {
     collectionView.backgroundColor = .systemGroupedBackground
     collectionView.alwaysBounceVertical = true
     collectionView.keyboardDismissMode = .onDrag
-    collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+    collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
     view.addSubview(collectionView)
     
     NSLayoutConstraint.activate([
