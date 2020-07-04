@@ -76,9 +76,9 @@ extension HomeDetailCollectionViewCell {
     let spacing = CGFloat(10)
     
     NSLayoutConstraint.activate([
-      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
-      imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing * 1.5),
-      imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing * 1.5),
+      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
+      imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.3),
       
       addToFavoritesButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
@@ -99,8 +99,8 @@ extension HomeDetailCollectionViewCell {
       subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: -spacing / 2),
       
       separatorView.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: spacing * 2),
-      separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -15),
+      separatorView.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
+      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 1.5),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])
   }

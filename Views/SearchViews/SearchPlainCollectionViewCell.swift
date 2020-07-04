@@ -71,8 +71,9 @@ extension SearchPlainCollectionViewCell {
     titleHeight.isActive = true
     
     let spacing = CGFloat(10)
+    
     NSLayoutConstraint.activate([
-      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
+      imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
       imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: spacing),
       imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -spacing),
       imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor, multiplier: 1.0),
@@ -87,8 +88,8 @@ extension SearchPlainCollectionViewCell {
       subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 2),
       subtitleLabel.bottomAnchor.constraint(lessThanOrEqualTo: imageView.bottomAnchor, constant: -spacing / 2),
       
-      separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing * 1.5),
-      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing * 1.5),
+      separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: spacing),
+      separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -spacing),
       separatorView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       separatorView.heightAnchor.constraint(equalToConstant: 0.5)
     ])

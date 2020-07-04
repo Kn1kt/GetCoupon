@@ -178,19 +178,19 @@ extension HomeDetailViewController {
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
-      groupFractionHeigh = CGFloat(0.15)
+      groupFractionHeigh = CGFloat(0.14)
       
     case (.compact, .compact):
       groupFractionHeigh = CGFloat(0.3)
       
     case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.15)
+      groupFractionHeigh = CGFloat(0.14)
       
     case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.15)
+      groupFractionHeigh = CGFloat(0.14)
       
     default:
-      groupFractionHeigh = CGFloat(0.15)
+      groupFractionHeigh = CGFloat(0.14)
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

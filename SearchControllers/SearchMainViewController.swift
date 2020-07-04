@@ -135,7 +135,7 @@ extension SearchMainViewController {
     
     
     let section = NSCollectionLayoutSection(group: group)
-    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+    section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
     
     return section
   }
