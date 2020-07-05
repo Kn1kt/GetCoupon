@@ -102,6 +102,7 @@ class FeedbackViewController: UIViewController {
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
   }
+  
   private func updateLabels() {
     navigationItem.title = viewModel.navBarTitleText
     titleLabel.text = viewModel.titleText

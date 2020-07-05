@@ -1,0 +1,27 @@
+
+/* Class = "UILabel"; text = "Добавляй в избранное"; ObjectID = "3DH-3k-Ffb"; */
+"3DH-3k-Ffb.text" = "Добавляй в избранное";
+
+/* Class = "UIButton"; normalTitle = "Start"; ObjectID = "QQv-8F-GSL"; */
+"QQv-8F-GSL.normalTitle" = "Начать";
+
+/* Class = "UIButton"; selectedTitle = "Start"; ObjectID = "QQv-8F-GSL"; */
+"QQv-8F-GSL.selectedTitle" = "Начать";
+
+/* Class = "UILabel"; text = "Давай улучшать приложение вместе"; ObjectID = "URW-Q9-67f"; */
+"URW-Q9-67f.text" = "Давай улучшать приложение вместе";
+
+/* Class = "UILabel"; text = "Никаких акций"; ObjectID = "XCf-wB-Ojb"; */
+"XCf-wB-Ojb.text" = "Никаких акций";
+
+/* Class = "UILabel"; text = "Next "; ObjectID = "fDp-hK-5bp"; */
+"fDp-hK-5bp.text" = "Далее";
+
+/* Class = "UILabel"; text = "Актуальные промокоды"; ObjectID = "oNC-ly-hio"; */
+"oNC-ly-hio.text" = "Актуальные промокоды";
+
+/* Class = "UILabel"; text = "GetCoupon"; ObjectID = "sfv-jO-lRs"; */
+"sfv-jO-lRs.text" = "GetCoupon";
+
+/* Class = "UIButton"; normalTitle = "Skip"; ObjectID = "uDx-Nu-d2f"; */
+"uDx-Nu-d2f.normalTitle" = "Пропустить";

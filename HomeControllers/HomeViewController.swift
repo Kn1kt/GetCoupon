@@ -49,6 +49,11 @@ class HomeViewController: UIViewController {
     
     bindViewModel()
     bindUI()
+    
+    let onboardingVC = OnboardingViewController.createVC()
+    present(onboardingVC, animated: true, completion: {
+      print("Presented")
+    })
   }
   
   override func viewWillAppear(_ animated: Bool) {

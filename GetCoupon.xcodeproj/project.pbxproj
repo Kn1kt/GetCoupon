@@ -40,6 +40,9 @@
 		F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */; };
 		F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */; };
 		F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35EE48924576B5000430002 /* UserDefaultKeys.swift */; };
+		F363B6CC24B1257C00F6BA24 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */; };
+		F363B6D224B15D3100F6BA24 /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6D124B15D3100F6BA24 /* NextButton.swift */; };
+		F363B6D324B1633A00F6BA24 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F363B6D524B1633A00F6BA24 /* Onboarding.storyboard */; };
 		F364721C24A6C6A60078A286 /* SettingsTermsOfService.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */; };
 		F364722524A6C6E80078A286 /* SettingsFeedbackScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */; };
 		F371E478242640D200301D5E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E477242640D200301D5E /* RxSwift */; };
@@ -50,7 +53,6 @@
 		F371E4832426415100301D5E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4822426415100301D5E /* Realm */; };
 		F371E4852426415100301D5E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4842426415100301D5E /* RealmSwift */; };
 		F37612542461E646007EB465 /* PromocodeView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37612532461E646007EB465 /* PromocodeView+Animations.swift */; };
-		F37A45F424AA2D3900569A92 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F37A45F324AA2D3900569A92 /* Onboarding.storyboard */; };
 		F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C94244F7009002B6115 /* FeedbackViewController.swift */; };
 		F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C972454D88F002B6115 /* FeedbackViewModel.swift */; };
 		F3888C9C2454E521002B6115 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C9B2454E521002B6115 /* SettingsViewModel.swift */; };
@@ -167,6 +169,12 @@
 		F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreSupplementaryView.swift; sourceTree = "<group>"; };
 		F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCaptionImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		F35EE48924576B5000430002 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
+		F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		F363B6D124B15D3100F6BA24 /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
+		F363B6D724B1634200F6BA24 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Onboarding.strings; sourceTree = "<group>"; };
+		F363B6D924B1634600F6BA24 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Onboarding.strings; sourceTree = "<group>"; };
+		F363B6DA24B1648200F6BA24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Onboarding.storyboard; sourceTree = "<group>"; };
+		F363B6DB24B1654F00F6BA24 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Onboarding.strings; sourceTree = "<group>"; };
 		F364721D24A6C6A60078A286 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SettingsTermsOfService.storyboard; sourceTree = "<group>"; };
 		F364722024A6C6AC0078A286 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
 		F364722224A6C6AF0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
@@ -176,7 +184,6 @@
 		F364722B24A6C6EE0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F364722D24A6C6EF0078A286 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F37612532461E646007EB465 /* PromocodeView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromocodeView+Animations.swift"; sourceTree = "<group>"; };
-		F37A45F324AA2D3900569A92 /* Onboarding.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Onboarding.storyboard; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		F3888C9B2454E521002B6115 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -346,6 +353,7 @@
 				F3F34467241FF55C005EF34C /* SearchViewModel */,
 				F3ED2D6223983DFD00726045 /* SettingsControllers */,
 				F3888C962454D86A002B6115 /* SettingViewModels */,
+				F363B6CA24B1254C00F6BA24 /* OnboardingViewController */,
 				F35B3D5B235BACA5000F7ED0 /* StoryBoards */,
 				F35B3D40235BAC2D000F7ED0 /* GetCouponTests */,
 				F35B3D4B235BAC2D000F7ED0 /* GetCouponUITests */,
@@ -428,6 +436,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		F363B6CA24B1254C00F6BA24 /* OnboardingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */,
+				F363B6D124B15D3100F6BA24 /* NextButton.swift */,
+			);
+			path = OnboardingViewController;
+			sourceTree = "<group>";
+		};
 		F37A45F024AA2C7200569A92 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,7 +469,7 @@
 		F37A45F224AA2CD600569A92 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				F37A45F324AA2D3900569A92 /* Onboarding.storyboard */,
+				F363B6D524B1633A00F6BA24 /* Onboarding.storyboard */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -767,7 +784,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F37A45F424AA2D3900569A92 /* Onboarding.storyboard in Resources */,
+				F363B6D324B1633A00F6BA24 /* Onboarding.storyboard in Resources */,
 				F30C418924A6B92B005BFAA9 /* Localizable.strings in Resources */,
 				F35B3D60235BB2D4000F7ED0 /* Favourites.storyboard in Resources */,
 				F35B3D62235BB2F5000F7ED0 /* Home.storyboard in Resources */,
@@ -817,6 +834,7 @@
 				F3D9DC8D24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift in Sources */,
 				F3CE061624A00BB3007620A4 /* NetworkAdvertisingCategoryData.swift in Sources */,
 				F3E0AEAF2385DBC70063E2C8 /* ShowMoreUIButton.swift in Sources */,
+				F363B6D224B15D3100F6BA24 /* NextButton.swift in Sources */,
 				F3B804032380578A00481152 /* HomeCardCollectionViewCell.swift in Sources */,
 				F34251E6239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift in Sources */,
 				F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */,
@@ -833,6 +851,7 @@
 				F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */,
 				F3F34469241FF57F005EF34C /* SearchViewModel.swift in Sources */,
 				F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */,
+				F363B6CC24B1257C00F6BA24 /* OnboardingViewController.swift in Sources */,
 				F38F7A4C23CA566200AAC409 /* PromoCodeStoredData.swift in Sources */,
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
 				F39C02F024804AA8005C2BDB /* AdvertisingCategoryData.swift in Sources */,
@@ -940,6 +959,17 @@
 				F30C418624A6B5B3005BFAA9 /* en */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F363B6D524B1633A00F6BA24 /* Onboarding.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F363B6D724B1634200F6BA24 /* ru */,
+				F363B6D924B1634600F6BA24 /* uk */,
+				F363B6DA24B1648200F6BA24 /* Base */,
+				F363B6DB24B1654F00F6BA24 /* en */,
+			);
+			name = Onboarding.storyboard;
 			sourceTree = "<group>";
 		};
 		F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */ = {

@@ -13,20 +13,20 @@
 "error-status" = "Помилка оновлення";
 "waiting-for-nework-status" = "Очікування з’єднання...";
 
-// MARK: - Home Screen
+  // MARK: - Home Screen
 "see-all" = "Усе";
 
-// MARK: - Home Detail Screen
+  // MARK: - Home Detail Screen
 
 
-// MARK: - Favorites Screen
+  // MARK: - Favorites Screen
 "favorites" = "Обране";
 "sort-by-dates" = "Сортуємо по датах";
 
-// MARK: - Search Screen
+  // MARK: - Search Screen
 
 
-// MARK: - Settings Screen
+  // MARK: - Settings Screen
 "settings" = "Налаштування";
 "basic-settings" = "Основні";
 "additional-settings" = "Додатково";
@@ -76,7 +76,7 @@
 "shop-website-alert-title" = "Сайт магазину";
 "shop-website-alert-subtitle" = "Відкриється сайт цього магазину.";
 
-// MARK: - Common
+  // MARK: - Common
 "copied-successfully" = "Успішно скопійовано";
 "by-sections" = "По категоріям";
 "by-popularity" = "По популярності";

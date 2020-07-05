@@ -13,20 +13,20 @@
 "error-status" = "Udpate Error";
 "waiting-for-nework-status" = "Waiting for Network...";
 
-// MARK: - Home Screen
+  // MARK: - Home Screen
 "see-all" = "See All";
 
-// MARK: - Home Detail Screen
+  // MARK: - Home Detail Screen
 
 
-// MARK: - Favorites Screen
+  // MARK: - Favorites Screen
 "favorites" = "Favorites";
 "sort-by-dates" = "Sorted by Dates";
 
-// MARK: - Search Screen
+  // MARK: - Search Screen
 
 
-// MARK: - Settings Screen
+  // MARK: - Settings Screen
 "settings" = "Settings";
 "basic-settings" = "Basic";
 "additional-settings" = "Additional";
@@ -64,7 +64,7 @@
 "review-alert-subtitle" = "Please leave a review about the application.\n(just placeholder)";
 
 
- // MARK: - Shop Screen
+  // MARK: - Shop Screen
 "coupons" = "Coupons";
 "website" = "Website";
 "share" = "Share";
@@ -76,7 +76,7 @@
 "shop-website-alert-title" = "Shop Website";
 "shop-website-alert-subtitle" = "This store’s website will open.";
 
-// MARK: - Common
+  // MARK: - Common
 "copied-successfully" = "Copied Successfully";
 "by-sections" = "by Sections";
 "by-popularity" = "by Popularity";
