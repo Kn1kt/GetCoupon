@@ -68,7 +68,7 @@ class SettingsTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return 3
+      return 4
     case 1:
       return 4
     default:
@@ -94,6 +94,8 @@ class SettingsTableViewController: UITableViewController {
         return configureClearCacheCell(cell)
       case 2:
         return configureSharePromoCell(cell)
+      case 3:
+        return configureWhatNewCell(cell)
       default:
         fatalError("Overbound Rows")
       }
@@ -202,6 +204,16 @@ extension SettingsTableViewController {
     return cell
   }
   
+  private func configureWhatNewCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
+    guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
+      return tableViewCell
+    }
+    
+    cell.titleLabel.text = NSLocalizedString("what-new", comment: "What's New?")
+    
+    return cell
+  }
+  
   private func configureRateUsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
     guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
       return tableViewCell
@@ -281,6 +293,8 @@ extension SettingsTableViewController {
         showClearCacheAlert()
       case 2:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
+      case 3:
+        showOnboardingScreen()
       default:
         fatalError("Overbound Rows")
       }
@@ -301,6 +315,11 @@ extension SettingsTableViewController {
     default:
       fatalError("Overbound Sections")
     }
+  }
+  
+  private func showOnboardingScreen() {
+    let onboardingVC = OnboardingViewController.createVC()
+    present(onboardingVC, animated: true)
   }
   
   private func showTermsOfServiceScreen() {

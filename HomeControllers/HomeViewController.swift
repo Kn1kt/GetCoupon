@@ -31,14 +31,11 @@ class HomeViewController: UIViewController {
   var currentSnapshot: NSDiffableDataSourceSnapshot
     <ShopCategoryData, ShopData>! = nil
   
-  var showOnboarding = true
+  let viewDidAppear = PublishSubject<Void>()
   
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
-//    navigationController?.navigationBar.shadowImage = UIImage()
-//    navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-//    navigationController?.navigationBar.backgroundColor = .systemBackground
     navigationItem.title = NSLocalizedString("default-status", comment: "Home")
     navigationItem.titleView = navBarTitleView
     
@@ -64,13 +61,9 @@ class HomeViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    if showOnboarding {
-      showOnboarding = false
-      let onboardingVC = OnboardingViewController.createVC()
-      present(onboardingVC, animated: true, completion: {
-        print("Presented")
-      })
-    }
+    
+    viewDidAppear.onNext(())
+    viewDidAppear.onCompleted()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -154,6 +147,19 @@ class HomeViewController: UIViewController {
           self?.navBarSubtitleViewHeightConstraint.constant = 0
           self?.view.layoutIfNeeded()
         }
+      })
+      .disposed(by: disposeBag)
+    
+    viewDidAppear
+      .take(1)
+      .withLatestFrom(viewModel.showOnboarding)
+      .filter { $0 }
+      .map { _ in }
+      .subscribeOn(defaultScheduler)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] in
+        let onboardingVC = OnboardingViewController.createVC()
+        self?.present(onboardingVC, animated: true)
       })
       .disposed(by: disposeBag)
   }

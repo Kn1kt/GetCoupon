@@ -35,9 +35,6 @@ class HomeViewModel {
   let showDetailVC = PublishRelay<(ShowMoreUIButton, UIViewController)>()
   
   let selectedCell = PublishRelay<(UIViewController, ShopData)>()
-//  let showShopVC = PublishRelay<(UIViewController, ShopData)>()
-  
-//  let showAdv = PublishRelay<ShopData>()
   
   // MARK: - Output
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
@@ -55,6 +52,18 @@ class HomeViewModel {
   let advEnabled = BehaviorRelay<Bool>(value: false)
   
   let advSections = BehaviorRelay<Set<Int>>(value: Set<Int>())
+  
+  let showOnboarding = Observable<Bool>.deferred {
+    let onboardingDidShow = UserDefaults.standard.bool(forKey: UserDefaultKeys.onboardingScreenDidShow.rawValue)
+    
+    if onboardingDidShow {
+      return Observable.just(false)
+      
+    } else {
+      UserDefaults.standard.set(true, forKey: UserDefaultKeys.onboardingScreenDidShow.rawValue)
+      return Observable.just(true)
+    }
+  }
   
   // MARK: - Init
   init() {

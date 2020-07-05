@@ -63,6 +63,7 @@
 "review-alert-title" = "Rate Our App";
 "review-alert-subtitle" = "Please leave a review about the application.\n(just placeholder)";
 
+"what-new" = "What's New?";
 
   // MARK: - Shop Screen
 "coupons" = "Coupons";
@@ -89,14 +90,14 @@
 "ok" = "OK";
 
   // MARK: - Onboarding
-"onboardingFirstTitle" = "Актуальные промокоды";
-"onboardingFirstSubtitle" = "Мы тоже устали от уведомлений по почте и в месседжерах! Поэтому собрали в одном приложении все промокоды, чтобы ты мог найти их, когда тебе захочется.";
+"onboardingFirstTitle" = "Current Promo Codes";
+"onboardingFirstSubtitle" = "We are also tired of notifications via email and messengers! That's why we have collected all the promo codes in one app so that you can find them whenever you want.";
 
-"onboardingSecondTitle" = "Никаких акций";
-"onboardingSecondSubtitle" = "Мы решили не засорять приложение акциями (их и так тяжело пропустить), собирая для тебя только промокоды, ведь все мы знаем, что по ним скидка больше.";
+"onboardingSecondTitle" = "No Shares";
+"onboardingSecondSubtitle" = "We decided not to clog the application with stocks (it’s hard to miss them), collecting only promotional codes for you, because we all know that there is more discount on them.";
 
-"onboardingThirdTitle" = "Добавляй в избранное";
-"onboardingThirdSubtitle" = "Жми сердечко и получай уведомления о новых промокодах от любимых магазинов.";
+"onboardingThirdTitle" = "Add to Favorites";
+"onboardingThirdSubtitle" = "Click on the heart and receive notifications of new promotional codes from your favorite stores.";
 
-"onboardingFourthTitle" = "Давай улучшать приложение вместе";
-"onboardingFourthSubtitle" = "Если тебе понравилось приложение или в нём чего-то не хватает, ты можешь написать нам и мы обязательно ответим!";
+"onboardingFourthTitle" = "Let's Improve the Application Together";
+"onboardingFourthSubtitle" = "If you liked the application or there is something missing in it, you can write to us and we will answer!";

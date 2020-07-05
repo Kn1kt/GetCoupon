@@ -10,4 +10,5 @@ import Foundation
 
 enum UserDefaultKeys: String {
   case pushNotifications = "Push-Notifications-Key"
+  case onboardingScreenDidShow = "Onboarding-Screen-Shown-Key"
 }
