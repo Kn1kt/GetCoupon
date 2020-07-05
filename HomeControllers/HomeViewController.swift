@@ -31,6 +31,8 @@ class HomeViewController: UIViewController {
   var currentSnapshot: NSDiffableDataSourceSnapshot
     <ShopCategoryData, ShopData>! = nil
   
+  var showOnboarding = true
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
@@ -49,11 +51,6 @@ class HomeViewController: UIViewController {
     
     bindViewModel()
     bindUI()
-    
-    let onboardingVC = OnboardingViewController.createVC()
-    present(onboardingVC, animated: true, completion: {
-      print("Presented")
-    })
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -62,6 +59,17 @@ class HomeViewController: UIViewController {
     if let refresh = collectionView.refreshControl,
       viewModel.isRefreshing.value {
         refresh.beginRefreshing()
+    }
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    if showOnboarding {
+      showOnboarding = false
+      let onboardingVC = OnboardingViewController.createVC()
+      present(onboardingVC, animated: true, completion: {
+        print("Presented")
+      })
     }
   }
   

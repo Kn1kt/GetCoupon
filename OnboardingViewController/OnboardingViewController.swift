@@ -20,13 +20,14 @@ class OnboardingViewController: UIViewController {
   @IBOutlet weak var collectionView: UICollectionView!
   
   private let disposeBag = DisposeBag()
-  private let defaultSheduler = ConcurrentDispatchQueueScheduler(qos: .default)
-  private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   static func createVC() -> UIViewController {
     let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
     
-    return storyboard.instantiateViewController(identifier: "OnboardingViewController")
+    let vc = storyboard.instantiateViewController(identifier: "OnboardingViewController")
+    vc.modalPresentationStyle = .fullScreen
+    
+    return vc
   }
   
   override func viewDidLoad() {
@@ -63,6 +64,7 @@ class OnboardingViewController: UIViewController {
                                           heightDimension: .fractionalHeight(1.0))
     
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
+    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40)
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                            heightDimension: .fractionalHeight(1.0))
@@ -96,7 +98,7 @@ class OnboardingViewController: UIViewController {
         let nextItem = self.pageControll.currentPage + 1
         
         if nextItem < self.pageControll.numberOfPages {
-          self.collectionView.scrollToItem(at: IndexPath(row: nextItem, section: 0), at: .left, animated: true)
+          self.collectionView.scrollToItem(at: IndexPath(row: nextItem, section: 0), at: .centeredHorizontally, animated: true)
         }
         
       })
@@ -121,18 +123,36 @@ extension OnboardingViewController: UICollectionViewDataSource {
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "OnboardingItemReuseIdentifier", for: indexPath) as? OnboardingCollectionViewCell else {
+      fatalError("Can't Create New Cell")
+    }
+    
     switch indexPath.row {
     case 0:
-      return collectionView.dequeueReusableCell(withReuseIdentifier: "FirstItemReuseIdentifier", for: indexPath)
+      cell.titleLabel.text = NSLocalizedString("onboardingFirstTitle", comment: "")
+      cell.subtitleLabel.text = NSLocalizedString("onboardingFirstSubtitle", comment: "")
+      cell.imageView.image = UIImage(named: "OnboardingFirst")
+      
     case 1:
-      return collectionView.dequeueReusableCell(withReuseIdentifier: "SecondItemReuseIdentifier", for: indexPath)
+      cell.titleLabel.text = NSLocalizedString("onboardingSecondTitle", comment: "")
+      cell.subtitleLabel.text = NSLocalizedString("onboardingSecondSubtitle", comment: "")
+      cell.imageView.image = UIImage(named: "OnboardingSecond")
+      
     case 2:
-      return collectionView.dequeueReusableCell(withReuseIdentifier: "ThirdItemReuseIdentifier", for: indexPath)
+      cell.titleLabel.text = NSLocalizedString("onboardingThirdTitle", comment: "")
+      cell.subtitleLabel.text = NSLocalizedString("onboardingThirdSubtitle", comment: "")
+      cell.imageView.image = UIImage(named: "OnboardingThird")
+      
     case 3:
-      return collectionView.dequeueReusableCell(withReuseIdentifier: "FourthItemReuseIdentifier", for: indexPath)
+      cell.titleLabel.text = NSLocalizedString("onboardingFourthTitle", comment: "")
+      cell.subtitleLabel.text = NSLocalizedString("onboardingFourthSubtitle", comment: "")
+      cell.imageView.image = UIImage(named: "OnboardingFourth")
+      
     default:
-      fatalError("Overbound Rows")
+      return cell
     }
+    
+    return cell
   }
 }
 

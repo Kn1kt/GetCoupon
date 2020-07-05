@@ -43,6 +43,7 @@
 		F363B6CC24B1257C00F6BA24 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */; };
 		F363B6D224B15D3100F6BA24 /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6D124B15D3100F6BA24 /* NextButton.swift */; };
 		F363B6D324B1633A00F6BA24 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F363B6D524B1633A00F6BA24 /* Onboarding.storyboard */; };
+		F363B6DD24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */; };
 		F364721C24A6C6A60078A286 /* SettingsTermsOfService.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */; };
 		F364722524A6C6E80078A286 /* SettingsFeedbackScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */; };
 		F371E478242640D200301D5E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E477242640D200301D5E /* RxSwift */; };
@@ -175,6 +176,7 @@
 		F363B6D924B1634600F6BA24 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Onboarding.strings; sourceTree = "<group>"; };
 		F363B6DA24B1648200F6BA24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Onboarding.storyboard; sourceTree = "<group>"; };
 		F363B6DB24B1654F00F6BA24 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Onboarding.strings; sourceTree = "<group>"; };
+		F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		F364721D24A6C6A60078A286 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SettingsTermsOfService.storyboard; sourceTree = "<group>"; };
 		F364722024A6C6AC0078A286 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
 		F364722224A6C6AF0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
@@ -441,6 +443,7 @@
 			children = (
 				F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */,
 				F363B6D124B15D3100F6BA24 /* NextButton.swift */,
+				F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */,
 			);
 			path = OnboardingViewController;
 			sourceTree = "<group>";
@@ -882,6 +885,7 @@
 				F34251E4239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift in Sources */,
 				F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */,
 				F34251EC239DA83E008ABD8C /* ShopCategoryData.swift in Sources */,
+				F363B6DD24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift in Sources */,
 				F3D9DC9124465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift in Sources */,
 				F32C944B24830C9200649B7B /* HomeAnimatingSubtitleView.swift in Sources */,
 				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
