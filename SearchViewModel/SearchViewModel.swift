@@ -16,7 +16,7 @@ class SearchViewModel {
   let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
-  private let suggestedSearches = BehaviorRelay<[String : [ShopData]]>(value: [:])
+  private let suggestedSearches = BehaviorRelay<[String : Int]>(value: [:])
   
   // MARK: - Input
   let selectedToken = PublishRelay<String>()
@@ -38,10 +38,10 @@ class SearchViewModel {
   func bindOutput() {
     ModelController.shared.searchCollection
       .map { collection in
-        collection.shops.reduce(into: [String : [ShopData]]()) { result, shop in
+        collection.shops.reduce(into: [String : Int]()) { result, shop in
           guard let category = shop.category else { return }
           category.tags.forEach { tag in
-            result[tag, default: []].append(shop)
+            result[tag, default: 0] += 1
           }
         }
       }
@@ -55,7 +55,7 @@ class SearchViewModel {
       .map { dict in
         let popularTags = dict.keys
           .sorted { lhs, rhs in
-          return dict[lhs]!.count > dict[rhs]!.count
+            return dict[lhs]! > dict[rhs]!
           }
           .prefix(10)
           .map { SuggestedSearchCellData(tokenText: $0) }
@@ -78,33 +78,6 @@ class SearchViewModel {
       .bind(to: _insertToken)
       .disposed(by: disposeBag)
   }
-}
-
-  // MARK: - Setup Image
-extension SearchViewModel {
-  
-//  func setupImage(for shop: ShopData) -> Completable {
-//    let subject = PublishSubject<Void>()
-//    NetworkController.shared.setupPreviewImage(in: shop) {
-//      if let _ = shop.previewImage {
-//        subject.onCompleted()
-//      } else {
-//        guard let category = shop.category else {
-//          subject.onCompleted()
-//          return
-//        }
-//        NetworkController.shared.setupDefaultImage(in: category) {
-//          shop.previewImage = category.defaultImage
-//          subject.onCompleted()
-//        }
-//      }
-//    }
-//    
-//    return subject
-//      .asObservable()
-//      .take(1)
-//      .ignoreElements()
-//  }
 }
 
   // MARK: - Provide Search Tokens

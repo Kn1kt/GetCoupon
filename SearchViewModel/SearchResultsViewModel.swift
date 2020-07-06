@@ -18,6 +18,8 @@ class SearchResultsViewModel {
   
   private var navigator: Navigator!
   
+  private let trie = BehaviorRelay<Trie<String>>(value: Trie<String>())
+  
   // MARK: - Input
   let showShopVC = PublishRelay<(UIViewController, ShopData)>()
   
@@ -42,22 +44,12 @@ class SearchResultsViewModel {
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] collection in
         guard  let self = self else { return }
+        self.buildTrie(with: collection.shops)
+        
         let attr = self.searchAttr.value
         self.searchAttr.accept(attr)
       })
       .disposed(by: disposeBag)
-    
-//    searchAttr
-//      .skip(1)
-//      .map { [weak self] (attr: (String?, [UISearchToken]?)) -> ShopCategoryData in
-//        print(Thread.current)
-//        guard let self = self else { fatalError("searchText") }
-//        return self.filteredCategory(with: attr)
-//      }
-//      .subscribeOn(eventScheduler)
-//      .observeOn(eventScheduler)
-//      .bind(to: _currentCollection)
-//      .disposed(by: disposeBag)
     
     searchAttr
       .skip(1)
@@ -95,15 +87,28 @@ extension SearchResultsViewModel {
     guard let category = shop.category else { return }
     navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
-  
-//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-//    guard let category = shop.category else { return }
-//    navigator.showShopVC(sender: vc, section: category, shop: shop)
-//  }
 }
 
   //MARK: - Performing Search
 extension SearchResultsViewModel {
+  
+  private func buildTrie(with shops: [ShopData]) {
+    let trie = Trie<String>()
+    
+    shops.forEach { shop in
+      trie.insert(shop.name.lowercased(), shop: shop)
+      
+      shop.tags.forEach { tag in
+        trie.insert(tag, shop: shop)
+      }
+      
+      shop.category?.tags.forEach { tag in
+        trie.insert(tag, shop: shop)
+      }
+    }
+    
+    self.trie.accept(trie)
+  }
   
   private func filteredCategory(with atrr: (String?, [UISearchToken]?)) -> ShopCategoryData {
     let collection = ModelController.shared.currentSearchCollection
@@ -112,41 +117,45 @@ extension SearchResultsViewModel {
       return collection
     }
     
-    
     if filter.isEmpty && tokens.isEmpty {
       return ShopCategoryData(categoryName: "")
     }
     
     let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
     
-    let filtered = collection.shops
-        .filter { shop in
-          let contains = shop.name.lowercased().contains(lowercasedFilter)
-          if tokens.isEmpty {
-            return contains
-            
-          } else if lowercasedFilter.isEmpty {
-            return tokens.reduce(false) { _, token in
-              guard let tokenText = token.representedObject as? String,
-                let category = shop.category else { return false }
-              return category.tags.contains(tokenText)
-            }
-            
-          } else if contains {
-            return tokens.reduce(false) { _, token in
-              guard let tokenText = token.representedObject as? String,
-                let category = shop.category else { return false }
-              return category.tags.contains(tokenText)
-            }
-            
+    let filtered: [ShopData]
+    
+    if lowercasedFilter.isEmpty {
+      filtered = tokens
+        .compactMap { (token: UISearchToken) -> Set<ShopData>? in
+          guard let tokenText = token.representedObject as? String else { return nil }
+          return self.trie.value[tokenText]
+        }
+        .reduce(Set<ShopData>()) { prev, next in
+          if prev.isEmpty {
+            return next
           } else {
-            return false
+            return prev.intersection(next)
           }
         }
-        .sorted { $0.name < $1.name }
+        .sorted { $0.priority > $1.priority }
       
-      return ShopCategoryData(categoryName: collection.categoryName,
-                              shops: filtered,
-                              tags: collection.tags)
+    } else if tokens.isEmpty {
+      filtered = self.trie.value.collections(startingWith: lowercasedFilter)
+      
+    } else {
+      filtered = self.trie.value.collections(startingWith: lowercasedFilter)
+        .filter { shop in
+          return tokens.reduce(false) { _, token in
+            guard let tokenText = token.representedObject as? String,
+              let category = shop.category else { return false }
+            return category.tags.contains(tokenText)
+          }
+      }
+    }
+    
+    return ShopCategoryData(categoryName: collection.categoryName,
+                            shops: filtered,
+                            tags: collection.tags)
   }
 }

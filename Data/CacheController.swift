@@ -384,6 +384,11 @@ class CacheController {
       storedShop.placeholderColor.replaceSubrange((0..<storedShop.placeholderColor.count), with: shop.placeholderColor)
     }
     
+    if shop.tags.hashValue != storedShop.tags.hashValue {
+      storedShop.tags.removeAll()
+      storedShop.tags.append(objectsIn: shop.tags)
+    }
+    
     updatePromoCodes(in: storedShop, with: shop)
   }
   

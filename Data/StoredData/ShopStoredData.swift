@@ -32,6 +32,7 @@ class ShopStoredData: Object {
   @objc dynamic var favoriteAddingDate: Date?
   
   let promoCodes = List<PromoCodeStoredData>()
+  let tags = List<String>()
   
   convenience init(name: String,
                    description: String? = nil,
@@ -42,6 +43,7 @@ class ShopStoredData: Object {
                    previewImageLink: String = "",
                    placeholderColor: [Float] = [],
                    promoCodes: [PromoCodeStoredData] = [],
+                   tags: [String] = [],
                    category: ShopCategoryStoredData) {
     self.init()
     self.name = name
@@ -56,6 +58,7 @@ class ShopStoredData: Object {
     self.placeholderColor.append(objectsIn: placeholderColor)
     
     self.promoCodes.append(objectsIn: promoCodes)
+    self.tags.append(objectsIn: tags)
   }
   
   override static func primaryKey() -> String? {
@@ -78,6 +81,7 @@ extension ShopStoredData {
               promoCodes: networkShop.promoCodes
                 .map(PromoCodeStoredData.init)
                 .sorted(by: { $0.addingDate > $1.addingDate }),
+              tags: networkShop.tags,
               category: category)
   }
 }

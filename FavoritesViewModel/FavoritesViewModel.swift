@@ -19,6 +19,8 @@ class FavoritesViewModel {
   private var navigator: Navigator!
   private var model: FavoritesDataController!
   
+  private let trie = BehaviorRelay<Trie<String>>(value: Trie<String>())
+  
   // MARK: - Input
   let segmentIndex = BehaviorRelay<Int>(value: 0)
   
@@ -50,12 +52,15 @@ class FavoritesViewModel {
   }
   
   private func bindOutput() {
-    model.collectionsBySections
-      .map { _ in }
+    model.collectionsByDates
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
-      .subscribe(onNext: { [weak self] in
+      .subscribe(onNext: { [weak self] collections in
         guard let self = self else { return }
+        if let category = collections.first {
+          self.buildTrie(with: category.shops)
+        }
+        
         let searchText = self.searchText.value
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
@@ -194,6 +199,20 @@ extension FavoritesViewModel {
   // MARK: - Performing Search
 extension FavoritesViewModel {
   
+  private func buildTrie(with shops: [ShopData]) {
+    let trie = Trie<String>()
+    
+    shops.forEach { shop in
+      trie.insert(shop.name.lowercased(), shop: shop)
+      
+      shop.tags.forEach { tag in
+        trie.insert(tag, shop: shop)
+      }
+    }
+    
+    self.trie.accept(trie)
+  }
+  
   private func filteredCategories(with filter: String) -> [ShopCategoryData] {
     
     let categories = segmentIndex.value == 0 ? model.currentCollectionsBySections : model.currentCollectionsByDates
@@ -202,14 +221,23 @@ extension FavoritesViewModel {
       return categories
     }
     
-    let lowercasedFilter = filter.lowercased()
+    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
+    
+    let filteredShops = self.trie.value.collections(startingWith: lowercasedFilter)
+    
     let filtered = categories.reduce(into: [ShopCategoryData]()) { result, category in
-      let shops = category.shops
-        .filter { shop in
-          return shop.name.lowercased().contains(lowercasedFilter)
-            || shop.category?.tags.contains(lowercasedFilter) ?? false
-        }
-        .sorted { $0.name < $1.name }
+//      let shops = category.shops
+//        .filter { shop in
+//          return shop.name.lowercased().contains(lowercasedFilter)
+//            || shop.tags.contains(lowercasedFilter)
+//            || shop.category?.tags.contains(lowercasedFilter) ?? false
+//        }
+//        .sorted { $0.name < $1.name }
+      let shops = filteredShops.filter { shop in
+        guard let categoryName = shop.category?.categoryName else { return false }
+        
+        return categoryName == category.categoryName
+      }
       
       if !shops.isEmpty {
         result.append(ShopCategoryData(categoryName: category.categoryName,

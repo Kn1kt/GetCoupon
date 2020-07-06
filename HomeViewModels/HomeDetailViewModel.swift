@@ -22,6 +22,8 @@ class HomeDetailViewModel {
   private let section: BehaviorRelay<ShopCategoryData>!
   private let sectionByDates: BehaviorRelay<ShopCategoryData>!
   
+  private let trie = BehaviorRelay<Trie<String>>(value: Trie<String>())
+  
   // MARK: - Input
   let segmentIndex = BehaviorRelay<Int>(value: 0)
   
@@ -79,11 +81,12 @@ class HomeDetailViewModel {
     let section = self.section.share(replay: 1)
     
     section
-      .map { _ in }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
-      .subscribe(onNext: { [weak self] in
+      .subscribe(onNext: { [weak self] collection in
         guard let self = self else { return }
+        self.buildTrie(with: collection.shops)
+        
         let searchText = self.searchText.value
         if !searchText.isEmpty {
           self.searchText.accept(searchText)
@@ -230,20 +233,37 @@ extension HomeDetailViewModel {
   //MARK: - Performing Search
 extension HomeDetailViewModel {
   
+  private func buildTrie(with shops: [ShopData]) {
+    let trie = Trie<String>()
+    
+    shops.forEach { shop in
+      trie.insert(shop.name.lowercased(), shop: shop)
+      
+      shop.tags.forEach { tag in
+        trie.insert(tag, shop: shop)
+      }
+    }
+    
+    self.trie.accept(trie)
+  }
+  
   private func filteredCategory(with filter: String) -> ShopCategoryData {
     
     if filter.isEmpty {
       return segmentIndex.value == 0 ? section.value : sectionByDates.value
     }
     
-    let lowercasedFilter = filter.lowercased()
+    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
   
-    let filtered = section.value.shops
-      .filter { shop in
-        return shop.name.lowercased().contains(lowercasedFilter)
-          || shop.category?.tags.contains(lowercasedFilter) ?? false
-      }
-      .sorted { $0.name < $1.name }
+//    let filtered = section.value.shops
+//      .filter { shop in
+//        return shop.name.lowercased().contains(lowercasedFilter)
+//          || shop.tags.contains(lowercasedFilter)
+//          || shop.category?.tags.contains(lowercasedFilter) ?? false
+//      }
+//      .sorted { $0.name < $1.name }
+    
+    let filtered = self.trie.value.collections(startingWith: lowercasedFilter)
     
     return ShopCategoryData(categoryName: section.value.categoryName,
                             shops: filtered,

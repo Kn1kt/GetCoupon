@@ -42,11 +42,10 @@ class ShopCategoryData {
   
   /// Bridge for stored data
   convenience init(_ category: ShopCategoryStoredData) {
-    let tags = Set(category.tags)
     self.init(categoryName: category.categoryName,
               priority: category.priority,
               defaultImageLink: category.defaultImageLink,
-              tags: tags)
+              tags: Set(category.tags))
     
     let shops = Array(category.shops).map { ShopData($0, category: self) }
     self.shops = shops

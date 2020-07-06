@@ -36,6 +36,8 @@ class ShopData {
   
   var promoCodes: [PromoCodeData]
   
+  let tags: Set<String>
+  
   weak var category: ShopCategoryData?
   let identifier = UUID()
   
@@ -50,7 +52,9 @@ class ShopData {
        isFavorite: Bool = false,
        favoriteAddingDate: Date? = nil,
        promoCodes: [PromoCodeData] = [],
-       category: ShopCategoryData = ShopCategoryData(categoryName: "STUB")) {
+       tags: Set<String> = [],
+       category: ShopCategoryData? = nil) {
+    
     self.name = name
     self.description = description
     self.shortDescription = shortDescription
@@ -60,6 +64,7 @@ class ShopData {
     self.imageLink = imageLink
     self.previewImageLink = previewImageLink
     self.promoCodes = promoCodes
+    self.tags = tags
     self.isFavorite = isFavorite
     self.favoriteAddingDate = favoriteAddingDate
     self.category = category
@@ -72,7 +77,8 @@ class ShopData {
               websiteLink: "",
               isFavorite: false,
               promoCodes: [],
-              category: ShopCategoryData(categoryName: "STUB"))
+              tags: [],
+              category: nil)
   }
   
   /// Bridge for stored data
@@ -92,6 +98,7 @@ class ShopData {
               isFavorite: shop.isFavorite,
               favoriteAddingDate: shop.favoriteAddingDate,
               promoCodes: promoCodes,
+              tags: Set(shop.tags),
               category: category)
   }
 }

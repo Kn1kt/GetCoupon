@@ -44,6 +44,8 @@
 		F363B6D224B15D3100F6BA24 /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6D124B15D3100F6BA24 /* NextButton.swift */; };
 		F363B6D324B1633A00F6BA24 /* Onboarding.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F363B6D524B1633A00F6BA24 /* Onboarding.storyboard */; };
 		F363B6DD24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */; };
+		F363B6E024B3B04300F6BA24 /* Trie.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6DF24B3B04300F6BA24 /* Trie.swift */; };
+		F363B6E224B3B04F00F6BA24 /* TrieNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6E124B3B04F00F6BA24 /* TrieNode.swift */; };
 		F364721C24A6C6A60078A286 /* SettingsTermsOfService.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */; };
 		F364722524A6C6E80078A286 /* SettingsFeedbackScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */; };
 		F371E478242640D200301D5E /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E477242640D200301D5E /* RxSwift */; };
@@ -177,6 +179,8 @@
 		F363B6DA24B1648200F6BA24 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Onboarding.storyboard; sourceTree = "<group>"; };
 		F363B6DB24B1654F00F6BA24 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Onboarding.strings; sourceTree = "<group>"; };
 		F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		F363B6DF24B3B04300F6BA24 /* Trie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trie.swift; sourceTree = "<group>"; };
+		F363B6E124B3B04F00F6BA24 /* TrieNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrieNode.swift; sourceTree = "<group>"; };
 		F364721D24A6C6A60078A286 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SettingsTermsOfService.storyboard; sourceTree = "<group>"; };
 		F364722024A6C6AC0078A286 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
 		F364722224A6C6AF0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsTermsOfService.strings; sourceTree = "<group>"; };
@@ -427,10 +431,10 @@
 		F35B3D5C235BACB8000F7ED0 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F3CE061224A00B29007620A4 /* NetworkData */,
 				F348666823CA6CC0004682B3 /* CacheController.swift */,
 				F3E0AEBA238C69350063E2C8 /* ModelController.swift */,
 				F35EE48924576B5000430002 /* UserDefaultKeys.swift */,
+				F3CE061224A00B29007620A4 /* NetworkData */,
 				F39C02EE24804A83005C2BDB /* AdvertisingData */,
 				F38F7A4623CA560500AAC409 /* StoredData */,
 				F353624D23CE0700003D7BAB /* ViewData */,
@@ -446,6 +450,15 @@
 				F363B6DC24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift */,
 			);
 			path = OnboardingViewController;
+			sourceTree = "<group>";
+		};
+		F363B6DE24B3B03100F6BA24 /* Trie */ = {
+			isa = PBXGroup;
+			children = (
+				F363B6DF24B3B04300F6BA24 /* Trie.swift */,
+				F363B6E124B3B04F00F6BA24 /* TrieNode.swift */,
+			);
+			path = Trie;
 			sourceTree = "<group>";
 		};
 		F37A45F024AA2C7200569A92 /* Main */ = {
@@ -660,6 +673,7 @@
 		F3F34467241FF55C005EF34C /* SearchViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				F363B6DE24B3B03100F6BA24 /* Trie */,
 				F3F34468241FF57F005EF34C /* SearchViewModel.swift */,
 				F3E69DA8247C518B00CE7799 /* SearchResultsViewModel.swift */,
 			);
@@ -859,6 +873,7 @@
 				F3E0AEBB238C69350063E2C8 /* ModelController.swift in Sources */,
 				F39C02F024804AA8005C2BDB /* AdvertisingCategoryData.swift in Sources */,
 				F3ED2D6C23984C9500726045 /* SearchMainViewController.swift in Sources */,
+				F363B6E224B3B04F00F6BA24 /* TrieNode.swift in Sources */,
 				F3F344582415754A005EF34C /* HomeViewModel.swift in Sources */,
 				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
 				F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */,
@@ -888,6 +903,7 @@
 				F363B6DD24B25C4700F6BA24 /* OnboardingCollectionViewCell.swift in Sources */,
 				F3D9DC9124465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift in Sources */,
 				F32C944B24830C9200649B7B /* HomeAnimatingSubtitleView.swift in Sources */,
+				F363B6E024B3B04300F6BA24 /* Trie.swift in Sources */,
 				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
 				F3ED2D762399B31000726045 /* ShopData.swift in Sources */,
 				F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */,

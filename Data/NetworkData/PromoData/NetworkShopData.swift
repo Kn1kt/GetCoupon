@@ -23,6 +23,8 @@ class NetworkShopData: Codable {
   
   let promoCodes: [NetworkPromoCodeData]
   
+  let tags: [String]
+  
   init(name: String,
        shopDescription: String? = nil,
        shopShortDescription: String,
@@ -31,7 +33,8 @@ class NetworkShopData: Codable {
        imageLink: String,
        previewImageLink: String,
        placeholderColor: [Float] = [],
-       promoCodes: [NetworkPromoCodeData] = []) {
+       promoCodes: [NetworkPromoCodeData] = [],
+       tags: [String]) {
     
     self.name = name
     self.shopDescription = shopDescription
@@ -42,5 +45,6 @@ class NetworkShopData: Codable {
     self.previewImageLink = previewImageLink
     self.placeholderColor = placeholderColor
     self.promoCodes = promoCodes
+    self.tags = tags
   }
 }
