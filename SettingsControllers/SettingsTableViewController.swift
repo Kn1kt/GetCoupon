@@ -250,8 +250,15 @@ extension SettingsTableViewController {
     }
     
     cell.titleLabel.text = NSLocalizedString("contact-us-title", comment: "To Contact Us")
-    cell.subtitleLabel.text = "example@mail.com"
     cell.subtitleLabel.textColor = UIColor(named: "BlueTintColor")
+    
+    viewModel.contactUsEmail
+      .drive(onNext: { [weak self] email in
+        self?.tableView.beginUpdates()
+        cell.subtitleLabel.text = email
+        self?.tableView.endUpdates()
+      })
+      .disposed(by: cell.disposeBag)
     
     return cell
   }
@@ -329,12 +336,16 @@ extension SettingsTableViewController {
   }
   
   private func showContactUsScreen(for indexPath: IndexPath) {
-    let email = "example@mail.com"
+    guard let cell = tableView.cellForRow(at: indexPath) as? SettingsDoubleTextAndAccessoryTableViewCell,
+      let email = cell.subtitleLabel.text else {
+      return
+    }
     
     if MFMailComposeViewController.canSendMail() {
       let composeVC = MFMailComposeViewController()
       composeVC.mailComposeDelegate = self
       composeVC.setToRecipients([email])
+      composeVC.view.tintColor = UIColor(named: "BlueTintColor")
       
       self.present(composeVC, animated: true)
       

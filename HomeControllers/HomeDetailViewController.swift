@@ -267,7 +267,8 @@ extension HomeDetailViewController {
           
           self.viewModel.currentSection
             .map { section in
-              return "\(section.shops.count) " + NSLocalizedString("shops", comment: "Shops")
+//              return "\(section.shops.count) " + NSLocalizedString("shops", comment: "Shops")
+              return LocalizationProvider.shared.provideShopPluralForm(for: UInt(section.shops.count))
           }
           .drive(cell.countLabel.rx.text)
           .disposed(by: cell.disposeBag)

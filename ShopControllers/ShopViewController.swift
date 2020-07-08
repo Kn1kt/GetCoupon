@@ -675,7 +675,8 @@ extension ShopViewController {
           }
           
           let couponsCount = self.viewModel.currentShop.promoCodes.count
-          cell.couponsCount.imageDescription.text = "\(couponsCount) " + NSLocalizedString("coupons", comment: "Coupons")
+//          cell.couponsCount.imageDescription.text = "\(couponsCount) " + NSLocalizedString("coupons", comment: "Coupons")
+          cell.couponsCount.imageDescription.text = LocalizationProvider.shared.provideCouponPluralForm(for: UInt(couponsCount))
           
           cell.couponsCount.button.rx.tap
           .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)

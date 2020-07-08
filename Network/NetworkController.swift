@@ -20,19 +20,13 @@ class NetworkController {
   
   static let shared = NetworkController()
   
-//  private let serverLink = "https://www.dropbox.com/s/qge216pbfilhy08/collections.json?dl=1"
-  let serverBaseLink = "http://closeyoureyes.jelastic.regruhosting.ru/"
-  let collectionsLink = "ios-collections.json"
-  let feedbackCouponLink = "add-promocode"
-  let feedbackGeneralLink = "add-feedback"
-  let advLink = "adspromo/ads.json"
-  
-  /// Image processing queue
-  private let queue = OperationQueue()
+  let serversDatasource = "https://usrnm242.github.io/getcoupon/conf.json"
   
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
+  
+  let serverPack = BehaviorRelay<ServersPack?>(value: nil)
   
   let connectionStatusSatisfied = Observable<Void>.create { observer in
     debugPrint("Waiting for network...")
@@ -52,8 +46,11 @@ class NetworkController {
       monitor.cancel()
     }
   }
+}
+
+  // MARK: - Download Images
+extension NetworkController {
   
-  /// Download Image
   func downloadImage(for urlString: String) -> Observable<UIImage> {
     guard let link = urlString
       .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
@@ -90,10 +87,40 @@ class NetworkController {
   // MARK: - Download database
 extension NetworkController {
   
+  func setupServerPack() -> Observable<Void> {
+    let subject = PublishSubject<Void>()
+    
+    guard let url = URL(string: serversDatasource) else {
+      subject.onCompleted()
+      return subject.asObservable()
+    }
+    
+    URLSession.shared.rx.data(request: URLRequest(url: url))
+      .map { (data: Data) -> ServersPack in
+        let decoder = JSONDecoder()
+        return try decoder.decode(ServersPack.self, from: data)
+      }
+      .subscribeOn(updatesScheduler)
+      .observeOn(updatesScheduler)
+      .subscribe(onNext: { [weak self] servers in
+        self?.serverPack.accept(servers)
+        
+        subject.onNext(())
+      }, onError: { error in
+          subject.onError(error)
+      }, onCompleted: {
+        subject.onCompleted()
+      })
+      .disposed(by: disposeBag)
+    
+    return subject.asObservable()
+  }
+  
   func downloadCollections() -> Observable<[NetworkShopCategoryData]> {
     let subject = PublishSubject<[NetworkShopCategoryData]>()
     
-    guard let url = URL(string: self.serverBaseLink + self.collectionsLink) else {
+    guard let server = serverPack.value?.defaultServer,
+      let url = URL(string: server.baseServerLink + server.database) else {
       subject.onCompleted()
       return subject.asObservable()
     }
@@ -114,16 +141,16 @@ extension NetworkController {
               .take(1)
           }
         }
-    }
-    .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
-    .map { data in
-      let decoder = JSONDecoder()
-      return try decoder.decode([NetworkShopCategoryData].self, from: data)
-    }
-    .subscribeOn(self.updatesScheduler)
-    .observeOn(self.updatesScheduler)
-    .bind(to: subject)
-    .disposed(by: self.disposeBag)
+      }
+      .timeout(RxTimeInterval.seconds(20), scheduler: updatesScheduler)
+      .map { data in
+        let decoder = JSONDecoder()
+        return try decoder.decode([NetworkShopCategoryData].self, from: data)
+      }
+      .subscribeOn(self.updatesScheduler)
+      .observeOn(self.updatesScheduler)
+      .bind(to: subject)
+      .disposed(by: self.disposeBag)
     
     return subject.asObservable()
   }
@@ -134,7 +161,8 @@ extension NetworkController {
   
   func downloadAdvOffer() -> Observable<[NetworkAdvertisingCategoryData]> {
     let subject = PublishSubject<[NetworkAdvertisingCategoryData]>()
-    guard let url = URL(string: self.serverBaseLink + self.advLink) else {
+    guard let server = serverPack.value?.defaultServer,
+      let url = URL(string: server.baseServerLink + server.adv) else {
         subject.onCompleted()
         return subject.asObservable()
     }
@@ -167,5 +195,73 @@ extension NetworkController {
       .disposed(by: self.disposeBag)
     
     return subject.asObservable()
+  }
+}
+
+  // MARK: - Send Feedbacks
+extension NetworkController {
+  
+  private func sendFeedback(_ params: [String : String], url: URL) {
+    do {
+      let data = try JSONSerialization.data(withJSONObject: params)
+      var request = URLRequest(url: url)
+      request.httpMethod = "POST"
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      URLSession.shared.uploadTask(with: request, from: data).resume()
+      
+    } catch {
+      debugPrint(error)
+    }
+  }
+  
+  func sendGeneralFeedback(_ feedback: String) {
+    guard let server = serverPack.value?.defaultServer,
+      let url = URL(string: server.baseServerLink + server.feedbackGeneralLink) else {
+      return
+    }
+    
+    let params = ["feedback" : feedback]
+    
+    self.sendFeedback(params, url: url)
+  }
+  
+  func sendCoupon(_ coupon: String) {
+    guard let server = serverPack.value?.defaultServer,
+      let url = URL(string: server.baseServerLink + server.feedbackCouponLink) else {
+      return
+    }
+    
+    let params = ["promocode" : coupon]
+    
+    self.sendFeedback(params, url: url)
+  }
+}
+
+  // MARK: - Download Terms of Service
+extension NetworkController {
+  
+  var license: Observable<String?> {
+    guard let licenseLink = self.serverPack.value?.license,
+      let url = URL(string: licenseLink) else {
+        return Observable.empty()
+    }
+    
+    return Observable.create { [weak self] observer in
+      guard let self = self else {
+        observer.onCompleted()
+        return Disposables.create()
+      }
+      
+      URLSession.shared.rx.data(request: URLRequest(url: url))
+        .map { data in
+          return String(data: data, encoding: .utf8)
+        }
+        .subscribeOn(self.defaultScheduler)
+        .observeOn(self.defaultScheduler)
+        .bind(to: observer)
+        .disposed(by: self.disposeBag)
+      
+      return Disposables.create()
+    }
   }
 }

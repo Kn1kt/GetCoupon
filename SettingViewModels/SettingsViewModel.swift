@@ -30,6 +30,8 @@ class SettingsViewModel {
   
   let pushNotificationsSwitherShould: Driver<Bool>
   
+  let contactUsEmail: Driver<String?>
+  
   // MARK: - Init
   init() {
     self.navigator = Navigator()
@@ -38,6 +40,12 @@ class SettingsViewModel {
     
     let pushIsOn = UserDefaults.standard.bool(forKey: UserDefaultKeys.pushNotifications.rawValue)
     pushNotifications = BehaviorRelay<Bool>(value: pushIsOn)
+    
+    contactUsEmail = NetworkController.shared.serverPack
+      .map { servers in
+        return servers?.contactEmail
+      }
+      .asDriver(onErrorJustReturn: nil)
     
     bindOutput()
     bindActions()

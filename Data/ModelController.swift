@@ -21,6 +21,7 @@ class ModelController {
   static let shared = ModelController()
   
   private let disposeBag = DisposeBag()
+  private var updateDisposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
@@ -83,6 +84,31 @@ extension ModelController {
     self._dataUpdatingStatus.accept(.updating)
     self._isUpdatingData.accept(true)
     
+    self.updateDisposeBag = DisposeBag()
+    
+    NetworkController.shared.setupServerPack()
+      .subscribeOn(updatesScheduler)
+      .subscribe(onNext: { [weak self] in
+        self?.updateCollections()
+        }, onError: { [weak self] error in
+          guard let self = self else { return }
+          
+          self._dataUpdatingStatus.accept(.error(error))
+          self._isUpdatingData.accept(false)
+          
+          self._dataUpdatingStatus.accept(.waitingForNetwork)
+          
+          NetworkController.shared.connectionStatusSatisfied
+            .subscribeOn(self.updatesScheduler)
+            .subscribe(onNext: {
+              self.setupCollections()
+            })
+            .disposed(by: self.updateDisposeBag)
+      })
+      .disposed(by: disposeBag)
+  }
+  
+  private func updateCollections() {
     let networkData = NetworkController.shared.downloadCollections().share()
     
     networkData
@@ -113,7 +139,7 @@ extension ModelController {
           .subscribe(onNext: {
             self.setupCollections()
           })
-          .disposed(by: self.disposeBag)
+          .disposed(by: self.updateDisposeBag)
       })
       .disposed(by: disposeBag)
   }

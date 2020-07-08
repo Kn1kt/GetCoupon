@@ -54,7 +54,7 @@ extension HomeDetailSegmentedControlCollectionViewCell {
     let spacing = CGFloat(10)
     NSLayoutConstraint.activate([
       segmentedControl.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      segmentedControl.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.7),
+      segmentedControl.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.65),
       segmentedControl.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
       segmentedControl.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.8),
       

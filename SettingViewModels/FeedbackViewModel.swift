@@ -52,29 +52,11 @@ class FeedbackViewModel {
         // Send feedback to serever
         debugPrint("Recieved: ", feedback)
         
-        let params: [String : String]
-        let type: String
-        if self.feedbackType == .general {
-          params = ["feedback" : feedback]
-          type = NetworkController.shared.feedbackGeneralLink
-        } else if self.feedbackType == .coupon {
-          params = ["promocode" : feedback]
-          type = NetworkController.shared.feedbackCouponLink
-        } else {
-          params = [:]
-          type = ""
-        }
-        
-        do {
-          let data = try JSONSerialization.data(withJSONObject: params, options: .prettyPrinted)
-          if let url = URL(string: NetworkController.shared.serverBaseLink + type) {
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            URLSession.shared.uploadTask(with: request, from: data).resume()
-          }
-        } catch {
-          debugPrint(error)
+        switch self.feedbackType {
+        case .general:
+          NetworkController.shared.sendGeneralFeedback(feedback)
+        case .coupon:
+          NetworkController.shared.sendCoupon(feedback)
         }
       })
       .disposed(by: disposeBag)
