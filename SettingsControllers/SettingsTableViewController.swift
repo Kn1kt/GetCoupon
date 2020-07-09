@@ -8,6 +8,7 @@
 
 import UIKit
 import MessageUI
+import StoreKit
 import RxSwift
 import RxCocoa
 
@@ -387,10 +388,6 @@ extension SettingsTableViewController {
 
     return nil
   }
-  
-  private func copyEmailInPasteBoard(email: String) {
-    
-  }
 }
 
   // MARK: - Email Delegate
@@ -442,12 +439,6 @@ extension SettingsTableViewController {
   
   // MARK: - Rate Us Alert
   private func showRateUsAlert() {
-    let alertController = UIAlertController(title: NSLocalizedString("review-alert-title", comment: "Rate Our App"),
-                                            message: NSLocalizedString("review-alert-subtitle", comment: "Please leave a review about the application."),
-                                            preferredStyle: .alert)
-    let action = UIAlertAction(title: NSLocalizedString("OK", comment: "OK"), style: .default, handler: nil)
-    alertController.addAction(action)
-    
-    present(alertController, animated: true, completion: nil)
+    SKStoreReviewController.requestReview()
   }
 }
