@@ -132,6 +132,13 @@ extension ModelController {
       .observeOn(updatesScheduler)
       .subscribe(onError: { [weak self] error in
         guard let self = self else { return }
+        
+        /// Just do nothing when server turn off
+        if let error = error as? RxCocoa.RxCocoaURLError,
+          case .httpRequestFailed(response: _, data: _) = error {
+          return
+        }
+        
         self._dataUpdatingStatus.accept(.waitingForNetwork)
         
         NetworkController.shared.connectionStatusSatisfied
