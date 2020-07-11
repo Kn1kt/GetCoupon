@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  GetCoupon
+
+  Created by Nikita Konashenko on 11.07.2020.
+  Copyright © 2020 Nikita Konashenko. All rights reserved.
+*/
+
+"shortcut_Search" = "Поиск";
+"shortcut_Favorites" = "Избранное";

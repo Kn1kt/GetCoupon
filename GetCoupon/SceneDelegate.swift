@@ -18,6 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
     // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
     guard let _ = (scene as? UIWindowScene) else { return }
+    
+    if let shortcutItem = connectionOptions.shortcutItem {
+      performShortcut(shortcutItem)
+    }
+  }
+  
+  func windowScene(_ windowScene: UIWindowScene, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
+    performShortcut(shortcutItem)
   }
   
   func sceneDidDisconnect(_ scene: UIScene) {
@@ -53,12 +61,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let center = UNUserNotificationCenter.current()
     center.getNotificationSettings { setting in
       if setting.authorizationStatus == .authorized {
-//        UserDefaults.standard.set(false, forKey: UserDefaultKeys.pushNotifications.rawValue)
         ModelController.shared.systemPermissionToPush.accept(true)
+        
       } else {
         ModelController.shared.systemPermissionToPush.accept(false)
       }
       
+    }
+  }
+  
+  private func performShortcut(_ shortcutItem: UIApplicationShortcutItem) {
+    if shortcutItem.type == "SearchAction" {
+      ModelController.shared.defaultTabBarItem.accept(2)
+
+    } else if shortcutItem.type == "OpenFavoritesAction" {
+      ModelController.shared.defaultTabBarItem.accept(1)
     }
   }
 }

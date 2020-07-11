@@ -24,7 +24,7 @@
 "sort-by-dates" = "По дате добавления";
 
   // MARK: - Search Screen
-
+"search-bar-placeholder" = "Магазины, категории, теги и др.";
 
   // MARK: - Settings Screen
 "settings" = "Настройки";

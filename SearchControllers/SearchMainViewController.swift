@@ -41,6 +41,7 @@ class SearchMainViewController: UIViewController {
     searchController.searchBar.searchTextField.tokenBackgroundColor = UIColor(named: "BlueTintColor")
     searchController.searchBar.delegate = self
     searchController.automaticallyShowsSearchResultsController = false
+    searchController.searchBar.placeholder = NSLocalizedString("search-bar-placeholder", comment: "Search...")
     
     resultsViewController.searchController = searchController
     

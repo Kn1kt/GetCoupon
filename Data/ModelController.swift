@@ -28,6 +28,9 @@ class ModelController {
   /// System Permission to Send Push Notifications
   let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
   
+  /// Tab Bar quick actions
+  let defaultTabBarItem = BehaviorRelay<Int>(value: 0)
+  
   let _isUpdatingData = BehaviorRelay<Bool>(value: false)
   let isUpdatingData: Observable<Bool>
   

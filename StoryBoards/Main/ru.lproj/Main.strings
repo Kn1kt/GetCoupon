@@ -1,0 +1,15 @@
+
+/* Class = "UITabBarItem"; title = "Search"; ObjectID = "JCm-IS-3A2"; */
+"JCm-IS-3A2.title" = "Search";
+
+/* Class = "UITabBarItem"; title = "Settings"; ObjectID = "NBO-Et-vGZ"; */
+"NBO-Et-vGZ.title" = "Settings";
+
+/* Class = "UITabBarItem"; badgeValue = "1"; ObjectID = "Ntk-Yo-h5h"; */
+"Ntk-Yo-h5h.badgeValue" = "1";
+
+/* Class = "UITabBarItem"; title = "House"; ObjectID = "Ntk-Yo-h5h"; */
+"Ntk-Yo-h5h.title" = "House";
+
+/* Class = "UITabBarItem"; title = "Favourites"; ObjectID = "qWQ-mC-og4"; */
+"qWQ-mC-og4.title" = "Favourites";

@@ -24,7 +24,7 @@
 "sort-by-dates" = "Sorted by Dates";
 
   // MARK: - Search Screen
-
+"search-bar-placeholder" = "Shops, Categories, Tags and More";
 
   // MARK: - Settings Screen
 "settings" = "Settings";

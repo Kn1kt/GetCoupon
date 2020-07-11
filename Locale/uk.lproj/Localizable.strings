@@ -24,7 +24,7 @@
 "sort-by-dates" = "Сортуємо по датах";
 
   // MARK: - Search Screen
-
+"search-bar-placeholder" = "Магазини, категорії, теги и др.";
 
   // MARK: - Settings Screen
 "settings" = "Налаштування";
