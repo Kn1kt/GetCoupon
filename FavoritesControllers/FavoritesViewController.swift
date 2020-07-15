@@ -20,6 +20,8 @@ class FavoritesViewController: UIViewController {
   
   static let titleElementKind = "title-element-kind"
   
+  private let emptyThereView = EmptyFavoritesView()
+  
   private let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
   private let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
   
@@ -86,6 +88,21 @@ class FavoritesViewController: UIViewController {
           selected.forEach { self?.collectionView.deselectItem(at: $0, animated: false)}
         }
         self?.updateSnapshot(section)
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.currentSection
+      .drive(onNext: { [weak self] section in
+        let isEmpty = section.first?.shops.isEmpty ?? true
+        
+        if isEmpty {
+          UIView.animate(withDuration: 0.5, delay: 0.5, options: [.curveEaseOut], animations: { [weak self] in
+            self?.emptyThereView.alpha = 1.0
+          })
+          
+        } else {
+          self?.emptyThereView.alpha = 0
+        }
       })
       .disposed(by: disposeBag)
   }
@@ -218,13 +235,18 @@ extension FavoritesViewController {
     
     collectionView.delegate = self
     
+    emptyThereView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.addSubview(emptyThereView)
+    
     NSLayoutConstraint.activate([
-      
       collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       
+      emptyThereView.bottomAnchor.constraint(equalTo: collectionView.centerYAnchor, constant: -80),
+      emptyThereView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
+      emptyThereView.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 0.7)
     ])
     
     collectionView.register(SearchCollectionViewCell.self,

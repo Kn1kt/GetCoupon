@@ -140,21 +140,19 @@ class AnimatedPromocodeView: PromocodeView {
     if let backgroundIn = backgroundInAnimator {
       backgroundIn.stopAnimation(true)
       backgroundInAnimator = nil
-      print("STOP AT IN BACKGROUND")
+      
     } else if let backgroundOut = backgroundOutAnimator {
       backgroundOut.stopAnimation(true)
       backgroundOutAnimator = nil
-      print("STOP AT OUT BACKGROUND")
     }
     
     if let labelIn = labelInAnimator {
       labelIn.stopAnimation(true)
       labelInAnimator = nil
-      print("STOP AT IN LABEL")
+      
     } else if let labelOut = labelOutAnimator {
       labelOut.stopAnimation(true)
       labelOutAnimator = nil
-      print("STOP AT OUT LABEL")
     }
     
     setAnimatableViewToDefault()

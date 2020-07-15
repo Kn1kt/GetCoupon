@@ -52,6 +52,7 @@ extension SearchCollectionViewCell {
 extension SearchCollectionViewCell {
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
   }
 }

@@ -68,6 +68,7 @@ extension SearchSuggestionCollectionViewCell {
 extension SearchSuggestionCollectionViewCell {
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     separatorView.isHidden = false
   }
 }

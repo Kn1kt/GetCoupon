@@ -57,7 +57,9 @@ extension TitleSupplementaryView {
 }
 
 extension TitleSupplementaryView {
+  
   override func prepareForReuse() {
+    super.prepareForReuse()
     showMoreButton.isEnabled = false
     showMoreButton.isHidden = true
     

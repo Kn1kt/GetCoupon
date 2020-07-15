@@ -26,8 +26,8 @@ class ShowMoreSupplementaryView: UICollectionReusableView {
   }
   
   override func prepareForReuse() {
-    disposeBag = DisposeBag()
     super.prepareForReuse()
+    disposeBag = DisposeBag()
   }
   
 }

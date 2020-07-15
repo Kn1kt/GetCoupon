@@ -28,6 +28,7 @@ class HomeDetailSegmentedControlCollectionViewCell: UICollectionViewCell {
   }
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
   }
 }

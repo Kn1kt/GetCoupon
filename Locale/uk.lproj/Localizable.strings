@@ -22,6 +22,8 @@
   // MARK: - Favorites Screen
 "favorites" = "Обране";
 "sort-by-dates" = "Сортуємо по датах";
+"is-empty-there-title" = "Пока ничего";
+"is-empty-there-subtitle" = "Жми на сердечко в любимых магазинах и добавляй их в избранное";
 
   // MARK: - Search Screen
 "search-bar-placeholder" = "Магазини, категорії, теги и др.";

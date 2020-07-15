@@ -69,6 +69,7 @@ extension ShopTitleCollectionViewCell {
 extension ShopTitleCollectionViewCell {
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
   }
 }

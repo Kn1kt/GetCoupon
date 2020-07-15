@@ -67,6 +67,7 @@ extension AdvertisingImageCollectionViewCell {
 extension AdvertisingImageCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
     imageView.image = nil
     imageView.backgroundColor = .systemGray3

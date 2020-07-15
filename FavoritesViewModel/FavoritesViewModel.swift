@@ -226,13 +226,6 @@ extension FavoritesViewModel {
     let filteredShops = self.trie.value.collections(startingWith: lowercasedFilter)
     
     let filtered = categories.reduce(into: [ShopCategoryData]()) { result, category in
-//      let shops = category.shops
-//        .filter { shop in
-//          return shop.name.lowercased().contains(lowercasedFilter)
-//            || shop.tags.contains(lowercasedFilter)
-//            || shop.category?.tags.contains(lowercasedFilter) ?? false
-//        }
-//        .sorted { $0.name < $1.name }
       let shops = filteredShops.filter { shop in
         guard let categoryName = shop.category?.categoryName else { return false }
         
@@ -257,9 +250,4 @@ extension FavoritesViewModel {
     guard let category = shop.category else { return }
     navigator.showShopVC(sender: vc, section: category, shop: shop, favoritesButton: favoritesButton)
   }
-  
-//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-//    guard let category = shop.category else { return }
-//    navigator.showShopVC(sender: vc, section: category, shop: shop)
-//  }
 }

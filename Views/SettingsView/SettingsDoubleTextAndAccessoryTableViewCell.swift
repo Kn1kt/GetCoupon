@@ -29,6 +29,7 @@ class SettingsDoubleTextAndAccessoryTableViewCell: UITableViewCell {
   }
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
     subtitleLabel.textColor = .secondaryLabel
   }

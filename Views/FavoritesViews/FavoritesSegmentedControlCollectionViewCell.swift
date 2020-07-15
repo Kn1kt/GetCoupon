@@ -51,6 +51,7 @@ extension FavoritesSegmentedControlCollectionViewCell {
 
 extension FavoritesSegmentedControlCollectionViewCell {
   override func prepareForReuse() {
+    super.prepareForReuse()
     disposeBag = DisposeBag()
   }
 }

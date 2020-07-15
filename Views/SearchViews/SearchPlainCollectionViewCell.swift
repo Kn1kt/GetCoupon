@@ -112,6 +112,7 @@ extension SearchPlainCollectionViewCell {
 extension SearchPlainCollectionViewCell: CellWithImage {
   
   override func prepareForReuse() {
+    super.prepareForReuse()
     imageView.image = nil
     imageView.backgroundColor = .systemGray3
     layer.maskedCorners = []
