@@ -187,10 +187,16 @@ class ShopViewController: UIViewController {
     logoView.favoritesButton.rx.tap
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .soft)
+        impactFeedbackgenerator.prepare()
+        
         self.viewModel.updateFavoritesStatus()
+        
         UIView.animate(withDuration: 0.15) {
           self.logoView.favoritesButton.checkbox.isHighlighted = self.viewModel.currentShop.isFavorite
         }
+        
+        impactFeedbackgenerator.impactOccurred()
       })
       .disposed(by: disposeBag)
     

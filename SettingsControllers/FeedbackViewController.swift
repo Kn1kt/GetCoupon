@@ -90,10 +90,16 @@ class FeedbackViewController: UIViewController {
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in
+        let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
+        notificationFeedbackGenerator.prepare()
+        
         if let text = self.textView.text {
           self.viewModel.feedbackText.accept(text)
         }
+        
         self.dismiss(animated: true, completion: nil)
+        
+        notificationFeedbackGenerator.notificationOccurred(.success)
       })
       .disposed(by: disposeBag)
   }

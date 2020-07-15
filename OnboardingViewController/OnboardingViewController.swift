@@ -78,20 +78,36 @@ class OnboardingViewController: UIViewController {
   
   private func bindUI() {
     skipButton.rx.tap
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
+        impactFeedbackgenerator.prepare()
+        
         self?.dismiss(animated: true)
+        
+        impactFeedbackgenerator.impactOccurred()
       })
       .disposed(by: disposeBag)
     
     startButton.rx.tap
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
+        let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .medium)
+        impactFeedbackgenerator.prepare()
+        
         self?.dismiss(animated: true)
+        
+        impactFeedbackgenerator.impactOccurred()
       })
       .disposed(by: disposeBag)
     
     nextButton.rx.tap
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }

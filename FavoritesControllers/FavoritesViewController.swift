@@ -338,10 +338,16 @@ extension FavoritesViewController {
           cell.favoritesButton.rx.tap
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
+              let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .soft)
+              impactFeedbackgenerator.prepare()
+              
               self.viewModel.updateFavorites(cell.favoritesButton)
+              
               UIView.animate(withDuration: 0.15) {
                 cell.favoritesButton.checkbox.isHighlighted = cellData.isFavorite
               }
+              
+              impactFeedbackgenerator.impactOccurred()
             })
             .disposed(by: cell.disposeBag)
           
