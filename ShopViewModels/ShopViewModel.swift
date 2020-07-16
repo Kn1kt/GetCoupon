@@ -162,7 +162,7 @@ extension ShopViewModel {
         .map { coupon in
           return "🔥 \(coupon.coupon): \(coupon.description)"
         }
-        .joined(separator: "\n")
+        .joined(separator: "\n\n")
       
       promoString += "сейчас действуют:\n\(coupons)\n"
     }

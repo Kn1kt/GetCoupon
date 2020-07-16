@@ -60,7 +60,7 @@ class FeedbackViewController: UIViewController {
   private func bindUI() {
     textView.rx.text
       .map { (string: String?) -> Bool in
-        if let text = string,
+        if let text = string?.trimmingCharacters(in: .whitespaces),
           !text.isEmpty {
           return true
         }
@@ -93,7 +93,7 @@ class FeedbackViewController: UIViewController {
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()
         notificationFeedbackGenerator.prepare()
         
-        if let text = self.textView.text {
+        if let text = self.textView.text?.trimmingCharacters(in: .whitespaces) {
           self.viewModel.feedbackText.accept(text)
         }
         
