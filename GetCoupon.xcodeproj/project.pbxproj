@@ -1365,7 +1365,7 @@
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.1.0;
+				minimumVersion = 5.1.1;
 			};
 		};
 		F371E4812426415100301D5E /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
@@ -1373,7 +1373,7 @@
 			repositoryURL = "https://github.com/realm/realm-cocoa";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				minimumVersion = 5.3.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -13,13 +13,13 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>zero</key>
-			<string>Нет купонов</string>
+			<string>Немає купонів</string>
 			<key>one</key>
 			<string>%d Купон</string>
 			<key>few</key>
 			<string>%d Купона</string>
 			<key>many</key>
-			<string>%d Купонов</string>
+			<string>%d Купонів</string>
 			<key>other</key>
 			<string>%d Купона</string>
 		</dict>
@@ -35,13 +35,13 @@
 			<key>NSStringFormatValueTypeKey</key>
 			<string>d</string>
 			<key>zero</key>
-			<string>Пусто</string>
+			<string>Нічого</string>
 			<key>one</key>
 			<string>%d Магазин</string>
 			<key>few</key>
 			<string>%d Магазина</string>
 			<key>many</key>
-			<string>%d Магазинов</string>
+			<string>%d Магазинів</string>
 			<key>other</key>
 			<string>%d Магазина</string>
 		</dict>
