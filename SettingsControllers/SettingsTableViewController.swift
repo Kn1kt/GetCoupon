@@ -30,6 +30,12 @@ class SettingsTableViewController: UITableViewController {
     bindUI()
   }
   
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    viewModel.viewDidAppear.accept(())
+  }
+  
   private func bindViewModel() {
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
@@ -169,7 +175,10 @@ extension SettingsTableViewController {
     viewModel.pushNotificationsSwitherShould
       .drive(onNext: { [weak self] isOn in
         cell.switcher.setOn(isOn, animated: true)
-        self?.showPushDisabledAlert()
+        
+        if !isOn {
+          self?.showPushDisabledAlert()
+        }
       })
       .disposed(by: cell.disposeBag)
     

@@ -27,14 +27,14 @@ class ServerData: Decodable {
   
   // MARK: - Decodable
   enum CodingKeys: CodingKey {
-    case serverAddress, iosJson, ads
+    case serverAddress, iosJson, iosAds
   }
   
   public required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.baseServerLink = try container.decode(String.self, forKey: .serverAddress)
     self.database = try container.decode(String.self, forKey: .iosJson)
-    self.adv = try container.decode(String.self, forKey: .ads)
+    self.adv = try container.decode(String.self, forKey: .iosAds)
   }
 }
 

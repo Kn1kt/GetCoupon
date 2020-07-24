@@ -414,7 +414,7 @@ extension State {
 extension ShopViewController {
   
   private func layoutPopupView() {
-    overlayView.backgroundColor = .black
+    overlayView.backgroundColor = UIColor(named: "OverlayColor")
     overlayView.alpha = 0
     
     overlayView.translatesAutoresizingMaskIntoConstraints = false

@@ -77,6 +77,9 @@ class AnimatedPromocodeView: PromocodeView {
       return
     }
     
+    let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .medium)
+    impactFeedbackgenerator.prepare()
+    
     backgroundInAnimator = UIViewPropertyAnimator(duration: 1,
                                                 curve: .easeOut,
                                                 animations: { [weak self] in
@@ -132,6 +135,7 @@ class AnimatedPromocodeView: PromocodeView {
     
     backgroundInAnimator?.startAnimation()
     labelInAnimator?.startAnimation()
+    impactFeedbackgenerator.impactOccurred()
   }
   
   func stopAnimating() {

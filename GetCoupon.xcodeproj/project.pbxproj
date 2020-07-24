@@ -338,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				F34C575B2437B262004A03B3 /* CouponPopupView.swift */,
+				F37612532461E646007EB465 /* PromocodeView+Animations.swift */,
 			);
 			path = CouponView;
 			sourceTree = "<group>";
@@ -645,7 +646,6 @@
 			children = (
 				F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */,
 				F3ED2D7B239B269E00726045 /* PromocodeView.swift */,
-				F37612532461E646007EB465 /* PromocodeView+Animations.swift */,
 				F34251E3239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift */,
 				F34251E5239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift */,
 				F34251E9239D7102008ABD8C /* LogoWithFavoritesButton.swift */,

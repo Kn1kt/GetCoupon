@@ -122,7 +122,6 @@ extension CouponPopupView {
       titleLabel.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 4.0),
       
       shareButton.trailingAnchor.constraint(lessThanOrEqualTo: exitButton.leadingAnchor, constant: -spacing),
-//      shareButton.topAnchor.constraint(equalToSystemSpacingBelow: self.topAnchor, multiplier: 5.0),
       shareButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
       shareButton.heightAnchor.constraint(equalToConstant: 23),
       shareButton.widthAnchor.constraint(equalTo: shareButton.heightAnchor),

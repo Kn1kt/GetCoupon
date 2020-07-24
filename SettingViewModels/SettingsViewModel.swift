@@ -25,6 +25,8 @@ class SettingsViewModel {
   
   let pushNotifications: BehaviorRelay<Bool>!
   
+  let viewDidAppear = PublishRelay<Void>()
+  
   // MARK: - Output
   private let _pushNotificationsSwitherShould = PublishRelay<Bool>()
   
@@ -85,6 +87,20 @@ class SettingsViewModel {
       .subscribe(onNext: { [unowned self] _ in
         self.pushNotifications.accept(false)
         self._pushNotificationsSwitherShould.accept(false)
+      })
+      .disposed(by: disposeBag)
+    
+    viewDidAppear
+      .take(1)
+      .withLatestFrom(ModelController.shared.systemPermissionToPush)
+      .filter { !$0 }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { [unowned self] _ in
+        if UserDefaults.standard.value(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
+          self.pushNotifications.accept(true)
+          self._pushNotificationsSwitherShould.accept(true)
+        }
       })
       .disposed(by: disposeBag)
     
