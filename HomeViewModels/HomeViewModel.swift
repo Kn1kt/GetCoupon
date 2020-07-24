@@ -65,6 +65,8 @@ class HomeViewModel {
     }
   }
   
+  let scrollToTopGesture = ModelController.shared.scrollToTopGesture.asObservable()
+  
   // MARK: - Init
   init() {
     self.model = ModelController.shared.homeDataController

@@ -28,8 +28,11 @@ class ModelController {
   /// System Permission to Send Push Notifications
   let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
   
-  /// Tab Bar quick actions
+  /// Tab Bar Quick Actions
   let defaultTabBarItem = BehaviorRelay<Int>(value: 0)
+  
+  /// Tab Bar Scroll to Top
+  let scrollToTopGesture = PublishRelay<UIViewController>()
   
   let _isUpdatingData = BehaviorRelay<Bool>(value: false)
   let isUpdatingData: Observable<Bool>

@@ -17,6 +17,8 @@ class TabBarViewController: UITabBarController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    delegate = self
+    
     ModelController.shared.defaultTabBarItem
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] index in
@@ -29,5 +31,16 @@ class TabBarViewController: UITabBarController {
         }
       })
     .disposed(by: disposeBag)
+  }
+}
+
+extension TabBarViewController: UITabBarControllerDelegate {
+  
+  func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+    if let selectedVC = selectedViewController,
+      selectedVC == viewController {
+      ModelController.shared.scrollToTopGesture.accept(selectedVC)
+    }
+    return true
   }
 }

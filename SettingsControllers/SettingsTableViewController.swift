@@ -64,7 +64,19 @@ class SettingsTableViewController: UITableViewController {
   }
   
   private func bindUI() {
-    
+    viewModel
+      .scrollToTopGesture
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] vc in
+        if let self = self,
+          let nc = vc as? UINavigationController,
+          let top = nc.topViewController,
+          top == self {
+          self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+        }
+      })
+      .disposed(by: disposeBag)
   }
   
   // MARK: - Table view data source

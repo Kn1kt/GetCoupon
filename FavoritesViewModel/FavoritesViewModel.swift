@@ -39,6 +39,8 @@ class FavoritesViewModel {
   
   let isUpdatingData: Driver<Bool>
   
+  let scrollToTopGesture = ModelController.shared.scrollToTopGesture.asObservable()
+  
   // MARK: - Init
   init() {
     self.navigator = Navigator()
