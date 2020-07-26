@@ -36,9 +36,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
   
   func sceneDidBecomeActive(_ scene: UIScene) {
-    checkNotifications()
     // Called when the scene has moved from an inactive state to an active state.
     // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+    checkNotifications()
+    checkLastUpdate()
   }
   
   func sceneWillResignActive(_ scene: UIScene) {
@@ -77,6 +78,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     } else if shortcutItem.type == "OpenFavoritesAction" {
       ModelController.shared.defaultTabBarItem.accept(1)
     }
+  }
+  
+  private func checkLastUpdate() {
+    guard let lastDate = UserDefaults.standard.value(forKey: UserDefaultKeys.lastUpdateDate.rawValue) as? Date else { return }
+    
+    let timePassed = lastDate.timeIntervalSinceNow
+    let minutesPassed = Int(abs(timePassed) / 60)
+    
+    if minutesPassed > 15 {
+      ModelController.shared.setupCollections()
+    }
+    
   }
 }
 

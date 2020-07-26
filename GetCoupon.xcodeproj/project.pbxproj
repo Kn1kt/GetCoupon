@@ -294,9 +294,9 @@
 		F336D67924A6442F000E1796 /* Locale */ = {
 			isa = PBXGroup;
 			children = (
+				F363B6E324B4EFA100F6BA24 /* LocalizationProvider.swift */,
 				F336D67E24A644AD000E1796 /* Localizable.strings */,
 				F363B6E924B5184E00F6BA24 /* Localizable.stringsdict */,
-				F363B6E324B4EFA100F6BA24 /* LocalizationProvider.swift */,
 				F363B6FB24BA37C700F6BA24 /* InfoPlist.strings */,
 			);
 			path = Locale;

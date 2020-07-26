@@ -84,6 +84,8 @@ class ModelController {
 extension ModelController {
   
   func setupCollections() {
+    UserDefaults.standard.set(Date(timeIntervalSinceNow: 0),
+                              forKey: UserDefaultKeys.lastUpdateDate.rawValue)
     self._dataUpdatingStatus.accept(.updating)
     self._isUpdatingData.accept(true)
     
