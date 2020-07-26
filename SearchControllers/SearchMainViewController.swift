@@ -22,6 +22,8 @@ class SearchMainViewController: UIViewController {
   
   private var searchController: UISearchController!
   
+  let scrollToTop = PublishRelay<Void>()
+  
   private var collectionView: UICollectionView! = nil
   private var dataSource: UICollectionViewDiffableDataSource
     <SuggestedSearchCategoryData, SuggestedSearchCellData>! = nil
@@ -96,6 +98,14 @@ class SearchMainViewController: UIViewController {
         guard let self = self else { return }
         self.searchController.isActive = true
         self.searchController.searchBar.searchTextField.insertToken(token, at: 0)
+      })
+      .disposed(by: disposeBag)
+    
+    scrollToTop
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [weak self] vc in
+        self?.resultsViewController.scrollToTop()
       })
       .disposed(by: disposeBag)
   }
@@ -242,3 +252,6 @@ extension SearchMainViewController: UISearchResultsUpdating {
     }
   }
 }
+
+  // MARK: - Scroll to Top Gesture
+extension SearchMainViewController: ScrollToTopGestureProtocol {}

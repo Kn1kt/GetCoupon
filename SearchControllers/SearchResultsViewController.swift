@@ -73,18 +73,6 @@ class SearchResultsViewController: UIViewController {
         self?.searchController?.showsSearchResultsController = isOn
       })
       .disposed(by: disposeBag)
-    
-    viewModel
-      .scrollToTopGesture
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] vc in
-        if let nc = vc as? UINavigationController,
-          let _ = nc.topViewController as? SearchMainViewController {
-          self?.collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
-        }
-      })
-      .disposed(by: disposeBag)
   }
 }
 
@@ -247,3 +235,10 @@ extension SearchResultsViewController {
   }
 }
 
+  // MARK: - Scroll to Top Gesture
+extension SearchResultsViewController {
+  
+  func scrollToTop() {
+    collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
+  }
+}

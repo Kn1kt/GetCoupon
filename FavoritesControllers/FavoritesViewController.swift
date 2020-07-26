@@ -22,6 +22,9 @@ class FavoritesViewController: UIViewController {
   
   private let emptyThereView = EmptyFavoritesView()
   
+  private var topOffset: CGFloat?
+  let scrollToTop = PublishRelay<Void>()
+  
   private let segmentedCell: ShopData = ShopData(name: "segmented", shortDescription: "segmented")
   private let segmentedSection: ShopCategoryData = ShopCategoryData(categoryName: "segmented")
   
@@ -50,6 +53,14 @@ class FavoritesViewController: UIViewController {
     
     bindViewModel()
     bindUI()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
+    if topOffset == nil {
+      topOffset = -collectionView.adjustedContentInset.top
+    }
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -106,16 +117,11 @@ class FavoritesViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
-    viewModel
-      .scrollToTopGesture
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+    scrollToTop
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] vc in
-        if let nc = vc as? UINavigationController,
-          let top = nc.topViewController,
-          top == self {
-          self?.collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
-        }
+        self?.collectionView.setContentOffset(CGPoint(x: 0, y: self?.topOffset ?? 0), animated: true)
       })
       .disposed(by: disposeBag)
   }
@@ -477,3 +483,5 @@ extension FavoritesViewController: UICollectionViewDelegate {
   }
 }
 
+  // MARK: - Scroll to Top Gesture
+extension FavoritesViewController: ScrollToTopGestureProtocol {}

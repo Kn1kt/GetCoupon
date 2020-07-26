@@ -30,8 +30,6 @@ class SearchResultsViewModel {
   
   let currentCollection: Driver<ShopCategoryData>
   
-  let scrollToTopGesture = ModelController.shared.scrollToTopGesture.asObservable()
-  
   // MARK: - Init
   init() {
     self.navigator = Navigator()

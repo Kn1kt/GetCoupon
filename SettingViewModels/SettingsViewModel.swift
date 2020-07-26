@@ -34,8 +34,6 @@ class SettingsViewModel {
   
   let contactUsEmail: Driver<String?>
   
-  let scrollToTopGesture = ModelController.shared.scrollToTopGesture.asObservable()
-  
   // MARK: - Init
   init() {
     self.navigator = Navigator()

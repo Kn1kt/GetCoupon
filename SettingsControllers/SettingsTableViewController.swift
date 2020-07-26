@@ -20,6 +20,9 @@ class SettingsTableViewController: UITableViewController {
   
   private let viewModel = SettingsViewModel()
   
+  private var topOffset: CGFloat?
+  let scrollToTop = PublishRelay<Void>()
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -34,6 +37,10 @@ class SettingsTableViewController: UITableViewController {
     super.viewDidAppear(animated)
     
     viewModel.viewDidAppear.accept(())
+    
+    if topOffset == nil {
+      topOffset = -tableView.adjustedContentInset.top
+    }
   }
   
   private func bindViewModel() {
@@ -64,17 +71,11 @@ class SettingsTableViewController: UITableViewController {
   }
   
   private func bindUI() {
-    viewModel
-      .scrollToTopGesture
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+    scrollToTop
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] vc in
-        if let self = self,
-          let nc = vc as? UINavigationController,
-          let top = nc.topViewController,
-          top == self {
-          self.tableView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
-        }
+        self?.tableView.setContentOffset(CGPoint(x: 0, y: self?.topOffset ?? 0), animated: true)
       })
       .disposed(by: disposeBag)
   }
@@ -463,3 +464,6 @@ extension SettingsTableViewController {
     SKStoreReviewController.requestReview()
   }
 }
+
+  // MARK: - Scroll to Top Gesture
+extension SettingsTableViewController: ScrollToTopGestureProtocol {}

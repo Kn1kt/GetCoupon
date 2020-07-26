@@ -10,6 +10,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+protocol ScrollToTopGestureProtocol {
+  var scrollToTop: PublishRelay<Void> { get }
+}
+
 class TabBarViewController: UITabBarController {
   
   private let disposeBag = DisposeBag()
@@ -39,8 +43,13 @@ extension TabBarViewController: UITabBarControllerDelegate {
   func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
     if let selectedVC = selectedViewController,
       selectedVC == viewController {
-      ModelController.shared.scrollToTopGesture.accept(selectedVC)
+      
+      if let nc = viewController as? UINavigationController,
+        let topVC = nc.topViewController as? ScrollToTopGestureProtocol {
+        topVC.scrollToTop.accept(())
+      }
     }
+    
     return true
   }
 }

@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     <ShopCategoryData, ShopData>! = nil
   
   let viewDidAppear = PublishSubject<Void>()
+  let scrollToTop = PublishRelay<Void>()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -163,16 +164,11 @@ class HomeViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
-    viewModel
-      .scrollToTopGesture
-      .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+    scrollToTop
+      .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] vc in
-        if let nc = vc as? UINavigationController,
-          let top = nc.topViewController,
-          top == self {
-          self?.collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
-        }
+        self?.collectionView.scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: true)
       })
       .disposed(by: disposeBag)
   }
@@ -553,3 +549,6 @@ extension HomeViewController {
     navBarSubtitleViewHeightConstraint.isActive = true
   }
 }
+
+  // MARK: - Scroll to Top Gesture
+extension HomeViewController: ScrollToTopGestureProtocol {}
