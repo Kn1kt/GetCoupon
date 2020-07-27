@@ -86,9 +86,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let timePassed = lastDate.timeIntervalSinceNow
     let minutesPassed = Int(abs(timePassed) / 60)
     
-    if minutesPassed >= 1 {
+    if minutesPassed > 15 {
       ModelController.shared.setupCollections()
-    }    
+    }
   }
 }
 
