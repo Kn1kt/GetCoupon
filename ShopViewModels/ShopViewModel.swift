@@ -59,7 +59,13 @@ class ShopViewModel {
   }
   
   private func bindOutput() {
-
+    ModelController.shared.isUpdatingData
+      .filter { $0 }
+      .map { _ in false }
+      .take(1)
+      .subscribeOn(defaultScheduler)
+      .bind(to: _favoriteButtonEnabled)
+      .disposed(by: disposeBag)
   }
   
   private func bindActions() {

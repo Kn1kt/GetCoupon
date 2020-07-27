@@ -34,7 +34,7 @@ class ModelController {
   let _isUpdatingData = BehaviorRelay<Bool>(value: false)
   let isUpdatingData: Observable<Bool>
   
-  let _dataUpdatingStatus = BehaviorRelay<DataStatus>(value: .unknown)
+  private let _dataUpdatingStatus = BehaviorRelay<DataStatus>(value: .unknown)
   let dataUpdatingStatus: Observable<DataStatus>
   
   private let _collections = BehaviorRelay<[ShopCategoryData]>(value: [])
