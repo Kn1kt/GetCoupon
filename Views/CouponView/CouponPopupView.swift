@@ -51,7 +51,7 @@ class CouponPopupView: UIView {
 extension CouponPopupView {
   
   func setupLayouts() {
-    self.backgroundColor = .systemBackground
+    self.backgroundColor = .secondarySystemGroupedBackground
     self.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
     self.layer.shadowColor = UIColor.black.cgColor
     self.layer.shadowOpacity = 0.1
@@ -83,6 +83,7 @@ extension CouponPopupView {
     textView.font = UIFont.preferredFont(forTextStyle: .body)
     textView.tintColor = UIColor(named: "BlueTintColor")
     textView.textColor = .label
+    textView.backgroundColor = .secondarySystemGroupedBackground
     textView.adjustsFontForContentSizeCategory = true
     textView.isUserInteractionEnabled = true
     textView.textAlignment = .left

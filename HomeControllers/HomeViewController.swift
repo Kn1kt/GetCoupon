@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    if let refresh = collectionView.refreshControl {
+    if let refresh = collectionView?.refreshControl {
         refresh.endRefreshing()
     }
   }

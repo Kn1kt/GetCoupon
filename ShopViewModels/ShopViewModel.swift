@@ -66,6 +66,11 @@ class ShopViewModel {
       .subscribeOn(defaultScheduler)
       .bind(to: _favoriteButtonEnabled)
       .disposed(by: disposeBag)
+    
+    ModelController.shared.sceneDidEnterBackground
+      .observeOn(eventScheduler)
+      .bind(to: controllerWillDisappear)
+      .disposed(by: disposeBag)
   }
   
   private func bindActions() {

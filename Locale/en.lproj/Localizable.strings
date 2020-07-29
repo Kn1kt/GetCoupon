@@ -103,3 +103,9 @@
 
 "onboardingFourthTitle" = "Let's Improve the Application Together";
 "onboardingFourthSubtitle" = "If you liked the application or there is something missing in it, you can write to us and we will answer!";
+
+  // MARK: - Notifications
+"new-coupon-in" = "New coupon in ";
+
+"pay-attention-title" = "You were gone for a long time 😿";
+"pay-attention-subtitle" = "So much new coupons are waiting for You";

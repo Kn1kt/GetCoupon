@@ -62,6 +62,11 @@
 		F371E4832426415100301D5E /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4822426415100301D5E /* Realm */; };
 		F371E4852426415100301D5E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F371E4842426415100301D5E /* RealmSwift */; };
 		F37612542461E646007EB465 /* PromocodeView+Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37612532461E646007EB465 /* PromocodeView+Animations.swift */; };
+		F378A4AF24D1E1D40091C95C /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378A4AE24D1E1D40091C95C /* NotificationService.swift */; };
+		F378A4B324D1E1D40091C95C /* GetCouponNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = F378A4AC24D1E1D40091C95C /* GetCouponNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F378A4B824D1E22E0091C95C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F336D67E24A644AD000E1796 /* Localizable.strings */; };
+		F378A4C024D208A70091C95C /* PushConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378A4BF24D208A70091C95C /* PushConfiguration.swift */; };
+		F378A4C124D20DC70091C95C /* NotificationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F342162824D04CAF00A1C7D0 /* NotificationProvider.swift */; };
 		F37D66D424BF7C2C0031B086 /* EmptyFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D66D324BF7C2C0031B086 /* EmptyFavoritesView.swift */; };
 		F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C94244F7009002B6115 /* FeedbackViewController.swift */; };
 		F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C972454D88F002B6115 /* FeedbackViewModel.swift */; };
@@ -129,7 +134,28 @@
 			remoteGlobalIDString = F35B3D23235BAC25000F7ED0;
 			remoteInfo = GetCoupon;
 		};
+		F378A4B124D1E1D40091C95C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F35B3D1C235BAC25000F7ED0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F378A4AB24D1E1D40091C95C;
+			remoteInfo = GetCouponNotificationService;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F378A4B724D1E1D40091C95C /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F378A4B324D1E1D40091C95C /* GetCouponNotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F30C418424A6B5AB005BFAA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
@@ -140,6 +166,8 @@
 		F33A9F46239009C500A78A74 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		F33A9F4A239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPlainCollectionViewCell.swift; sourceTree = "<group>"; };
 		F33A9F4C239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesSegmentedControlCollectionViewCell.swift; sourceTree = "<group>"; };
+		F342162624D045FF00A1C7D0 /* GetCoupon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GetCoupon.entitlements; sourceTree = "<group>"; };
+		F342162824D04CAF00A1C7D0 /* NotificationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationProvider.swift; sourceTree = "<group>"; };
 		F34251E3239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		F34251E5239C7A35008ABD8C /* ShopDetailTitleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopDetailTitleCollectionViewCell.swift; sourceTree = "<group>"; };
 		F34251E7239C7D84008ABD8C /* ImageAndDescriptionUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAndDescriptionUIView.swift; sourceTree = "<group>"; };
@@ -207,6 +235,10 @@
 		F364722B24A6C6EE0078A286 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F364722D24A6C6EF0078A286 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/SettingsFeedbackScreen.strings; sourceTree = "<group>"; };
 		F37612532461E646007EB465 /* PromocodeView+Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PromocodeView+Animations.swift"; sourceTree = "<group>"; };
+		F378A4AC24D1E1D40091C95C /* GetCouponNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GetCouponNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		F378A4AE24D1E1D40091C95C /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		F378A4B024D1E1D40091C95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F378A4BF24D208A70091C95C /* PushConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushConfiguration.swift; sourceTree = "<group>"; };
 		F37D66D324BF7C2C0031B086 /* EmptyFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFavoritesView.swift; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
@@ -282,6 +314,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F35B3D45235BAC2D000F7ED0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F378A4A924D1E1D40091C95C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -370,6 +409,8 @@
 			children = (
 				F35B3D26235BAC25000F7ED0 /* GetCoupon */,
 				F336D67924A6442F000E1796 /* Locale */,
+				F378A4BE24D206860091C95C /* Notifications */,
+				F378A4AD24D1E1D40091C95C /* GetCouponNotificationService */,
 				F3E0AEB3238881CE0063E2C8 /* Views */,
 				F353624B23CE06A2003D7BAB /* Network */,
 				F35B3D5C235BACB8000F7ED0 /* Data */,
@@ -398,6 +439,7 @@
 				F35B3D24235BAC25000F7ED0 /* GetCoupon.app */,
 				F35B3D3D235BAC2D000F7ED0 /* GetCouponTests.xctest */,
 				F35B3D48235BAC2D000F7ED0 /* GetCouponUITests.xctest */,
+				F378A4AC24D1E1D40091C95C /* GetCouponNotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -405,6 +447,7 @@
 		F35B3D26235BAC25000F7ED0 /* GetCoupon */ = {
 			isa = PBXGroup;
 			children = (
+				F342162624D045FF00A1C7D0 /* GetCoupon.entitlements */,
 				F35B3D27235BAC25000F7ED0 /* AppDelegate.swift */,
 				F35B3D29235BAC25000F7ED0 /* SceneDelegate.swift */,
 				F35B3D2B235BAC25000F7ED0 /* ViewController.swift */,
@@ -484,6 +527,24 @@
 				F363B6E124B3B04F00F6BA24 /* TrieNode.swift */,
 			);
 			path = Trie;
+			sourceTree = "<group>";
+		};
+		F378A4AD24D1E1D40091C95C /* GetCouponNotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				F378A4AE24D1E1D40091C95C /* NotificationService.swift */,
+				F378A4B024D1E1D40091C95C /* Info.plist */,
+			);
+			path = GetCouponNotificationService;
+			sourceTree = "<group>";
+		};
+		F378A4BE24D206860091C95C /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F342162824D04CAF00A1C7D0 /* NotificationProvider.swift */,
+				F378A4BF24D208A70091C95C /* PushConfiguration.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 		F37A45F024AA2C7200569A92 /* Main */ = {
@@ -715,10 +776,12 @@
 				F35B3D20235BAC25000F7ED0 /* Sources */,
 				F35B3D21235BAC25000F7ED0 /* Frameworks */,
 				F35B3D22235BAC25000F7ED0 /* Resources */,
+				F378A4B724D1E1D40091C95C /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F378A4B224D1E1D40091C95C /* PBXTargetDependency */,
 			);
 			name = GetCoupon;
 			packageProductDependencies = (
@@ -772,13 +835,30 @@
 			productReference = F35B3D48235BAC2D000F7ED0 /* GetCouponUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		F378A4AB24D1E1D40091C95C /* GetCouponNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F378A4B424D1E1D40091C95C /* Build configuration list for PBXNativeTarget "GetCouponNotificationService" */;
+			buildPhases = (
+				F378A4A824D1E1D40091C95C /* Sources */,
+				F378A4A924D1E1D40091C95C /* Frameworks */,
+				F378A4AA24D1E1D40091C95C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = GetCouponNotificationService;
+			productName = GetCouponNotificationService;
+			productReference = F378A4AC24D1E1D40091C95C /* GetCouponNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		F35B3D1C235BAC25000F7ED0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1110;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1110;
 				ORGANIZATIONNAME = "Nikita Konashenko";
 				TargetAttributes = {
@@ -792,6 +872,9 @@
 					F35B3D47235BAC2D000F7ED0 = {
 						CreatedOnToolsVersion = 11.1;
 						TestTargetID = F35B3D23235BAC25000F7ED0;
+					};
+					F378A4AB24D1E1D40091C95C = {
+						CreatedOnToolsVersion = 11.6;
 					};
 				};
 			};
@@ -817,6 +900,7 @@
 				F35B3D23235BAC25000F7ED0 /* GetCoupon */,
 				F35B3D3C235BAC2D000F7ED0 /* GetCouponTests */,
 				F35B3D47235BAC2D000F7ED0 /* GetCouponUITests */,
+				F378A4AB24D1E1D40091C95C /* GetCouponNotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -856,6 +940,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F378A4AA24D1E1D40091C95C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F378A4B824D1E22E0091C95C /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -885,6 +977,7 @@
 				F3E0AEBE238C6A0E0063E2C8 /* FavoritesDataController.swift in Sources */,
 				F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */,
 				F353624F23CE09BC003D7BAB /* NetworkShopData.swift in Sources */,
+				F378A4C024D208A70091C95C /* PushConfiguration.swift in Sources */,
 				F35B3D2C235BAC25000F7ED0 /* ViewController.swift in Sources */,
 				F3ED2D782399B33400726045 /* PromoCodeData.swift in Sources */,
 				F3ED2D742399AEBC00726045 /* ShopViewController.swift in Sources */,
@@ -924,6 +1017,7 @@
 				F348666F23CBB5B5004682B3 /* NetworkController.swift in Sources */,
 				F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */,
 				F3B804072380647000481152 /* HomeDataController.swift in Sources */,
+				F378A4C124D20DC70091C95C /* NotificationProvider.swift in Sources */,
 				F3D9DC8F2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift in Sources */,
 				F363B6ED24B52F5E00F6BA24 /* ServerData.swift in Sources */,
 				F348666923CA6CC0004682B3 /* CacheController.swift in Sources */,
@@ -965,6 +1059,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F378A4A824D1E1D40091C95C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F378A4AF24D1E1D40091C95C /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -977,6 +1079,11 @@
 			isa = PBXTargetDependency;
 			target = F35B3D23235BAC25000F7ED0 /* GetCoupon */;
 			targetProxy = F35B3D49235BAC2D000F7ED0 /* PBXContainerItemProxy */;
+		};
+		F378A4B224D1E1D40091C95C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F378A4AB24D1E1D40091C95C /* GetCouponNotificationService */;
+			targetProxy = F378A4B124D1E1D40091C95C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1188,7 +1295,9 @@
 		F35B3D52235BAC2D000F7ED0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WT55D455BY;
@@ -1201,14 +1310,16 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		F35B3D53235BAC2D000F7ED0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WT55D455BY;
@@ -1221,7 +1332,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1318,6 +1429,48 @@
 			};
 			name = Release;
 		};
+		F378A4B524D1E1D40091C95C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WT55D455BY;
+				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon.GetCouponNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		F378A4B624D1E1D40091C95C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = WT55D455BY;
+				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon.GetCouponNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1353,6 +1506,15 @@
 			buildConfigurations = (
 				F35B3D58235BAC2D000F7ED0 /* Debug */,
 				F35B3D59235BAC2D000F7ED0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F378A4B424D1E1D40091C95C /* Build configuration list for PBXNativeTarget "GetCouponNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F378A4B524D1E1D40091C95C /* Debug */,
+				F378A4B624D1E1D40091C95C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

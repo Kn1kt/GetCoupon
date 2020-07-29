@@ -110,6 +110,11 @@ class FavoritesViewModel {
         self._currentSection.accept(self.filteredCategories(with: text))
       })
       .disposed(by: disposeBag)
+    
+    ModelController.shared.sceneDidEnterBackground
+      .observeOn(eventScheduler)
+      .bind(to: commitChanges)
+      .disposed(by: disposeBag)
   }
   
   private func bindActions() {

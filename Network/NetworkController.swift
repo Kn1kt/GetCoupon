@@ -237,6 +237,32 @@ extension NetworkController {
   }
 }
 
+  // MARK: - Send Remote Notifications Configuration
+extension NetworkController {
+  
+  func sendConfiguration(_ config: PushConfiguration) {
+    guard let server = serverPack.value?.defaultServer,
+      let url = URL(string: server.baseServerLink + server.pushConfigurationLink) else {
+      return
+    }
+    
+    debugPrint(config)
+    
+    do {
+      let encoder = JSONEncoder()
+      let data = try encoder.encode(config)
+      
+      var request = URLRequest(url: url)
+      request.httpMethod = "POST"
+      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+      URLSession.shared.uploadTask(with: request, from: data).resume()
+      
+    } catch {
+      debugPrint(error)
+    }
+  }
+}
+
   // MARK: - Download Terms of Service
 extension NetworkController {
   

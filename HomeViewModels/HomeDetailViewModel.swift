@@ -157,6 +157,11 @@ class HomeDetailViewModel {
       .observeOn(eventScheduler)
       .bind(to: _favoritesUpdates)
       .disposed(by: disposeBag)
+    
+    ModelController.shared.sceneDidEnterBackground
+      .observeOn(eventScheduler)
+      .bind(to: controllerWillDisappear)
+      .disposed(by: disposeBag)
   }
   
   private func bindActions() {

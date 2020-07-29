@@ -68,7 +68,7 @@ class SettingsViewModel {
         UserDefaults.standard.set(pushIsOn, forKey: UserDefaultKeys.pushNotifications.rawValue)
         
         if pushIsOn {
-          let systemPermission = ModelController.shared.systemPermissionToPush.value
+          let systemPermission = NotificationProvider.shared.notificationStatus.value
           if !systemPermission {
             self.requestNotifications()
           }
@@ -76,7 +76,7 @@ class SettingsViewModel {
       })
       .disposed(by: disposeBag)
     
-    ModelController.shared.systemPermissionToPush
+    NotificationProvider.shared.notificationStatus
       .skip(1)
       .withLatestFrom(pushNotifications, resultSelector: { system, user in
         return !system && user
@@ -92,7 +92,7 @@ class SettingsViewModel {
     
     viewDidAppear
       .take(1)
-      .withLatestFrom(ModelController.shared.systemPermissionToPush)
+      .withLatestFrom(NotificationProvider.shared.notificationStatus)
       .filter { !$0 }
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
@@ -120,16 +120,14 @@ class SettingsViewModel {
   }
   
   private func requestNotifications() {
-    let center = UNUserNotificationCenter.current()
-    center.requestAuthorization(options: [.alert, .sound]) { [unowned self] (granted, error) in
-      if granted {
-        debugPrint("Permission to send notifications recived")
-      } else {
-        debugPrint("Permission to send notifications not recived")
-        self.pushNotifications.accept(false)
-        self._pushNotificationsSwitherShould.accept(false)
-      }
-    }
+    NotificationProvider.shared.requestAuthorization()
+      .take(1)
+      .filter { !$0 }
+      .subscribe(onNext: { [weak self] _ in
+        self?.pushNotifications.accept(false)
+        self?._pushNotificationsSwitherShould.accept(false)
+      })
+      .disposed(by: disposeBag)
   }
 }
 

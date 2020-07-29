@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 import RealmSwift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+  
+  let disposeBag = DisposeBag()
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
@@ -37,7 +40,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
   }
   
-  func configureSchema() {
+  func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    NotificationProvider.shared.application(didRegisterForRemoteNotificationsWithDeviceToken: deviceToken)
+  }
+  
+  func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+    NotificationProvider.shared.application(didFailToRegisterForRemoteNotificationsWithError: error)
+  }
+  
+  func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+    
+//    guard let notificationOption = userInfo as? [String : AnyObject] else {
+//      completionHandler(.failed)
+//      return
+//    }
+    
+//    NotificationProvider.shared.performNotification(with: notificationOption)
+    
+    if !ModelController.shared._isUpdatingData.value {
+      ModelController.shared.isUpdatingData
+        .skip(1)
+        .filter { !$0 }
+        .take(1)
+        .subscribe(onNext: { value in
+          print(value)
+          completionHandler(.newData)
+        })
+        .disposed(by: disposeBag)
+      
+      ModelController.shared.setupCollections()
+      
+    } else {
+      completionHandler(.failed)
+    }
+    
+  }
+  
+  private func configureSchema() {
     let config = Realm.Configuration(
       // Set the new schema version. This must be greater than the previously used
       // version (if you've never set a schema version before, the version is 0).

@@ -25,11 +25,12 @@ class ModelController {
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
   
-  /// System Permission to Send Push Notifications
-  let systemPermissionToPush = BehaviorRelay<Bool>(value: false)
-  
   /// Tab Bar Quick Actions
   let defaultTabBarItem = BehaviorRelay<Int>(value: 0)
+  
+  /*TODO REWRITE IT*/
+  /// Scene Did Enter Background
+  let sceneDidEnterBackground = PublishRelay<Void>()
   
   let _isUpdatingData = BehaviorRelay<Bool>(value: false)
   let isUpdatingData: Observable<Bool>
