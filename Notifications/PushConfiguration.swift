@@ -12,7 +12,7 @@ struct PushConfiguration: Codable {
   
   let userPreferPush: Bool
   
-  let deviceToken: Data
+  let deviceToken: String
   
   let favoriteShops: [String]
   
