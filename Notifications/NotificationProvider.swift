@@ -22,8 +22,8 @@ class NotificationProvider {
   /// System Permission to Send Push Notifications
   let notificationStatus = BehaviorRelay<Bool>(value: false)
   
-  var deviceToken: Data? {
-    return UserDefaults.standard.value(forKey: UserDefaultKeys.APNsDeviceToken.rawValue) as? Data
+  var deviceToken: String? {
+    return UserDefaults.standard.value(forKey: UserDefaultKeys.APNsDeviceToken.rawValue) as? String
   }
   
   var pushConfiguration: PushConfiguration? {
@@ -98,7 +98,7 @@ class NotificationProvider {
     
     debugPrint("Device Token: \(token)")
     
-    UserDefaults.standard.set(deviceToken, forKey: UserDefaultKeys.APNsDeviceToken.rawValue)
+    UserDefaults.standard.set(token, forKey: UserDefaultKeys.APNsDeviceToken.rawValue)
   }
   
   func application(didFailToRegisterForRemoteNotificationsWithError error: Error) {
