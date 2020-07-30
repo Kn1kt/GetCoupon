@@ -12,5 +12,6 @@ enum UserDefaultKeys: String {
   case pushNotifications = "Push-Notifications-Key"
   case onboardingScreenDidShow = "Onboarding-Screen-Shown-Key"
   case lastUpdateDate = "Last-Update-Date-Key"
-  case APNsDeviceToken = "APNs-Device-Token"
+  case APNsDeviceToken = "APNs-Device-Token-Key"
+  case pushConfigurationVersion = "Push-Configuration-Version-Key"
 }

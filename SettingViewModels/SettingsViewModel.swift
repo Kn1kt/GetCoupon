@@ -97,7 +97,7 @@ class SettingsViewModel {
       .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [unowned self] _ in
-        if UserDefaults.standard.value(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
+        if UserDefaults.standard.object(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
           self.pushNotifications.accept(true)
           self._pushNotificationsSwitherShould.accept(true)
         }

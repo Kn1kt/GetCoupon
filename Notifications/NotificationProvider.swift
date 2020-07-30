@@ -23,7 +23,7 @@ class NotificationProvider {
   let notificationStatus = BehaviorRelay<Bool>(value: false)
   
   var deviceToken: String? {
-    return UserDefaults.standard.value(forKey: UserDefaultKeys.APNsDeviceToken.rawValue) as? String
+    return UserDefaults.standard.object(forKey: UserDefaultKeys.APNsDeviceToken.rawValue) as? String
   }
   
   var pushConfiguration: PushConfiguration? {

@@ -250,23 +250,15 @@ extension NetworkController {
   // MARK: - Send Remote Notifications Configuration
 extension NetworkController {
   
-  func sendConfiguration(_ config: PushConfiguration) {
+  func sendConfiguration(_ config: Data) {
     guard let server = serverPack.value?.defaultServer,
       let url = URL(string: server.baseServerLink + server.pushConfigurationLink) else {
       return
     }
     
-    debugPrint(config)
+    debugPrint("SEND: " + (String(data: config, encoding: .utf8) ?? ""))
     
-    do {
-      let encoder = JSONEncoder()
-      let data = try encoder.encode(config)
-      
-      sendData(data, to: url)
-      
-    } catch {
-      debugPrint(error)
-    }
+    sendData(config, to: url)
   }
 }
 

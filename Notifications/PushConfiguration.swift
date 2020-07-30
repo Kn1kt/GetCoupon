@@ -17,7 +17,7 @@ struct PushConfiguration: Codable {
   let favoriteShops: [String]
   
   init?() {
-    guard let userPreferPush = UserDefaults.standard.value(forKey: UserDefaultKeys.pushNotifications.rawValue) as? Bool,
+    guard let userPreferPush = UserDefaults.standard.object(forKey: UserDefaultKeys.pushNotifications.rawValue) as? Bool,
       let deviceToken = NotificationProvider.shared.deviceToken else {
         return nil
     }

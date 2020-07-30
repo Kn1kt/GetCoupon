@@ -63,8 +63,23 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.
     
-    if let pushConfig = NotificationProvider.shared.pushConfiguration {
-      NetworkController.shared.sendConfiguration(pushConfig)
+    updatePushConfiguration()
+  }
+  
+  private func updatePushConfiguration() {
+    let encoder = JSONEncoder()
+    
+    if let pushConfig = NotificationProvider.shared.pushConfiguration,
+      let newConfigData = try? encoder.encode(pushConfig) {
+      
+      if let oldConfigData = UserDefaults.standard.data(forKey: UserDefaultKeys.pushConfigurationVersion.rawValue),
+        newConfigData == oldConfigData {
+        return
+        
+      } else {
+        UserDefaults.standard.set(newConfigData, forKey: UserDefaultKeys.pushConfigurationVersion.rawValue)
+        NetworkController.shared.sendConfiguration(newConfigData)
+      }
     }
   }
   
@@ -78,7 +93,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
   
   private func checkLastUpdate() {
-    guard let lastDate = UserDefaults.standard.value(forKey: UserDefaultKeys.lastUpdateDate.rawValue) as? Date else { return }
+    guard let lastDate = UserDefaults.standard.object(forKey: UserDefaultKeys.lastUpdateDate.rawValue) as? Date else { return }
     
     let timePassed = lastDate.timeIntervalSinceNow
     let minutesPassed = Int(abs(timePassed) / 60)
