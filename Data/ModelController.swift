@@ -30,7 +30,7 @@ class ModelController {
   
   /*TODO REWRITE IT*/
   /// Scene Did Enter Background
-  let sceneDidEnterBackground = PublishRelay<Void>()
+  let sceneWillResignActive = PublishRelay<Void>()
   
   let _isUpdatingData = BehaviorRelay<Bool>(value: false)
   let isUpdatingData: Observable<Bool>

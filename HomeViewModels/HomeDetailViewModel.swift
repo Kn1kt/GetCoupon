@@ -158,7 +158,7 @@ class HomeDetailViewModel {
       .bind(to: _favoritesUpdates)
       .disposed(by: disposeBag)
     
-    ModelController.shared.sceneDidEnterBackground
+    ModelController.shared.sceneWillResignActive
       .observeOn(eventScheduler)
       .bind(to: controllerWillDisappear)
       .disposed(by: disposeBag)

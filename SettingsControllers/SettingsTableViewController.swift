@@ -302,12 +302,6 @@ extension SettingsTableViewController {
       
     case 1:
       return indexPath
-//      switch indexPath.row {
-//      case 3:
-//        return nil
-//      default:
-//        return indexPath
-//      }
       
     default:
       return indexPath

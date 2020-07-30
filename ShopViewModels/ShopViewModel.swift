@@ -67,7 +67,7 @@ class ShopViewModel {
       .bind(to: _favoriteButtonEnabled)
       .disposed(by: disposeBag)
     
-    ModelController.shared.sceneDidEnterBackground
+    ModelController.shared.sceneWillResignActive
       .observeOn(eventScheduler)
       .bind(to: controllerWillDisappear)
       .disposed(by: disposeBag)

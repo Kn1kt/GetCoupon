@@ -111,7 +111,7 @@ class FavoritesViewModel {
       })
       .disposed(by: disposeBag)
     
-    ModelController.shared.sceneDidEnterBackground
+    ModelController.shared.sceneWillResignActive
       .observeOn(eventScheduler)
       .bind(to: commitChanges)
       .disposed(by: disposeBag)

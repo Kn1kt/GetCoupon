@@ -48,7 +48,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   func sceneWillResignActive(_ scene: UIScene) {
     // Called when the scene will move from an active state to an inactive state.
-    // This may occur due to temporary interruptions (ex. an incoming phone call).
+    // This may occur due to temporary interruptions (ex. an inc oming phone call).
+    
+    ModelController.shared.sceneWillResignActive.accept(())
   }
   
   func sceneWillEnterForeground(_ scene: UIScene) {
@@ -60,7 +62,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // Called as the scene transitions from the foreground to the background.
     // Use this method to save data, release shared resources, and store enough scene-specific state information
     // to restore the scene back to its current state.
-    ModelController.shared.sceneDidEnterBackground.accept(())
     
     if let pushConfig = NotificationProvider.shared.pushConfiguration {
       NetworkController.shared.sendConfiguration(pushConfig)
@@ -89,7 +90,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 }
 
   // MARK: User Notification Center Delegate
-
 extension SceneDelegate: UNUserNotificationCenterDelegate {
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     if let userInfo = response.notification.request.content.userInfo as? [String: AnyObject] {

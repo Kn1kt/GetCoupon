@@ -198,16 +198,26 @@ extension NetworkController {
   }
 }
 
+  // MARK: - Sending Data to Server
+extension NetworkController {
+  
+  private func sendData(_ data: Data, to url: URL) {
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    URLSession.shared.uploadTask(with: request, from: data).resume()
+  }
+}
+
   // MARK: - Send Feedbacks
 extension NetworkController {
   
   private func sendFeedback(_ params: [String : String], url: URL) {
     do {
       let data = try JSONSerialization.data(withJSONObject: params)
-      var request = URLRequest(url: url)
-      request.httpMethod = "POST"
-      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-      URLSession.shared.uploadTask(with: request, from: data).resume()
+      
+      sendData(data, to: url)
       
     } catch {
       debugPrint(error)
@@ -252,10 +262,7 @@ extension NetworkController {
       let encoder = JSONEncoder()
       let data = try encoder.encode(config)
       
-      var request = URLRequest(url: url)
-      request.httpMethod = "POST"
-      request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-      URLSession.shared.uploadTask(with: request, from: data).resume()
+      sendData(data, to: url)
       
     } catch {
       debugPrint(error)
