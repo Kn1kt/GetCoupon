@@ -16,7 +16,7 @@ class ServerData: Decodable {
   
   let feedbackCouponLink = "/add-promocode"
   let feedbackGeneralLink = "/add-feedback"
-  let pushConfigurationLink = ""
+  let pushConfigurationLink = "/add-user-info"
   
   init(baseServerLink: String,
        database: String,
