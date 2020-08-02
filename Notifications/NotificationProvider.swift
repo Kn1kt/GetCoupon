@@ -91,6 +91,9 @@ class NotificationProvider {
   func performNotification(with notificationOption: [String : AnyObject]) {
     guard let kind = notificationOption["kind"] as? String else { return }
     
+    URLSession.shared.reset(completionHandler: {})
+    ModelController.shared.setupCollections()
+    
     switch kind {
     case "favorites-updated":
       ModelController.shared.defaultTabBarItem.accept(1)

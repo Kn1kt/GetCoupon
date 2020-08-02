@@ -49,24 +49,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   
   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
     
-//    guard let notificationOption = userInfo as? [String : AnyObject] else {
-//      completionHandler(.failed)
-//      return
-//    }
-    
-//    NotificationProvider.shared.performNotification(with: notificationOption)
-    
     if !ModelController.shared._isUpdatingData.value {
       ModelController.shared.isUpdatingData
         .skip(1)
         .filter { !$0 }
         .take(1)
         .subscribe(onNext: { value in
-          print(value)
           completionHandler(.newData)
         })
         .disposed(by: disposeBag)
       
+      URLSession.shared.reset(completionHandler: {})
       ModelController.shared.setupCollections()
       
     } else {
