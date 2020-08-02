@@ -90,6 +90,17 @@ class SettingsViewModel {
       })
       .disposed(by: disposeBag)
     
+    if UserDefaults.standard.object(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
+      NotificationProvider.shared.userPermissionDidChange
+        .take(1)
+        .observeOn(defaultScheduler)
+        .subscribe(onNext: { pushIsOn in
+          self.pushNotifications.accept(pushIsOn)
+          self._pushNotificationsSwitherShould.accept(pushIsOn)
+        })
+        .disposed(by: disposeBag)
+    }
+    
     viewDidAppear
       .take(1)
       .withLatestFrom(NotificationProvider.shared.notificationStatus)

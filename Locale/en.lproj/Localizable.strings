@@ -34,7 +34,7 @@
 "additional-settings" = "Additional";
 
 "push-notifications-title" = "Push Notifications";
-"push-notifications-subtitle" = "Receive push notifications of new promo codes";
+"push-notifications-subtitle" = "Receive push notifications of new promo codes from favorites shops";
 
 "clear-cache-title" = "Clear Cache";
 
@@ -61,9 +61,6 @@
 "deleting-images-alert-title" = "Deleting Cached Images";
 "deleting-images-alert-subtitle" = "All cached images will be deleted.";
 "deleting-images-alert-done" = "Clear Cache";
-
-"review-alert-title" = "Rate Our App";
-"review-alert-subtitle" = "Please leave a review about the application.\n(just placeholder)";
 
 "what-new" = "What's New?";
 
@@ -98,7 +95,7 @@
 "onboardingSecondTitle" = "No Shares";
 "onboardingSecondSubtitle" = "We decided not to clog the application with stocks (it’s hard to miss them), collecting only promotional codes for you, because we all know that there is more discount on them.";
 
-"onboardingThirdTitle" = "Add to Favorites";
+"onboardingThirdTitle" = "Get Notifications";
 "onboardingThirdSubtitle" = "Click on the heart and receive notifications of new promotional codes from your favorite stores.";
 
 "onboardingFourthTitle" = "Let's Improve the Application Together";

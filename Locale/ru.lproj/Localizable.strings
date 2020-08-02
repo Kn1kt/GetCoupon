@@ -34,7 +34,7 @@
 "additional-settings" = "Дополнительные";
 
 "push-notifications-title" = "Push-уведомления";
-"push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах";
+"push-notifications-subtitle" = "Получать push-уведомления о новых промо-кодах в любимых магазинах";
 
 "clear-cache-title" = "Очистить кэш";
 
@@ -61,9 +61,6 @@
 "deleting-images-alert-title" = "Удаление кэшированных изображений";
 "deleting-images-alert-subtitle" = "Все кэшированные изображения будут удалены.";
 "deleting-images-alert-done" = "Очистить кэш";
-
-"review-alert-title" = "Поставить оценку приложению";
-"review-alert-subtitle" = "Пожалуйста, оставьте отзыв о приложении.\n(just placeholder)";
 
 "what-new" = "Что нового?";
 
@@ -98,7 +95,7 @@
 "onboardingSecondTitle" = "Никаких акций";
 "onboardingSecondSubtitle" = "Мы решили не засорять приложение акциями (их и так тяжело пропустить), собирая для тебя только промокоды, ведь все мы знаем, что по ним скидка больше.";
 
-"onboardingThirdTitle" = "Добавляй в избранное";
+"onboardingThirdTitle" = "Получай уведомления";
 "onboardingThirdSubtitle" = "Жми сердечко и получай уведомления о новых промокодах от любимых магазинов.";
 
 "onboardingFourthTitle" = "Давай улучшать приложение вместе";

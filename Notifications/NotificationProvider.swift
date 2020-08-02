@@ -22,6 +22,8 @@ class NotificationProvider {
   /// System Permission to Send Push Notifications
   let notificationStatus = BehaviorRelay<Bool>(value: false)
   
+  let userPermissionDidChange = PublishRelay<Bool>()
+  
   var deviceToken: String? {
     return UserDefaults.standard.object(forKey: UserDefaultKeys.APNsDeviceToken.rawValue) as? String
   }
@@ -45,6 +47,33 @@ class NotificationProvider {
         UIApplication.shared.registerForRemoteNotifications()
       })
       .disposed(by: disposeBag)
+    
+    ///  Request permission to push on first adding favorite shop
+    ModelController.shared.favoriteCollections
+      .skip(1)
+      .filter { !$0.isEmpty }
+      .take(1)
+      .filter { collection in
+        if UserDefaults.standard.object(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
+          return true
+        }
+        
+        return false
+      }
+      .map { _ in }
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .subscribe(onNext: { [weak self] in
+        guard let self = self else { return }
+        self.requestAuthorization()
+          .subscribe(onNext: { [weak self] pushIsOn in
+            UserDefaults.standard.set(pushIsOn, forKey: UserDefaultKeys.pushNotifications.rawValue)
+            
+            self?.userPermissionDidChange.accept(pushIsOn)
+          })
+          .disposed(by: self.disposeBag)
+      })
+      .disposed(by: disposeBag)
   }
   
   func updateNotificationStatus() {
@@ -60,9 +89,7 @@ class NotificationProvider {
   }
   
   func performNotification(with notificationOption: [String : AnyObject]) {
-    guard //let aps = notificationOption["aps"] as? [String : AnyObject],
-//      let textKey = aps["alert"] as? String,
-      let kind = notificationOption["kind"] as? String else { return }
+    guard let kind = notificationOption["kind"] as? String else { return }
     
     switch kind {
     case "favorites-updated":

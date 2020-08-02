@@ -34,7 +34,7 @@
 "additional-settings" = "Додатково";
 
 "push-notifications-title" = "Push-повідомлення";
-"push-notifications-subtitle" = "Отримувати push-повідомлення про нові промокоди";
+"push-notifications-subtitle" = "Отримувати push-повідомлення про нові промокоди в любимых магазинах";
 
 "clear-cache-title" = "Очистити кеш";
 
@@ -61,9 +61,6 @@
 "deleting-images-alert-title" = "Видалення кешованих зображень";
 "deleting-images-alert-subtitle" = "Всі кешовані зображення будуть видалені.";
 "deleting-images-alert-done" = "Очистити кеш";
-
-"review-alert-title" = "Поставте оцінку додатку";
-"review-alert-subtitle" = "Будь ласка, залиште відгук про додаток\n(just placeholder)";
 
 "what-new" = "Що нового?";
 
@@ -98,7 +95,7 @@
 "onboardingSecondTitle" = "Ніяких акцій";
 "onboardingSecondSubtitle" = "Ми вирішили не засмічувати додаток акціями (їх і так важко пропустити), збираючи для тебе тільки промокодом, адже всі ми знаємо, що по ним знижка більше.";
 
-"onboardingThirdTitle" = "Додавай в обране";
+"onboardingThirdTitle" = "Отримуй повідомлення";
 "onboardingThirdSubtitle" = "Тисни сердечко і отримуй повідомлення про нові промокоди від улюблених магазинів.";
 
 "onboardingFourthTitle" = "Давай покращувати додаток разом";

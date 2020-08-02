@@ -17,6 +17,8 @@ class NotificationService: UNNotificationServiceExtension {
     self.contentHandler = contentHandler
     bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
     
+    URLSession.shared.reset(completionHandler: {})
+    
     if let bestAttemptContent = bestAttemptContent {
       // Modify the notification content here...
       
