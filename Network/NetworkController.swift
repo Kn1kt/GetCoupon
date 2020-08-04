@@ -127,7 +127,10 @@ extension NetworkController {
     
     let maxAttemps = 3
     
-    URLSession.shared.rx.data(request: URLRequest(url: url))
+    var request = URLRequest(url: url)
+    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
+    
+    URLSession.shared.rx.data(request: request)
       .retryWhen { e in
         return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
           guard let self = self else {
@@ -169,7 +172,10 @@ extension NetworkController {
     
     let maxAttemps = 3
     
-    URLSession.shared.rx.data(request: URLRequest(url: url))
+    var request = URLRequest(url: url)
+    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
+    
+    URLSession.shared.rx.data(request: request)
       .retryWhen { e in
         return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
           guard let self = self else {
@@ -205,6 +211,7 @@ extension NetworkController {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
     
     URLSession.shared.uploadTask(with: request, from: data).resume()
   }

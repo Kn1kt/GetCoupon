@@ -92,11 +92,11 @@
 "onboardingFirstTitle" = "Current Promo Codes";
 "onboardingFirstSubtitle" = "We are also tired of notifications via email and messengers! That's why we have collected all the promo codes in one app so that you can find them whenever you want.";
 
-"onboardingSecondTitle" = "No Shares";
-"onboardingSecondSubtitle" = "We decided not to clog the application with stocks (it’s hard to miss them), collecting only promotional codes for you, because we all know that there is more discount on them.";
+"onboardingSecondTitle" = "Only Useful Promotions";
+"onboardingSecondSubtitle" = "We carefully select new promo codes for you, trying not to clog the application with unnecessary promotions. But some are definitely not worth missing!";
 
 "onboardingThirdTitle" = "Get Notifications";
-"onboardingThirdSubtitle" = "Click on the heart and receive notifications of new promotional codes from your favorite stores.";
+"onboardingThirdSubtitle" = "Press heart and receive notifications about new promo codes and discounts in your favorite stores.";
 
 "onboardingFourthTitle" = "Let's Improve the Application Together";
 "onboardingFourthSubtitle" = "If you liked the application or there is something missing in it, you can write to us and we will answer!";
