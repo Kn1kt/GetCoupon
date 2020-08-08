@@ -174,7 +174,7 @@ extension HomeDetailViewController {
     
     item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
     
-    var groupFractionHeigh: CGFloat! = nil
+    var groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -191,6 +191,11 @@ extension HomeDetailViewController {
       
     default:
       groupFractionHeigh = CGFloat(0.14)
+    }
+    
+    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    if estimatedHeight < 90 {
+      groupFractionHeigh = 0.16
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

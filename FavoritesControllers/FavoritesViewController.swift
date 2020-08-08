@@ -195,7 +195,7 @@ extension FavoritesViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    var groupFractionHeigh: CGFloat! = nil
+    var groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -212,6 +212,11 @@ extension FavoritesViewController {
       
     default:
       groupFractionHeigh = CGFloat(0.2)
+    }
+    
+    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    if estimatedHeight < 120 {
+      groupFractionHeigh = 0.22
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

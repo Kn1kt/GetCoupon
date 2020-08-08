@@ -79,6 +79,7 @@ class ShopViewController: UIViewController {
     
     dateFormatter.dateStyle = .short
     dateFormatter.timeStyle = .none
+    dateFormatter.locale = Locale(identifier: "ru_RU")
     
     configureNavigationController(self.navigationController)
     
@@ -509,7 +510,7 @@ extension ShopViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    var groupFractionHeigh: CGFloat! = nil
+    let groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -558,13 +559,18 @@ extension ShopViewController {
       groupFractionHeigh = CGFloat(0.4)
       
     case (.regular, .compact):
-      groupFractionHeigh = CGFloat(0.20)
+      groupFractionHeigh = CGFloat(0.2)
       
     case (.regular, .regular):
-      groupFractionHeigh = CGFloat(0.20)
+      groupFractionHeigh = CGFloat(0.2)
       
     default:
       groupFractionHeigh = CGFloat(0.2)
+    }
+    
+    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    if estimatedHeight < 110 {
+      groupFractionHeigh = 0.23
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

@@ -37,7 +37,6 @@
 		F35B3D62235BB2F5000F7ED0 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D61235BB2F5000F7ED0 /* Home.storyboard */; };
 		F35B3D64235BB37B000F7ED0 /* Search.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F35B3D63235BB37B000F7ED0 /* Search.storyboard */; };
 		F35C081823946EB70047A85D /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */; };
-		F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */; };
 		F35C65212384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */; };
 		F35EE48A24576B5000430002 /* UserDefaultKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = F35EE48924576B5000430002 /* UserDefaultKeys.swift */; };
 		F363B6CC24B1257C00F6BA24 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */; };
@@ -201,7 +200,6 @@
 		F35B3D61235BB2F5000F7ED0 /* Home.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
 		F35B3D63235BB37B000F7ED0 /* Search.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Search.storyboard; sourceTree = "<group>"; };
 		F35C081723946EB60047A85D /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
-		F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMoreSupplementaryView.swift; sourceTree = "<group>"; };
 		F35C65202384A03600E67B26 /* HomeCaptionImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCaptionImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		F35EE48924576B5000430002 /* UserDefaultKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultKeys.swift; sourceTree = "<group>"; };
 		F363B6CB24B1257C00F6BA24 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
@@ -663,7 +661,6 @@
 				F33A9F482390688F00A78A74 /* HomeViews */,
 				F3ED2D6A239846F300726045 /* SearchViews */,
 				F3B8040E2380816F00481152 /* TitleSupplementaryView.swift */,
-				F35C651E23848DDC00E67B26 /* ShowMoreSupplementaryView.swift */,
 				F3E0AEAE2385DBC70063E2C8 /* ShowMoreUIButton.swift */,
 				F3E0AEB8238A0B060063E2C8 /* LikeImageView.swift */,
 				F3E0AEBF238C868C0063E2C8 /* AddToFavoritesButton.swift */,
@@ -1028,7 +1025,6 @@
 				F3D9DC9124465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift in Sources */,
 				F32C944B24830C9200649B7B /* HomeAnimatingSubtitleView.swift in Sources */,
 				F363B6E024B3B04300F6BA24 /* Trie.swift in Sources */,
-				F35C651F23848DDC00E67B26 /* ShowMoreSupplementaryView.swift in Sources */,
 				F3ED2D762399B31000726045 /* ShopData.swift in Sources */,
 				F363B70124BA3E8400F6BA24 /* TabBarViewController.swift in Sources */,
 				F3ED2D7C239B269E00726045 /* PromocodeView.swift in Sources */,

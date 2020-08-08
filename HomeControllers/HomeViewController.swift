@@ -222,7 +222,7 @@ extension HomeViewController {
                                                          count: 2)
     
     let groupFractionalWidth: CGFloat
-    let groupFractionHeigh: CGFloat
+    var groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -244,6 +244,11 @@ extension HomeViewController {
     default:
       groupFractionalWidth = CGFloat(0.45)
       groupFractionHeigh = CGFloat(0.42)
+    }
+    
+    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    if estimatedHeight < 240 {
+      groupFractionHeigh = 0.46
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
@@ -275,7 +280,7 @@ extension HomeViewController {
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
     let groupFractionalWidth: CGFloat
-    let groupFractionHeigh: CGFloat
+    var groupFractionHeigh: CGFloat
     
     switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
     case (.compact, .regular):
@@ -297,6 +302,11 @@ extension HomeViewController {
     default:
       groupFractionalWidth = CGFloat(0.36)
       groupFractionHeigh = CGFloat(0.21)
+    }
+    
+    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    if estimatedHeight < 130 {
+      groupFractionHeigh = 0.23
     }
     
     let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
