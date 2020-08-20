@@ -19,7 +19,8 @@ class TermsOfSeviceViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-     
+    navigationItem.largeTitleDisplayMode = .never
+    
     textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 40, right: 10)
     
     NetworkController.shared.license

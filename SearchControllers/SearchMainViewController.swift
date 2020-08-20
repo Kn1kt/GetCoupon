@@ -32,7 +32,6 @@ class SearchMainViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     
     resultsViewController = SearchResultsViewController()
     
@@ -49,9 +48,12 @@ class SearchMainViewController: UIViewController {
     
     definesPresentationContext = true
     
-    navigationItem.searchController = searchController
     navigationController?.navigationBar.prefersLargeTitles = true
+    navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+    
+    navigationItem.searchController = searchController
     navigationItem.title = NSLocalizedString("search", comment: "Search")
+    navigationItem.largeTitleDisplayMode = .always
     navigationItem.hidesSearchBarWhenScrolling = false
     
     configureCollectionView()

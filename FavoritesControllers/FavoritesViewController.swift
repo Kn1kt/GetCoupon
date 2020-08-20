@@ -42,6 +42,8 @@ class FavoritesViewController: UIViewController {
     super.viewDidLoad()
     
     navigationItem.title = NSLocalizedString("favorites", comment: "Favorites")
+    navigationItem.largeTitleDisplayMode = .always
+    
     navigationController?.navigationBar.prefersLargeTitles = true
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     
@@ -268,7 +270,7 @@ extension FavoritesViewController {
       collectionView.topAnchor.constraint(equalTo: view.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
       
-      emptyThereView.bottomAnchor.constraint(equalTo: collectionView.centerYAnchor, constant: -80),
+      emptyThereView.topAnchor.constraint(equalTo: collectionView.centerYAnchor, constant: -150),
       emptyThereView.centerXAnchor.constraint(equalTo: collectionView.centerXAnchor),
       emptyThereView.widthAnchor.constraint(equalTo: collectionView.widthAnchor, multiplier: 0.7)
     ])

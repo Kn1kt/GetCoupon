@@ -27,6 +27,8 @@ class SettingsTableViewController: UITableViewController {
     super.viewDidLoad()
     
     navigationItem.title = NSLocalizedString("settings", comment: "Settings")
+    navigationItem.largeTitleDisplayMode = .always
+    
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
     
     bindViewModel()

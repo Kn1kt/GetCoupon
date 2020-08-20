@@ -37,6 +37,9 @@ class HomeViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     navigationController?.navigationBar.tintColor = UIColor(named: "BlueTintColor")
+    navigationController?.navigationBar.prefersLargeTitles = true
+    
+    navigationItem.largeTitleDisplayMode = .never
     navigationItem.title = NSLocalizedString("default-status", comment: "Home")
     navigationItem.titleView = navBarTitleView
     
@@ -53,7 +56,7 @@ class HomeViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    navigationController?.navigationBar.prefersLargeTitles = false
+    
     if let refresh = collectionView.refreshControl,
       viewModel.isRefreshing.value {
         refresh.beginRefreshing()

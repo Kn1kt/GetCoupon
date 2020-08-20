@@ -39,7 +39,8 @@ class HomeDetailViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    navigationItem.title = viewModel.currentTitle
+//    navigationItem.title = viewModel.currentTitle
+    navigationItem.largeTitleDisplayMode = .always
     
     segmentedSection.shops.append(segmentedCell)
     searchSection.shops.append(searchCell)
@@ -49,11 +50,6 @@ class HomeDetailViewController: UIViewController {
     
     bindViewModel()
     bindUI()
-  }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    navigationController?.navigationBar.prefersLargeTitles = true
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -72,6 +68,12 @@ class HomeDetailViewController: UIViewController {
     viewModel.favoritesUpdates
       .emit(onNext: { [weak self] in
         self?.updateVisibleItems()
+      })
+      .disposed(by: disposeBag)
+    
+    viewModel.title
+      .drive(onNext: { [weak self] title in
+        self?.navigationItem.title = title
       })
       .disposed(by: disposeBag)
   }

@@ -42,9 +42,7 @@ class HomeDetailViewModel {
   
   let isUpdatingData: Driver<Bool>
   
-  var currentTitle: String {
-    return _currentSection.value.categoryName
-  }
+  let title: Driver<String>
   
   private let _favoritesUpdates =  PublishRelay<Void>()
   
@@ -67,6 +65,12 @@ class HomeDetailViewModel {
     self.isUpdatingData = ModelController.shared.isUpdatingData.asDriver(onErrorJustReturn: false)
     
     self.favoritesUpdates = _favoritesUpdates.asSignal()
+    
+    self.title = section
+      .map { section in
+        return section.categoryName
+      }
+      .asDriver(onErrorJustReturn: "")
     
     section
       .observeOn(defaultScheduler)

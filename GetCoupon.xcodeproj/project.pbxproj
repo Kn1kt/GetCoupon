@@ -1296,7 +1296,7 @@
 				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCoupon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1320,7 +1320,7 @@
 				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCoupon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1434,7 +1434,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1457,7 +1457,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

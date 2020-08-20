@@ -358,7 +358,11 @@ extension ModelController {
       return nil
     }
     
+    // TODO: FIX INCONSISTENT UPDATE WHEN PUSH ARRIVE
     let section = collections.map { (categories: [ShopCategoryData]) -> ShopCategoryData in
+      guard categories.count > index else {
+        return ShopCategoryData(categoryName: "Error")
+      }
       return categories[index]
     }
     
