@@ -14,10 +14,11 @@ class ServersPack: Decodable {
   
   let contactEmail: String
   let license: String
+  let businessCardWebsite: String
   
   // MARK: - Decodable
   enum CodingKeys: CodingKey {
-    case defaultServer, contactEmail, iosLicense
+    case defaultServer, contactEmail, iosLicense, businessCardWebsite
   }
   
   public required init(from decoder: Decoder) throws {
@@ -25,5 +26,6 @@ class ServersPack: Decodable {
     self.defaultServer = try container.decode(ServerData.self, forKey: .defaultServer)
     self.contactEmail = try container.decode(String.self, forKey: .contactEmail)
     self.license = try container.decode(String.self, forKey: .iosLicense)
+    self.businessCardWebsite = try container.decode(String.self, forKey: .businessCardWebsite)
   }
 }

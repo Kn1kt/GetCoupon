@@ -123,7 +123,7 @@ extension SearchResultsViewController {
       groupFractionHeigh = CGFloat(0.12)
     }
     
-    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    let estimatedHeight = layoutEnvironment.container.effectiveContentSize.height * groupFractionHeigh
     if estimatedHeight < 70 {
       groupFractionHeigh = 0.14
     }

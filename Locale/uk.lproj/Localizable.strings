@@ -64,6 +64,11 @@
 
 "what-new" = "Що нового?";
 
+"about" = "Gро додаток";
+"version" = "Версія";
+
+"our-products" = "Наші продукти";
+
  // MARK: - Shop Screen
 "coupons" = "Купона";
 "website" = "Веб-сайт";

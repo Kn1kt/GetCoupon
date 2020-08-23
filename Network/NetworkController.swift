@@ -21,6 +21,7 @@ class NetworkController {
   static let shared = NetworkController()
   
   let serversDatasource = "https://usrnm242.github.io/getcoupon/conf.json"
+//  let serversDatasource = "https://usrnm242.github.io/getcoupon/test-conf.json"
   
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)

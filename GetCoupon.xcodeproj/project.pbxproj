@@ -10,6 +10,7 @@
 		F30C418924A6B92B005BFAA9 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F336D67E24A644AD000E1796 /* Localizable.strings */; };
 		F32C94492482F6E900649B7B /* HomeAnimatingTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32C94482482F6E900649B7B /* HomeAnimatingTitleView.swift */; };
 		F32C944B24830C9200649B7B /* HomeAnimatingSubtitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32C944A24830C9200649B7B /* HomeAnimatingSubtitleView.swift */; };
+		F3330ED024F1994100FC8912 /* AboutUsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3330ECF24F1994100FC8912 /* AboutUsTableViewController.swift */; };
 		F33A9F47239009C500A78A74 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F46239009C500A78A74 /* FavoritesViewController.swift */; };
 		F33A9F4B239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F4A239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift */; };
 		F33A9F4D239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33A9F4C239069CD00A78A74 /* FavoritesSegmentedControlCollectionViewCell.swift */; };
@@ -67,6 +68,8 @@
 		F378A4C024D208A70091C95C /* PushConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F378A4BF24D208A70091C95C /* PushConfiguration.swift */; };
 		F378A4C124D20DC70091C95C /* NotificationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F342162824D04CAF00A1C7D0 /* NotificationProvider.swift */; };
 		F37D66D424BF7C2C0031B086 /* EmptyFavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F37D66D324BF7C2C0031B086 /* EmptyFavoritesView.swift */; };
+		F380F9D924F1673200FD2156 /* SettingsAboutUsScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F380F9D824F1673200FD2156 /* SettingsAboutUsScreen.storyboard */; };
+		F380F9DD24F190AA00FD2156 /* AboutLogoPreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F380F9DC24F190AA00FD2156 /* AboutLogoPreviewTableViewCell.swift */; };
 		F3888C95244F7009002B6115 /* FeedbackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C94244F7009002B6115 /* FeedbackViewController.swift */; };
 		F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C972454D88F002B6115 /* FeedbackViewModel.swift */; };
 		F3888C9C2454E521002B6115 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3888C9B2454E521002B6115 /* SettingsViewModel.swift */; };
@@ -161,6 +164,7 @@
 		F30C418624A6B5B3005BFAA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		F32C94482482F6E900649B7B /* HomeAnimatingTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnimatingTitleView.swift; sourceTree = "<group>"; };
 		F32C944A24830C9200649B7B /* HomeAnimatingSubtitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnimatingSubtitleView.swift; sourceTree = "<group>"; };
+		F3330ECF24F1994100FC8912 /* AboutUsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsTableViewController.swift; sourceTree = "<group>"; };
 		F336D67D24A644AD000E1796 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F33A9F46239009C500A78A74 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		F33A9F4A239068E200A78A74 /* FavoritesPlainCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesPlainCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 		F378A4B024D1E1D40091C95C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F378A4BF24D208A70091C95C /* PushConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushConfiguration.swift; sourceTree = "<group>"; };
 		F37D66D324BF7C2C0031B086 /* EmptyFavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyFavoritesView.swift; sourceTree = "<group>"; };
+		F380F9D824F1673200FD2156 /* SettingsAboutUsScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingsAboutUsScreen.storyboard; sourceTree = "<group>"; };
+		F380F9DC24F190AA00FD2156 /* AboutLogoPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutLogoPreviewTableViewCell.swift; sourceTree = "<group>"; };
 		F3888C94244F7009002B6115 /* FeedbackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewController.swift; sourceTree = "<group>"; };
 		F3888C972454D88F002B6115 /* FeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackViewModel.swift; sourceTree = "<group>"; };
 		F3888C9B2454E521002B6115 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -562,6 +568,7 @@
 				F3508E7B24A6C48700A3586F /* Settings.storyboard */,
 				F364722724A6C6E80078A286 /* SettingsFeedbackScreen.storyboard */,
 				F364721E24A6C6A60078A286 /* SettingsTermsOfService.storyboard */,
+				F380F9D824F1673200FD2156 /* SettingsAboutUsScreen.storyboard */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -574,13 +581,30 @@
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		F3888C91244F660F002B6115 /* SettingsView */ = {
+		F380F9DA24F1900400FD2156 /* Common */ = {
 			isa = PBXGroup;
 			children = (
 				F3D9DC8A2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift */,
 				F3D9DC8C24464DF300EAEDE1 /* SettingsTextAndSwitchTableViewCell.swift */,
 				F3D9DC8E2446555700EAEDE1 /* SettingsDoubleTextAndAccessoryTableViewCell.swift */,
 				F3D9DC9024465BF400EAEDE1 /* SettingsDoubleTextAndSwitchTableViewCell.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		F380F9DB24F1901600FD2156 /* AboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				F380F9DC24F190AA00FD2156 /* AboutLogoPreviewTableViewCell.swift */,
+			);
+			path = AboutUs;
+			sourceTree = "<group>";
+		};
+		F3888C91244F660F002B6115 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				F380F9DB24F1901600FD2156 /* AboutUs */,
+				F380F9DA24F1900400FD2156 /* Common */,
 			);
 			path = SettingsView;
 			sourceTree = "<group>";
@@ -655,7 +679,6 @@
 			children = (
 				F39C02EB248030B3005C2BDB /* AdvertisingView */,
 				F3888C91244F660F002B6115 /* SettingsView */,
-				F34C57582437A1F2004A03B3 /* CouponView */,
 				F3ED2D712399AD8100726045 /* ShopViews */,
 				F33A9F49239068B800A78A74 /* FavoritesViews */,
 				F33A9F482390688F00A78A74 /* HomeViews */,
@@ -677,6 +700,7 @@
 				F3ED2D6323983E7B00726045 /* SettingsTableViewController.swift */,
 				F3D9DC942447970A00EAEDE1 /* TermsOfSeviceViewController.swift */,
 				F3888C94244F7009002B6115 /* FeedbackViewController.swift */,
+				F3330ECF24F1994100FC8912 /* AboutUsTableViewController.swift */,
 			);
 			path = SettingsControllers;
 			sourceTree = "<group>";
@@ -702,6 +726,7 @@
 		F3ED2D712399AD8100726045 /* ShopViews */ = {
 			isa = PBXGroup;
 			children = (
+				F34C57582437A1F2004A03B3 /* CouponView */,
 				F3ED2D79239AF8ED00726045 /* ShopPlainCollectionViewCell.swift */,
 				F3ED2D7B239B269E00726045 /* PromocodeView.swift */,
 				F34251E3239C7A1A008ABD8C /* ShopTitleCollectionViewCell.swift */,
@@ -907,6 +932,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F380F9D924F1673200FD2156 /* SettingsAboutUsScreen.storyboard in Resources */,
 				F363B6D324B1633A00F6BA24 /* Onboarding.storyboard in Resources */,
 				F363B6F924BA37C700F6BA24 /* InfoPlist.strings in Resources */,
 				F30C418924A6B92B005BFAA9 /* Localizable.strings in Resources */,
@@ -996,11 +1022,13 @@
 				F3F344582415754A005EF34C /* HomeViewModel.swift in Sources */,
 				F38F7A4823CA563100AAC409 /* ShopCategoryStoredData.swift in Sources */,
 				F3ED2D6423983E7B00726045 /* SettingsTableViewController.swift in Sources */,
+				F3330ED024F1994100FC8912 /* AboutUsTableViewController.swift in Sources */,
 				F35B3D2A235BAC25000F7ED0 /* SceneDelegate.swift in Sources */,
 				F3888C982454D88F002B6115 /* FeedbackViewModel.swift in Sources */,
 				F353625323CE09EC003D7BAB /* NetworkShopCategoryData.swift in Sources */,
 				F3D9DC8B2446463B00EAEDE1 /* SettingsTextAndAccessoryTableViewCell.swift in Sources */,
 				F3B80405238063A100481152 /* HomeViewController.swift in Sources */,
+				F380F9DD24F190AA00FD2156 /* AboutLogoPreviewTableViewCell.swift in Sources */,
 				F3B8040F2380816F00481152 /* TitleSupplementaryView.swift in Sources */,
 				F3E69DAB247C6DB700CE7799 /* SuggestedSearchCellData.swift in Sources */,
 				F3ED2D69239846DD00726045 /* SearchPlainCollectionViewCell.swift in Sources */,
@@ -1296,14 +1324,14 @@
 				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCoupon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1320,14 +1348,14 @@
 				CODE_SIGN_ENTITLEMENTS = GetCoupon/GetCoupon.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCoupon/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1434,7 +1462,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1443,7 +1471,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon.GetCouponNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1457,7 +1485,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = WT55D455BY;
 				INFOPLIST_FILE = GetCouponNotificationService/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1466,7 +1494,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.qq.GetCoupon.GetCouponNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

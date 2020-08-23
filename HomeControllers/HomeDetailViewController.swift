@@ -195,7 +195,7 @@ extension HomeDetailViewController {
       groupFractionHeigh = CGFloat(0.14)
     }
     
-    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    let estimatedHeight = layoutEnvironment.container.effectiveContentSize.height * groupFractionHeigh
     if estimatedHeight < 90 {
       groupFractionHeigh = 0.16
     }

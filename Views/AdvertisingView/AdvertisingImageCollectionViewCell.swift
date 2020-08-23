@@ -44,7 +44,7 @@ extension AdvertisingImageCollectionViewCell {
     layer.cornerRadius = 10
     clipsToBounds = true
     
-    imageView.layer.cornerRadius = 7
+    imageView.layer.cornerRadius = 8
     imageView.backgroundColor = .systemGray3
     imageView.clipsToBounds = true
     imageView.contentMode = .scaleAspectFill

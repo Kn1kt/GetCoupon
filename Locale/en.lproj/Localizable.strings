@@ -64,6 +64,11 @@
 
 "what-new" = "What's New?";
 
+"about" = "About";
+"version" = "Version";
+
+"our-products" = "Our Products";
+
   // MARK: - Shop Screen
 "coupons" = "Coupons";
 "website" = "Website";

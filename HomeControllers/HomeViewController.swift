@@ -117,6 +117,10 @@ class HomeViewController: UIViewController {
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] collections in
+        if let selected = self?.collectionView.indexPathsForSelectedItems {
+          selected.forEach { self?.collectionView.deselectItem(at: $0, animated: false)}
+        }
+        
         self?.updateSnapshot(collections)
       })
       .disposed(by: disposeBag)
@@ -190,7 +194,13 @@ extension HomeViewController {
       
       if self.viewModel.advEnabled.value,
         self.viewModel.advSections.value.contains(sectionIndex) {
-        return self.createAdvSection(layoutEnvironment)
+        
+        if sectionIndex == self.currentSnapshot.numberOfSections - 1 {
+          return self.createBottomAdvSection(layoutEnvironment)
+          
+        } else {
+          return self.createAdvSection(layoutEnvironment)
+        }
       }
       
       switch sectionIndex {
@@ -249,7 +259,7 @@ extension HomeViewController {
       groupFractionHeigh = CGFloat(0.42)
     }
     
-    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    let estimatedHeight = layoutEnvironment.container.effectiveContentSize.height * groupFractionHeigh
     if estimatedHeight < 240 {
       groupFractionHeigh = 0.46
     }
@@ -307,7 +317,7 @@ extension HomeViewController {
       groupFractionHeigh = CGFloat(0.21)
     }
     
-    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    let estimatedHeight = layoutEnvironment.container.effectiveContentSize.height * groupFractionHeigh
     if estimatedHeight < 130 {
       groupFractionHeigh = 0.23
     }
@@ -340,33 +350,8 @@ extension HomeViewController {
                                           heightDimension: .fractionalHeight(1.0))
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
     
-    let groupFractionalWidth: CGFloat
-    let groupFractionHeigh: CGFloat
-    
-    switch (layoutEnvironment.traitCollection.horizontalSizeClass, layoutEnvironment.traitCollection.verticalSizeClass) {
-    case (.compact, .regular):
-      groupFractionalWidth = CGFloat(0.8)
-      groupFractionHeigh = CGFloat(0.11)
-      
-    case (.compact, .compact):
-      groupFractionalWidth = CGFloat(0.2)
-      groupFractionHeigh = CGFloat(0.35)
-      
-    case (.regular, .compact):
-      groupFractionalWidth = CGFloat(0.2)
-      groupFractionHeigh = CGFloat(0.35)
-      
-    case (.regular, .regular):
-      groupFractionalWidth = CGFloat(0.25)
-      groupFractionHeigh = CGFloat(0.21)
-      
-    default:
-      groupFractionalWidth = CGFloat(0.8)
-      groupFractionHeigh = CGFloat(0.11)
-    }
-    
-    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(groupFractionalWidth),
-                                           heightDimension: .fractionalHeight(groupFractionHeigh))
+    let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.9),
+                                           heightDimension: .fractionalWidth(0.9 * 0.15))
     
     let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
     
@@ -377,6 +362,23 @@ extension HomeViewController {
     
     return section
   }
+  
+    func createBottomAdvSection(_ layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection {
+      
+      let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                            heightDimension: .fractionalHeight(1.0))
+      let item = NSCollectionLayoutItem(layoutSize: itemSize)
+      
+      let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                             heightDimension: .fractionalWidth(1.0))
+      
+      let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+      
+      let section = NSCollectionLayoutSection(group: group)
+      section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 15, bottom: 0, trailing: 15)
+      
+      return section
+    }
 }
 
   // MARK: - Setup Collection View

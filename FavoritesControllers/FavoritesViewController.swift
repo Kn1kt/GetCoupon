@@ -72,7 +72,6 @@ class FavoritesViewController: UIViewController {
   }
   
   private func bindViewModel() {
-    
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribeOn(MainScheduler.instance)
@@ -216,7 +215,7 @@ extension FavoritesViewController {
       groupFractionHeigh = CGFloat(0.2)
     }
     
-    let estimatedHeight = view.bounds.height * groupFractionHeigh
+    let estimatedHeight = layoutEnvironment.container.effectiveContentSize.height * groupFractionHeigh
     if estimatedHeight < 120 {
       groupFractionHeigh = 0.22
     }
@@ -443,23 +442,6 @@ extension FavoritesViewController {
     }
     
     dataSource.apply(currentSnapshot, animatingDifferences: true)
-  }
-}
-
-// MARK: - Actions
-extension FavoritesViewController {
-  func updateVisibleItems() {
-    let indexPaths = collectionView.indexPathsForVisibleItems
-    
-    indexPaths.forEach { indexPath in
-      guard let cell = collectionView.cellForItem(at: indexPath) as? FavoritesPlainCollectionViewCell else {
-        return
-      }
-      
-      UIView.animate(withDuration: 0.3) {
-        cell.favoritesButton.checkbox.isHighlighted = true
-      }
-    }
   }
 }
 

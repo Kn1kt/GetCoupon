@@ -8,7 +8,6 @@
 
 import UIKit
 import MessageUI
-import StoreKit
 import RxSwift
 import RxCocoa
 
@@ -48,13 +47,6 @@ class SettingsTableViewController: UITableViewController {
   private func bindViewModel() {
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .filter { indexPath in
-        if indexPath.section == 1, indexPath.row == 1 {
-          return false
-        }
-        
-        return true
-      }
       .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
@@ -90,9 +82,9 @@ class SettingsTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return 4
+      return 3
     case 1:
-      return 4
+      return 3
     default:
       fatalError("Overbound Sections")
     }
@@ -116,20 +108,16 @@ class SettingsTableViewController: UITableViewController {
         return configureClearCacheCell(cell)
       case 2:
         return configureSharePromoCell(cell)
-      case 3:
-        return configureWhatNewCell(cell)
       default:
         fatalError("Overbound Rows")
       }
     case 1:
       switch indexPath.row {
       case 0:
-        return configureRateUsCell(cell)
+        return configureAboutUsCell(cell)
       case 1:
-        return configureTermsOfServiceCell(cell)
+        return configureOurProductsCell(cell)
       case 2:
-        return configureFeedbackCell(cell)
-      case 3:
         return configureContactUsCell(cell)
       default:
         fatalError("Overbound Rows")
@@ -153,7 +141,7 @@ class SettingsTableViewController: UITableViewController {
       
     case 1:
       switch indexPath.row {
-      case 3:
+      case 2:
         return SettingsDoubleTextAndAccessoryTableViewCell.reuseIdentifier
       default:
         return SettingsTextAndAccessoryTableViewCell.reuseIdentifier
@@ -229,42 +217,22 @@ extension SettingsTableViewController {
     return cell
   }
   
-  private func configureWhatNewCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
+  private func configureAboutUsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
     guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
       return tableViewCell
     }
     
-    cell.titleLabel.text = NSLocalizedString("what-new", comment: "What's New?")
+    cell.titleLabel.text = NSLocalizedString("about", comment: "About")
     
     return cell
   }
   
-  private func configureRateUsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
+  private func configureOurProductsCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
     guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
       return tableViewCell
     }
     
-    cell.titleLabel.text = NSLocalizedString("rate-us-title", comment: "Rate Us")
-    
-    return cell
-  }
-  
-  private func configureTermsOfServiceCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
-    guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
-      return tableViewCell
-    }
-    
-    cell.titleLabel.text = NSLocalizedString("terms-of-service-title", comment: "Terms of Service")
-    
-    return cell
-  }
-  
-  private func configureFeedbackCell(_ tableViewCell: UITableViewCell) -> UITableViewCell {
-    guard let cell = tableViewCell as? SettingsTextAndAccessoryTableViewCell else {
-      return tableViewCell
-    }
-    
-    cell.titleLabel.text = NSLocalizedString("give-feedback-title", comment: "Give Feedback")
+    cell.titleLabel.text = NSLocalizedString("our-products", comment: "Our Products")
     
     return cell
   }
@@ -279,9 +247,9 @@ extension SettingsTableViewController {
     
     viewModel.contactUsEmail
       .drive(onNext: { [weak self] email in
-        self?.tableView.beginUpdates()
-        cell.subtitleLabel.text = email
-        self?.tableView.endUpdates()
+        self?.tableView.performBatchUpdates({
+          cell.subtitleLabel.text = email
+        })
       })
       .disposed(by: cell.disposeBag)
     
@@ -319,8 +287,6 @@ extension SettingsTableViewController {
         showClearCacheAlert()
       case 2:
         viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.coupon))
-      case 3:
-        showOnboardingScreen()
       default:
         fatalError("Overbound Rows")
       }
@@ -328,12 +294,10 @@ extension SettingsTableViewController {
     case 1:
       switch indexPath.row {
       case 0:
-        showRateUsAlert()
+        showAboutUsScreen()
       case 1:
-        showTermsOfServiceScreen()
+        viewModel.openOurProducts.accept(self)
       case 2:
-        viewModel.showFeedbackVC.accept((self, FeedbackViewModel.FeedbackType.general))
-      case 3:
         showContactUsScreen(for: indexPath)
       default:
         fatalError("Overbound Rows")
@@ -343,14 +307,8 @@ extension SettingsTableViewController {
     }
   }
   
-  private func showOnboardingScreen() {
-    let onboardingVC = OnboardingViewController.createVC()
-    present(onboardingVC, animated: true)
-  }
-  
-  private func showTermsOfServiceScreen() {
-    let storyboard = UIStoryboard(name: "SettingsTermsOfService", bundle: nil)
-    let vc = storyboard.instantiateViewController(identifier: "SettingsTermsOfService")
+  private func showAboutUsScreen() {
+    let vc = AboutUsTableViewController.createWith(viewModel: self.viewModel)
     show(vc, sender: self)
   }
   
@@ -392,7 +350,6 @@ extension SettingsTableViewController {
     let outlookUrl = URL(string: "ms-outlook://compose?to=\(email)")
     let yahooMail = URL(string: "ymail://mail/compose?to=\(email)")
     let sparkUrl = URL(string: "readdle-spark://compose?recipient=\(email)")
-//    let defaultUrl = URL(string: "mailto:\(email)")
 
     if let gmailUrl = gmailUrl, UIApplication.shared.canOpenURL(gmailUrl) {
         return gmailUrl
@@ -453,11 +410,6 @@ extension SettingsTableViewController {
     alertController.addAction(destructiveAction)
     
     present(alertController, animated: true, completion: nil)
-  }
-  
-  // MARK: - Rate Us Alert
-  private func showRateUsAlert() {
-    SKStoreReviewController.requestReview()
   }
 }
 

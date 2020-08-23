@@ -64,6 +64,11 @@
 
 "what-new" = "Что нового?";
 
+"about" = "О приложении";
+"version" = "Версия";
+
+"our-products" = "Наши продукты";
+
   // MARK: - Shop Screen
 "coupons" = "Купона";
 "website" = "Веб-сайт";

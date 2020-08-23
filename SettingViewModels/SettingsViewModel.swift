@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SafariServices
 
 class SettingsViewModel {
   
@@ -20,6 +21,8 @@ class SettingsViewModel {
   
   // MARK: - Input
   let showFeedbackVC = PublishRelay<(UIViewController, FeedbackViewModel.FeedbackType)>()
+  
+  let openOurProducts = PublishRelay<(UIViewController)>()
   
   let clearCache = PublishRelay<Void>()
   
@@ -122,6 +125,13 @@ class SettingsViewModel {
       })
       .disposed(by: disposeBag)
     
+    openOurProducts
+      .observeOn(MainScheduler.instance)
+      .subscribe(onNext: { [unowned self] vc in
+        self.openWebsite(vc)
+      })
+      .disposed(by: disposeBag)
+    
     clearCache
       .observeOn(defaultScheduler)
       .subscribe(onNext: {
@@ -148,5 +158,19 @@ extension SettingsViewModel {
   private func showFeedbackVC(_ vc: UIViewController, feedbackType: FeedbackViewModel.FeedbackType) {
     navigator.showFedbackVC(sender: vc,
                             feedbackType: feedbackType)
+  }
+}
+
+  // MARK: - openURL
+extension SettingsViewModel {
+  
+  private func openWebsite(_ vc: UIViewController) {
+    guard let link = NetworkController.shared.serverPack.value?.businessCardWebsite,
+      let url = URL(string: link) else {
+      return
+    }
+    
+    let safariVC = SFSafariViewController(url: url)
+    vc.present(safariVC, animated: true, completion: nil)
   }
 }

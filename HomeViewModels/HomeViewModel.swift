@@ -252,7 +252,7 @@ extension HomeViewModel {
   // MARK: - openURL
 extension HomeViewModel {
   
-  func openWebsite(_ vc: UIViewController, cell: ShopData) {
+  private func openWebsite(_ vc: UIViewController, cell: ShopData) {
     guard let url = URL(string: cell.websiteLink) else {
       return
     }
