@@ -17,14 +17,14 @@
                         <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="AboutLogoPreviewTableViewCellReuseIdentifier" id="UCG-1g-Khx" customClass="AboutLogoPreviewTableViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="55.5" width="374" height="258.5"/>
+                                <rect key="frame" x="20" y="55.5" width="374" height="259"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UCG-1g-Khx" id="Zid-9o-pBV">
-                                    <rect key="frame" x="0.0" y="0.0" width="374" height="258.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="374" height="259"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Shu-lU-6La" userLabel="VStack">
-                                            <rect key="frame" x="10" y="40" width="354" height="178.5"/>
+                                            <rect key="frame" x="10" y="40" width="354" height="179"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoImage" translatesAutoresizingMaskIntoConstraints="NO" id="OLW-lY-hkd">
                                                     <rect key="frame" x="117" y="0.0" width="120" height="120"/>
@@ -34,16 +34,16 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pcf-wP-Srm" userLabel="textView">
-                                                    <rect key="frame" x="112.5" y="125" width="129" height="53.5"/>
+                                                    <rect key="frame" x="112.5" y="125" width="129" height="54"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="GetCoupon" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RqK-WV-Kch">
-                                                            <rect key="frame" x="0.0" y="0.0" width="129" height="37.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="129" height="38"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="24"/>
                                                             <nil key="highlightedColor"/>
                                                             <size key="shadowOffset" width="0.0" height="0.0"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version 1.2" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uq9-Vt-0hW">
-                                                            <rect key="frame" x="0.0" y="37.5" width="129" height="16"/>
+                                                            <rect key="frame" x="0.0" y="38" width="129" height="16"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -76,7 +76,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SettingsTextAndAccessoryTableViewCellReuseIdentifier" id="QO0-zY-bKM" userLabel="SettingsTextAndAccessoryTableViewCell" customClass="SettingsTextAndAccessoryTableViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                <rect key="frame" x="20" y="314" width="374" height="51"/>
+                                <rect key="frame" x="20" y="314.5" width="374" height="51"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QO0-zY-bKM" id="ceE-4q-Aen">
                                     <rect key="frame" x="0.0" y="0.0" width="343" height="51"/>

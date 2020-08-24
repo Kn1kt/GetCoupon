@@ -18,9 +18,6 @@ class AboutLogoPreviewTableViewCell: UITableViewCell {
   @IBOutlet weak var largeTitleLabel: UILabel!
   @IBOutlet weak var largeSubtitleLabel: UILabel!
   
-  // MARK: - View Constraints
-  @IBOutlet weak var hStackHeight: NSLayoutConstraint!
-  
   override func awakeFromNib() {
     super.awakeFromNib()
     
