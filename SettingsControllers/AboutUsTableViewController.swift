@@ -28,9 +28,7 @@ class AboutUsTableViewController: UITableViewController {
   private let eventScheduler = ConcurrentDispatchQueueScheduler(qos: .userInteractive)
   
   private var viewModel: SettingsViewModel!
-  
-  let logoShouldScrollIn = BehaviorRelay(value: true)
-  
+    
   override func viewDidLoad() {
     super.viewDidLoad()
     
@@ -123,39 +121,6 @@ extension AboutUsTableViewController {
       return tableViewCell
     }
     
-    logoShouldScrollIn
-      .take(1)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] scale in
-        self?.tableView.performBatchUpdates({
-          cell.shouldShowScaleInLogo(scale, animated: false)
-        })
-      })
-      .disposed(by: cell.disposeBag)
-    
-    logoShouldScrollIn
-      .distinctUntilChanged()
-      .skip(1)
-      .observeOn(MainScheduler.instance)
-      .subscribe(onNext: { [weak self] scale in
-        let impactFeedbackgenerator: UIImpactFeedbackGenerator
-        if scale {
-          impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .medium)
-          
-        } else {
-          impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
-        }
-        
-        impactFeedbackgenerator.prepare()
-        
-        self?.tableView.performBatchUpdates({
-          cell.shouldShowScaleInLogo(scale)
-        })
-        
-        impactFeedbackgenerator.impactOccurred()
-      })
-      .disposed(by: cell.disposeBag)
-    
     return cell
   }
 
@@ -224,17 +189,6 @@ extension AboutUsTableViewController {
       showOnboardingScreen()
     default:
       fatalError("Overbound Actions")
-    }
-  }
-  
-  override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-    let y = -scrollView.contentOffset.y
-    let anchorPoint = scrollView.adjustedContentInset.top
-    
-    if y < anchorPoint - 15.0 {
-      logoShouldScrollIn.accept(false)
-    } else if y > anchorPoint + 15.0{
-      logoShouldScrollIn.accept(true)
     }
   }
   
