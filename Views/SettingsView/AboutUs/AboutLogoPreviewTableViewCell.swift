@@ -11,7 +11,7 @@ import UIKit
 class AboutLogoPreviewTableViewCell: UITableViewCell {
   
   static let reuseIdentifier = "AboutLogoPreviewTableViewCellReuseIdentifier"
-  private let version = NSLocalizedString("version", comment: "Version") + " 1.2.0"
+  private let version = NSLocalizedString("version", comment: "Version") + " 1.2.1"
   
   // MARK: - Views
   @IBOutlet weak var logoImageView: UIImageView!
