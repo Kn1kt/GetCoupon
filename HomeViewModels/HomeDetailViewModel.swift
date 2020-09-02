@@ -258,19 +258,11 @@ extension HomeDetailViewModel {
   
   private func filteredCategory(with filter: String) -> ShopCategoryData {
     
-    if filter.isEmpty {
+    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
+    
+    if lowercasedFilter.isEmpty {
       return segmentIndex.value == 0 ? section.value : sectionByDates.value
     }
-    
-    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
-  
-//    let filtered = section.value.shops
-//      .filter { shop in
-//        return shop.name.lowercased().contains(lowercasedFilter)
-//          || shop.tags.contains(lowercasedFilter)
-//          || shop.category?.tags.contains(lowercasedFilter) ?? false
-//      }
-//      .sorted { $0.name < $1.name }
     
     let filtered = self.trie.value.collections(startingWith: lowercasedFilter)
     

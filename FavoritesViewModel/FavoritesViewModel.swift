@@ -220,28 +220,43 @@ extension FavoritesViewModel {
   
   private func filteredCategories(with filter: String) -> [ShopCategoryData] {
     
-    let categories = segmentIndex.value == 0 ? model.currentCollectionsBySections : model.currentCollectionsByDates
-    
-    if filter.isEmpty {
-      return categories
-    }
+    let segmentIndex = self.segmentIndex.value
+    let categories = segmentIndex == 0 ? model.currentCollectionsBySections : model.currentCollectionsByDates
     
     let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
     
+    if lowercasedFilter.isEmpty {
+      return categories
+    }
+    
     let filteredShops = self.trie.value.collections(startingWith: lowercasedFilter)
     
-    let filtered = categories.reduce(into: [ShopCategoryData]()) { result, category in
-      let shops = filteredShops.filter { shop in
-        guard let categoryName = shop.category?.categoryName else { return false }
+    let filtered: [ShopCategoryData]
+    
+    if segmentIndex == 0 {
+      filtered = categories.reduce(into: [ShopCategoryData]()) { result, category in
+        let shops = filteredShops.filter { shop in
+          guard let categoryName = shop.category?.categoryName else { return false }
+          
+          return categoryName == category.categoryName
+        }
         
-        return categoryName == category.categoryName
+        if !shops.isEmpty {
+          result.append(ShopCategoryData(categoryName: category.categoryName,
+                                shops: shops,
+                                tags: category.tags))
+        }
       }
       
-      if !shops.isEmpty {
-        result.append(ShopCategoryData(categoryName: category.categoryName,
-                              shops: shops,
-                              tags: category.tags))
-      }
+    } else if segmentIndex == 1,
+      let category = categories.first {
+      
+      filtered = [ShopCategoryData(categoryName: category.categoryName,
+                                  shops: filteredShops,
+                                  tags: [])]
+      
+    } else {
+      filtered = [ShopCategoryData]()
     }
     
     return filtered

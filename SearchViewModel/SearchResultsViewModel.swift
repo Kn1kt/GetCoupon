@@ -117,11 +117,11 @@ extension SearchResultsViewModel {
       return collection
     }
     
-    if filter.isEmpty && tokens.isEmpty {
+    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
+    
+    if lowercasedFilter.isEmpty && tokens.isEmpty {
       return ShopCategoryData(categoryName: "")
     }
-    
-    let lowercasedFilter = filter.lowercased().trimmingCharacters(in: CharacterSet.whitespaces)
     
     let filtered: [ShopData]
     
