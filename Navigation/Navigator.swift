@@ -12,7 +12,7 @@ import RxCocoa
 
 class Navigator {
   
-  // MARK: - segue list
+  // MARK: - Segue List
   enum Segue {
     case homeDetailScreen(section: ShopCategoryData)
     case shopScreen

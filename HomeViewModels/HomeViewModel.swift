@@ -53,17 +53,18 @@ class HomeViewModel {
   
   let advSections = BehaviorRelay<Set<Int>>(value: Set<Int>())
   
-  let showOnboarding = Observable<Bool>.deferred {
+  let showOnboarding = Single<Bool>.deferred {
     let onboardingDidShow = UserDefaults.standard.bool(forKey: UserDefaultKeys.onboardingScreenDidShow.rawValue)
     
     if onboardingDidShow {
-      return Observable.just(false)
+      return .just(false)
       
     } else {
-      UserDefaults.standard.set(true, forKey: UserDefaultKeys.onboardingScreenDidShow.rawValue)
-      return Observable.just(true)
+      return .just(true)
     }
   }
+  
+  let onboardingDidShow = PublishSubject<Bool>()
   
   // MARK: - Init
   init() {
@@ -92,7 +93,6 @@ class HomeViewModel {
       .skip(1)
 //      .delay(.seconds(1), scheduler: eventScheduler)
       .debounce(.seconds(1), scheduler: eventScheduler)
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: _collections)
       .disposed(by: disposeBag)
@@ -108,12 +108,12 @@ class HomeViewModel {
       .disposed(by: disposeBag)
     
     ModelController.shared.isUpdatingData
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: isRefreshing)
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
+      .observeOn(defaultScheduler)
       .map { (status: ModelController.DataStatus) -> TitleTypes in
         switch status {
         case .unknown:
@@ -136,13 +136,12 @@ class HomeViewModel {
           return true
         }
       }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
       .delay(.seconds(1), scheduler: eventScheduler)
+      .observeOn(defaultScheduler)
       .filter { [weak self] status in
         guard let self = self,
           self.isRefreshing.value == false else {
@@ -156,13 +155,12 @@ class HomeViewModel {
         }
       }
       .map { _ in .default(NSLocalizedString("default-status", comment: "Home")) }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
       .disposed(by: disposeBag)
     
     ModelController.shared.dataUpdatingStatus
       .delay(.seconds(4), scheduler: eventScheduler)
+      .observeOn(defaultScheduler)
       .filter { [weak self] status in
         guard let self = self,
           self.isRefreshing.value == false else {
@@ -176,22 +174,35 @@ class HomeViewModel {
         }
       }
       .map { _ in .default(NSLocalizedString("waiting-for-nework-status", comment: "Waiting for Network...")) }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: updatingTitle)
       .disposed(by: disposeBag)
   }
   
   private func bindActions() {
     refresh
-      .filter { $0 }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
+      .filter { $0 }
       .subscribe(onNext: { _ in
-        /* TODO:
-         should fix this query
-        */
         ModelController.shared.setupCollections()
+      })
+      .disposed(by: disposeBag)
+    
+    showOnboarding
+      .asObservable()
+      .subscribeOn(defaultScheduler)
+      .observeOn(defaultScheduler)
+      .filter { !$0 }
+      .subscribe(onNext: { [weak self] _ in
+        self?.onboardingDidShow.onCompleted()
+      })
+      .disposed(by: disposeBag)
+    
+    onboardingDidShow
+      .take(1)
+      .observeOn(defaultScheduler)
+      .filter { $0 }
+      .subscribe(onNext: { shown in
+        UserDefaults.standard.set(shown, forKey: UserDefaultKeys.onboardingScreenDidShow.rawValue)
       })
       .disposed(by: disposeBag)
     

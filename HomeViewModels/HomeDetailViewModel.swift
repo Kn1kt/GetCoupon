@@ -85,7 +85,6 @@ class HomeDetailViewModel {
     let section = self.section.share(replay: 1)
     
     section
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] collection in
         guard let self = self else { return }
@@ -103,6 +102,7 @@ class HomeDetailViewModel {
       .disposed(by: disposeBag)
     
     section
+      .observeOn(defaultScheduler)
       .map { category in
         return ShopCategoryData(categoryName: category.categoryName,
                                 shops: category.shops.sorted { lhs, rhs in
@@ -118,14 +118,13 @@ class HomeDetailViewModel {
           },
                                 tags: category.tags)
       }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: sectionByDates)
       .disposed(by: disposeBag)
     
     let segmentIndex = self.segmentIndex.share(replay: 1)
     
     segmentIndex
+      .observeOn(eventScheduler)
       .filter { [weak self] _ in
         guard let self = self else { fatalError("SegmentIndexFilter") }
         return self.searchText.value.isEmpty
@@ -140,8 +139,6 @@ class HomeDetailViewModel {
           return self.section.value
         }
       }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .bind(to: _currentSection)
       .disposed(by: disposeBag)
     
@@ -156,9 +153,8 @@ class HomeDetailViewModel {
     
     ModelController.shared.favoriteCollections
       .skip(1)
-      .map { _ in }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
+      .map { _ in }
       .bind(to: _favoritesUpdates)
       .disposed(by: disposeBag)
     
@@ -184,10 +180,9 @@ class HomeDetailViewModel {
     
     controllerWillDisappear
       .withLatestFrom(unicEditedShops)
+      .observeOn(eventScheduler)
       .filter { !$0.isEmpty }
       .map { shops in shops.filter { $0.isFavorite } }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .subscribe(onNext: { [weak self] shops in
         guard let self = self else { return }
         self.model.updateFavoritesCategory(self.section.value, shops: shops)
@@ -197,7 +192,6 @@ class HomeDetailViewModel {
     
     controllerWillDisappear
       .withLatestFrom(unicEditedShops)
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { shops in
         let cache = CacheController()
@@ -274,11 +268,6 @@ extension HomeDetailViewModel {
 
   // MARK: - Show Shop View Controller
 extension HomeDetailViewModel {
-  
-//  private func showShopVC(_ vc: UIViewController, shop: ShopData) {
-//    guard let category = shop.category else { return }
-//    navigator.showShopVC(sender: vc, section: category, shop: shop)
-//  }
   
   private func showShopVC(_ vc: UIViewController, shop: ShopData, favoritesButton: Bool) {
     guard let category = shop.category else { return }

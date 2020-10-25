@@ -38,9 +38,8 @@ class HomeDataController {
     self.advSections = _advSections.share(replay: 1)
     
     collections
-      .map { _ in false }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
+      .map { _ in false }
       .bind(to: _advEnabled)
       .disposed(by: disposeBag)
     
@@ -57,37 +56,37 @@ class HomeDataController {
       })
       .disposed(by: disposeBag)
     
-    collections.map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
-      return collections.map { category in
-        return ShopCategoryData(categoryName: category.categoryName,
-                                shops: Array(category.shops
-                                  .sorted(by: { lhs, rhs in
-                                    if lhs.priority == rhs.priority {
-                                      if let lhsDate = lhs.promoCodes.first?.addingDate {
-                                        if let rhsDate = rhs.promoCodes.first?.addingDate {
-                                          return lhsDate > rhsDate
-                                        }
-                                        return true
-                                      }
-                                      return false
-                                    } else {
-                                      return lhs.priority > rhs.priority
-                                    }
-                                  })
-                                  .prefix(10)),
-                                tags: category.tags)
+    collections
+      .observeOn(defaultScheduler)
+      .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
+        return collections.map { category in
+          return ShopCategoryData(categoryName: category.categoryName,
+                                  shops: Array(category.shops
+                                                .sorted(by: { lhs, rhs in
+                                                  if lhs.priority == rhs.priority {
+                                                    if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                                      if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                                        return lhsDate > rhsDate
+                                                      }
+                                                      return true
+                                                    }
+                                                    return false
+                                                  } else {
+                                                    return lhs.priority > rhs.priority
+                                                  }
+                                                })
+                                                .prefix(10)),
+                                  tags: category.tags)
+        }
       }
-    }
-    .subscribeOn(defaultScheduler)
-    .observeOn(defaultScheduler)
-    .bind(to: _collections)
-    .disposed(by: disposeBag)
+      .bind(to: _collections)
+      .disposed(by: disposeBag)
     
     embedAdv(advData)
   }
 }
 
-  // MARK: - Favorites Updates
+// MARK: - Favorites Updates
 extension HomeDataController {
   
   func updateFavoritesCategory(_ category: ShopCategoryData, shops: Set<ShopData>) {
@@ -95,17 +94,16 @@ extension HomeDataController {
   }
 }
 
-  // MARK: - Advertising Embedding
+// MARK: - Advertising Embedding
 extension HomeDataController {
   
   private func embedAdv(_ advData: Observable<[AdvertisingCategoryData]>) {
     advData
-      .filter { !$0.isEmpty }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
+      .filter { !$0.isEmpty }
       .subscribe(onNext: { [weak self] advData in
         guard let self = self,
-          !self._advEnabled.value else { return }
+              !self._advEnabled.value else { return }
         
         var collections = self._collections.value
         var advSections = Set<Int>()
@@ -120,11 +118,11 @@ extension HomeDataController {
                                                shops: advSection.adsList
                                                 .sorted { $0.priority > $1.priority }
                                                 .map { advCell in
-                                                return ShopData(name: "AdvertisingCell",
-                                                                shortDescription: "AdvertisingCell",
-                                                                websiteLink: advCell.websiteLink,
-                                                                previewImageLink: advCell.imageLink)
-          })
+                                                  return ShopData(name: "AdvertisingCell",
+                                                                  shortDescription: "AdvertisingCell",
+                                                                  websiteLink: advCell.websiteLink,
+                                                                  previewImageLink: advCell.imageLink)
+                                                })
           
           collections.insert(castedSection, at: correctedIndex)
         }

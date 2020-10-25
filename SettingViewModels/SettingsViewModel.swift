@@ -64,7 +64,6 @@ class SettingsViewModel {
     pushNotifications
       .skip(1)
       .debounce(RxTimeInterval.milliseconds(500), scheduler: defaultScheduler)
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [unowned self] pushIsOn in
         debugPrint("Set push notifications to: \(pushIsOn)")
@@ -84,9 +83,8 @@ class SettingsViewModel {
       .withLatestFrom(pushNotifications, resultSelector: { system, user in
         return !system && user
       })
-      .filter { $0 }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
+      .filter { $0 }
       .subscribe(onNext: { [unowned self] _ in
         self.pushNotifications.accept(false)
         self._pushNotificationsSwitherShould.accept(false)
@@ -107,9 +105,8 @@ class SettingsViewModel {
     viewDidAppear
       .take(1)
       .withLatestFrom(NotificationProvider.shared.notificationStatus)
-      .filter { !$0 }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
+      .filter { !$0 }
       .subscribe(onNext: { [unowned self] _ in
         if UserDefaults.standard.object(forKey: UserDefaultKeys.pushNotifications.rawValue) == nil {
           self.pushNotifications.accept(true)
@@ -142,6 +139,7 @@ class SettingsViewModel {
   
   private func requestNotifications() {
     NotificationProvider.shared.requestAuthorization()
+      .observeOn(defaultScheduler)
       .take(1)
       .filter { !$0 }
       .subscribe(onNext: { [weak self] _ in

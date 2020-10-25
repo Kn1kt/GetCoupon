@@ -60,10 +60,10 @@ class ShopViewModel {
   
   private func bindOutput() {
     ModelController.shared.isUpdatingData
+      .observeOn(defaultScheduler)
       .filter { $0 }
       .map { _ in false }
       .take(1)
-      .subscribeOn(defaultScheduler)
       .bind(to: _favoriteButtonEnabled)
       .disposed(by: disposeBag)
     
@@ -83,9 +83,8 @@ class ShopViewModel {
     
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)
-      .filter { $0 }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
+      .filter { $0 }
       .subscribe(onNext: { [unowned self] _ in
         ModelController.shared.updateFavoritesCategory(self.section.value, shop: self.currentShop)
         self.shopIsFavoriteChanged.accept(())
@@ -94,9 +93,8 @@ class ShopViewModel {
     
     controllerWillDisappear
       .withLatestFrom(shopDidEdit)
-      .filter { $0 }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
+      .filter { $0 }
       .subscribe(onNext: { [unowned self] _ in
         let cache = CacheController()
         cache.shop(with: self.currentShop.name,
@@ -107,7 +105,6 @@ class ShopViewModel {
 
     websiteButton
       .withLatestFrom(_shop)
-      .subscribeOn(eventScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] shop in
         self.openWebsite(shop: shop)

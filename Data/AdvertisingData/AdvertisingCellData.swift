@@ -16,9 +16,7 @@ class AdvertisingCellData {
   let websiteLink: String
   /// Define ads place
   let priority: Int
-  
-//  let image = BehaviorRelay<UIImage?>(value: nil)
-  
+    
   init(imageLink: String,
        websiteLink: String,
        priority: Int) {
@@ -28,7 +26,6 @@ class AdvertisingCellData {
   }
   
   /// Bridge for network data
-  
   convenience init(_ cellData: NetworkAdvertisingCellData) {
     self.init(imageLink: cellData.imageLink,
               websiteLink: cellData.websiteLink,

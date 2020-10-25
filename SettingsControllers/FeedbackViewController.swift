@@ -59,6 +59,7 @@ class FeedbackViewController: UIViewController {
   
   private func bindUI() {
     textView.rx.text
+      .observeOn(defaultSheduler)
       .map { (string: String?) -> Bool in
         if let text = string?.trimmingCharacters(in: .whitespaces),
           !text.isEmpty {
@@ -68,7 +69,6 @@ class FeedbackViewController: UIViewController {
         return false
       }
       .distinctUntilChanged()
-      .subscribeOn(defaultSheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] isEnabled in
         self.sendButton.isEnabled = isEnabled
@@ -78,7 +78,6 @@ class FeedbackViewController: UIViewController {
     
     cancelButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in
         self.dismiss(animated: true, completion: nil)
@@ -87,7 +86,6 @@ class FeedbackViewController: UIViewController {
     
     sendButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in
         let notificationFeedbackGenerator = UINotificationFeedbackGenerator()

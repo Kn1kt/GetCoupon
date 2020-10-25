@@ -37,6 +37,7 @@ class SearchViewModel {
   
   func bindOutput() {
     ModelController.shared.searchCollection
+      .observeOn(defaultScheduler)
       .map { collection in
         collection.shops.reduce(into: [String : Int]()) { result, shop in
           guard let category = shop.category else { return }
@@ -45,13 +46,12 @@ class SearchViewModel {
           }
         }
       }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: suggestedSearches)
       .disposed(by: disposeBag)
     
     self.suggestedSearchesList = suggestedSearches
       .asObservable()
+      .observeOn(defaultScheduler)
       .map { dict in
         let popularTags = dict.keys
           .sorted { lhs, rhs in
@@ -62,19 +62,17 @@ class SearchViewModel {
         
         return SuggestedSearchCategoryData(title: "Trending", tokens: popularTags)
       }
-      .subscribeOn(defaultScheduler)
       .asDriver(onErrorJustReturn: SuggestedSearchCategoryData(title: "Empty", tokens: []))
   }
   
   func bindActions() {
     selectedToken
+      .observeOn(eventScheduler)
       .map { tokenText in
         let token = UISearchToken(icon: nil, text: tokenText)
         token.representedObject = tokenText
         return token
       }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .bind(to: _insertToken)
       .disposed(by: disposeBag)
   }

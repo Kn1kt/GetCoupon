@@ -114,7 +114,6 @@ class ShopViewController: UIViewController {
   private func bindUI() {
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.collectionView.deselectItem(at: indexPath, animated: true)
@@ -123,7 +122,6 @@ class ShopViewController: UIViewController {
     
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         let shop = self.viewModel.currentShop
@@ -135,7 +133,6 @@ class ShopViewController: UIViewController {
     
     popupView.exitButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] _ in
         self.closePopupView()
@@ -144,7 +141,6 @@ class ShopViewController: UIViewController {
     
     popupView.shareButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] _ in
         guard let promoCode = self.popupView.promocodeView.promocodeLabel.text,
@@ -692,7 +688,6 @@ extension ShopViewController {
           
           cell.couponsCount.button.rx.tap
           .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-          .subscribeOn(MainScheduler.instance)
           .observeOn(MainScheduler.instance)
           .subscribe(onNext: { [unowned self] in
             guard couponsCount > 0 else { return }
@@ -719,7 +714,6 @@ extension ShopViewController {
           
           cell.website.button.rx.tap
             .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [weak self] in
               self?.showWebsiteAlert()
@@ -728,7 +722,6 @@ extension ShopViewController {
           
           cell.share.button.rx.tap
             .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-            .subscribeOn(MainScheduler.instance)
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { [unowned self] in
               self.showShareCouponVC(shop: self.viewModel.currentShop, coupon: nil)

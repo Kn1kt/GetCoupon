@@ -47,7 +47,6 @@ class SettingsTableViewController: UITableViewController {
   private func bindViewModel() {
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.tableView.deselectRow(at: indexPath, animated: true)
@@ -56,7 +55,6 @@ class SettingsTableViewController: UITableViewController {
     
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.showScreen(for: indexPath)
@@ -188,7 +186,6 @@ extension SettingsTableViewController {
     cell.switcher.isOn = viewModel.pushNotifications.value
     cell.switcher.rx.isOn
       .skip(1)
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
       .bind(to: viewModel.pushNotifications)
       .disposed(by: cell.disposeBag)

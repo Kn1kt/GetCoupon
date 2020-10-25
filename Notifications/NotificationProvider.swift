@@ -41,7 +41,6 @@ class NotificationProvider {
       .skip(1)
       .filter { $0 }
       .take(1)
-      .subscribeOn(defaultScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { _ in
         UIApplication.shared.registerForRemoteNotifications()
@@ -50,6 +49,7 @@ class NotificationProvider {
     
     ///  Request permission to push on first adding favorite shop
     ModelController.shared.favoriteCollections
+      .observeOn(defaultScheduler)
       .skip(1)
       .filter { !$0.isEmpty }
       .take(1)
@@ -61,8 +61,6 @@ class NotificationProvider {
         return false
       }
       .map { _ in }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         self.requestAuthorization()
@@ -115,6 +113,8 @@ class NotificationProvider {
           debugPrint("Permission to send notifications not recived")
           observer.onNext(false)
         }
+        
+        observer.onCompleted()
       }
       
       return Disposables.create()

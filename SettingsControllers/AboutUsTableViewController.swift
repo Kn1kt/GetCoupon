@@ -42,6 +42,7 @@ class AboutUsTableViewController: UITableViewController {
   private func bindViewModel() {
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
+      .observeOn(MainScheduler.instance)
       .filter { indexPath in
         if indexPath.section == 0, indexPath.row == 3 {
           return false
@@ -49,8 +50,6 @@ class AboutUsTableViewController: UITableViewController {
         
         return true
       }
-      .subscribeOn(MainScheduler.instance)
-      .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.tableView.deselectRow(at: indexPath, animated: true)
       })
@@ -58,7 +57,6 @@ class AboutUsTableViewController: UITableViewController {
     
     tableView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.showScreen(for: indexPath)

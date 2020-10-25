@@ -30,7 +30,6 @@ class ImageAndDescriptionUIView: UIView {
     
     button.rx.tap
       .delay(RxTimeInterval.milliseconds(100), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         self?.imageView.isHighlighted = false

@@ -20,6 +20,9 @@ class OnboardingViewController: UIViewController {
   @IBOutlet weak var collectionView: UICollectionView!
   
   private let disposeBag = DisposeBag()
+  private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
+
+  let onboardingDidShow = PublishSubject<Bool>()
   
   static func createVC() -> UIViewController {
     let storyboard = UIStoryboard(name: "Onboarding", bundle: nil)
@@ -79,7 +82,6 @@ class OnboardingViewController: UIViewController {
   private func bindUI() {
     skipButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .light)
@@ -93,7 +95,6 @@ class OnboardingViewController: UIViewController {
     
     startButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         let impactFeedbackgenerator = UIImpactFeedbackGenerator(style: .medium)
@@ -107,7 +108,6 @@ class OnboardingViewController: UIViewController {
     
     nextButton.rx.tap
       .throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
@@ -120,9 +120,17 @@ class OnboardingViewController: UIViewController {
       })
       .disposed(by: disposeBag)
     
+    Observable.merge([skipButton.rx.tap.asObservable(),
+                      startButton.rx.tap.asObservable()])
+      .take(1)
+      .observeOn(defaultScheduler)
+      .map { true }
+      .bind(to: onboardingDidShow)
+      .disposed(by: disposeBag)
+      
+    
     if let button = nextButton as? NextButton {
       button.isHiglightedSubject
-        .subscribeOn(MainScheduler.instance)
         .subscribe(onNext: { [weak self] isHighlighted in
           self?.nextLabel.isHighlighted = isHighlighted
         })

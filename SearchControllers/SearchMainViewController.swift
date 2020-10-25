@@ -66,7 +66,6 @@ class SearchMainViewController: UIViewController {
   private func bindViewModel() {
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.collectionView.deselectItem(at: indexPath, animated: true)
@@ -75,6 +74,7 @@ class SearchMainViewController: UIViewController {
     
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+      .observeOn(eventScheduler)
       .map { [unowned self] indexPath in
         let selectedToken = self.currentSnapshot
           .sectionIdentifiers[indexPath.section]
@@ -82,8 +82,6 @@ class SearchMainViewController: UIViewController {
           .tokenText
         return selectedToken
       }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .bind(to: viewModel.selectedToken)
       .disposed(by: disposeBag)
   }

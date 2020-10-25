@@ -41,7 +41,6 @@ class SearchResultsViewController: UIViewController {
   private func bindViewModel() {
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.collectionView.deselectItem(at: indexPath, animated: true)
@@ -50,12 +49,11 @@ class SearchResultsViewController: UIViewController {
 
     collectionView.rx.itemSelected
       .throttle(RxTimeInterval.milliseconds(500), scheduler: eventScheduler)
+      .observeOn(eventScheduler)
       .map { [unowned self] indexPath in
         let selectedShop = self.currentSnapshot.sectionIdentifiers[indexPath.section].shops[indexPath.row]
         return (self, selectedShop)
       }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .bind(to: viewModel.showShopVC)
       .disposed(by: disposeBag)
   }

@@ -81,7 +81,7 @@ class ModelController {
   }
 }
 
-  // MARK: - Data Management
+// MARK: - Data Management
 extension ModelController {
   
   func setupCollections() {
@@ -93,23 +93,22 @@ extension ModelController {
     self.updateDisposeBag = DisposeBag()
     
     NetworkController.shared.setupServerPack()
-      .subscribeOn(updatesScheduler)
+      .observeOn(self.updatesScheduler)
       .subscribe(onNext: { [weak self] in
         self?.updateCollections()
-        }, onError: { [weak self] error in
-          guard let self = self else { return }
-          
-          self._dataUpdatingStatus.accept(.error(error))
-          self._isUpdatingData.accept(false)
-          
-          self._dataUpdatingStatus.accept(.waitingForNetwork)
-          
-          NetworkController.shared.connectionStatusSatisfied
-            .subscribeOn(self.updatesScheduler)
-            .subscribe(onNext: {
-              self.setupCollections()
-            })
-            .disposed(by: self.updateDisposeBag)
+      }, onError: { [weak self] error in
+        guard let self = self else { return }
+        
+        self._dataUpdatingStatus.accept(.error(error))
+        self._isUpdatingData.accept(false)
+        
+        self._dataUpdatingStatus.accept(.waitingForNetwork)
+        
+        NetworkController.shared.connectionStatusSatisfied
+          .subscribe(onNext: {
+            self.setupCollections()
+          })
+          .disposed(by: self.updateDisposeBag)
       })
       .disposed(by: disposeBag)
   }
@@ -124,11 +123,11 @@ extension ModelController {
         cache.updateData(with: networkCollections)
         self.loadCollectionsFromStorage()
       },
-                 onError: { error in
+      onError: { error in
         self._dataUpdatingStatus.accept(.error(error))
         self._isUpdatingData.accept(false)
       },
-                 onCompleted: {
+      onCompleted: {
         self._dataUpdatingStatus.accept(.updated)
         self._isUpdatingData.accept(false)
       })
@@ -141,7 +140,7 @@ extension ModelController {
         
         /// Just do nothing when server turn off
         if let error = error as? RxCocoa.RxCocoaURLError,
-          case .httpRequestFailed(response: _, data: _) = error {
+           case .httpRequestFailed(response: _, data: _) = error {
           return
         }
         
@@ -208,9 +207,9 @@ extension ModelController {
     
     
     return subject
-    .asObservable()
-    .take(1)
-    .ignoreElements()
+      .asObservable()
+      .take(1)
+      .ignoreElements()
   }
   
   func setupPreviewImage(for shop: ShopData) -> Completable {
@@ -246,9 +245,9 @@ extension ModelController {
             subject.onCompleted()
           }, onError: { [weak self] _ in
             guard let self = self,
-              let category = shop.category else {
-                subject.onCompleted()
-                return
+                  let category = shop.category else {
+              subject.onCompleted()
+              return
             }
             
             if let image = category.defaultImage.value {
@@ -259,7 +258,7 @@ extension ModelController {
               self.setupDefaultImage(for: category)
                 .subscribe(onCompleted: {
                   if shop.previewImage.value == nil,
-                    let image = category.defaultImage.value {
+                     let image = category.defaultImage.value {
                     shop.previewImage.accept(image)
                   }
                   
@@ -350,7 +349,7 @@ extension ModelController {
   }
 }
 
-  // MARK: - Home Data Controller
+// MARK: - Home Data Controller
 extension ModelController {
   
   func section(for index: Int) -> Observable<ShopCategoryData>? {
@@ -370,39 +369,38 @@ extension ModelController {
   }
 }
 
-  // MARK: - Favorites Section Data Controller
+// MARK: - Favorites Section Data Controller
 extension ModelController {
   
   private func bindFavorites() {
     collections
-    .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
-      return collections
-        .reduce(into: [ShopCategoryData]()) { result, category in
-          let shops = category.shops.filter { $0.isFavorite }
-          if !shops.isEmpty {
-            result.append(ShopCategoryData(categoryName: category.categoryName,
-                                           shops: shops.sorted(by: { lhs, rhs in
-                                            if lhs.priority == rhs.priority {
-                                              if let lhsDate = lhs.promoCodes.first?.addingDate {
-                                                if let rhsDate = rhs.promoCodes.first?.addingDate {
-                                                  return lhsDate > rhsDate
+      .observeOn(defaultScheduler)
+      .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
+        return collections
+          .reduce(into: [ShopCategoryData]()) { result, category in
+            let shops = category.shops.filter { $0.isFavorite }
+            if !shops.isEmpty {
+              result.append(ShopCategoryData(categoryName: category.categoryName,
+                                             shops: shops.sorted(by: { lhs, rhs in
+                                              if lhs.priority == rhs.priority {
+                                                if let lhsDate = lhs.promoCodes.first?.addingDate {
+                                                  if let rhsDate = rhs.promoCodes.first?.addingDate {
+                                                    return lhsDate > rhsDate
+                                                  }
+                                                  return true
                                                 }
-                                                return true
+                                                return false
+                                              } else {
+                                                return lhs.priority > rhs.priority
                                               }
-                                              return false
-                                            } else {
-                                              return lhs.priority > rhs.priority
-                                            }
-                                           }),
-                                           tags: category.tags))
+                                             }),
+                                             tags: category.tags))
+            }
           }
-        }
-        .sorted { $0.priority < $1.priority }
-    }
-    .subscribeOn(defaultScheduler)
-    .observeOn(defaultScheduler)
-    .bind(to: _favoriteCollections)
-    .disposed(by: disposeBag)
+          .sorted { $0.priority < $1.priority }
+      }
+      .bind(to: _favoriteCollections)
+      .disposed(by: disposeBag)
   }
   
   func updateFavoritesCollections(with collections: [ShopCategoryData]) {
@@ -415,13 +413,13 @@ extension ModelController {
     if let updatingCategoryIndex = favoriteCategories.firstIndex(where: { $0.categoryName == category.categoryName }) {
       let newShops = shops + favoriteCategories[updatingCategoryIndex].shops.filter { shop in
         guard shop.isFavorite,
-          !shops.contains(shop) else {
+              !shops.contains(shop) else {
           return false
         }
         
         return true
       }
-//        + shops
+      //        + shops
       
       if newShops.isEmpty {
         favoriteCategories.remove(at: updatingCategoryIndex)
@@ -507,21 +505,20 @@ extension ModelController {
   }
 }
 
-  // MARK: - Search Data
+// MARK: - Search Data
 extension ModelController {
   
   private func bindSearch() {
     collections
-    .map { (collections: [ShopCategoryData]) -> ShopCategoryData in
-      let shops = collections.flatMap { $0.shops }
-      return ShopCategoryData(categoryName: "Search",
-                              shops: shops,
-                              tags: [])
-    }
-    .subscribeOn(defaultScheduler)
-    .observeOn(defaultScheduler)
-    .bind(to: _searchCollection)
-    .disposed(by: disposeBag)
+      .observeOn(defaultScheduler)
+      .map { (collections: [ShopCategoryData]) -> ShopCategoryData in
+        let shops = collections.flatMap { $0.shops }
+        return ShopCategoryData(categoryName: "Search",
+                                shops: shops,
+                                tags: [])
+      }
+      .bind(to: _searchCollection)
+      .disposed(by: disposeBag)
   }
   
   func category(for shop: ShopData) -> ShopCategoryData {
@@ -533,7 +530,7 @@ extension ModelController {
   }
 }
 
-  // MARK: - Settings Controller functions
+// MARK: - Settings Controller functions
 extension ModelController {
   
   func removeAllFavorites() {
@@ -567,16 +564,15 @@ extension ModelController {
     cache.removeCollectionsFromStorage()
   }
 }
-  // MARK: - Advertising Data
+// MARK: - Advertising Data
 extension ModelController {
   
   func bindAdvData() {
     collections
       .skip(1)
+      .observeOn(defaultScheduler)
       .debounce(.seconds(2), scheduler: defaultScheduler)
       .map { _ in }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         NetworkController.shared.downloadAdvOffer()

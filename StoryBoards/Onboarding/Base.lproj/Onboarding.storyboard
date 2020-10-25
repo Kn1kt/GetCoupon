@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -14,31 +16,31 @@
             <objects>
                 <viewController storyboardIdentifier="OnboardingViewController" id="O1g-TP-PfG" customClass="OnboardingViewController" customModule="GetCoupon" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="P2s-la-fQt">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GetCoupon" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sfv-jO-lRs">
-                                <rect key="frame" x="149.5" y="94" width="115.5" height="26.5"/>
+                                <rect key="frame" x="130" y="94" width="115" height="26.666666666666671"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTn-0J-3ry" userLabel="SegmentControll">
-                                <rect key="frame" x="0.0" y="792" width="414" height="70"/>
+                                <rect key="frame" x="0.0" y="708" width="375" height="70"/>
                                 <subviews>
                                     <pageControl opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="4" translatesAutoresizingMaskIntoConstraints="NO" id="QKI-KF-bZF">
-                                        <rect key="frame" x="179.5" y="0.0" width="55" height="57"/>
-                                        <color key="pageIndicatorTintColor" systemColor="tertiaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <rect key="frame" x="117" y="0.0" width="141" height="57"/>
+                                        <color key="pageIndicatorTintColor" systemColor="tertiaryLabelColor"/>
                                         <color key="currentPageIndicatorTintColor" name="BlueTintColor"/>
                                     </pageControl>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDp-hK-5bp">
-                                        <rect key="frame" x="329.5" y="8" width="37.5" height="41"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Дальше" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fDp-hK-5bp">
+                                        <rect key="frame" x="277.66666666666669" y="8" width="65.333333333333314" height="41"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                         <color key="textColor" name="BlueTintColor"/>
                                         <color key="highlightedColor" red="0.10818029199230261" green="0.21606634440383204" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="trailing" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NJD-xZ-MaI" userLabel="NextButton" customClass="NextButton" customModule="GetCoupon" customModuleProvider="target">
-                                        <rect key="frame" x="329.5" y="9" width="54.5" height="41"/>
+                                        <rect key="frame" x="277.66666666666669" y="9" width="82.333333333333314" height="41"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="tintColor" name="BlueTintColor"/>
                                         <state key="normal" image="chevron.right" catalog="system">
@@ -47,15 +49,15 @@
                                             </preferredSymbolConfiguration>
                                         </state>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDx-Nu-d2f" userLabel="SkipButton">
-                                        <rect key="frame" x="30" y="2" width="35" height="53"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uDx-Nu-d2f" userLabel="SkipButton">
+                                        <rect key="frame" x="15" y="2" width="98" height="53"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                        <state key="normal" title="Skip">
-                                            <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Пропустить">
+                                            <color key="titleColor" systemColor="secondaryLabelColor"/>
                                         </state>
                                     </button>
-                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQv-8F-GSL" userLabel="StartButton">
-                                        <rect key="frame" x="15" y="10" width="384" height="50"/>
+                                    <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QQv-8F-GSL" userLabel="StartButton">
+                                        <rect key="frame" x="15" y="10" width="345" height="50"/>
                                         <color key="backgroundColor" name="BlueTintColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="yUr-jJ-gya"/>
@@ -65,15 +67,15 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <state key="selected" title="Start">
-                                            <color key="titleColor" systemColor="tertiaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="titleColor" systemColor="tertiaryLabelColor"/>
                                         </state>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstItem="fDp-hK-5bp" firstAttribute="trailing" secondItem="NJD-xZ-MaI" secondAttribute="trailing" constant="-17" id="1O2-nU-Ms4"/>
                                     <constraint firstItem="uDx-Nu-d2f" firstAttribute="top" secondItem="hTn-0J-3ry" secondAttribute="top" constant="2" id="6N6-JZ-LwK"/>
-                                    <constraint firstItem="fDp-hK-5bp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QKI-KF-bZF" secondAttribute="trailing" constant="30" id="8NF-vN-TPw"/>
+                                    <constraint firstItem="fDp-hK-5bp" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="QKI-KF-bZF" secondAttribute="trailing" id="8NF-vN-TPw"/>
                                     <constraint firstAttribute="bottom" secondItem="uDx-Nu-d2f" secondAttribute="bottom" constant="15" id="Aim-A0-OWo"/>
                                     <constraint firstAttribute="bottom" secondItem="NJD-xZ-MaI" secondAttribute="bottom" constant="20" id="DPV-9N-OyQ"/>
                                     <constraint firstItem="QQv-8F-GSL" firstAttribute="centerY" secondItem="hTn-0J-3ry" secondAttribute="centerY" id="EI7-lW-5le"/>
@@ -81,9 +83,9 @@
                                     <constraint firstAttribute="bottom" secondItem="QKI-KF-bZF" secondAttribute="bottom" constant="13" id="M3F-CK-XFS"/>
                                     <constraint firstAttribute="trailing" secondItem="QQv-8F-GSL" secondAttribute="trailing" constant="15" id="OLW-RN-yDN"/>
                                     <constraint firstItem="NJD-xZ-MaI" firstAttribute="top" secondItem="hTn-0J-3ry" secondAttribute="top" constant="9" id="Qeh-c5-PyI"/>
-                                    <constraint firstAttribute="trailing" secondItem="NJD-xZ-MaI" secondAttribute="trailing" constant="30" id="RLm-Pz-DQq"/>
-                                    <constraint firstItem="uDx-Nu-d2f" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="QKI-KF-bZF" secondAttribute="leading" constant="-30" id="V5L-Cc-byU"/>
-                                    <constraint firstItem="uDx-Nu-d2f" firstAttribute="leading" secondItem="hTn-0J-3ry" secondAttribute="leading" constant="30" id="VFC-P6-Hic"/>
+                                    <constraint firstAttribute="trailing" secondItem="NJD-xZ-MaI" secondAttribute="trailing" constant="15" id="RLm-Pz-DQq"/>
+                                    <constraint firstItem="uDx-Nu-d2f" firstAttribute="trailing" relation="lessThanOrEqual" secondItem="QKI-KF-bZF" secondAttribute="leading" id="V5L-Cc-byU"/>
+                                    <constraint firstItem="uDx-Nu-d2f" firstAttribute="leading" secondItem="hTn-0J-3ry" secondAttribute="leading" constant="15" id="VFC-P6-Hic"/>
                                     <constraint firstItem="NJD-xZ-MaI" firstAttribute="leading" secondItem="fDp-hK-5bp" secondAttribute="leading" id="Z5N-bV-82a"/>
                                     <constraint firstItem="QQv-8F-GSL" firstAttribute="leading" secondItem="hTn-0J-3ry" secondAttribute="leading" constant="15" id="enB-9P-0No"/>
                                     <constraint firstItem="QQv-8F-GSL" firstAttribute="centerX" secondItem="hTn-0J-3ry" secondAttribute="centerX" id="kur-zE-jN2"/>
@@ -94,8 +96,8 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="BaY-6O-OTj">
-                                <rect key="frame" x="0.0" y="140.5" width="414" height="651.5"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <rect key="frame" x="0.0" y="140.66666666666669" width="375" height="567.33333333333326"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tnZ-ds-xxL">
                                     <size key="itemSize" width="414" height="600"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -104,10 +106,10 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="OnboardingItemReuseIdentifier" id="Ku5-iu-WZj" userLabel="FirstItem" customClass="OnboardingCollectionViewCell" customModule="GetCoupon" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="26" width="331" height="600"/>
+                                        <rect key="frame" x="0.0" y="-16.333333333333332" width="414" height="600"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="XBp-tF-eeW">
-                                            <rect key="frame" x="0.0" y="0.0" width="331" height="600"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="600"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMk-QA-dq6" userLabel="Subtitle">
@@ -116,7 +118,7 @@
                                                         <fragment>
                                                             <string key="content">Мы тоже устали от уведомлений по почте и в месседжерах! Поэтому собрали в одном приложении все промокоды, чтобы ты мог найти их, когда тебе захочется.</string>
                                                             <attributes>
-                                                                <color key="NSColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <color key="NSColor" systemColor="secondaryLabelColor"/>
                                                                 <font key="NSFont" metaFont="system" size="17"/>
                                                                 <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineHeightMultiple="1.3400000000000001" tighteningFactorForTruncation="0.0"/>
                                                             </attributes>
@@ -159,7 +161,8 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="nJb-Mr-cyD"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="sfv-jO-lRs" firstAttribute="top" secondItem="nJb-Mr-cyD" secondAttribute="top" constant="50" id="4RX-7q-hCh"/>
                             <constraint firstItem="hTn-0J-3ry" firstAttribute="bottom" secondItem="nJb-Mr-cyD" secondAttribute="bottom" id="5rE-8t-Gye"/>
@@ -171,7 +174,6 @@
                             <constraint firstItem="sfv-jO-lRs" firstAttribute="centerX" secondItem="nJb-Mr-cyD" secondAttribute="centerX" id="mwC-o8-t97"/>
                             <constraint firstItem="hTn-0J-3ry" firstAttribute="leading" secondItem="nJb-Mr-cyD" secondAttribute="leading" id="wkV-p8-ZHZ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="nJb-Mr-cyD"/>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="BaY-6O-OTj" id="g6X-HZ-RgE"/>
@@ -191,7 +193,16 @@
         <image name="OnboardingFirst" width="331" height="331"/>
         <image name="chevron.right" catalog="system" width="96" height="128"/>
         <namedColor name="BlueTintColor">
-            <color red="0.20800000429153442" green="0.41200000047683716" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.20800000429153442" green="0.41200000047683716" blue="0.94099998474121094" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <systemColor name="secondaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="tertiaryLabelColor">
+            <color red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

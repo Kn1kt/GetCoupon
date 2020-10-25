@@ -45,6 +45,7 @@ class FavoritesDataController {
   
   private func setupCollectionsByDates() {
     _collectionsBySections
+      .observeOn(defaultScheduler)
       .map { (collections: [ShopCategoryData]) -> [ShopCategoryData] in
         let shops = collections
           .flatMap { category in
@@ -61,8 +62,6 @@ class FavoritesDataController {
         return [ShopCategoryData(categoryName: name,
                                 shops: shops)]
       }
-      .subscribeOn(defaultScheduler)
-      .observeOn(defaultScheduler)
       .bind(to: _collectionsByDates)
       .disposed(by: disposeBag)
   }

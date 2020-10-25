@@ -53,7 +53,6 @@ class FavoritesViewModel {
   
   private func bindOutput() {
     model.collectionsByDates
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { [weak self] collections in
         guard let self = self else { return }
@@ -75,6 +74,7 @@ class FavoritesViewModel {
     let segmentIndex = self.segmentIndex.share(replay: 1)
     
     segmentIndex
+      .observeOn(eventScheduler)
       .filter { [weak self] _ in
         guard let self = self else { fatalError("SegmentIndexFilter") }
         return self.searchText.value.isEmpty
@@ -89,16 +89,13 @@ class FavoritesViewModel {
           return self.model.currentCollectionsBySections
         }
       }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .bind(to: _currentSection)
       .disposed(by: disposeBag)
     
     segmentIndex
       .withLatestFrom(searchText)
-      .filter { !$0.isEmpty }
-      .subscribeOn(eventScheduler)
       .observeOn(eventScheduler)
+      .filter { !$0.isEmpty }
       .bind(to: searchText)
       .disposed(by: disposeBag)
     
@@ -133,14 +130,13 @@ class FavoritesViewModel {
     
     commitChanges
       .withLatestFrom(unicEditedShops)
+      .observeOn(eventScheduler)
       .filter { shops in
         return !shops
           .filter { !$0.isFavorite }
           .isEmpty
       }
       .map { _ in }
-      .subscribeOn(eventScheduler)
-      .observeOn(eventScheduler)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }
         self.model.updateFavorites()
@@ -150,7 +146,6 @@ class FavoritesViewModel {
     
     commitChanges
       .withLatestFrom(unicEditedShops)
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .subscribe(onNext: { shops in
         let cache = CacheController()
@@ -174,7 +169,6 @@ class FavoritesViewModel {
     
     showShopVC
       .map { _ in }
-      .subscribeOn(defaultScheduler)
       .observeOn(defaultScheduler)
       .bind(to: self.commitChanges)
       .disposed(by: disposeBag)

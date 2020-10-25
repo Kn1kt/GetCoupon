@@ -81,7 +81,6 @@ class HomeViewController: UIViewController {
     if let refresh = collectionView.refreshControl {
       refresh.rx.controlEvent(.valueChanged)
         .map { _ in refresh.isRefreshing }
-        .subscribeOn(eventScheduler)
         .observeOn(eventScheduler)
         .bind(to: viewModel.refresh)
         .disposed(by: disposeBag)
@@ -89,7 +88,6 @@ class HomeViewController: UIViewController {
     
     collectionView.rx.itemSelected
       .debounce(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [unowned self] indexPath in
         self.collectionView.deselectItem(at: indexPath, animated: true)
@@ -114,7 +112,6 @@ class HomeViewController: UIViewController {
     }
     
     viewModel.collections
-      .subscribeOn(MainScheduler.instance)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] collections in
         if let selected = self?.collectionView.indexPathsForSelectedItems {
@@ -161,13 +158,20 @@ class HomeViewController: UIViewController {
     viewDidAppear
       .take(1)
       .withLatestFrom(viewModel.showOnboarding)
+      .observeOn(MainScheduler.instance)
       .filter { $0 }
       .map { _ in }
-      .subscribeOn(defaultScheduler)
-      .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
-        let onboardingVC = OnboardingViewController.createVC()
-        self?.present(onboardingVC, animated: true)
+        guard let self = self,
+          let onboardingVC = OnboardingViewController.createVC() as? OnboardingViewController else {
+          return
+        }
+        
+        onboardingVC.onboardingDidShow
+          .bind(to: self.viewModel.onboardingDidShow)
+          .disposed(by: self.disposeBag)
+        
+        self.present(onboardingVC, animated: true)
       })
       .disposed(by: disposeBag)
     
@@ -513,9 +517,8 @@ extension HomeViewController {
         titleSupplementary.showMoreButton.isEnabled = true
         
         titleSupplementary.showMoreButton.rx.tap
-          .map { _ in (titleSupplementary.showMoreButton, self) }
-          .subscribeOn(self.eventScheduler)
           .observeOn(self.eventScheduler)
+          .map { _ in (titleSupplementary.showMoreButton, self) }
           .bind(to: self.viewModel.showDetailVC)
           .disposed(by: titleSupplementary.disposeBag)
       }
@@ -537,9 +540,6 @@ extension HomeViewController {
     currentSnapshot = NSDiffableDataSourceSnapshot
       <ShopCategoryData, ShopData>()
     
-    
-    currentSnapshot = NSDiffableDataSourceSnapshot
-      <ShopCategoryData, ShopData>()
     collections.forEach { collection in
       currentSnapshot.appendSections([collection])
       currentSnapshot.appendItems(collection.shops)

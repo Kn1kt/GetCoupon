@@ -38,4 +38,3 @@ class ServerData: Decodable {
     self.adv = try container.decode(String.self, forKey: .iosAds)
   }
 }
-

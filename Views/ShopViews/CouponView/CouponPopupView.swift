@@ -33,7 +33,6 @@ class CouponPopupView: UIView {
     
     promocodeView.button.rx.tap
       .throttle(RxTimeInterval.seconds(1), latest: false, scheduler: eventScheduler)
-      .subscribeOn(eventScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] in
         guard let self = self else { return }

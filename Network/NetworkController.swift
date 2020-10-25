@@ -20,9 +20,9 @@ class NetworkController {
   
   static let shared = NetworkController()
   
-  let serversDatasource = "https://usrnm242.github.io/getcoupon/conf.json"
-//  let serversDatasource = "https://usrnm242.github.io/getcoupon/test-conf.json"
-  
+  private let serversDatasource = "https://usrnm242.github.io/getcoupon/conf.json"
+  private let basicAuthorization = "Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s="
+    
   private let disposeBag = DisposeBag()
   private let defaultScheduler = ConcurrentDispatchQueueScheduler(qos: .default)
   private let updatesScheduler = ConcurrentDispatchQueueScheduler(qos: .userInitiated)
@@ -97,12 +97,11 @@ extension NetworkController {
     }
     
     URLSession.shared.rx.data(request: URLRequest(url: url))
+      .observeOn(updatesScheduler)
       .map { (data: Data) -> ServersPack in
         let decoder = JSONDecoder()
         return try decoder.decode(ServersPack.self, from: data)
       }
-      .subscribeOn(updatesScheduler)
-      .observeOn(updatesScheduler)
       .subscribe(onNext: { [weak self] servers in
         self?.serverPack.accept(servers)
         
@@ -129,9 +128,10 @@ extension NetworkController {
     let maxAttemps = 3
     
     var request = URLRequest(url: url)
-    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
+    request.addValue(basicAuthorization, forHTTPHeaderField: "Authorization")
     
     URLSession.shared.rx.data(request: request)
+      .observeOn(self.updatesScheduler)
       .retryWhen { e in
         return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
           guard let self = self else {
@@ -151,8 +151,6 @@ extension NetworkController {
         let decoder = JSONDecoder()
         return try decoder.decode([NetworkShopCategoryData].self, from: data)
       }
-      .subscribeOn(self.updatesScheduler)
-      .observeOn(self.updatesScheduler)
       .bind(to: subject)
       .disposed(by: self.disposeBag)
     
@@ -174,9 +172,10 @@ extension NetworkController {
     let maxAttemps = 3
     
     var request = URLRequest(url: url)
-    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
+    request.addValue(basicAuthorization, forHTTPHeaderField: "Authorization")
     
     URLSession.shared.rx.data(request: request)
+      .observeOn(self.updatesScheduler)
       .retryWhen { e in
         return e.enumerated().flatMap { [weak self] attempt, error -> Observable<Int> in
           guard let self = self else {
@@ -196,8 +195,6 @@ extension NetworkController {
         let decoder = JSONDecoder()
         return try decoder.decode([NetworkAdvertisingCategoryData].self, from: data)
       }
-      .subscribeOn(self.updatesScheduler)
-      .observeOn(self.updatesScheduler)
       .bind(to: subject)
       .disposed(by: self.disposeBag)
     
@@ -212,7 +209,7 @@ extension NetworkController {
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-    request.addValue("Basic YWxpdmUtZ2V0Y291cG9uLXVzZXI6OW1sNzBEbzdqWHRtMDVIS0s=", forHTTPHeaderField: "Authorization")
+    request.addValue(basicAuthorization, forHTTPHeaderField: "Authorization")
     
     URLSession.shared.uploadTask(with: request, from: data).resume()
   }
@@ -286,11 +283,10 @@ extension NetworkController {
       }
       
       URLSession.shared.rx.data(request: URLRequest(url: url))
+        .observeOn(self.defaultScheduler)
         .map { data in
           return String(data: data, encoding: .utf8)
         }
-        .subscribeOn(self.defaultScheduler)
-        .observeOn(self.defaultScheduler)
         .bind(to: observer)
         .disposed(by: self.disposeBag)
       

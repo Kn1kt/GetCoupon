@@ -24,7 +24,6 @@ class TermsOfSeviceViewController: UIViewController {
     textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 40, right: 10)
     
     NetworkController.shared.license
-      .subscribeOn(defaultScheduler)
       .observeOn(MainScheduler.instance)
       .subscribe(onNext: { [weak self] text in
         guard let self = self,
@@ -32,6 +31,7 @@ class TermsOfSeviceViewController: UIViewController {
         
         self.activityIndicator.stopAnimating()
         self.textView.text = license
+        self.textView.contentOffset = .zero
       })
       .disposed(by: disposeBag)
   }
